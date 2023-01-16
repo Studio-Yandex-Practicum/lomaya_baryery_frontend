@@ -1,0 +1,51 @@
+.cellPreview {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: var(--common-border-radius);
+  overflow: hidden;
+  transition: all 150ms ease-out;
+}
+
+.cellPreview:hover {
+  width: 78px;
+  height: 78px;
+}
+
+.cellPreview__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.8);
+  transition: filter 150ms ease-out;
+}
+
+.cellPreview:hover .cellPreview__image {
+  filter: brightness(1);
+}
+
+.cellPreview__icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-11px, -10px);
+  transition: all 150ms ease-out;
+}
+
+.cellPreview:hover .cellPreview__icon {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.taskRow {
+  grid-template-rows: 80px;
+  padding-right: 0;
+}
+
+.taskRow__actions {
+  display: flex;
+}
+
+.taskRow__approveButton {
+  margin-right: 10px;
+}

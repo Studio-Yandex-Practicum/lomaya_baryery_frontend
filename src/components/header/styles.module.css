@@ -1,0 +1,26 @@
+.header {
+  display: flex;
+  padding: 18px 50px 18px 20px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__nav {
+  display: flex;
+}
+
+.header__link {
+  margin-left: 30px;
+  display: flex;
+  align-items: center;
+  color: var(--colors-interface-gray-dark);
+  transition: var(--transition-hover);
+}
+
+.header__link:hover {
+  opacity: var(--hover-opacity);
+}
+
+.header__linkIcon {
+  margin-right: 10px;
+}

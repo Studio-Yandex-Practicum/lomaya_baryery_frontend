@@ -1,0 +1,30 @@
+.inputTextContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputText {
+  padding: 0 0 0 10px;
+  transition: var(--transition-common);
+  height: 38px;
+  font-size: 16px;
+  line-height: 19px;
+  font-weight: 600;
+}
+
+.inputText:hover {
+  border-color: var(--colors-interface-gray);
+}
+
+.inputText:focus-visible {
+  outline: none;
+  border-color: var(--colors-interface-blue);
+}
+
+.inputText__error {
+  margin-left: 10px;
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 400;
+  color: var(--colors-interface-red);
+}

@@ -1,0 +1,4 @@
+.row {
+  grid-template-rows: 60px;
+  padding-right: 0;
+}

@@ -1,0 +1,12 @@
+.requestRow {
+  grid-template-rows: 60px;
+  padding-right: 0;
+}
+
+.requestRow__actions {
+  display: flex;
+}
+
+.requestRow__approveButton {
+  margin-right: 10px;
+}

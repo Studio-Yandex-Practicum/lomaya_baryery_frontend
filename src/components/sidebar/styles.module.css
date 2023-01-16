@@ -1,0 +1,68 @@
+.accordion__button {
+  margin-bottom: 10px;
+  padding: 17px 20px;
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  border: none;
+  border-radius: var(--common-border-radius);
+  background-color: transparent;
+  text-align: left;
+  cursor: pointer;
+  color: var(--colors-interface-gray-dark);
+  transition: var(--transition-hover);
+  text-decoration: none;
+}
+
+.accordion__button:hover {
+  background-color: var(--colors-interface-white);
+}
+
+.accordion__buttonIcon {
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+.accordion__text {
+  flex-basis: auto;
+  flex-grow: 1;
+  color: inherit;
+}
+
+.accordion__text_active {
+  color: var(--colors-interface-blue);
+}
+
+.accoridon__buttonChevron {
+  margin-left: 10px;
+  transition: transform 100ms ease-out;
+  flex-shrink: 0;
+}
+
+.accordion__buttonChevron_rotated {
+  transform: rotate(90deg);
+}
+
+.accordion__listItemWrapper {
+  padding-left: 54px;
+}
+
+.accordion__listItem {
+  padding: 18px 20px 18px 30px;
+  margin-bottom: 10px;
+  display: block;
+  text-decoration: none;
+  color: var(--colors-interface-gray-dark);
+  transition: var(--transition-hover);
+  border-radius: var(--common-border-radius);
+}
+
+.accordion__listItem:hover {
+  background-color: var(--colors-interface-white);
+}
+
+.accordion__listItem_active {
+  background-color: var(--colors-interface-white);
+  color: var(--colors-interface-blue);
+}

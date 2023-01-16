@@ -1,0 +1,17 @@
+.main {
+  padding: 0 8px 0 20px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.navigation {
+  flex-basis: 264px;
+}
+
+.content {
+  margin-left: 20px;
+  flex-basis: 1128px;
+  height: calc(100vh - 80px);
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+}

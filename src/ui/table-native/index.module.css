@@ -1,0 +1,22 @@
+.table {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--common-border-radius);
+  overflow: hidden;
+  border: var(--common-border-width) solid var(--colors-table-border);
+}
+
+.table__row {
+  padding: 0 12px;
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  justify-items: start;
+  column-gap: 20px;
+}
+
+.table__headingRow {
+  grid-template-rows: 40px;
+  background-color: var(--background);
+  border-bottom: var(--common-border-width) solid var(--colors-table-border);
+}

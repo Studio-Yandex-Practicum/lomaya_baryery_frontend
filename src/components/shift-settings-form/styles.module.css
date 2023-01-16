@@ -1,0 +1,38 @@
+.shiftForm {
+  padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.shiftForm__field {
+  margin-bottom: 4px;
+  display: flex;
+  align-items: flex-start;
+  height: 54px;
+}
+
+.shiftForm__field:last-child {
+  margin-bottom: 0;
+}
+
+.shiftForm__label {
+  align-self: center;
+  flex-basis: 150px;
+  height: 40px;
+}
+
+.shiftForm__inputText {
+  flex-grow: 1;
+}
+
+.shiftForm__counter {
+  align-self: center;
+  height: 40px;
+  font-size: 16px;
+  line-height: 19px;
+  font-weight: 600;
+}
+
+.shiftForm__button {
+  margin-left: auto;
+}

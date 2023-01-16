@@ -1,0 +1,17 @@
+.tooltip {
+  position: absolute;
+  margin: 0;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  max-width: max-content;
+  text-align: left;
+  font-family: 'Lato';
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 600;
+  color: var(--colors-interface-gray);
+  border-radius: var(--common-border-radius);
+  background-color: var(--colors-interface-gray-light);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 5px 15px -5px rgba(0, 0, 0, 0.2);
+}

@@ -1,0 +1,16 @@
+.shiftSettingsRow {
+  height: 60px;
+}
+
+.shiftSettingsRow__date {
+  display: flex;
+  align-items: center;
+}
+
+.shiftSettingsRow__dateDevider {
+  margin: 0 4px;
+}
+
+.shiftSettingsRow__button {
+  margin-left: 16px;
+}

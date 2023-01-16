@@ -1,0 +1,40 @@
+.status {
+  padding: 6px 8px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--common-border-radius);
+}
+
+.status_type_current {
+  color: var(--colors-interface-green);
+  background-color: #ecf6ec;
+}
+
+.status_type_new {
+  color: var(--colors-interface-black);
+  background-color: var(--colors-interface-gray-light);
+}
+
+.status_type_past {
+  color: var(--colors-interface-gray);
+  background-color: var(--colors-interface-gray-light);
+}
+
+.status_type_approved {
+  composes: status_type_current;
+}
+
+.status_type_review {
+  color: #ac9134;
+  background-color: #fdf8e9;
+}
+
+.status_type_rejected {
+  color: var(--colors-interface-red);
+  background-color: #f9ebeb;
+}
+
+.status__icon {
+  display: flex;
+  margin-right: 5px;
+}

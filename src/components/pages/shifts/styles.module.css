@@ -1,0 +1,22 @@
+.shifts {
+  margin-bottom: 20px;
+  height: calc(100vh - 140px);
+}
+
+.shifts__table {
+  margin-top: 20px;
+  height: calc(100vh - 222px);
+}
+
+.shifts__tableColumns {
+  grid-template-columns: 120px 3fr 2fr 2fr 2fr 2fr;
+}
+
+.shifts__scrollSection {
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+}
+
+.shifts__pagination {
+  margin-top: 10px;
+}
