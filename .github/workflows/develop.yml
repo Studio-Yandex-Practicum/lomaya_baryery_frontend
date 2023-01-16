@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:
       - develop
-    types: [opened, synchronize, reopened, closed]
+    types: [opened, synchronize, reopened]
 
 jobs:
   lint:
@@ -65,40 +65,4 @@ jobs:
         run: npm ci --prefer-offline
 
       - name: Build
-        run: npm run build-gh-pages
-
-      - name: Add .nojekyll to dist folder
-        if: github.event.pull_request.merged == true
-        run: |
-          cd dist
-          echo > .nojekyll
-          cd ..
-
-      - name: Upload deploy artifact (dist)
-        if: github.event.pull_request.merged == true
-        uses: actions/upload-artifact@v3
-        with:
-          name: vite-bundle
-          path: ./dist
-
-  deploy:
-    name: Deploy
-    if: github.event.pull_request.merged == true
-    runs-on: ubuntu-latest
-    needs: [lint, format, build]
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Download deploy artifact (dist)
-        uses: actions/download-artifact@v3
-        with:
-          name: vite-bundle
-          path: ./dist
-
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: gh-pages
-          folder: ./dist
+        run: npm run build
