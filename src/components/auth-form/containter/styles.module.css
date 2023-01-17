@@ -1,0 +1,21 @@
+.surface {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  padding: 40px 100px;
+  display: flex;
+  flex-direction: column;
+  flex-basis: 360px;
+  align-items: center;
+  background-color: var(--colors-interface-white);
+  border-radius: var(--common-border-radius);
+}
+
+.title {
+  margin-top: 60px;
+  margin-bottom: 30px;
+}

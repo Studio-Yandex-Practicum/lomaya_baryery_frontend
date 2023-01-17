@@ -3,6 +3,9 @@ import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-
 import { Modal } from '../../ui/modal';
 import { IAppLocation } from '../../utils';
 import { ShiftSettingsForm } from '../shift-settings-form';
+import { Login } from './auth-login';
+import { ForgotPassword } from './auth-forgot';
+import { ResetPassword } from './auth-reset';
 import { Layout } from './layout';
 import { PageRequestsConsidered } from './requests-considered';
 import { PageRequestsPending } from './requests-pending';
@@ -12,19 +15,30 @@ import { PageStartedShift } from './shift-started';
 import { PageShiftsAll } from './shifts';
 import { PageTasksSlider } from './tasks-slider';
 import { PageTasksUnderReview } from './tasks-under-review';
+import { RequireAuth } from '../require-auth';
 
 export const AppRoutes = () => {
-  const { state, pathname, search }: IAppLocation = useLocation();
+  const { state }: IAppLocation = useLocation();
   const navigate = useNavigate();
 
-  const rootLocation = state?.background || pathname.concat(search);
+  const rootLocation = state?.background;
 
   const handleCloseModal = useCallback(() => navigate(-1), [navigate]);
 
   return (
     <>
       <Routes location={rootLocation}>
-        <Route path="/" element={<Layout />}>
+        <Route path="/login" element={<Login />} />
+        <Route path="/pwd_forgot" element={<ForgotPassword />} />
+        <Route path="/pwd_reset" element={<ResetPassword />} />
+        <Route
+          path="/"
+          element={
+            <RequireAuth>
+              <Layout />
+            </RequireAuth>
+          }
+        >
           <Route index element={<Navigate to="shifts/all" replace />} />
           <Route path="shifts/all" element={<PageShiftsAll />} />
           <Route path="shifts/preparing/" element={<PagePreparingShift />} />
