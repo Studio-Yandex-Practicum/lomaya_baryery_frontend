@@ -15,7 +15,7 @@ import { PageStartedShift } from './shift-started';
 import { PageShiftsAll } from './shifts';
 import { PageTasksSlider } from './tasks-slider';
 import { PageTasksUnderReview } from './tasks-under-review';
-import { RequireAuth } from '../require-auth';
+import { RequireAuth } from '../../hoc';
 
 export const AppRoutes = () => {
   const { state }: IAppLocation = useLocation();

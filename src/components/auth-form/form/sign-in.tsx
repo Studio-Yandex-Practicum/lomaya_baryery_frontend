@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import cn from 'classnames';
 import { Link } from 'react-router-dom';
 import { signIn } from '../../../redux-store/auth';
-import { useFormAndValidation } from '../../hooks';
+import { useFormAndValidation } from '../../../hook';
 import { useAppDispatch } from '../../../redux-store/hooks';
 import { Button } from '../../../ui/button';
 import { InputText } from '../../../ui/inputText';
