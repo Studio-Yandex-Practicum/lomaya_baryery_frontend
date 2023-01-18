@@ -24,9 +24,12 @@ const authSlice = createSlice({
       state.login = action.payload;
       state.auth = true;
     },
+    signOut() {
+      return { ...initialState };
+    },
   },
 });
 
 export const authReducer = authSlice.reducer;
-export const { signIn } = authSlice.actions;
+export const { signIn, signOut } = authSlice.actions;
 export const selectAuth = (state: RootState) => state.auth;
