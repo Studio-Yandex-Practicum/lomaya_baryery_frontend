@@ -12,6 +12,10 @@
   font-weight: 600;
 }
 
+.inputText::placeholder {
+  color: var(--text-color-secondary);
+}
+
 .inputText:hover {
   border-color: var(--colors-interface-gray);
 }
