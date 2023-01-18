@@ -1,5 +1,5 @@
 export interface IAppLocation {
-  state: { background: Location } | undefined;
+  state: { [key: string]: string | Location } | undefined;
   pathname: string;
   search: string;
 }
