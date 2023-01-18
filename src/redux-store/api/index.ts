@@ -58,34 +58,37 @@ export const api = createApi({
       }),
       invalidatesTags: [{ type: 'shifts' }],
     }),
-    getPendingRequests: builder.query<IRequest[], string>({
-      query: (shiftId) => `/shifts/${shiftId}/requests?status=pending`,
+    getPendingRequests: builder.query<IRequest[], undefined>({
+      query: () => `/requests?status=pending`,
     }),
     getConsideredRequests: builder.query<IRequest[], string>({
-      query: (shiftId) => `/shifts/${shiftId}/requests`,
+      query: () => `/requests`,
       transformResponse: (response: IRequest[]) => {
         const transformedResponse = response.filter(
-          (request) => request.status === 'approved' || request.status === 'declined'
+          (request) => request.user_status === 'verified' || request.user_status === 'declined'
         );
         return transformedResponse;
       },
     }),
-    approveRequest: builder.mutation<IRequest, { requestId: string; shiftId: string }>({
-      query: (arg) => ({
-        url: `/requests/${arg.requestId}/approve`,
+    approveRequest: builder.mutation<IRequest, { requestId: string }>({
+      query: ({ requestId }) => ({
+        url: `/requests/${requestId}/approve`,
         method: 'PATCH',
       }),
-      async onQueryStarted({ requestId, shiftId }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ requestId }, { dispatch, queryFulfilled }) {
         try {
           const { data: updatedRequest } = await queryFulfilled;
-          dispatch(
-            api.util.updateQueryData('getPendingRequests', shiftId, (draft) => {
-              const requests = draft.map((request) =>
-                request.request_id === requestId ? updatedRequest : request
-              );
-              return requests;
-            })
-          );
+
+          if (updatedRequest.user_status === 'verified') {
+            dispatch(
+              api.util.updateQueryData('getPendingRequests', undefined, (draft) => {
+                const modifedRequest = draft.find((request) => request.request_id === requestId);
+                if (modifedRequest) {
+                  modifedRequest.user_status = 'verified';
+                }
+              })
+            );
+          }
         } catch (error) {
           console.error(error);
         }
@@ -95,22 +98,25 @@ export const api = createApi({
       IRequest,
       { requestId: string; shiftId: string; message: string }
     >({
-      query: ({ requestId, message, ...rest }) => ({
+      query: ({ requestId, message }) => ({
         url: `/requests/${requestId}/decline`,
         method: 'PATCH',
         body: { message },
       }),
-      async onQueryStarted({ requestId, shiftId }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ requestId }, { dispatch, queryFulfilled }) {
         try {
           const { data: updatedRequest } = await queryFulfilled;
-          dispatch(
-            api.util.updateQueryData('getPendingRequests', shiftId, (draft) => {
-              const requests = draft.map((request) =>
-                request.request_id === requestId ? updatedRequest : request
-              );
-              return requests;
-            })
-          );
+
+          if (updatedRequest.user_status === 'declined') {
+            dispatch(
+              api.util.updateQueryData('getPendingRequests', undefined, (draft) => {
+                const modifedRequest = draft.find((request) => request.request_id === requestId);
+                if (modifedRequest) {
+                  modifedRequest.user_status = 'declined';
+                }
+              })
+            );
+          }
         } catch (error) {
           console.error(error);
         }

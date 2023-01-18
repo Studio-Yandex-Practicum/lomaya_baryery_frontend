@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 import cn from 'classnames';
-import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { ContentContainer } from '../../../ui/content-container';
 import { ContentHeading } from '../../../ui/content-heading';
@@ -30,12 +29,9 @@ export const PageRequestsPending = () => {
   const location = useLocation();
   const { preparing } = useAppSelector(selectRootShifts);
 
-  const { data, isLoading, isFetching, refetch } = useGetPendingRequestsQuery(
-    preparing?.id ?? skipToken,
-    {
-      refetchOnMountOrArgChange: true,
-    }
-  );
+  const { data, isLoading, isFetching, refetch } = useGetPendingRequestsQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
 
   const [approveRequest] = useApproveRequestMutation();
   const [declineRequest] = useDeclineRequestMutation();
@@ -69,9 +65,7 @@ export const PageRequestsPending = () => {
                   key={request.request_id}
                   extClassName={rowStyles}
                   requestData={request}
-                  approve={() =>
-                    approveRequest({ requestId: request.request_id, shiftId: preparing.id })
-                  }
+                  approve={() => approveRequest({ requestId: request.request_id })}
                   decline={() =>
                     navigate({ pathname: 'decline', search: `rqstId=${request.request_id}` })
                   }
