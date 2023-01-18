@@ -24,3 +24,9 @@
 .header__linkIcon {
   margin-right: 10px;
 }
+
+.header__button {
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+}

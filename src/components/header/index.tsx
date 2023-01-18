@@ -1,10 +1,18 @@
 import cn from 'classnames';
 import { Link, NavLink } from 'react-router-dom';
+import { signOut } from '../../redux-store/auth';
+import { useAppDispatch } from '../../redux-store/hooks';
 import { EnterIcon, UserIcon } from '../../ui/icons';
 import { Logo } from '../../ui/logo/logo';
 import styles from './styles.module.css';
 
 export function Header() {
+  const dispatch = useAppDispatch();
+
+  function handleSingOut() {
+    dispatch(signOut());
+  }
+
   return (
     <header className={styles.header}>
       <Link to={{ pathname: '/' }}>
@@ -18,13 +26,17 @@ export function Header() {
           <UserIcon className={styles.header__linkIcon} type="link" />
           Аккаунт
         </NavLink>
-        <NavLink
-          to={{ pathname: '/logout' }}
-          className={cn('text', 'text_type_main-medium', 'link', styles.header__link)}
+        <button
+          onClick={handleSingOut}
+          className={cn(
+            'text text_type_main-medium link',
+            styles.header__link,
+            styles.header__button
+          )}
         >
           <EnterIcon className={styles.header__linkIcon} type="link" />
           Выйти
-        </NavLink>
+        </button>
       </nav>
     </header>
   );
