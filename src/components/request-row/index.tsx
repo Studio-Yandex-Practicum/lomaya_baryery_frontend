@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
 import cn from 'classnames';
-import styles from './styles.module.css';
 import { CellDate, CellText } from '../../ui/table-native';
 import { IRequest } from '../../redux-store/api/models';
 import { Button } from '../../ui/button';
 import { StatusLabel } from '../../ui/status-label';
+import styles from './styles.module.css';
 
 interface IRequestRowProps {
   extClassName?: string;
@@ -20,7 +20,7 @@ export const RequestRow: React.FC<IRequestRowProps> = ({
   extClassName,
 }) => {
   const actions = useMemo(() => {
-    switch (requestData.status) {
+    switch (requestData.user_status) {
       case 'pending':
         return (
           <div className={styles.requestRow__actions}>
@@ -38,7 +38,7 @@ export const RequestRow: React.FC<IRequestRowProps> = ({
             </Button>
           </div>
         );
-      case 'approved':
+      case 'verified':
         return <StatusLabel icon="CircleCheckIcon" type="approved" statusText="Участник одобрен" />;
       case 'declined':
         return <StatusLabel icon="CircleStopIcon" type="rejected" statusText="Участник отклонён" />;
