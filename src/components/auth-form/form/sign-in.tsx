@@ -41,7 +41,7 @@ export function SignInForm() {
     if (isValid) {
       dispatch(signIn(inputValues.email));
     } else {
-      if (Object.values(inputValues).every((value) => !Boolean(value))) {
+      if (Object.values(inputValues).some((value) => !Boolean(value))) {
         setSubmitError('Все поля обязательные');
         return;
       }
