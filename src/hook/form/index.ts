@@ -1,20 +1,36 @@
 import { useState } from 'react';
 
-export function useFormAndValidation<T>(initValues: T) {
+export function useFormAndValidation<T extends Record<string, string>>(initValues: T) {
   const [values, setValues] = useState<T>(initValues);
   const [errors, setErrors] = useState<T>(initValues);
-  const [isValid, setIsValid] = useState(true);
+  const [isValid, setIsValid] = useState(false);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const { value, name, validationMessage } = e.target;
+    const input = e.currentTarget;
+    const { form } = input;
+
+    const { value, name, validity, type } = input;
+    let { validationMessage } = input;
+
+    switch (type) {
+      case 'email':
+        if (validity.typeMismatch || validity.valueMissing) {
+          validationMessage = 'Укажите верный формат email, например address@domain.ru';
+        }
+        break;
+      default:
+        break;
+    }
+
     setValues({ ...values, [name]: value });
     setErrors({ ...errors, [name]: validationMessage });
 
-    const form = e.target.closest('form') as HTMLFormElement;
     if (form) {
       setIsValid(form.checkValidity());
     }
   }
 
-  return { values, errors, isValid, handleChange };
+  const publicAPI = { values, errors, isValid, handleChange };
+
+  return publicAPI;
 }
