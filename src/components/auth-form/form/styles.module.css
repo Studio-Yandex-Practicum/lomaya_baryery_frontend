@@ -13,3 +13,29 @@
   margin-bottom: 20px;
   align-self: flex-end;
 }
+
+.form__link:hover {
+  transition: var(--transition-hover);
+  opacity: var(--hover-opacity);
+}
+
+.form__submitWrapper {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  height: 94px;
+}
+
+.form__submitError {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 28px;
+  margin-bottom: 8px;
+  overflow: hidden;
+  text-align: center;
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 400;
+  color: var(--colors-interface-red);
+}

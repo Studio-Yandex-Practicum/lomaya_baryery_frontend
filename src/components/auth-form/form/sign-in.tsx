@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 import { Link } from 'react-router-dom';
 import { signIn } from '../../../redux-store/auth';
@@ -9,7 +9,18 @@ import { InputText } from '../../../ui/inputText';
 import styles from './styles.module.css';
 
 export function SignInForm() {
-  const { values, errors, isValid, handleChange } = useFormAndValidation({ email: '', pwd: '' });
+  const {
+    values: inputValues,
+    errors: inputErrors,
+    isValid,
+    handleChange,
+  } = useFormAndValidation({
+    email: '',
+    pwd: '',
+  });
+
+  const [submitError, setSubmitError] = useState<null | string>(null);
+
   const dispatch = useAppDispatch();
 
   const emailRef = useRef<HTMLInputElement>(null);
@@ -20,9 +31,24 @@ export function SignInForm() {
     }
   }, []);
 
+  useEffect(() => {
+    setSubmitError(null);
+  }, [inputValues]);
+
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    dispatch(signIn(values.email));
+
+    if (isValid) {
+      dispatch(signIn(inputValues.email));
+    } else {
+      if (Object.values(inputValues).every((value) => !Boolean(value))) {
+        setSubmitError('Все поля обязательные');
+        return;
+      }
+      if (inputErrors.email) {
+        setSubmitError(inputErrors.email);
+      }
+    }
   }
 
   return (
@@ -33,25 +59,21 @@ export function SignInForm() {
         onChange={handleChange}
         name="email"
         placeholder="Ваш e-mail"
-        value={values.email}
+        value={inputValues.email}
         type="email"
         autoComplete="off"
         required
-        error={Boolean(errors.email)}
-        errorText={errors.email}
       />
       <InputText
         extClassName={styles.form__input}
         onChange={handleChange}
         name="pwd"
         placeholder="Введите пароль"
-        value={values.pwd}
+        value={inputValues.pwd}
         type="password"
+        minLength={1}
         autoComplete="off"
         required
-        minLength={6}
-        error={Boolean(errors.pwd)}
-        errorText={errors.pwd}
       />
       <Link
         to="/pwd_forgot"
@@ -63,9 +85,12 @@ export function SignInForm() {
       >
         Не помню пароль
       </Link>
-      <Button extClassName={styles.form__element} htmlType="submit">
-        Войти
-      </Button>
+      <div className={styles.form__submitWrapper}>
+        {submitError && <span className={cn('text', styles.form__submitError)}>{submitError}</span>}
+        <Button extClassName={styles.form__element} htmlType="submit">
+          Войти
+        </Button>
+      </div>
     </form>
   );
 }
