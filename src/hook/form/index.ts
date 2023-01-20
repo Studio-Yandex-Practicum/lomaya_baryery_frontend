@@ -1,8 +1,17 @@
 import { useState } from 'react';
 
-export function useFormAndValidation<T extends Record<string, string>>(initValues: T) {
-  const [values, setValues] = useState<T>(initValues);
-  const [errors, setErrors] = useState<T>(initValues);
+export function useFormAndValidation(initValues: Record<string, string>) {
+  const [values, setValues] = useState(initValues);
+
+  const [errors, setErrors] = useState(function lazyInit(): Record<string, string> {
+    const entries = Object.entries(initValues);
+    entries.forEach(function clearValues(entrie) {
+      entrie[1] = '';
+    });
+    const initErrors = Object.fromEntries(entries);
+    return initErrors;
+  });
+
   const [isValid, setIsValid] = useState(false);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {

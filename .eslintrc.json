@@ -67,7 +67,8 @@
     "consistent-return": "off",
     "no-param-reassign": "off",
     "no-extra-boolean-cast": "off",
-    "no-console": ["error", { "allow": ["warn", "error"] }]
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "prefer-arrow-callback": [ "error", { "allowNamedFunctions": true } ]
   },
   "settings": {
     "import/resolver": {
