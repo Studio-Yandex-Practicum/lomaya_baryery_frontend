@@ -1,15 +1,15 @@
 import { useState } from 'react';
 
-export function useFormAndValidation(initValues: Record<string, string>) {
+export function useFormAndValidation<T extends string>(initValues: Record<T, string>) {
   const [values, setValues] = useState(initValues);
 
-  const [errors, setErrors] = useState(function lazyInit(): Record<string, string> {
+  const [errors, setErrors] = useState(function lazyInit() {
     const entries = Object.entries(initValues);
     entries.forEach(function clearValues(entrie) {
       entrie[1] = '';
     });
     const initErrors = Object.fromEntries(entries);
-    return initErrors;
+    return initErrors as Record<T, string>;
   });
 
   const [isValid, setIsValid] = useState(false);

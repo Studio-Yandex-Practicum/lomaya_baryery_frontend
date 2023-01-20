@@ -13,7 +13,6 @@ interface IPwdCreateFormProps {
 export function PwdCreateForm({ token }: IPwdCreateFormProps) {
   const {
     values: inputValues,
-    errors: inputErrors,
     isValid,
     handleChange,
   } = useFormAndValidation({
@@ -64,7 +63,7 @@ export function PwdCreateForm({ token }: IPwdCreateFormProps) {
           onChange={handleChange}
           name="create"
           placeholder="Придумайте пароль"
-          value={inputValues.email}
+          value={inputValues.create}
           type="password"
           minLength={1}
           autoComplete="off"
@@ -75,7 +74,7 @@ export function PwdCreateForm({ token }: IPwdCreateFormProps) {
           onChange={handleChange}
           name="confirm"
           placeholder="Повторите пароль"
-          value={inputValues.pwd}
+          value={inputValues.confirm}
           type="password"
           minLength={1}
           autoComplete="off"
