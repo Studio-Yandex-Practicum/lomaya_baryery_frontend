@@ -5,7 +5,7 @@ import { IAppLocation } from '../../utils';
 import { ShiftSettingsForm } from '../shift-settings-form';
 import { Login } from './auth-login';
 import { ForgotPassword } from './auth-forgot';
-import { ResetPassword } from './auth-reset';
+import { ResetPassword } from './auth-create';
 import { Layout } from './layout';
 import { PageRequestsConsidered } from './requests-considered';
 import { PageRequestsPending } from './requests-pending';
@@ -30,7 +30,7 @@ export const AppRoutes = () => {
       <Routes location={rootLocation}>
         <Route path="/login" element={<Login />} />
         <Route path="/pwd_forgot" element={<ForgotPassword />} />
-        <Route path="/pwd_reset" element={<ResetPassword />} />
+        <Route path="/pwd_reset/:token" element={<ResetPassword />} />
         <Route
           path="/"
           element={

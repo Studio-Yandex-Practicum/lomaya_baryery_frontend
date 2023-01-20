@@ -1,5 +1,5 @@
-import cn from 'classnames';
 import { useEffect, useRef, useState } from 'react';
+import cn from 'classnames';
 import { Link } from 'react-router-dom';
 import { useFormAndValidation } from '../../hook';
 import { InputText } from '../../ui/inputText';
@@ -45,7 +45,7 @@ export function ForgotPwdForm() {
   const title = formSuccess ? 'Ссылка отправлена' : 'Восстановление пароля';
 
   const expanation = formSuccess
-    ? 'Письмо придёт в\u00A0течение 5\u00A0минут.\nЕсли письма нет, проверьте в\u00A0 папке спам.'
+    ? 'Письмо придёт в\u00A0течение 5\u00A0минут.\nЕсли письма нет, проверьте в\u00A0папке спам.'
     : 'Укажите почту, которую вы\u00A0использовали при регистрации. Мы\u00A0вышлем ссылку для смены пароля.';
 
   return (

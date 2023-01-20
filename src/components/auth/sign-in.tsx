@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 import { Link } from 'react-router-dom';
-import { signIn } from '../../redux-store/auth';
+import { signInAction } from '../../redux-store/auth';
 import { useFormAndValidation } from '../../hook';
 import { useAppDispatch } from '../../redux-store/hooks';
 import { AuthContainer, Form } from './elements';
@@ -39,7 +39,7 @@ export function SignInForm() {
     e.preventDefault();
 
     if (isValid) {
-      dispatch(signIn(inputValues.email));
+      dispatch(signInAction(inputValues.email));
     } else {
       if (Object.values(inputValues).some((value) => !Boolean(value))) {
         setSubmitError('Все поля обязательные');

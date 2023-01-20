@@ -9,7 +9,7 @@ export function Login() {
   const { auth } = useAppSelector(selectAuth);
 
   if (auth) {
-    return <Navigate to={locationState?.from || '/'} />;
+    return <Navigate to={locationState?.from || '/'} replace />;
   }
 
   return <SignInForm />;
