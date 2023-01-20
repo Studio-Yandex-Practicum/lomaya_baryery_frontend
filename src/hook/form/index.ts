@@ -24,7 +24,7 @@ export function useFormAndValidation(initValues: Record<string, string>) {
     switch (type) {
       case 'email':
         if (validity.typeMismatch || validity.valueMissing) {
-          validationMessage = 'Укажите верный формат email, например address@domain.ru';
+          validationMessage = 'E-mail не соответствует формату: address@domain.ru';
         }
         break;
       default:

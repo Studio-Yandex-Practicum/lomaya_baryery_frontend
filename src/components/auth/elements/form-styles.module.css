@@ -5,20 +5,6 @@
   flex-direction: column;
 }
 
-.form__input {
-  height: 60px;
-}
-
-.form__link {
-  margin-bottom: 20px;
-  align-self: flex-end;
-}
-
-.form__link:hover {
-  transition: var(--transition-hover);
-  opacity: var(--hover-opacity);
-}
-
 .form__submitWrapper {
   display: flex;
   justify-content: flex-end;

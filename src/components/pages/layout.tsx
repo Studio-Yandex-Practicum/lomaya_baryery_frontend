@@ -2,8 +2,6 @@ import cn from 'classnames';
 import { useMemo } from 'react';
 import { Outlet } from 'react-router-dom';
 import { useGetAllShiftsQuery } from '../../redux-store/api';
-import { selectAuth } from '../../redux-store/auth';
-import { useAppSelector } from '../../redux-store/hooks';
 import { Loader } from '../../ui/loader';
 import { Header } from '../header';
 import { SideBar } from '../sidebar';

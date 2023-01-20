@@ -1,0 +1,26 @@
+.explanation {
+  margin: 0 0 30px 0;
+  text-align: center;
+  white-space: pre-wrap;
+}
+
+.form__input {
+  height: 60px;
+}
+
+.form__link {
+  margin-bottom: 20px;
+}
+
+.form__link_align_center {
+  align-self: center;
+}
+
+.form__link_align_end {
+  align-self: flex-end;
+}
+
+.form__link:hover {
+  transition: var(--transition-hover);
+  opacity: var(--hover-opacity);
+}
