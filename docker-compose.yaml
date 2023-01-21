@@ -4,4 +4,4 @@ services:
     container_name: lomaya_baryery_frontend
     restart: always
     ports:
-      - "8000:80"
+      - "8080:80"
