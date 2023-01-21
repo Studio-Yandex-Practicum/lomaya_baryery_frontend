@@ -11,6 +11,5 @@ COPY . /app
 RUN npm run build
 
 FROM nginx:1.16.0
-COPY --from=builder /app/dist /usr/share/nginx/html/admin
+COPY --from=builder /app/dist /usr/share/nginx/html
 CMD ["nginx", "-g", "daemon off;"]
-
