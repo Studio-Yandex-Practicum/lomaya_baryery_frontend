@@ -1,7 +1,7 @@
 name: Stage frontend build and deploy
 
 on:
-  workflow_dispatch:
+  pull_request:
     branches:
       - develop
     types: [ closed ]
