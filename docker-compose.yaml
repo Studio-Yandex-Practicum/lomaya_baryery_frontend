@@ -1,6 +1,7 @@
 services:
-  client:
-    container_name: admin_app
-    build: ./
+  frontend:
+    image: ghcr.io/studio-yandex-practicum/lomaya_baryery_frontend:latest
+    container_name: lomaya_baryery_frontend
+    restart: always
     ports:
       - "8000:80"
