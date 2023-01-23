@@ -7,11 +7,20 @@ import { Button } from '../button';
 const modalRoot = document.getElementById('modalRoot') as HTMLElement;
 
 interface IModalAlertProps {
+  titleText: string;
+  cancelText: string;
+  acceptText: string;
   closeModal: () => void;
   closeShift: () => void;
 }
 
-export const ModalAlert: React.FC<IModalAlertProps> = ({ closeModal, closeShift }) => {
+export function ModalAlert({
+  titleText,
+  cancelText,
+  acceptText,
+  closeModal,
+  closeShift,
+}: IModalAlertProps) {
   const handleFinish = () => {
     closeShift();
     closeModal();
@@ -40,20 +49,29 @@ export const ModalAlert: React.FC<IModalAlertProps> = ({ closeModal, closeShift 
   return createPortal(
     <div className={styles.overlay} onMouseDown={clickOnOverlay}>
       <div className={styles.modalAlert}>
-        <Alert
-          title="Вы уверены, что хотите завершить смену?"
-          extClassName={styles.modalAlert__alert}
-        />
+        <Alert title={titleText} extClassName={styles.modalAlert__alert} />
         <div className={styles.modalAlert__controls}>
-          <Button htmlType="button" size="small" type="primary" onClick={closeModal}>
-            Отменить
+          <Button
+            htmlType="button"
+            size="small"
+            type="primary"
+            onClick={closeModal}
+            extClassName={styles.modalAlert__button}
+          >
+            {cancelText}
           </Button>
-          <Button htmlType="button" size="small" type="negative" onClick={handleFinish}>
-            Завершить
+          <Button
+            htmlType="button"
+            size="small"
+            type="negative"
+            onClick={handleFinish}
+            extClassName={styles.modalAlert__button}
+          >
+            {acceptText}
           </Button>
         </div>
       </div>
     </div>,
     modalRoot
   );
-};
+}

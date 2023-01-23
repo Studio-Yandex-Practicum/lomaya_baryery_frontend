@@ -47,12 +47,12 @@ export type TUpdateShiftSettings = Partial<ICreateShift> & {
   finalMessage: string;
 };
 
-export type TRequestStatus = 'pending' | 'verified' | 'declined';
+export type TRequestStatus = 'pending' | 'approved' | 'declined';
 
 export interface IRequest extends Omit<IUser, 'id'> {
   user_id: string;
   request_id: string;
-  user_status: TRequestStatus;
+  request_status: TRequestStatus;
 }
 
 export interface ITask {

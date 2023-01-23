@@ -173,6 +173,9 @@ export const PageStartedShift = () => {
           path="finish"
           element={
             <ModalAlert
+              titleText="Вы уверены, что хотите завершить смену?"
+              cancelText="Отмена"
+              acceptText="Завершить"
               closeModal={() => navigate(-1)}
               closeShift={() => setFinishShift(started.id)}
             />

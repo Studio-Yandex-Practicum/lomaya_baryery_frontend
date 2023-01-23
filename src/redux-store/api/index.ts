@@ -62,12 +62,10 @@ export const api = createApi({
       query: () => `/requests?status=pending`,
     }),
     getConsideredRequests: builder.query<IRequest[], string>({
-      query: () => `/requests`,
+      query: (shift_id) => `/shifts/${shift_id}/requests`,
       transformResponse: (response: IRequest[]) => {
-        const transformedResponse = response.filter(
-          (request) => request.user_status === 'verified' || request.user_status === 'declined'
-        );
-        return transformedResponse;
+        const filteredResponse = response.filter((request) => request.request_status !== 'pending');
+        return filteredResponse;
       },
     }),
     approveRequest: builder.mutation<IRequest, { requestId: string }>({
@@ -79,12 +77,12 @@ export const api = createApi({
         try {
           const { data: updatedRequest } = await queryFulfilled;
 
-          if (updatedRequest.user_status === 'verified') {
+          if (updatedRequest.request_status === 'approved') {
             dispatch(
               api.util.updateQueryData('getPendingRequests', undefined, (draft) => {
                 const modifedRequest = draft.find((request) => request.request_id === requestId);
                 if (modifedRequest) {
-                  modifedRequest.user_status = 'verified';
+                  modifedRequest.request_status = 'approved';
                 }
               })
             );
@@ -107,12 +105,12 @@ export const api = createApi({
         try {
           const { data: updatedRequest } = await queryFulfilled;
 
-          if (updatedRequest.user_status === 'declined') {
+          if (updatedRequest.request_status === 'declined') {
             dispatch(
               api.util.updateQueryData('getPendingRequests', undefined, (draft) => {
                 const modifedRequest = draft.find((request) => request.request_id === requestId);
                 if (modifedRequest) {
-                  modifedRequest.user_status = 'declined';
+                  modifedRequest.request_status = 'declined';
                 }
               })
             );
@@ -130,15 +128,17 @@ export const api = createApi({
       { taskId: string; shiftId: string; patch: { task_status: IUserTask['status'] } }
     >({
       query: ({ taskId, patch, ...rest }) => ({
-        url: `/reports/ ${taskId}/approve`,
+        url: `/reports/${taskId}/approve`,
         method: 'PATCH',
         body: patch, // delete before production
       }),
       async onQueryStarted({ taskId, shiftId, patch }, { dispatch, queryFulfilled }) {
         try {
-          await queryFulfilled;
+          const response = await queryFulfilled;
+          debugger;
           dispatch(
             api.util.updateQueryData('getTasksUnderReview', shiftId, (draft) => {
+              // refactor before production
               const tasks = draft.map((task) =>
                 task.report_id === taskId ? { ...task, ...patch } : task
               );
@@ -167,9 +167,11 @@ export const api = createApi({
       }),
       async onQueryStarted({ taskId, shiftId, patch }, { dispatch, queryFulfilled }) {
         try {
-          await queryFulfilled;
+          const response = await queryFulfilled;
+          debugger;
           dispatch(
             api.util.updateQueryData('getTasksUnderReview', shiftId, (draft) => {
+              // refactor before production
               const tasks = draft.map((task) =>
                 task.report_id === taskId ? { ...task, ...patch } : task
               );

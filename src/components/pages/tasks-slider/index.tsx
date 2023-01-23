@@ -25,9 +25,9 @@ export const PageTasksSlider = () => {
   const { pathname } = useLocation();
   const { id } = useParams();
 
-  const tasksParentPath = useMemo(() => pathname.slice(0, pathname.lastIndexOf('/')), [pathname]);
+  const parentRoutePath = useMemo(() => pathname.slice(0, pathname.lastIndexOf('/')), [pathname]);
 
-  const taskIndex = tasks.findIndex((task) => task.report_id === id);
+  const currentTaskIndex = tasks.findIndex((task) => task.report_id === id);
 
   const { isError, isLoading } = useGetTasksUnderReviewQuery(started?.id ?? skipToken);
 
@@ -35,19 +35,18 @@ export const PageTasksSlider = () => {
   const [declineRequest] = useDeclineTaskMutation();
 
   const handlePrevTask = () => {
-    if (taskIndex === 0) {
-      return;
+    if (currentTaskIndex > 0) {
+      const prevTaskIndex = currentTaskIndex - 1;
+      navigate(`${parentRoutePath}/${tasks[prevTaskIndex].report_id}`);
     }
-
-    navigate(`${tasksParentPath}/${tasks[taskIndex - 1].report_id}`);
   };
 
   const handleNextTask = () => {
-    if (taskIndex === tasks.length - 1) {
-      return;
+    const lastTaskIndex = tasks.length - 1;
+    if (currentTaskIndex < lastTaskIndex) {
+      const nextTaskIndex = currentTaskIndex + 1;
+      navigate(`${parentRoutePath}/${tasks[nextTaskIndex].report_id}`);
     }
-
-    navigate(`${tasksParentPath}/${tasks[taskIndex + 1].report_id}`);
   };
 
   const content = useMemo(() => {
@@ -59,27 +58,28 @@ export const PageTasksSlider = () => {
       return <Loader extClassName={styles.slider__loader} />;
     }
 
-    if (taskIndex === -1) {
+    if (currentTaskIndex === -1) {
       return <Alert extClassName={styles.slider__alert} title="Отчёт не найден" />;
     }
 
     const navigateAfterReview = () => {
-      if (tasks.length === 1) {
-        return navigate(tasksParentPath);
+      if (tasks.length > 0) {
+        if (currentTaskIndex === tasks.length - 1) {
+          navigate(`${parentRoutePath}/${tasks[currentTaskIndex - 1].report_id}`);
+          return;
+        }
+        navigate(`${parentRoutePath}/${tasks[currentTaskIndex + 1].report_id}`);
+        return;
       }
 
-      if (tasks.length > 1 && taskIndex === tasks.length - 1) {
-        return navigate(`${tasksParentPath}/${tasks[taskIndex - 1].report_id}`);
-      }
-
-      return navigate(`${tasksParentPath}/${tasks[taskIndex + 1].report_id}`);
+      navigate(parentRoutePath);
     };
 
     const handleApprove = async () => {
       try {
         await approveRequest({
-          taskId: tasks[taskIndex].report_id,
-          shiftId: tasks[taskIndex].shift_id,
+          taskId: tasks[currentTaskIndex].report_id,
+          shiftId: tasks[currentTaskIndex].shift_id,
           patch: { task_status: 'approved' },
         }).unwrap();
 
@@ -92,8 +92,8 @@ export const PageTasksSlider = () => {
     const handleDecline = async () => {
       try {
         await declineRequest({
-          taskId: tasks[taskIndex].report_id,
-          shiftId: tasks[taskIndex].shift_id,
+          taskId: tasks[currentTaskIndex].report_id,
+          shiftId: tasks[currentTaskIndex].shift_id,
           patch: { task_status: 'declined' },
         }).unwrap();
 
@@ -106,11 +106,11 @@ export const PageTasksSlider = () => {
     return (
       <TaskDetails
         extClassName={styles.slider__taskDetails}
-        taskUrl={tasks[taskIndex].task_url}
-        photoUrl={tasks[taskIndex].photo_url}
-        userName={tasks[taskIndex].user_name}
-        userSurname={tasks[taskIndex].user_surname}
-        createdAt={tasks[taskIndex].report_created_at}
+        taskUrl={tasks[currentTaskIndex].task_url}
+        photoUrl={tasks[currentTaskIndex].photo_url}
+        userName={tasks[currentTaskIndex].user_name}
+        userSurname={tasks[currentTaskIndex].user_surname}
+        createdAt={tasks[currentTaskIndex].report_created_at}
         accept={handleApprove}
         decline={handleDecline}
       />
@@ -118,22 +118,22 @@ export const PageTasksSlider = () => {
   }, [
     isError,
     isLoading,
-    taskIndex,
+    currentTaskIndex,
     tasks,
     approveRequest,
     declineRequest,
     navigate,
-    tasksParentPath,
+    parentRoutePath,
   ]);
 
   if (!started) {
-    return <Navigate to={tasksParentPath} />;
+    return <Navigate to={parentRoutePath} />;
   }
 
   return (
     <>
       <ContentContainer>
-        <Link to={tasksParentPath} className={cn(styles.slider__backLink, 'link')}>
+        <Link to={parentRoutePath} className={cn(styles.slider__backLink, 'link')}>
           <ChevronLeftIcon type="interface-secondary" />
           <p
             className={cn(
@@ -149,7 +149,7 @@ export const PageTasksSlider = () => {
         </Link>
         {content}
       </ContentContainer>
-      {!isLoading && !isError && tasks.length > 0 && taskIndex !== -1 && (
+      {!isLoading && !isError && tasks.length > 0 && currentTaskIndex !== -1 && (
         <nav className={styles.slider__nav}>
           <Button
             extClassName={styles.slider__navButton}
@@ -161,7 +161,7 @@ export const PageTasksSlider = () => {
             Предыдущий отчёт
           </Button>
           <p className="text text_type_main-default text_color_secondary m-0">{`${
-            taskIndex + 1
+            currentTaskIndex + 1
           } из ${tasks.length}`}</p>
           <Button
             extClassName={styles.slider__navButton}

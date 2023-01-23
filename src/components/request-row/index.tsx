@@ -20,7 +20,7 @@ export const RequestRow: React.FC<IRequestRowProps> = ({
   extClassName,
 }) => {
   const actions = useMemo(() => {
-    switch (requestData.user_status) {
+    switch (requestData.request_status) {
       case 'pending':
         return (
           <div className={styles.requestRow__actions}>
@@ -38,7 +38,7 @@ export const RequestRow: React.FC<IRequestRowProps> = ({
             </Button>
           </div>
         );
-      case 'verified':
+      case 'approved':
         return <StatusLabel icon="CircleCheckIcon" type="approved" statusText="Участник одобрен" />;
       case 'declined':
         return <StatusLabel icon="CircleStopIcon" type="rejected" statusText="Участник отклонён" />;
