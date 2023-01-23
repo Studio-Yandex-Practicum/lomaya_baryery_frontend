@@ -1,8 +1,4 @@
-import { useCallback } from 'react';
-import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import { Modal } from '../../ui/modal';
-import { IAppLocation } from '../../utils';
-import { ShiftSettingsForm } from '../shift-settings-form';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { Login } from './auth-login';
 import { ForgotPassword } from './auth-forgot';
 import { ResetPassword } from './auth-create';
@@ -17,95 +13,58 @@ import { PageTasksSlider } from './tasks-slider';
 import { PageTasksUnderReview } from './tasks-under-review';
 import { RequireAuth } from '../../hoc';
 
-export const AppRoutes = () => {
-  const { state }: IAppLocation = useLocation();
-  const navigate = useNavigate();
-
-  const rootLocation = state?.background;
-
-  const handleCloseModal = useCallback(() => navigate(-1), [navigate]);
-
+export function AppRoutes() {
   return (
-    <>
-      <Routes location={rootLocation}>
-        <Route path="/login" element={<Login />} />
-        <Route path="/pwd_forgot" element={<ForgotPassword />} />
-        <Route path="/pwd_reset/:token" element={<ResetPassword />} />
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/pwd_forgot" element={<ForgotPassword />} />
+      <Route path="/pwd_reset/:token" element={<ResetPassword />} />
+      <Route
+        path="/"
+        element={
+          <RequireAuth>
+            <Layout />
+          </RequireAuth>
+        }
+      >
+        <Route index element={<Navigate to="shifts/all" replace />} />
+        <Route path="shifts/all/*" element={<PageShiftsAll />} />
+        <Route path="shifts/preparing/*" element={<PagePreparingShift />} />
+        <Route path="shifts/started/*" element={<PageStartedShift />} />
+        <Route path="shifts/finished/:id" element={<PageFinishedShift />} />
+        <Route path="requests/pending/*" element={<PageRequestsPending />} />
+        <Route path="requests/considered" element={<PageRequestsConsidered />} />
         <Route
-          path="/"
+          path="users"
+          element={<h1 className="text text_type_main-extra-large">UNDER DESIGN</h1>}
+        />
+        <Route path="tasks/under_review" element={<PageTasksUnderReview />} />
+        <Route path="tasks/under_review/:id" element={<PageTasksSlider />} />
+        <Route
+          path="tasks/reviewed"
+          element={<h1 className="text text_type_main-extra-large">UNDER DEVELOP</h1>}
+        />
+        <Route
+          path="tasks/reviewed/:id"
+          element={<h1 className="text text_type_main-extra-large">UNDER DEVELOP</h1>}
+        />
+        <Route
+          path="tasks/declined"
+          element={<h1 className="text text_type_main-extra-large">UNDER DEVELOP</h1>}
+        />
+        <Route
+          path="tasks/declined/:id"
+          element={<h1 className="text text_type_main-extra-large">UNDER DEVELOP</h1>}
+        />
+        <Route
+          path="*"
           element={
-            <RequireAuth>
-              <Layout />
-            </RequireAuth>
+            <h1 className="text text_type_main-extra-large">
+              Страница не найдена или её никогда не было
+            </h1>
           }
-        >
-          <Route index element={<Navigate to="shifts/all" replace />} />
-          <Route path="shifts/all" element={<PageShiftsAll />} />
-          <Route path="shifts/preparing/" element={<PagePreparingShift />} />
-          <Route path="shifts/started/*" element={<PageStartedShift />} />
-          <Route path="shifts/finished/:id" element={<PageFinishedShift />} />
-          <Route path="requests/pending/*" element={<PageRequestsPending />} />
-          <Route path="requests/considered" element={<PageRequestsConsidered />} />
-          <Route
-            path="users"
-            element={<h1 className="text text_type_main-extra-large">UNDER DESIGN</h1>}
-          />
-          <Route path="tasks/under_review" element={<PageTasksUnderReview />} />
-          <Route path="tasks/under_review/:id" element={<PageTasksSlider />} />
-          <Route
-            path="tasks/reviewed"
-            element={<h1 className="text text_type_main-extra-large">UNDER DEVELOP</h1>}
-          />
-          <Route
-            path="tasks/reviewed/:id"
-            element={<h1 className="text text_type_main-extra-large">UNDER DEVELOP</h1>}
-          />
-          <Route
-            path="tasks/declined"
-            element={<h1 className="text text_type_main-extra-large">UNDER DEVELOP</h1>}
-          />
-          <Route
-            path="tasks/declined/:id"
-            element={<h1 className="text text_type_main-extra-large">UNDER DEVELOP</h1>}
-          />
-          <Route
-            path="*"
-            element={
-              <h1 className="text text_type_main-extra-large">
-                Страница не найдена или её никогда не было
-              </h1>
-            }
-          />
-        </Route>
-      </Routes>
-      {state?.background && (
-        <Routes>
-          <Route
-            path="shifts/create"
-            element={
-              <Modal title="Новая смена" close={handleCloseModal}>
-                <ShiftSettingsForm shiftStatus="creating" />
-              </Modal>
-            }
-          />
-          <Route
-            path="shifts/preparing/settings"
-            element={
-              <Modal title="Редактировать смену" close={handleCloseModal}>
-                <ShiftSettingsForm shiftStatus="preparing" />
-              </Modal>
-            }
-          />
-          <Route
-            path="shifts/started/settings"
-            element={
-              <Modal title="Редактировать смену" close={handleCloseModal}>
-                <ShiftSettingsForm shiftStatus="started" />
-              </Modal>
-            }
-          />
-        </Routes>
-      )}
-    </>
+        />
+      </Route>
+    </Routes>
   );
-};
+}

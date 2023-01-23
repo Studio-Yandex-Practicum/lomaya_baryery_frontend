@@ -27,7 +27,7 @@ export type TTooltipHOC = {
 
 /**
  * WP - wrapped component props.
- * В дженерик WP передать тип пропсов оборачиваемого компонента
+ * В дженерик WP передать типы пропсов оборачиваемого компонента
  */
 export function withTooltip<WP>(
   WrappedComponent: React.ComponentType<Omit<WP, keyof TTooltipHOC>>

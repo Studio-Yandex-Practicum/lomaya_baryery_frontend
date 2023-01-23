@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import cn from 'classnames';
-import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { skipToken } from '@reduxjs/toolkit/query/react';
 import { ContentContainer } from '../../../ui/content-container';
 import { ContentHeading } from '../../../ui/content-heading';
@@ -20,10 +20,10 @@ import { StartedShiftRow } from '../../started-shift-row';
 import { ModalAlert } from '../../../ui/modal-alert';
 import { Modal } from '../../../ui/modal';
 import { MessageForm } from '../../message-form';
+import { ShiftSettingsForm } from '../../shift-settings-form';
 import styles from './styles.module.css';
 
 export const PageStartedShift = () => {
-  const location = useLocation();
   const navigate = useNavigate();
   const { started } = useAppSelector(selectRootShifts);
 
@@ -37,31 +37,13 @@ export const PageStartedShift = () => {
 
   const [setFinishShift, { isLoading: isSetFinishLoading }] = useFinishShiftMutation();
 
-  const openShiftSettings = useCallback(
-    () =>
-      navigate('settings', {
-        state: {
-          background: location.pathname,
-        },
-      }),
-    [navigate, location.pathname]
-  );
+  const openShiftSettings = useCallback(() => navigate('settings'), [navigate]);
 
   const finishShift = useCallback(() => navigate('finish'), [navigate]);
 
-  const handleChangeMessage = (message: string) => {
-    if (started) {
-      changeMessage({
-        shiftId: started.id,
-        title: started.title,
-        startedAt: started.started_at,
-        finishedAt: started.finished_at,
-        finalMessage: message,
-      })
-        .unwrap()
-        .then(() => navigate('/shifts/started', { replace: true }));
-    }
-  };
+  const openShiftMessage = useCallback(() => navigate('message'), [navigate]);
+
+  const handleCloseModal = useCallback(() => navigate(-1), [navigate]);
 
   const participantsTable = useMemo(() => {
     if (!started) {
@@ -108,6 +90,20 @@ export const PageStartedShift = () => {
     );
   }, [isUsersLoading, isUsersError, data, started]);
 
+  const handleChangeMessage = (message: string) => {
+    if (started) {
+      changeMessage({
+        shiftId: started.id,
+        title: started.title,
+        startedAt: started.started_at,
+        finishedAt: started.finished_at,
+        finalMessage: message,
+      })
+        .unwrap()
+        .then(() => navigate('/shifts/started', { replace: true }));
+    }
+  };
+
   return !started ? (
     <Navigate to="/shifts/all" replace />
   ) : (
@@ -119,7 +115,7 @@ export const PageStartedShift = () => {
             type="secondary"
             size="small"
             extClassName={styles.shift__messageButton}
-            onClick={() => navigate('message')}
+            onClick={openShiftMessage}
           >
             Финальное сообщение
           </Button>
@@ -157,9 +153,17 @@ export const PageStartedShift = () => {
       </ContentContainer>
       <Routes>
         <Route
+          path="settings"
+          element={
+            <Modal title="Редактировать смену" close={handleCloseModal}>
+              <ShiftSettingsForm shiftStatus="started" />
+            </Modal>
+          }
+        />
+        <Route
           path="message"
           element={
-            <Modal title="Редактировать сообщение" close={() => navigate(-1)}>
+            <Modal title="Редактировать сообщение" close={handleCloseModal}>
               <MessageForm
                 initValue={started.final_message}
                 btnText="Сохранить"
@@ -176,7 +180,7 @@ export const PageStartedShift = () => {
               titleText="Вы уверены, что хотите завершить смену?"
               cancelText="Отмена"
               acceptText="Завершить"
-              closeModal={() => navigate(-1)}
+              closeModal={handleCloseModal}
               closeShift={() => setFinishShift(started.id)}
             />
           }
