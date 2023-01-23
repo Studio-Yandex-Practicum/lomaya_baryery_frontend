@@ -1,3 +1,4 @@
+import { useCallback, useMemo } from 'react';
 import cn from 'classnames';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { Button } from '../../../ui/button';
@@ -7,14 +8,18 @@ import { Table } from '../../../ui/table-native';
 import { ShiftsRow } from '../../shifts-row';
 import { useGetAllShiftsQuery } from '../../../redux-store/api';
 import { ContentContainer } from '../../../ui/content-container';
-import { useCallback, useMemo } from 'react';
 import { Modal } from '../../../ui/modal';
 import { ShiftSettingsForm } from '../../shift-settings-form';
+import { useAppSelector } from '../../../redux-store/hooks';
+import { selectRootShifts } from '../../../redux-store/root-shifts';
+import { ModalAlert } from '../../../ui/modal-alert';
+import { getTodayDate, getUsersRequestsDeadline } from '../../../utils/common-helpers';
 import styles from './styles.module.css';
 
 export const PageShiftsAll = () => {
   const navigate = useNavigate();
   const { data } = useGetAllShiftsQuery();
+  const { preparing: preparingShift, started: startedShift } = useAppSelector(selectRootShifts);
 
   const titles = useMemo(
     () => [
@@ -28,9 +33,53 @@ export const PageShiftsAll = () => {
     []
   );
 
-  const handleCreateShift = () => void navigate('create');
+  const handleCreateShift = useCallback(() => navigate('create'), [navigate]);
 
   const handleCloseModal = useCallback(() => navigate(-1), [navigate]);
+
+  const modal = useMemo(() => {
+    if (preparingShift) {
+      return (
+        <ModalAlert onCloseModal={handleCloseModal} titleText="Новая смена уже создана">
+          <Button
+            extClassName={styles.modalAlert__button}
+            htmlType="button"
+            onClick={handleCloseModal}
+          >
+            Понятно
+          </Button>
+        </ModalAlert>
+      );
+    }
+
+    if (startedShift) {
+      const today = getTodayDate();
+      const requestDeadline = getUsersRequestsDeadline(startedShift.started_at);
+
+      if (requestDeadline && today <= requestDeadline) {
+        return (
+          <ModalAlert
+            onCloseModal={handleCloseModal}
+            titleText="Новую смену можно создать через 2 дня после старта текущей"
+          >
+            <Button
+              extClassName={styles.modalAlert__button}
+              htmlType="button"
+              onClick={handleCloseModal}
+            >
+              Понятно
+            </Button>
+          </ModalAlert>
+        );
+      }
+
+      return (
+        <Modal title="Новая смена" close={handleCloseModal}>
+          <ShiftSettingsForm shiftStatus="creating" />
+        </Modal>
+      );
+    }
+  }, [preparingShift, startedShift]);
 
   return (
     <>
@@ -57,14 +106,7 @@ export const PageShiftsAll = () => {
         />
       </ContentContainer>
       <Routes>
-        <Route
-          path="create"
-          element={
-            <Modal title="Новая смена" close={handleCloseModal}>
-              <ShiftSettingsForm shiftStatus="creating" />
-            </Modal>
-          }
-        />
+        <Route path="create" element={modal} />
       </Routes>
     </>
   );

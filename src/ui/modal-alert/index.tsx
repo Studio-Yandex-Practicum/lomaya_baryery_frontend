@@ -2,40 +2,26 @@ import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import styles from './styles.module.css';
 import { Alert } from '../alert';
-import { Button } from '../button';
 
 const modalRoot = document.getElementById('modalRoot') as HTMLElement;
 
 interface IModalAlertProps {
   titleText: string;
-  cancelText: string;
-  acceptText: string;
-  closeModal: () => void;
-  closeShift: () => void;
+  onCloseModal: () => void;
+  children: React.ReactNode;
 }
 
-export function ModalAlert({
-  titleText,
-  cancelText,
-  acceptText,
-  closeModal,
-  closeShift,
-}: IModalAlertProps) {
-  const handleFinish = () => {
-    closeShift();
-    closeModal();
-  };
-
+export function ModalAlert({ titleText, onCloseModal, children }: IModalAlertProps) {
   const clickOnOverlay = (evt: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (evt.currentTarget === evt.target) {
-      closeModal();
+      onCloseModal();
     }
   };
 
   useEffect(() => {
     const handleEscPress = (evt: KeyboardEvent) => {
       if (evt.code === 'Escape') {
-        closeModal();
+        onCloseModal();
       }
     };
 
@@ -50,26 +36,7 @@ export function ModalAlert({
     <div className={styles.overlay} onMouseDown={clickOnOverlay}>
       <div className={styles.modalAlert}>
         <Alert title={titleText} extClassName={styles.modalAlert__alert} />
-        <div className={styles.modalAlert__controls}>
-          <Button
-            htmlType="button"
-            size="small"
-            type="primary"
-            onClick={closeModal}
-            extClassName={styles.modalAlert__button}
-          >
-            {cancelText}
-          </Button>
-          <Button
-            htmlType="button"
-            size="small"
-            type="negative"
-            onClick={handleFinish}
-            extClassName={styles.modalAlert__button}
-          >
-            {acceptText}
-          </Button>
-        </div>
+        {children}
       </div>
     </div>,
     modalRoot

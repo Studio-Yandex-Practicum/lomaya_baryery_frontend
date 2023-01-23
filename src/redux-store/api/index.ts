@@ -62,7 +62,7 @@ export const api = createApi({
       query: () => `/requests?status=pending`,
     }),
     getConsideredRequests: builder.query<IRequest[], string>({
-      query: (shift_id) => `/shifts/${shift_id}/requests`,
+      query: (SHIFT_ID) => `/shifts/${SHIFT_ID}/requests`,
       transformResponse: (response: IRequest[]) => {
         const filteredResponse = response.filter((request) => request.request_status !== 'pending');
         return filteredResponse;
@@ -92,10 +92,7 @@ export const api = createApi({
         }
       },
     }),
-    declineRequest: builder.mutation<
-      IRequest,
-      { requestId: string; shiftId: string; message: string }
-    >({
+    declineRequest: builder.mutation<IRequest, { requestId: string; message: string }>({
       query: ({ requestId, message }) => ({
         url: `/requests/${requestId}/decline`,
         method: 'PATCH',
@@ -135,7 +132,6 @@ export const api = createApi({
       async onQueryStarted({ taskId, shiftId, patch }, { dispatch, queryFulfilled }) {
         try {
           const response = await queryFulfilled;
-          debugger;
           dispatch(
             api.util.updateQueryData('getTasksUnderReview', shiftId, (draft) => {
               // refactor before production
@@ -168,7 +164,6 @@ export const api = createApi({
       async onQueryStarted({ taskId, shiftId, patch }, { dispatch, queryFulfilled }) {
         try {
           const response = await queryFulfilled;
-          debugger;
           dispatch(
             api.util.updateQueryData('getTasksUnderReview', shiftId, (draft) => {
               // refactor before production

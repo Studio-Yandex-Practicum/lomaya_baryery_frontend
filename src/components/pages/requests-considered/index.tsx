@@ -10,28 +10,38 @@ import { selectRootShifts } from '../../../redux-store/root-shifts';
 import { RequestRow } from '../../request-row';
 import { Loader } from '../../../ui/loader';
 import { Alert } from '../../../ui/alert';
+import { getTodayDate, getUsersRequestsDeadline } from '../../../utils/common-helpers';
 import styles from './styles.module.css';
 
 export const PageRequestsConsidered = () => {
-  const { preparing } = useAppSelector(selectRootShifts);
+  const { preparing: preparingShift, started: startedShift } = useAppSelector(selectRootShifts);
+
+  const today = getTodayDate();
+  const usersRequestsDeadline = getUsersRequestsDeadline(startedShift?.started_at);
+
+  function getNecessaryShiftId() {
+    if (usersRequestsDeadline && startedShift) {
+      return today <= usersRequestsDeadline ? startedShift.id : preparingShift?.id;
+    }
+  }
 
   const { data, isLoading, isFetching } = useGetConsideredRequestsQuery(
-    preparing?.id ?? skipToken,
+    getNecessaryShiftId() ?? skipToken,
     {
       refetchOnMountOrArgChange: true,
     }
   );
 
   const content = useMemo(() => {
+    if (isLoading || isFetching) {
+      return <Loader extClassName={styles.requests__contentLoader} />;
+    }
+
     if (!data) {
       return null;
     }
 
-    if ((!data || data.length === 0) && (isLoading || isFetching)) {
-      return <Loader extClassName={styles.requests__contentLoader} />;
-    }
-
-    if (data?.length === 0) {
+    if (data.length === 0) {
       return (
         <Alert extClassName={styles.requests__contentAlert} title="Рассмотренных заявок нет" />
       );
@@ -61,7 +71,7 @@ export const PageRequestsConsidered = () => {
     );
   }, [data, isLoading, isFetching]);
 
-  if (!preparing) {
+  if ((usersRequestsDeadline === null || today > usersRequestsDeadline) && !preparingShift) {
     return (
       <ContentContainer extClassName={styles.requests__alert}>
         <Alert

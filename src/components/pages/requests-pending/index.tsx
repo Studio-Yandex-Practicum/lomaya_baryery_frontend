@@ -21,13 +21,14 @@ import { Modal } from '../../../ui/modal';
 import { MessageForm } from '../../message-form';
 import { deserializeQuery } from '../../../utils';
 import styles from './styles.module.css';
+import { getTodayDate, getUsersRequestsDeadline } from '../../../utils/common-helpers';
 
 const ButtonWithTooltip = withTooltip<TButtonProps>(Button);
 
 export const PageRequestsPending = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { preparing } = useAppSelector(selectRootShifts);
+  const { preparing: preparingShift, started: startedShift } = useAppSelector(selectRootShifts);
 
   const { data, isLoading, isFetching, refetch } = useGetPendingRequestsQuery(undefined, {
     refetchOnMountOrArgChange: true,
@@ -36,17 +37,21 @@ export const PageRequestsPending = () => {
   const [approveRequest] = useApproveRequestMutation();
   const [declineRequest] = useDeclineRequestMutation();
 
-  const { rqstId: decliningRqstId } = deserializeQuery<{ rqstId: string }>(location.search);
+  const { rqstId: rejectingRqstId } = deserializeQuery<{ rqstId: string }>(location.search);
+
+  const today = getTodayDate();
+  const usersRequestsDeadline = getUsersRequestsDeadline(startedShift?.started_at);
 
   const content = useMemo(() => {
-    if (!preparing || !data) {
-      return;
-    }
-
-    if ((!data || data.length === 0) && (isLoading || isFetching)) {
+    if (isLoading || isFetching) {
       return <Loader extClassName={styles.requests__contentLoader} />;
     }
-    if (data?.length === 0) {
+
+    if (!data) {
+      return null;
+    }
+
+    if (data.length === 0) {
       return <Alert extClassName={styles.requests__contentAlert} title="Новых заявок нет" />;
     }
 
@@ -76,9 +81,9 @@ export const PageRequestsPending = () => {
         }
       />
     );
-  }, [preparing, data, isLoading, isFetching, navigate, approveRequest]);
+  }, [data, isLoading, isFetching, navigate, approveRequest]);
 
-  if (!preparing) {
+  if ((usersRequestsDeadline === null || today > usersRequestsDeadline) && !preparingShift) {
     return (
       <ContentContainer extClassName={styles.requests__alert}>
         <Alert
@@ -115,7 +120,10 @@ export const PageRequestsPending = () => {
               <MessageForm
                 btnText="Отклонить"
                 onSubmit={(message) =>
-                  declineRequest({ requestId: decliningRqstId, shiftId: preparing.id, message })
+                  declineRequest({
+                    requestId: rejectingRqstId,
+                    message,
+                  })
                     .unwrap()
                     .then(() => navigate('/requests/pending', { replace: true }))
                 }

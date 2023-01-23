@@ -23,12 +23,3 @@
 .modalAlert__alert {
   margin-bottom: 30px;
 }
-
-.modalAlert__controls {
-  display: flex;
-  justify-content: space-between;
-}
-
-.modalAlert__button {
-  width: 112px;
-}

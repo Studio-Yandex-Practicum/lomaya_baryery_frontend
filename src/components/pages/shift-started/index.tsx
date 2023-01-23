@@ -104,6 +104,13 @@ export const PageStartedShift = () => {
     }
   };
 
+  const handleFinishShift = () => {
+    if (started) {
+      setFinishShift(started.id);
+      handleCloseModal();
+    }
+  };
+
   return !started ? (
     <Navigate to="/shifts/all" replace />
   ) : (
@@ -178,11 +185,29 @@ export const PageStartedShift = () => {
           element={
             <ModalAlert
               titleText="Вы уверены, что хотите завершить смену?"
-              cancelText="Отмена"
-              acceptText="Завершить"
-              closeModal={handleCloseModal}
-              closeShift={() => setFinishShift(started.id)}
-            />
+              onCloseModal={handleCloseModal}
+            >
+              <div className={styles.modalAlert__controls}>
+                <Button
+                  htmlType="button"
+                  size="small"
+                  type="primary"
+                  onClick={handleCloseModal}
+                  extClassName={styles.modalAlert__button}
+                >
+                  Отмена
+                </Button>
+                <Button
+                  htmlType="button"
+                  size="small"
+                  type="negative"
+                  onClick={handleFinishShift}
+                  extClassName={styles.modalAlert__button}
+                >
+                  Завершить
+                </Button>
+              </div>
+            </ModalAlert>
           }
         />
       </Routes>

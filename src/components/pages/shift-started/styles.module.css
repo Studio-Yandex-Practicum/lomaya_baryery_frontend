@@ -46,3 +46,12 @@
   align-items: center;
   height: calc(100vh - 472px);
 }
+
+.modalAlert__controls {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modalAlert__button {
+  width: 112px;
+}

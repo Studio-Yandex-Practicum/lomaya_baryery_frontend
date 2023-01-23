@@ -20,3 +20,8 @@
 .shifts__pagination {
   margin-top: 10px;
 }
+
+.modalAlert__button {
+  width: 100%;
+  align-self: center;
+}
