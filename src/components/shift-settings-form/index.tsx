@@ -47,10 +47,10 @@ export const ShiftSettingsForm: React.FC<IShiftSettingsFormProps> = ({
 
   const formDateLogicProps = {
     formType: shiftStatus,
-    startedStartAt: started?.started_at,
-    startedFinishAt: started?.finished_at,
-    preparingStartAt: preparing?.started_at,
-    preparingFinishAt: preparing?.finished_at,
+    startedStartAt: started.startedAt,
+    startedFinishAt: started.finishedAt,
+    preparingStartAt: preparing.startedAt,
+    preparingFinishAt: preparing.finishedAt,
   };
 
   const initStartDate = useMemo(() => getStartDate(formDateLogicProps), [started]);
@@ -61,7 +61,7 @@ export const ShiftSettingsForm: React.FC<IShiftSettingsFormProps> = ({
   const filterStartDate = useMemo(() => {
     if (shiftStatus === 'preparing') {
       if (started) {
-        return new Date(started.finished_at);
+        return new Date(started.finishedAt);
       }
       return new Date(new Date().setHours(24, 0, 0, 0));
     }
@@ -106,10 +106,10 @@ export const ShiftSettingsForm: React.FC<IShiftSettingsFormProps> = ({
       } else {
         const currentShift = shiftStatus === 'preparing' ? preparing : started;
 
-        if (currentShift) {
+        if (currentShift.id) {
           updateShift({
             shiftId: currentShift.id,
-            finalMessage: currentShift.final_message,
+            finalMessage: currentShift.finalMessage,
             ...shiftSettings,
           });
         }

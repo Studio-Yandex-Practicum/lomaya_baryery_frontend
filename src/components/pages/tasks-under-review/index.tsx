@@ -22,10 +22,10 @@ import styles from './styles.module.css';
 const ButtonWithTooltip = withTooltip<TButtonProps>(Button);
 
 export const PageTasksUnderReview = () => {
-  const { started } = useAppSelector(selectRootShifts);
+  const { id: startedID } = useAppSelector(selectRootShifts).started;
 
   const { data, isLoading, isFetching, refetch } = useGetTasksUnderReviewQuery(
-    started?.id ?? skipToken,
+    startedID ?? skipToken,
     {
       refetchOnMountOrArgChange: true,
     }
@@ -35,7 +35,7 @@ export const PageTasksUnderReview = () => {
   const [declineRequest] = useDeclineTaskMutation();
 
   const content = useMemo(() => {
-    if (!started || !data) {
+    if (!startedID || !data) {
       return;
     }
 
@@ -65,14 +65,14 @@ export const PageTasksUnderReview = () => {
                   approve={() =>
                     approveRequest({
                       taskId: task.report_id,
-                      shiftId: started.id,
+                      shiftId: startedID,
                       patch: { task_status: 'approved' },
                     })
                   }
                   decline={() =>
                     declineRequest({
                       taskId: task.report_id,
-                      shiftId: started.id,
+                      shiftId: startedID,
                       patch: { task_status: 'declined' },
                     })
                   }
@@ -83,9 +83,9 @@ export const PageTasksUnderReview = () => {
         }
       />
     );
-  }, [data, isLoading, isFetching, started, approveRequest, declineRequest]);
+  }, [data, isLoading, isFetching, startedID, approveRequest, declineRequest]);
 
-  if (!started) {
+  if (!startedID) {
     return (
       <ContentContainer extClassName={styles.tasksReview__alert}>
         <Alert

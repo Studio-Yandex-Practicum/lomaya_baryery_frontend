@@ -18,18 +18,29 @@ import styles from './styles.module.css';
 
 export const PagePreparingShift = () => {
   const navigate = useNavigate();
-  const { preparing } = useAppSelector(selectRootShifts);
 
-  const { data, isLoading, isError } = useGetShiftUsersQuery(preparing?.id ?? skipToken);
+  const {
+    id: preperingID,
+    title,
+    startedAt,
+    finishedAt,
+    totalUsers,
+  } = useAppSelector(selectRootShifts).preparing;
+
+  const {
+    data,
+    isLoading: isUsersLoading,
+    isError: isUsersError,
+  } = useGetShiftUsersQuery(preperingID ?? skipToken);
 
   const openShiftSettings = useCallback(() => navigate('settings'), [navigate]);
 
   const participantsTable = useMemo(() => {
-    if (isLoading) {
+    if (isUsersLoading) {
       return <Loader extClassName={styles.shift__loader} />;
     }
 
-    if (isError || !data) {
+    if (isUsersError || !data) {
       return <Alert extClassName={styles.participants__alert} title={'Что-то пошло не\u00A0так'} />;
     }
 
@@ -56,46 +67,48 @@ export const PagePreparingShift = () => {
         )}
       />
     );
-  }, [isLoading, isError, data]);
+  }, [isUsersLoading, isUsersError, data]);
 
   const handleCloseModal = useCallback(() => navigate(-1), [navigate]);
 
-  return !preparing ? (
-    <Navigate to="/shifts/all" replace />
-  ) : (
-    <>
-      <ContentContainer extClassName={styles.shift__headingContainer}>
-        <ContentHeading title="Новая смена" extClassName={styles.shift__heading} />
-        <Table
-          extClassName={styles.shift__headingTable}
-          header={['Название смены', 'Дата старта/окончания', 'Кол-во участников']}
-          gridClassName={styles.shift__headingTableColumns}
-          renderRows={(rowStyles) => (
-            <ShiftSettingsRow
-              extClassName={rowStyles}
-              title={preparing.title}
-              start={preparing.started_at}
-              finish={preparing.finished_at}
-              onButtonClick={openShiftSettings}
-              participants={preparing.total_users}
-            />
-          )}
-        />
-      </ContentContainer>
-      <ContentContainer extClassName={styles.shift__participantsContainer}>
-        <h2 className={cn(styles.participants, 'text')}>Участники</h2>
-        {participantsTable}
-      </ContentContainer>
-      <Routes>
-        <Route
-          path="settings"
-          element={
-            <Modal title="Редактировать смену" close={handleCloseModal}>
-              <ShiftSettingsForm shiftStatus="preparing" />
-            </Modal>
-          }
-        />
-      </Routes>
-    </>
-  );
+  if (preperingID) {
+    return (
+      <>
+        <ContentContainer extClassName={styles.shift__headingContainer}>
+          <ContentHeading title="Новая смена" extClassName={styles.shift__heading} />
+          <Table
+            extClassName={styles.shift__headingTable}
+            header={['Название смены', 'Дата старта/окончания', 'Кол-во участников']}
+            gridClassName={styles.shift__headingTableColumns}
+            renderRows={(rowStyles) => (
+              <ShiftSettingsRow
+                extClassName={rowStyles}
+                title={title}
+                start={startedAt}
+                finish={finishedAt}
+                onButtonClick={openShiftSettings}
+                participants={totalUsers}
+              />
+            )}
+          />
+        </ContentContainer>
+        <ContentContainer extClassName={styles.shift__participantsContainer}>
+          <h2 className={cn(styles.participants, 'text')}>Участники</h2>
+          {participantsTable}
+        </ContentContainer>
+        <Routes>
+          <Route
+            path="settings"
+            element={
+              <Modal title="Редактировать смену" close={handleCloseModal}>
+                <ShiftSettingsForm shiftStatus="preparing" />
+              </Modal>
+            }
+          />
+        </Routes>
+      </>
+    );
+  } else {
+    return <Navigate to="/shifts/all" replace />;
+  }
 };

@@ -25,13 +25,20 @@ import styles from './styles.module.css';
 
 export const PageStartedShift = () => {
   const navigate = useNavigate();
-  const { started } = useAppSelector(selectRootShifts);
+  const {
+    id: startedShiftID,
+    title,
+    startedAt,
+    finishedAt,
+    totalUsers,
+    finalMessage,
+  } = useAppSelector(selectRootShifts).started;
 
   const {
     data,
     isLoading: isUsersLoading,
     isError: isUsersError,
-  } = useGetShiftUsersQuery(started?.id ?? skipToken);
+  } = useGetShiftUsersQuery(startedShiftID ?? skipToken);
 
   const [changeMessage, { isLoading: isLoadingChangeMessage }] = useUpdateShiftSettingsMutation();
 
@@ -46,10 +53,6 @@ export const PageStartedShift = () => {
   const handleCloseModal = useCallback(() => navigate(-1), [navigate]);
 
   const participantsTable = useMemo(() => {
-    if (!started) {
-      return <Navigate to="/shifts/all" replace />;
-    }
-
     if (isUsersLoading) {
       return <Loader extClassName={styles.shift__loader} />;
     }
@@ -80,23 +83,23 @@ export const PageStartedShift = () => {
                 cellsClassName={rowStyles}
                 userData={member.user}
                 tasksData={member.reports}
-                shiftStart={started.started_at}
-                shiftFinish={started.finished_at}
+                shiftStart={startedAt}
+                shiftFinish={finishedAt}
               />
             ))}
           </>
         )}
       />
     );
-  }, [isUsersLoading, isUsersError, data, started]);
+  }, [isUsersLoading, isUsersError, data]);
 
   const handleChangeMessage = (message: string) => {
-    if (started) {
+    if (startedShiftID) {
       changeMessage({
-        shiftId: started.id,
-        title: started.title,
-        startedAt: started.started_at,
-        finishedAt: started.finished_at,
+        shiftId: startedShiftID,
+        title: title,
+        startedAt: startedAt,
+        finishedAt: finishedAt,
         finalMessage: message,
       })
         .unwrap()
@@ -105,112 +108,114 @@ export const PageStartedShift = () => {
   };
 
   const handleFinishShift = () => {
-    if (started) {
-      setFinishShift(started.id);
+    if (startedShiftID) {
+      setFinishShift(startedShiftID);
       handleCloseModal();
     }
   };
 
-  return !started ? (
-    <Navigate to="/shifts/all" replace />
-  ) : (
-    <>
-      <ContentContainer extClassName={styles.shift__headingContainer}>
-        <ContentHeading title="Текущая смена" extClassName={styles.shift__heading}>
-          <Button
-            htmlType="button"
-            type="secondary"
-            size="small"
-            extClassName={styles.shift__messageButton}
-            onClick={openShiftMessage}
-          >
-            Финальное сообщение
-          </Button>
-          <Button
-            htmlType="button"
-            type="negative"
-            size="small"
-            extClassName={styles.shift__finishButton}
-            onClick={finishShift}
-            loading={isSetFinishLoading}
-            disabled={isSetFinishLoading}
-          >
-            Завершить смену
-          </Button>
-        </ContentHeading>
-        <Table
-          extClassName={styles.shift__headingTable}
-          header={['Название смены', 'Дата старта/окончания', 'Кол-во участников']}
-          gridClassName={styles.shift__headingTableColumns}
-          renderRows={(rowStyles) => (
-            <ShiftSettingsRow
-              extClassName={rowStyles}
-              title={started.title}
-              start={started.started_at}
-              finish={started.finished_at}
-              onButtonClick={openShiftSettings}
-              participants={started.total_users}
-            />
-          )}
-        />
-      </ContentContainer>
-      <ContentContainer extClassName={styles.shift__participantsContainer}>
-        <h2 className={cn(styles.participants, 'text')}>Участники</h2>
-        {participantsTable}
-      </ContentContainer>
-      <Routes>
-        <Route
-          path="settings"
-          element={
-            <Modal title="Редактировать смену" close={handleCloseModal}>
-              <ShiftSettingsForm shiftStatus="started" />
-            </Modal>
-          }
-        />
-        <Route
-          path="message"
-          element={
-            <Modal title="Редактировать сообщение" close={handleCloseModal}>
-              <MessageForm
-                initValue={started.final_message}
-                btnText="Сохранить"
-                isLoading={isLoadingChangeMessage}
-                onSubmit={handleChangeMessage}
-              />
-            </Modal>
-          }
-        />
-        <Route
-          path="finish"
-          element={
-            <ModalAlert
-              titleText="Вы уверены, что хотите завершить смену?"
-              onCloseModal={handleCloseModal}
+  if (startedShiftID) {
+    return (
+      <>
+        <ContentContainer extClassName={styles.shift__headingContainer}>
+          <ContentHeading title="Текущая смена" extClassName={styles.shift__heading}>
+            <Button
+              htmlType="button"
+              type="secondary"
+              size="small"
+              extClassName={styles.shift__messageButton}
+              onClick={openShiftMessage}
             >
-              <div className={styles.modalAlert__controls}>
-                <Button
-                  htmlType="button"
-                  size="small"
-                  type="primary"
-                  onClick={handleCloseModal}
-                  extClassName={styles.modalAlert__button}
-                >
-                  Отмена
-                </Button>
-                <Button
-                  htmlType="button"
-                  size="small"
-                  type="negative"
-                  onClick={handleFinishShift}
-                  extClassName={styles.modalAlert__button}
-                >
-                  Завершить
-                </Button>
-              </div>
-            </ModalAlert>
-          }
-        />
-      </Routes>
-    </>
-  );
+              Финальное сообщение
+            </Button>
+            <Button
+              htmlType="button"
+              type="negative"
+              size="small"
+              extClassName={styles.shift__finishButton}
+              onClick={finishShift}
+              loading={isSetFinishLoading}
+              disabled={isSetFinishLoading}
+            >
+              Завершить смену
+            </Button>
+          </ContentHeading>
+          <Table
+            extClassName={styles.shift__headingTable}
+            header={['Название смены', 'Дата старта/окончания', 'Кол-во участников']}
+            gridClassName={styles.shift__headingTableColumns}
+            renderRows={(rowStyles) => (
+              <ShiftSettingsRow
+                extClassName={rowStyles}
+                title={title}
+                start={startedAt}
+                finish={finishedAt}
+                onButtonClick={openShiftSettings}
+                participants={totalUsers}
+              />
+            )}
+          />
+        </ContentContainer>
+        <ContentContainer extClassName={styles.shift__participantsContainer}>
+          <h2 className={cn(styles.participants, 'text')}>Участники</h2>
+          {participantsTable}
+        </ContentContainer>
+        <Routes>
+          <Route
+            path="settings"
+            element={
+              <Modal title="Редактировать смену" close={handleCloseModal}>
+                <ShiftSettingsForm shiftStatus="started" />
+              </Modal>
+            }
+          />
+          <Route
+            path="message"
+            element={
+              <Modal title="Редактировать сообщение" close={handleCloseModal}>
+                <MessageForm
+                  initValue={finalMessage}
+                  btnText="Сохранить"
+                  isLoading={isLoadingChangeMessage}
+                  onSubmit={handleChangeMessage}
+                />
+              </Modal>
+            }
+          />
+          <Route
+            path="finish"
+            element={
+              <ModalAlert
+                titleText="Вы уверены, что хотите завершить смену?"
+                onCloseModal={handleCloseModal}
+              >
+                <div className={styles.modalAlert__controls}>
+                  <Button
+                    htmlType="button"
+                    size="small"
+                    type="primary"
+                    onClick={handleCloseModal}
+                    extClassName={styles.modalAlert__button}
+                  >
+                    Отмена
+                  </Button>
+                  <Button
+                    htmlType="button"
+                    size="small"
+                    type="negative"
+                    onClick={handleFinishShift}
+                    extClassName={styles.modalAlert__button}
+                  >
+                    Завершить
+                  </Button>
+                </div>
+              </ModalAlert>
+            }
+          />
+        </Routes>
+      </>
+    );
+  } else {
+    return <Navigate to="/shifts/all" replace />;
+  }
 };

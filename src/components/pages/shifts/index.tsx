@@ -38,7 +38,7 @@ export const PageShiftsAll = () => {
   const handleCloseModal = useCallback(() => navigate(-1), [navigate]);
 
   const modal = useMemo(() => {
-    if (preparingShift) {
+    if (preparingShift.id) {
       return (
         <ModalAlert onCloseModal={handleCloseModal} titleText="Новая смена уже создана">
           <Button
@@ -52,9 +52,9 @@ export const PageShiftsAll = () => {
       );
     }
 
-    if (startedShift) {
+    if (startedShift.id) {
       const today = getTodayDate();
-      const requestDeadline = getUsersRequestsDeadline(startedShift.started_at);
+      const requestDeadline = getUsersRequestsDeadline(startedShift.startedAt);
 
       if (requestDeadline && today <= requestDeadline) {
         return (
