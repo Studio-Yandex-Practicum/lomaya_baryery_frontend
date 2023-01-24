@@ -73,7 +73,7 @@ export const PageShiftsAll = () => {
         <ShiftSettingsForm shiftStatus="creating" />
       </Modal>
     );
-  }, [shiftType]);
+  }, [shiftType]); // eslint-disable-line
 
   return (
     <>

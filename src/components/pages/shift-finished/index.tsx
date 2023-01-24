@@ -72,7 +72,7 @@ export const PageFinishedShift = () => {
   ) : (
     <>
       <ContentContainer extClassName={styles.shift__headingContainer}>
-        <ContentHeading title="Прошедшая смена" extClassName={styles.shift__heading} />
+        <ContentHeading title="Прошедшая" extClassName={styles.shift__heading} />
         <Table
           extClassName={styles.shift__headingTable}
           header={['Название смены', 'Дата старта/окончания', 'Кол-во участников']}

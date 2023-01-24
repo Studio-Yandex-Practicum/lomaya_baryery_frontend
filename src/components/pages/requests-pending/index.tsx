@@ -94,7 +94,7 @@ export const PageRequestsPending = () => {
   return (
     <>
       <ContentContainer extClassName={styles.requests}>
-        <ContentHeading extClassName={styles.requests__heading} title="Активные заявки">
+        <ContentHeading extClassName={styles.requests__heading} title="Активные">
           <ButtonWithTooltip
             tooltipEnabled
             tooltipText="Проверить, есть ли новые заявки"

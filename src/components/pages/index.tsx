@@ -57,6 +57,10 @@ export function AppRoutes() {
           element={<h1 className="text text_type_main-extra-large">UNDER DEVELOP</h1>}
         />
         <Route
+          path="profile"
+          element={<h1 className="text text_type_main-extra-large">UNDER DEVELOP</h1>}
+        />
+        <Route
           path="*"
           element={
             <h1 className="text text_type_main-extra-large">

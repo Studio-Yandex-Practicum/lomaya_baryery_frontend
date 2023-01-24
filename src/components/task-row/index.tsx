@@ -55,7 +55,7 @@ export const TaskRow: React.FC<ITaskRowProps> = ({ taskData, approve, decline, e
         </Button>
       </div>
     );
-  }, [taskData]);
+  }, [taskData]); // eslint-disable-line
 
   return (
     <div className={cn(styles.taskRow, extClassName, 'tableContentRow')}>

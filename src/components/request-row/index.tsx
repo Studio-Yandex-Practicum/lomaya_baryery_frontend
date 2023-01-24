@@ -45,7 +45,7 @@ export const RequestRow: React.FC<IRequestRowProps> = ({
       default:
         return null;
     }
-  }, [requestData]);
+  }, [requestData]); // eslint-disable-line
 
   return (
     <div className={cn(styles.requestRow, extClassName, 'tableContentRow')}>

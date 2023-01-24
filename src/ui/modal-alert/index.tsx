@@ -30,7 +30,7 @@ export function ModalAlert({ titleText, onCloseModal, children }: IModalAlertPro
     return () => {
       document.removeEventListener('keyup', handleEscPress);
     };
-  }, []);
+  }, []); //eslint-disable-line
 
   return createPortal(
     <div className={styles.overlay} onMouseDown={clickOnOverlay}>

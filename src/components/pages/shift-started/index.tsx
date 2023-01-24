@@ -91,15 +91,15 @@ export const PageStartedShift = () => {
         )}
       />
     );
-  }, [isUsersLoading, isUsersError, data]);
+  }, [isUsersLoading, isUsersError, data, startedAt, finishedAt]);
 
   const handleChangeMessage = (message: string) => {
     if (startedShiftID) {
       changeMessage({
         shiftId: startedShiftID,
-        title: title,
-        startedAt: startedAt,
-        finishedAt: finishedAt,
+        title,
+        startedAt,
+        finishedAt,
         finalMessage: message,
       })
         .unwrap()
@@ -118,7 +118,7 @@ export const PageStartedShift = () => {
     return (
       <>
         <ContentContainer extClassName={styles.shift__headingContainer}>
-          <ContentHeading title="Текущая смена" extClassName={styles.shift__heading}>
+          <ContentHeading title="Текущая" extClassName={styles.shift__heading}>
             <Button
               htmlType="button"
               type="secondary"
@@ -215,7 +215,7 @@ export const PageStartedShift = () => {
         </Routes>
       </>
     );
-  } else {
-    return <Navigate to="/shifts/all" replace />;
   }
+
+  return <Navigate to="/shifts/all" replace />;
 };

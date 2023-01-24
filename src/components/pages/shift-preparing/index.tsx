@@ -75,7 +75,7 @@ export const PagePreparingShift = () => {
     return (
       <>
         <ContentContainer extClassName={styles.shift__headingContainer}>
-          <ContentHeading title="Новая смена" extClassName={styles.shift__heading} />
+          <ContentHeading title="Новая" extClassName={styles.shift__heading} />
           <Table
             extClassName={styles.shift__headingTable}
             header={['Название смены', 'Дата старта/окончания', 'Кол-во участников']}
@@ -108,7 +108,7 @@ export const PagePreparingShift = () => {
         </Routes>
       </>
     );
-  } else {
-    return <Navigate to="/shifts/all" replace />;
   }
+
+  return <Navigate to="/shifts/all" replace />;
 };

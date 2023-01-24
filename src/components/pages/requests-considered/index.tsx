@@ -71,7 +71,7 @@ export const PageRequestsConsidered = () => {
 
   return (
     <ContentContainer extClassName={styles.requests}>
-      <ContentHeading extClassName={styles.requests__heading} title="Рассмотренные заявки" />
+      <ContentHeading extClassName={styles.requests__heading} title="Рассмотренные" />
       {content}
     </ContentContainer>
   );

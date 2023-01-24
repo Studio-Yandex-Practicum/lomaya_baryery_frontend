@@ -131,7 +131,7 @@ export const api = createApi({
       }),
       async onQueryStarted({ taskId, shiftId, patch }, { dispatch, queryFulfilled }) {
         try {
-          const response = await queryFulfilled;
+          const response = await queryFulfilled; // while develop
           dispatch(
             api.util.updateQueryData('getTasksUnderReview', shiftId, (draft) => {
               // refactor before production
@@ -163,7 +163,7 @@ export const api = createApi({
       }),
       async onQueryStarted({ taskId, shiftId, patch }, { dispatch, queryFulfilled }) {
         try {
-          const response = await queryFulfilled;
+          const response = await queryFulfilled; // while develop
           dispatch(
             api.util.updateQueryData('getTasksUnderReview', shiftId, (draft) => {
               // refactor before production

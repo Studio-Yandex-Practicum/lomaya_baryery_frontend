@@ -98,7 +98,7 @@ export const PageTasksUnderReview = () => {
 
   return (
     <ContentContainer extClassName={styles.tasksReview}>
-      <ContentHeading extClassName={styles.tasksReview__heading} title="Отчёты участников">
+      <ContentHeading extClassName={styles.tasksReview__heading} title="Ждут проверки">
         <ButtonWithTooltip
           tooltipEnabled
           tooltipText="Проверить, есть ли новые отчёты"
