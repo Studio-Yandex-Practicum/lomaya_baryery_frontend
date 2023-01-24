@@ -104,21 +104,21 @@ const SideBarAccordion: React.FC<ISideBarAccordion> = ({
 };
 
 export const SideBar = () => {
-  const rootShifts = useAppSelector(selectRootShifts);
+  const { started: startedShift, preparing: preparingShift } = useAppSelector(selectRootShifts);
 
   const shiftsList = useMemo(() => {
     const list: ISideBarAccordion['list'] = [{ title: 'Все', to: '/shifts/all' }];
 
-    if (rootShifts.started) {
+    if (startedShift.id) {
       list.push({ title: 'Текущая', to: '/shifts/started' });
     }
 
-    if (rootShifts.preparing) {
+    if (preparingShift.id) {
       list.push({ title: 'Новая', to: '/shifts/preparing' });
     }
 
     return list;
-  }, [rootShifts]);
+  }, [startedShift.id, preparingShift.id]);
 
   const { pathname } = useLocation();
 

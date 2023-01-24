@@ -13,7 +13,7 @@ import { Alert } from '../../../ui/alert';
 import styles from './styles.module.css';
 
 export const PageRequestsConsidered = () => {
-  const { id: shiftID, inform } = useAppSelector(selectShiftForRequests);
+  const { id: shiftID } = useAppSelector(selectShiftForRequests);
 
   const { data, isLoading, isFetching } = useGetConsideredRequestsQuery(shiftID ?? skipToken, {
     refetchOnMountOrArgChange: true,
@@ -58,17 +58,20 @@ export const PageRequestsConsidered = () => {
     );
   }, [data, isLoading, isFetching]);
 
-  if (shiftID === null && inform) {
+  if (shiftID === null) {
     return (
       <ContentContainer extClassName={styles.requests__alert}>
-        <Alert extClassName={styles.requests__tableAlert} title={inform} />
+        <Alert
+          extClassName={styles.requests__tableAlert}
+          title="Заявки не принимаются, пока нет новой смены"
+        />
       </ContentContainer>
     );
   }
 
   return (
     <ContentContainer extClassName={styles.requests}>
-      <ContentHeading extClassName={styles.requests__heading} title="Заявки на участие" />
+      <ContentHeading extClassName={styles.requests__heading} title="Рассмотренные заявки" />
       {content}
     </ContentContainer>
   );

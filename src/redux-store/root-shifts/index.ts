@@ -78,27 +78,26 @@ export const selectShiftForRequests = createDraftSafeSelector(
   ({ preparing, started }) => {
     interface IpublicAPI {
       id: null | string;
-      inform: null | string;
+      shiftType: 'preparing' | 'started' | null;
     }
 
     const publicAPI: IpublicAPI = {
       id: null,
-      inform: null,
+      shiftType: null,
     };
 
     if (preparing) {
       publicAPI.id = preparing.id;
-    } else {
-      publicAPI.inform = 'Заявки не принимаются, пока нет новой смены';
+      publicAPI.shiftType = 'preparing';
     }
 
-    if (started.startedAt) {
+    if (started.id) {
       const today = getTodayDate();
       const requestsDeadline = getUsersRequestsDeadline(started.startedAt);
 
       if (today <= requestsDeadline) {
         publicAPI.id = started.id;
-        publicAPI.inform = null;
+        publicAPI.shiftType = 'started';
       }
     }
 

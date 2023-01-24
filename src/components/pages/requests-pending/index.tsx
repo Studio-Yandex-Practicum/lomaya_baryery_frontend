@@ -28,7 +28,7 @@ export const PageRequestsPending = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { id: shiftID, inform } = useAppSelector(selectShiftForRequests);
+  const { id: shiftID } = useAppSelector(selectShiftForRequests);
 
   const { data, isLoading, isFetching, refetch } = useGetPendingRequestsQuery(undefined, {
     refetchOnMountOrArgChange: true,
@@ -80,7 +80,7 @@ export const PageRequestsPending = () => {
     );
   }, [data, isLoading, isFetching, navigate, approveRequest]);
 
-  if (shiftID === null && inform) {
+  if (shiftID === null) {
     return (
       <ContentContainer extClassName={styles.requests__alert}>
         <Alert
@@ -94,7 +94,7 @@ export const PageRequestsPending = () => {
   return (
     <>
       <ContentContainer extClassName={styles.requests}>
-        <ContentHeading extClassName={styles.requests__heading} title="Заявки на участие">
+        <ContentHeading extClassName={styles.requests__heading} title="Активные заявки">
           <ButtonWithTooltip
             tooltipEnabled
             tooltipText="Проверить, есть ли новые заявки"

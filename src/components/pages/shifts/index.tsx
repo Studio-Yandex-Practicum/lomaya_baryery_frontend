@@ -11,15 +11,14 @@ import { ContentContainer } from '../../../ui/content-container';
 import { Modal } from '../../../ui/modal';
 import { ShiftSettingsForm } from '../../shift-settings-form';
 import { useAppSelector } from '../../../redux-store/hooks';
-import { selectRootShifts } from '../../../redux-store/root-shifts';
+import { selectShiftForRequests } from '../../../redux-store/root-shifts';
 import { ModalAlert } from '../../../ui/modal-alert';
-import { getTodayDate, getUsersRequestsDeadline } from '../../../utils/common-helpers';
 import styles from './styles.module.css';
 
 export const PageShiftsAll = () => {
   const navigate = useNavigate();
   const { data } = useGetAllShiftsQuery();
-  const { preparing: preparingShift, started: startedShift } = useAppSelector(selectRootShifts);
+  const { shiftType } = useAppSelector(selectShiftForRequests);
 
   const titles = useMemo(
     () => [
@@ -38,7 +37,7 @@ export const PageShiftsAll = () => {
   const handleCloseModal = useCallback(() => navigate(-1), [navigate]);
 
   const modal = useMemo(() => {
-    if (preparingShift.id) {
+    if (shiftType === 'preparing') {
       return (
         <ModalAlert onCloseModal={handleCloseModal} titleText="Новая смена уже создана">
           <Button
@@ -52,34 +51,29 @@ export const PageShiftsAll = () => {
       );
     }
 
-    if (startedShift.id) {
-      const today = getTodayDate();
-      const requestDeadline = getUsersRequestsDeadline(startedShift.startedAt);
-
-      if (requestDeadline && today <= requestDeadline) {
-        return (
-          <ModalAlert
-            onCloseModal={handleCloseModal}
-            titleText="Новую смену можно создать через 2 дня после старта текущей"
-          >
-            <Button
-              extClassName={styles.modalAlert__button}
-              htmlType="button"
-              onClick={handleCloseModal}
-            >
-              Понятно
-            </Button>
-          </ModalAlert>
-        );
-      }
-
+    if (shiftType === 'started') {
       return (
-        <Modal title="Новая смена" close={handleCloseModal}>
-          <ShiftSettingsForm shiftStatus="creating" />
-        </Modal>
+        <ModalAlert
+          onCloseModal={handleCloseModal}
+          titleText="Новую смену можно создать через 2 дня после старта текущей"
+        >
+          <Button
+            extClassName={styles.modalAlert__button}
+            htmlType="button"
+            onClick={handleCloseModal}
+          >
+            Понятно
+          </Button>
+        </ModalAlert>
       );
     }
-  }, [preparingShift, startedShift]);
+
+    return (
+      <Modal title="Новая смена" close={handleCloseModal}>
+        <ShiftSettingsForm shiftStatus="creating" />
+      </Modal>
+    );
+  }, [shiftType]);
 
   return (
     <>
