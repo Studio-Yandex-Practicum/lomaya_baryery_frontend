@@ -10,7 +10,7 @@ import {
   useGetPendingRequestsQuery,
 } from '../../../redux-store/api';
 import { useAppSelector } from '../../../redux-store/hooks';
-import { selectRootShifts } from '../../../redux-store/root-shifts';
+import { selectShiftForRequests } from '../../../redux-store/root-shifts';
 import { RequestRow } from '../../request-row';
 import { Loader } from '../../../ui/loader';
 import { Alert } from '../../../ui/alert';
@@ -21,14 +21,14 @@ import { Modal } from '../../../ui/modal';
 import { MessageForm } from '../../message-form';
 import { deserializeQuery } from '../../../utils';
 import styles from './styles.module.css';
-import { getTodayDate, getUsersRequestsDeadline } from '../../../utils/common-helpers';
 
 const ButtonWithTooltip = withTooltip<TButtonProps>(Button);
 
 export const PageRequestsPending = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { preparing: preparingShift, started: startedShift } = useAppSelector(selectRootShifts);
+
+  const { id: shiftID, inform } = useAppSelector(selectShiftForRequests);
 
   const { data, isLoading, isFetching, refetch } = useGetPendingRequestsQuery(undefined, {
     refetchOnMountOrArgChange: true,
@@ -38,9 +38,6 @@ export const PageRequestsPending = () => {
   const [declineRequest] = useDeclineRequestMutation();
 
   const { rqstId: rejectingRqstId } = deserializeQuery<{ rqstId: string }>(location.search);
-
-  const today = getTodayDate();
-  const usersRequestsDeadline = getUsersRequestsDeadline(startedShift?.started_at);
 
   const content = useMemo(() => {
     if (isLoading || isFetching) {
@@ -83,7 +80,7 @@ export const PageRequestsPending = () => {
     );
   }, [data, isLoading, isFetching, navigate, approveRequest]);
 
-  if ((usersRequestsDeadline === null || today > usersRequestsDeadline) && !preparingShift) {
+  if (shiftID === null && inform) {
     return (
       <ContentContainer extClassName={styles.requests__alert}>
         <Alert
