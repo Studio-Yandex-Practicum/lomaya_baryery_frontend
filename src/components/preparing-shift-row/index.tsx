@@ -1,8 +1,8 @@
 import React from 'react';
 import cn from 'classnames';
 import { IUser } from '../../redux-store/api/models';
-import { CellText } from '../../ui/table-native';
-import { CellDate } from '../../ui/table-native';
+import { CellText } from '../../ui/table';
+import { CellDate } from '../../ui/table';
 import styles from './styles.module.css';
 
 interface IPreparingShiftRowProps {

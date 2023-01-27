@@ -8,7 +8,7 @@ import { Button, TButtonProps } from '../../../ui/button';
 import { ContentContainer } from '../../../ui/content-container';
 import { ContentHeading } from '../../../ui/content-heading';
 import { RefreshIcon } from '../../../ui/icons';
-import { Table } from '../../../ui/table-native';
+import { Table } from '../../../ui/table';
 import { withTooltip } from '../../../ui/tooltip';
 import { Loader } from '../../../ui/loader';
 import {
@@ -22,10 +22,10 @@ import styles from './styles.module.css';
 const ButtonWithTooltip = withTooltip<TButtonProps>(Button);
 
 export const PageTasksUnderReview = () => {
-  const { id: startedID } = useAppSelector(selectRootShifts).started;
+  const { started: startedShift } = useAppSelector(selectRootShifts);
 
   const { data, isLoading, isFetching, refetch } = useGetTasksUnderReviewQuery(
-    startedID ?? skipToken,
+    startedShift?.id ?? skipToken,
     {
       refetchOnMountOrArgChange: true,
     }
@@ -35,7 +35,7 @@ export const PageTasksUnderReview = () => {
   const [declineRequest] = useDeclineTaskMutation();
 
   const content = useMemo(() => {
-    if (!startedID || !data) {
+    if (startedShift === null || !data) {
       return;
     }
 
@@ -65,14 +65,14 @@ export const PageTasksUnderReview = () => {
                   approve={() =>
                     approveRequest({
                       taskId: task.report_id,
-                      shiftId: startedID,
+                      shiftId: startedShift.id,
                       patch: { task_status: 'approved' },
                     })
                   }
                   decline={() =>
                     declineRequest({
                       taskId: task.report_id,
-                      shiftId: startedID,
+                      shiftId: startedShift.id,
                       patch: { task_status: 'declined' },
                     })
                   }
@@ -83,9 +83,9 @@ export const PageTasksUnderReview = () => {
         }
       />
     );
-  }, [data, isLoading, isFetching, startedID, approveRequest, declineRequest]);
+  }, [data, isLoading, isFetching, startedShift, approveRequest, declineRequest]);
 
-  if (!startedID) {
+  if (startedShift === null) {
     return (
       <ContentContainer extClassName={styles.tasksReview__alert}>
         <Alert

@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { ContentContainer } from '../../../ui/content-container';
 import { ContentHeading } from '../../../ui/content-heading';
-import { Table } from '../../../ui/table-native';
+import { Table } from '../../../ui/table';
 import {
   useApproveRequestMutation,
   useDeclineRequestMutation,

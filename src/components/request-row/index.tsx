@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import cn from 'classnames';
-import { CellDate, CellText } from '../../ui/table-native';
+import { CellDate, CellText } from '../../ui/table';
 import { IRequest } from '../../redux-store/api/models';
 import { Button } from '../../ui/button';
 import { StatusLabel } from '../../ui/status-label';

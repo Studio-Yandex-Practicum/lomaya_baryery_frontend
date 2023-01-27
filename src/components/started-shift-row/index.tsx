@@ -1,9 +1,9 @@
 import React, { useMemo, useState } from 'react';
 import cn from 'classnames';
-import { CellDate } from '../../ui/table-native/cell-date';
+import { CellDate } from '../../ui/table/cell-date';
 import styles from './styles.module.css';
 import { IUser, IUserTask } from '../../redux-store/api/models';
-import { CellTasksStat, CellText } from '../../ui/table-native';
+import { CellTasksStat, CellText } from '../../ui/table';
 import { TasksCalendar } from '../../ui/tasks-calendar';
 import { ChevronRightIcon } from '../../ui/icons';
 
