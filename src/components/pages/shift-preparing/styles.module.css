@@ -10,13 +10,9 @@
   min-height: 58px;
 }
 
-.shift__headingTable {
+.shiftTable {
   margin-top: 20px;
   margin-bottom: 10px;
-}
-
-.shift__headingTableColumns {
-  grid-template-columns: 2fr 2fr 1.2fr;
 }
 
 .participants {

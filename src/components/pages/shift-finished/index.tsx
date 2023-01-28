@@ -8,7 +8,7 @@ import { Loader } from '../../../ui/loader';
 import { Table } from '../../../ui/table';
 import { ContentContainer } from '../../../ui/content-container';
 import { ContentHeading } from '../../../ui/content-heading';
-import { ShiftSettingsRow } from '../../shift-settings-row';
+import { ShiftDetailsTable } from '../../shift-details-table';
 import { FinishedShiftRow } from '../../finished-shift-row';
 import styles from './styles.module.css';
 
@@ -77,19 +77,12 @@ export const PageFinishedShift = () => {
     <>
       <ContentContainer extClassName={styles.shift__headingContainer}>
         <ContentHeading title="Прошедшая" extClassName={styles.shift__heading} />
-        <Table
-          extClassName={styles.shift__headingTable}
-          header={['Название смены', 'Дата старта/окончания', 'Кол-во участников']}
-          gridClassName={styles.shift__headingTableColumns}
-          renderRows={(rowStyles) => (
-            <ShiftSettingsRow
-              extClassName={rowStyles}
-              title={finishedShift.title}
-              start={finishedShift.started_at}
-              finish={finishedShift.finished_at}
-              participants={finishedShift.total_users}
-            />
-          )}
+        <ShiftDetailsTable
+          extClassName={styles.shiftTable}
+          title={finishedShift.title}
+          start={finishedShift.started_at}
+          finish={finishedShift.finished_at}
+          participants={finishedShift.total_users}
         />
       </ContentContainer>
       <ContentContainer extClassName={styles.shift__participantsContainer}>

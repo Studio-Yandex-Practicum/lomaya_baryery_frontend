@@ -1,20 +1,20 @@
 import { useCallback, useMemo } from 'react';
 import cn from 'classnames';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
-import { skipToken } from '@reduxjs/toolkit/query/react';
-import { ContentContainer } from '../../../ui/content-container';
-import { ContentHeading } from '../../../ui/content-heading';
-import { Table } from '../../../ui/table';
-import { ShiftSettingsRow } from '../../shift-settings-row';
-import { Alert } from '../../../ui/alert';
-import { Loader } from '../../../ui/loader';
+import { useAppSelector } from '../../../redux-store/hooks';
 import { selectRootShifts } from '../../../redux-store/root-shifts';
+import { skipToken } from '@reduxjs/toolkit/query/react';
 import {
   useFinishShiftMutation,
   useGetShiftUsersQuery,
   useUpdateShiftSettingsMutation,
 } from '../../../redux-store/api';
-import { useAppSelector } from '../../../redux-store/hooks';
+import { ContentContainer } from '../../../ui/content-container';
+import { ContentHeading } from '../../../ui/content-heading';
+import { Table } from '../../../ui/table';
+import { Alert } from '../../../ui/alert';
+import { Loader } from '../../../ui/loader';
+import { ShiftDetailsTable } from '../../shift-details-table';
 import { Button } from '../../../ui/button';
 import { StartedShiftRow } from '../../started-shift-row';
 import { ModalAlert } from '../../../ui/modal-alert';
@@ -164,20 +164,13 @@ export const PageStartedShift = () => {
             Завершить смену
           </Button>
         </ContentHeading>
-        <Table
-          extClassName={styles.shift__headingTable}
-          header={['Название смены', 'Дата старта/окончания', 'Кол-во участников']}
-          gridClassName={styles.shift__headingTableColumns}
-          renderRows={(rowStyles) => (
-            <ShiftSettingsRow
-              extClassName={rowStyles}
-              title={startedShift.title}
-              start={startedShift.started_at}
-              finish={startedShift.finished_at}
-              onButtonClick={openShiftSettings}
-              participants={startedShift.total_users}
-            />
-          )}
+        <ShiftDetailsTable
+          extClassName={styles.shiftTable}
+          title={startedShift.title}
+          start={startedShift.started_at}
+          finish={startedShift.finished_at}
+          onButtonClick={openShiftSettings}
+          participants={startedShift.total_users}
         />
       </ContentContainer>
       <ContentContainer extClassName={styles.shift__participantsContainer}>

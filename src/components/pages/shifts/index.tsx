@@ -1,11 +1,8 @@
 import { useCallback, useMemo } from 'react';
-import cn from 'classnames';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { Button } from '../../../ui/button';
 import { PlusIcon } from '../../../ui/icons';
 import { ContentHeading } from '../../../ui/content-heading';
-import { Table } from '../../../ui/table';
-import { ShiftsRow } from '../../shifts-row';
 import { useCreateNewShiftMutation, useGetAllShiftsQuery } from '../../../redux-store/api';
 import { ContentContainer } from '../../../ui/content-container';
 import { Modal } from '../../../ui/modal';
@@ -13,41 +10,15 @@ import { useAppSelector } from '../../../redux-store/hooks';
 import { selectRootShifts, selectShiftForRequests } from '../../../redux-store/root-shifts';
 import { ModalAlert } from '../../../ui/modal-alert';
 import { CreateNewShiftForm, IShiftFormData } from '../../create-new-shift';
+import { ShiftsTable } from '../../shifts-table';
 import styles from './styles.module.css';
 
 export const PageShiftsAll = () => {
   const navigate = useNavigate();
-  const { data } = useGetAllShiftsQuery();
+  const { data: shifts } = useGetAllShiftsQuery();
   const [postNewShift, { isLoading: isPostShiftLoading }] = useCreateNewShiftMutation();
   const { started: startedShift } = useAppSelector(selectRootShifts);
   const { shiftType } = useAppSelector(selectShiftForRequests);
-
-  const shifts = useMemo(
-    () => (
-      <Table
-        extClassName={styles.shifts__table}
-        header={[
-          'Номер смены',
-          'Название смены',
-          'Дата старта',
-          'Дата окончания',
-          'Кол-во участников',
-          'Статус',
-        ]}
-        gridClassName={styles.shifts__tableColumns}
-        renderRows={(rowStyles) =>
-          data && (
-            <div className={cn(styles.shifts__scrollSection, 'custom-scroll')}>
-              {data.map((shift) => (
-                <ShiftsRow key={shift.id} shiftData={shift} extClassName={rowStyles} />
-              ))}
-            </div>
-          )
-        }
-      />
-    ),
-    [data]
-  );
 
   const handleCreateShift = useCallback(() => navigate('create'), [navigate]);
 
@@ -113,18 +84,18 @@ export const PageShiftsAll = () => {
         />
       </Modal>
     );
-  }, [shiftType]); // eslint-disable-line
+  }, [shiftType, isPostShiftLoading, handleCloseModal, handlePutNewShift]);
 
   return (
     <>
-      <ContentContainer extClassName={styles.shifts}>
+      <ContentContainer extClassName={styles.content}>
         <ContentHeading title="Смены">
           <Button htmlType="button" type="primary" onClick={handleCreateShift}>
             <PlusIcon type="interface-white" />
             Создать смену
           </Button>
         </ContentHeading>
-        {shifts}
+        <ShiftsTable extClassName={styles.shiftsTable} shifts={shifts} />
       </ContentContainer>
       <Routes>
         <Route path="create" element={modal} />

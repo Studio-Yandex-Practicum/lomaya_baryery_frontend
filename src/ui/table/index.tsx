@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import cn from 'classnames';
 import { CellText } from './cell-text';
-import styles from './index.module.css';
+import styles from './styles.module.css';
 
 interface ITable extends React.PropsWithChildren {
   gridClassName: string;

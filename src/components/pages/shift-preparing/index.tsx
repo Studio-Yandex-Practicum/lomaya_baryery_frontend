@@ -5,7 +5,6 @@ import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { ContentContainer } from '../../../ui/content-container';
 import { ContentHeading } from '../../../ui/content-heading';
 import { Table } from '../../../ui/table';
-import { ShiftSettingsRow } from '../../shift-settings-row';
 import { PreparingShiftRow } from '../../preparing-shift-row';
 import { Alert } from '../../../ui/alert';
 import { Loader } from '../../../ui/loader';
@@ -14,6 +13,7 @@ import { useGetShiftUsersQuery, useUpdateShiftSettingsMutation } from '../../../
 import { useAppSelector } from '../../../redux-store/hooks';
 import { Modal } from '../../../ui/modal';
 import { EditPreparingShiftForm, IShiftFormData } from '../../edit-preparing-shift';
+import { ShiftDetailsTable } from '../../shift-details-table';
 import styles from './styles.module.css';
 
 export const PagePreparingShift = () => {
@@ -97,20 +97,14 @@ export const PagePreparingShift = () => {
     <>
       <ContentContainer extClassName={styles.shift__headingContainer}>
         <ContentHeading title="Новая" extClassName={styles.shift__heading} />
-        <Table
-          extClassName={styles.shift__headingTable}
-          header={['Название смены', 'Дата старта/окончания', 'Кол-во участников']}
-          gridClassName={styles.shift__headingTableColumns}
-          renderRows={(rowStyles) => (
-            <ShiftSettingsRow
-              extClassName={rowStyles}
-              title={preparingShift.title}
-              start={preparingShift.started_at}
-              finish={preparingShift.finished_at}
-              onButtonClick={openShiftSettings}
-              participants={preparingShift.total_users}
-            />
-          )}
+
+        <ShiftDetailsTable
+          extClassName={styles.shiftTable}
+          title={preparingShift.title}
+          start={preparingShift.started_at}
+          finish={preparingShift.finished_at}
+          onButtonClick={openShiftSettings}
+          participants={preparingShift.total_users}
         />
       </ContentContainer>
       <ContentContainer extClassName={styles.shift__participantsContainer}>
