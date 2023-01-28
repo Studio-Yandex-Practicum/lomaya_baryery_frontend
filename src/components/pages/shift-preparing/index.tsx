@@ -12,7 +12,7 @@ import { selectRootShifts } from '../../../redux-store/root-shifts';
 import { useGetShiftUsersQuery, useUpdateShiftSettingsMutation } from '../../../redux-store/api';
 import { useAppSelector } from '../../../redux-store/hooks';
 import { Modal } from '../../../ui/modal';
-import { EditPreparingShiftForm, IShiftFormData } from '../../edit-preparing-shift';
+import { EditPreparingShiftForm, IShiftFormData } from '../../shift-settings-form';
 import { ShiftDetailsTable } from '../../shift-details-table';
 import styles from './styles.module.css';
 

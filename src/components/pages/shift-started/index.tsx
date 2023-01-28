@@ -1,9 +1,9 @@
 import { useCallback, useMemo } from 'react';
 import cn from 'classnames';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import { skipToken } from '@reduxjs/toolkit/query/react';
 import { useAppSelector } from '../../../redux-store/hooks';
 import { selectRootShifts } from '../../../redux-store/root-shifts';
-import { skipToken } from '@reduxjs/toolkit/query/react';
 import {
   useFinishShiftMutation,
   useGetShiftUsersQuery,
@@ -20,7 +20,7 @@ import { StartedShiftRow } from '../../started-shift-row';
 import { ModalAlert } from '../../../ui/modal-alert';
 import { Modal } from '../../../ui/modal';
 import { MessageForm } from '../../message-form';
-import { EditStartedShiftForm, IShiftFormData } from '../../edit-started-shift';
+import { EditStartedShiftForm, IShiftFormData } from '../../shift-settings-form';
 import styles from './styles.module.css';
 
 export const PageStartedShift = () => {

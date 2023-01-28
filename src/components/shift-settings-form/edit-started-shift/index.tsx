@@ -1,4 +1,4 @@
-import { IShiftFormData, ShiftSettingsForm } from '../shift-settings-form';
+import { IShiftFormData, ShiftSettingsForm } from '../form';
 import { useShiftForm } from './lib';
 
 interface IEditStartedShiftFormProps {

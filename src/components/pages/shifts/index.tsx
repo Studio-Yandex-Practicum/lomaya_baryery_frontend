@@ -9,7 +9,7 @@ import { Modal } from '../../../ui/modal';
 import { useAppSelector } from '../../../redux-store/hooks';
 import { selectRootShifts, selectShiftForRequests } from '../../../redux-store/root-shifts';
 import { ModalAlert } from '../../../ui/modal-alert';
-import { CreateNewShiftForm, IShiftFormData } from '../../create-new-shift';
+import { CreateNewShiftForm, IShiftFormData } from '../../shift-settings-form';
 import { ShiftsTable } from '../../shifts-table';
 import styles from './styles.module.css';
 
@@ -84,7 +84,13 @@ export const PageShiftsAll = () => {
         />
       </Modal>
     );
-  }, [shiftType, isPostShiftLoading, handleCloseModal, handlePutNewShift]);
+  }, [
+    shiftType,
+    isPostShiftLoading,
+    handleCloseModal,
+    handlePutNewShift,
+    startedShift?.finished_at,
+  ]);
 
   return (
     <>
