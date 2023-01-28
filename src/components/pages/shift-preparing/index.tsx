@@ -5,7 +5,7 @@ import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { ContentContainer } from '../../../ui/content-container';
 import { ContentHeading } from '../../../ui/content-heading';
 import { Table } from '../../../ui/table';
-import { PreparingShiftRow } from '../../preparing-shift-row';
+import { ParticipantRow } from '../../participant-row';
 import { Alert } from '../../../ui/alert';
 import { Loader } from '../../../ui/loader';
 import { selectRootShifts } from '../../../redux-store/root-shifts';
@@ -33,17 +33,19 @@ export const PagePreparingShift = () => {
 
   const participants = useMemo(() => {
     if (isUsersLoading) {
-      return <Loader extClassName={styles.shift__loader} />;
+      return <Loader extClassName={styles.participants__notice} />;
     }
 
     if (isUsersError || !data) {
-      return <Alert extClassName={styles.participants__alert} title={'Что-то пошло не\u00A0так'} />;
+      return (
+        <Alert extClassName={styles.participants__notice} title={'Что-то пошло не\u00A0так'} />
+      );
     }
 
     if (data.members.length === 0) {
       return (
         <Alert
-          extClassName={styles.participants__alert}
+          extClassName={styles.participants__notice}
           title={'Нет принятых заявок на\u00A0участие'}
         />
       );
@@ -51,13 +53,12 @@ export const PagePreparingShift = () => {
 
     return (
       <Table
-        extClassName={styles.shift__participantsTable}
-        gridClassName={styles.participants__tableColumns}
+        gridClassName={styles.participantsTable}
         header={['Имя и фамилия', 'Город', 'Телефон', 'Дата рождения']}
         renderRows={(rowStyles) => (
           <>
             {data.members.map((member) => (
-              <PreparingShiftRow key={member.id} extClassName={rowStyles} userData={member.user} />
+              <ParticipantRow key={member.id} extClassName={rowStyles} userData={member.user} />
             ))}
           </>
         )}
@@ -95,9 +96,8 @@ export const PagePreparingShift = () => {
 
   return (
     <>
-      <ContentContainer extClassName={styles.shift__headingContainer}>
-        <ContentHeading title="Новая" extClassName={styles.shift__heading} />
-
+      <ContentContainer extClassName={styles.headingContainer}>
+        <ContentHeading title="Новая" extClassName={styles.heading} />
         <ShiftDetailsTable
           extClassName={styles.shiftTable}
           title={preparingShift.title}
@@ -107,8 +107,8 @@ export const PagePreparingShift = () => {
           participants={preparingShift.total_users}
         />
       </ContentContainer>
-      <ContentContainer extClassName={styles.shift__participantsContainer}>
-        <h2 className={cn(styles.participants, 'text')}>Участники</h2>
+      <ContentContainer extClassName={styles.participantsContainer}>
+        <h2 className={cn(styles.title, 'text')}>Участники</h2>
         {participants}
       </ContentContainer>
       <Routes>

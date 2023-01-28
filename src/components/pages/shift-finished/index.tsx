@@ -9,7 +9,7 @@ import { Table } from '../../../ui/table';
 import { ContentContainer } from '../../../ui/content-container';
 import { ContentHeading } from '../../../ui/content-heading';
 import { ShiftDetailsTable } from '../../shift-details-table';
-import { FinishedShiftRow } from '../../finished-shift-row';
+import { ParticipantRowWithStat } from '../../participant-row-with-stat';
 import styles from './styles.module.css';
 
 export const PageFinishedShift = () => {
@@ -27,16 +27,18 @@ export const PageFinishedShift = () => {
 
   const participantsTable = useMemo(() => {
     if (isUsersLoading) {
-      return <Loader extClassName={styles.shift__loader} />;
+      return <Loader extClassName={styles.participants__notice} />;
     }
     if (isUsersError || !data) {
-      return <Alert extClassName={styles.participants__alert} title={'Что-то пошло не\u00A0так'} />;
+      return (
+        <Alert extClassName={styles.participants__notice} title={'Что-то пошло не\u00A0так'} />
+      );
     }
 
     if (data.members.length === 0) {
       return (
         <Alert
-          extClassName={styles.participants__alert}
+          extClassName={styles.participants__notice}
           title={'В смене не\u00A0было участников'}
         />
       );
@@ -44,13 +46,12 @@ export const PageFinishedShift = () => {
 
     return (
       <Table
-        extClassName={styles.shift__participantsTable}
-        gridClassName={styles.participants__tableColumns}
+        gridClassName={styles.participantsTable}
         header={['Имя и фамилия', 'Город', 'Дата рождения', 'Статусы заданий']}
         renderRows={(rowStyles) => (
           <>
             {data.members.map((member) => (
-              <FinishedShiftRow
+              <ParticipantRowWithStat
                 key={member.id}
                 cellsClassName={rowStyles}
                 userData={member.user}
@@ -75,8 +76,8 @@ export const PageFinishedShift = () => {
 
   return (
     <>
-      <ContentContainer extClassName={styles.shift__headingContainer}>
-        <ContentHeading title="Прошедшая" extClassName={styles.shift__heading} />
+      <ContentContainer extClassName={styles.headingContainer}>
+        <ContentHeading title="Прошедшая" extClassName={styles.heading} />
         <ShiftDetailsTable
           extClassName={styles.shiftTable}
           title={finishedShift.title}
@@ -85,8 +86,8 @@ export const PageFinishedShift = () => {
           participants={finishedShift.total_users}
         />
       </ContentContainer>
-      <ContentContainer extClassName={styles.shift__participantsContainer}>
-        <h2 className={cn(styles.participants, 'text')}>Участники</h2>
+      <ContentContainer extClassName={styles.participantsContainer}>
+        <h2 className={cn(styles.title, 'text')}>Участники</h2>
         {participantsTable}
       </ContentContainer>
     </>

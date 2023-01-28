@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import cn from 'classnames';
 import { CellText } from './cell-text';
 import styles from './styles.module.css';
@@ -7,7 +6,11 @@ interface ITable extends React.PropsWithChildren {
   gridClassName: string;
   header: string[];
   extClassName?: string;
-  renderRows: (tableRowStyles: CSSModuleClasses[string]) => JSX.Element | null | undefined;
+  /**
+   * @param commonGridClassName refer on grid column template,
+   * use ReactFragment or div for contain
+   */
+  renderRows: (commonGridClassName: CSSModuleClasses[string]) => React.ReactNode;
 }
 
 export const Table: React.FC<ITable> = ({
@@ -17,10 +20,9 @@ export const Table: React.FC<ITable> = ({
   renderRows,
   children,
 }) => {
-  const renderingRows = useCallback(
-    () => renderRows(cn(styles.table__row, gridClassName)),
-    [renderRows, gridClassName]
-  );
+  function getRows() {
+    return renderRows(cn(styles.table__row, gridClassName));
+  }
 
   return (
     <section className={cn(styles.table, extClassName)}>
@@ -29,7 +31,7 @@ export const Table: React.FC<ITable> = ({
           <CellText key={title} text={title} type="secondary" />
         ))}
       </div>
-      {renderingRows()}
+      {getRows()}
       {children}
     </section>
   );

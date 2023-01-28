@@ -23,8 +23,8 @@ const CellPreview: React.FC<ICellPreviewProps> = ({ id, img }) => (
 interface ITaskRowProps {
   extClassName?: string;
   taskData: ITask;
-  approve: () => void;
-  decline: () => void;
+  approve?: () => void;
+  decline?: () => void;
 }
 
 export const TaskRow: React.FC<ITaskRowProps> = ({ taskData, approve, decline, extClassName }) => {

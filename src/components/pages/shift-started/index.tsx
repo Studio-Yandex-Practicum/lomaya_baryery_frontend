@@ -16,7 +16,7 @@ import { Alert } from '../../../ui/alert';
 import { Loader } from '../../../ui/loader';
 import { ShiftDetailsTable } from '../../shift-details-table';
 import { Button } from '../../../ui/button';
-import { StartedShiftRow } from '../../started-shift-row';
+import { ParticipantRowWithStat } from '../../participant-row-with-stat';
 import { ModalAlert } from '../../../ui/modal-alert';
 import { Modal } from '../../../ui/modal';
 import { MessageForm } from '../../message-form';
@@ -47,17 +47,19 @@ export const PageStartedShift = () => {
 
   const participantsTable = useMemo(() => {
     if (isUsersLoading) {
-      return <Loader extClassName={styles.shift__loader} />;
+      return <Loader extClassName={styles.participants__notice} />;
     }
 
     if (isUsersError || !data) {
-      return <Alert extClassName={styles.participants__alert} title={'Что-то пошло не\u00A0так'} />;
+      return (
+        <Alert extClassName={styles.participants__notice} title={'Что-то пошло не\u00A0так'} />
+      );
     }
 
     if (data.members.length === 0) {
       return (
         <Alert
-          extClassName={styles.participants__alert}
+          extClassName={styles.participants__notice}
           title={'Нет принятых заявок на\u00A0участие'}
         />
       );
@@ -66,13 +68,12 @@ export const PageStartedShift = () => {
     if (startedShift) {
       return (
         <Table
-          extClassName={styles.shift__participantsTable}
-          gridClassName={styles.participants__tableColumns}
+          gridClassName={styles.participantsTable}
           header={['Имя и фамилия', 'Город', 'Дата рождения', 'Статусы заданий']}
           renderRows={(rowStyles) => (
             <>
               {data.members.map((member) => (
-                <StartedShiftRow
+                <ParticipantRowWithStat
                   key={member.id}
                   cellsClassName={rowStyles}
                   userData={member.user}
@@ -141,13 +142,13 @@ export const PageStartedShift = () => {
 
   return (
     <>
-      <ContentContainer extClassName={styles.shift__headingContainer}>
-        <ContentHeading title="Текущая" extClassName={styles.shift__heading}>
+      <ContentContainer extClassName={styles.headingContainer}>
+        <ContentHeading title="Текущая" extClassName={styles.heading}>
           <Button
             htmlType="button"
             type="secondary"
             size="small"
-            extClassName={styles.shift__messageButton}
+            extClassName={styles.heading__msgButton}
             onClick={openShiftMessage}
           >
             Финальное сообщение
@@ -156,7 +157,6 @@ export const PageStartedShift = () => {
             htmlType="button"
             type="negative"
             size="small"
-            extClassName={styles.shift__finishButton}
             onClick={finishShift}
             loading={isSetFinishLoading}
             disabled={isSetFinishLoading}
@@ -173,8 +173,8 @@ export const PageStartedShift = () => {
           participants={startedShift.total_users}
         />
       </ContentContainer>
-      <ContentContainer extClassName={styles.shift__participantsContainer}>
-        <h2 className={cn(styles.participants, 'text')}>Участники</h2>
+      <ContentContainer extClassName={styles.participantsContainer}>
+        <h2 className={cn(styles.title, 'text')}>Участники</h2>
         {participantsTable}
       </ContentContainer>
       <Routes>

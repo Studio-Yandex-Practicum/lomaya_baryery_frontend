@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import cn from 'classnames';
 import { CellDate } from '../../ui/table/cell-date';
 import styles from './styles.module.css';
@@ -7,7 +7,7 @@ import { CellTasksStat, CellText } from '../../ui/table';
 import { TasksCalendar } from '../../ui/tasks-calendar';
 import { ChevronRightIcon } from '../../ui/icons';
 
-interface IStartedShiftRowProps {
+interface IParticipantRowWithStatProps {
   shiftStart: string;
   shiftFinish: string;
   userData: IUser;
@@ -15,13 +15,13 @@ interface IStartedShiftRowProps {
   cellsClassName: string;
 }
 
-export const StartedShiftRow: React.FC<IStartedShiftRowProps> = ({
+export function ParticipantRowWithStat({
   userData,
   tasksData,
   shiftStart,
   shiftFinish,
   cellsClassName,
-}) => {
+}: IParticipantRowWithStatProps) {
   const [toggle, setToggle] = useState(false);
 
   const statistics = useMemo(
@@ -58,4 +58,4 @@ export const StartedShiftRow: React.FC<IStartedShiftRowProps> = ({
       ) : null}
     </div>
   );
-};
+}

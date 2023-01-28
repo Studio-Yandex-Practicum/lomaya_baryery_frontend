@@ -1,16 +1,12 @@
-.shift__alert {
-  height: 70vh;
-}
-
-.shift__headingContainer {
+.headingContainer {
   margin-bottom: 10px;
 }
 
-.shift__heading {
+.heading {
   min-height: 58px;
 }
 
-.shift__messageButton {
+.heading__msgButton {
   margin-right: 10px;
 }
 
@@ -19,24 +15,23 @@
   margin-bottom: 10px;
 }
 
-.participants {
+.title {
   font-size: 24px;
   line-height: 28px;
   font-weight: 700;
 }
 
-.shift__participantsContainer {
+.participantsContainer {
   margin-top: 10px;
   margin-bottom: 20px;
   min-height: calc(100vh - 382px);
 }
 
-.participants__tableColumns {
+.participantsTable {
   grid-template-columns: 1fr 0.8fr 0.8fr 0.8fr;
 }
 
-.shift__loader,
-.participants__alert {
+.participants__notice {
   display: flex;
   justify-content: center;
   align-items: center;
