@@ -96,6 +96,7 @@ export function ShiftSettingsForm({
           required
           minLength={3}
           maxLength={60}
+          spellCheck={false}
         />
       </div>
       <div className={styles.shiftForm__field}>
