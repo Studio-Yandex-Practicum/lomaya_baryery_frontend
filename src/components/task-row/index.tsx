@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { ITask } from '../../redux-store/api/models';
 import { StatusLabel } from '../../ui/status-label';
 import { Button } from '../../ui/button';
-import { CellDate, CellLink, CellText } from '../../ui/table-native';
+import { CellDate, CellLink, CellText } from '../../ui/table';
 import { ZoomIcon } from '../../ui/icons';
 import styles from './styles.module.css';
 

@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { ContentContainer } from '../../../ui/content-container';
 import { ContentHeading } from '../../../ui/content-heading';
-import { Table } from '../../../ui/table-native';
+import { Table } from '../../../ui/table';
 import { useGetConsideredRequestsQuery } from '../../../redux-store/api';
 import { useAppSelector } from '../../../redux-store/hooks';
 import { selectShiftForRequests } from '../../../redux-store/root-shifts';

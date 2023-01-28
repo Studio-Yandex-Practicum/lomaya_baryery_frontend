@@ -109,16 +109,16 @@ export const SideBar = () => {
   const shiftsList = useMemo(() => {
     const list: ISideBarAccordion['list'] = [{ title: 'Все', to: '/shifts/all' }];
 
-    if (startedShift.id) {
+    if (startedShift) {
       list.push({ title: 'Текущая', to: '/shifts/started' });
     }
 
-    if (preparingShift.id) {
+    if (preparingShift) {
       list.push({ title: 'Новая', to: '/shifts/preparing' });
     }
 
     return list;
-  }, [startedShift.id, preparingShift.id]);
+  }, [startedShift, preparingShift]);
 
   const { pathname } = useLocation();
 

@@ -13,8 +13,8 @@ export interface IShift {
 
 export interface ICreateShift {
   title: string;
-  startedAt: string;
-  finishedAt: string;
+  started_at: string;
+  finished_at: string;
 }
 
 export interface IUser {
@@ -42,9 +42,9 @@ export interface IShiftUsers {
   }[];
 }
 
-export type TUpdateShiftSettings = Partial<ICreateShift> & {
-  shiftId: string;
-  finalMessage: string;
+export type TUpdateShiftSettings = ICreateShift & {
+  shift_id: string;
+  final_message: string;
 };
 
 export type TRequestStatus = 'pending' | 'approved' | 'declined';

@@ -1,9 +1,9 @@
 import React from 'react';
 import cn from 'classnames';
-import styles from './styles.module.css';
-import { CellText } from '../../ui/table-native';
-import { CellDate } from '../../ui/table-native';
+import { CellText } from '../../ui/table';
+import { CellDate } from '../../ui/table';
 import { Button } from '../../ui/button';
+import styles from './styles.module.css';
 
 interface IShiftSettingsRow {
   extClassName?: string;

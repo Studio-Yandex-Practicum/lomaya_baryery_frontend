@@ -24,10 +24,10 @@ export const api = createApi({
       providesTags: ['shifts'],
     }),
     createNewShift: builder.mutation<Omit<IShift, 'total_users'>, ICreateShift>({
-      query: ({ title, startedAt, finishedAt }) => ({
+      query: (body) => ({
         url: '/shifts/',
         method: 'POST',
-        body: { title, started_at: startedAt, finished_at: finishedAt },
+        body,
       }),
       invalidatesTags: [{ type: 'shifts' }],
     }),
@@ -39,15 +39,10 @@ export const api = createApi({
       Omit<IShift, 'total_users' | 'sequence_number'>,
       TUpdateShiftSettings
     >({
-      query: ({ shiftId, ...queryData }) => ({
-        url: `/shifts/${shiftId}`,
+      query: ({ shift_id: id, ...body }) => ({
+        url: `/shifts/${id}`,
         method: 'PATCH',
-        body: {
-          title: queryData.title,
-          started_at: queryData.startedAt,
-          finished_at: queryData.finishedAt,
-          final_message: queryData.finalMessage,
-        },
+        body,
       }),
       invalidatesTags: [{ type: 'shifts' }],
     }),

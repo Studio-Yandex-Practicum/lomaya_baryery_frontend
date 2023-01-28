@@ -1,44 +1,17 @@
 import { createDraftSafeSelector, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '..';
-import { getTodayDate, getUsersRequestsDeadline } from '../../utils/common-helpers';
+import { getTodayDate, getUsersRequestsDeadline } from './lib';
 import { api } from '../api';
+import { IShift } from '../api/models';
 
 export interface IRootShiftsState {
-  started: {
-    id: string | null;
-    title: string;
-    finalMessage: string;
-    startedAt: string;
-    finishedAt: string;
-    totalUsers: number;
-  };
-  preparing: {
-    id: string | null;
-    title: string;
-    finalMessage: string;
-    startedAt: string;
-    finishedAt: string;
-    totalUsers: number;
-  };
+  started: IShift | null;
+  preparing: IShift | null;
 }
 
 const initialState: IRootShiftsState = {
-  started: {
-    id: null,
-    title: 'empty',
-    finalMessage: 'empty',
-    startedAt: '1970-01-01',
-    finishedAt: '1970-01-01',
-    totalUsers: 0,
-  },
-  preparing: {
-    id: null,
-    title: 'empty',
-    finalMessage: 'empty',
-    startedAt: '1970-01-01',
-    finishedAt: '1970-01-01',
-    totalUsers: 0,
-  },
+  started: null,
+  preparing: null,
 };
 
 const rootShiftsSlice = createSlice({
@@ -51,21 +24,15 @@ const rootShiftsSlice = createSlice({
       const startedShift = payload.find((shift) => shift.status === 'started');
 
       if (preparingShift) {
-        state.preparing.id = preparingShift.id;
-        state.preparing.title = preparingShift.title;
-        state.preparing.finalMessage = preparingShift.final_message;
-        state.preparing.startedAt = preparingShift.started_at;
-        state.preparing.finishedAt = preparingShift.finished_at;
-        state.preparing.totalUsers = preparingShift.total_users;
+        state.preparing = preparingShift;
+      } else {
+        state.preparing = null;
       }
 
       if (startedShift) {
-        state.started.id = startedShift.id;
-        state.started.title = startedShift.title;
-        state.started.finalMessage = startedShift.final_message;
-        state.started.startedAt = startedShift.started_at;
-        state.started.finishedAt = startedShift.finished_at;
-        state.started.totalUsers = startedShift.total_users;
+        state.started = startedShift;
+      } else {
+        state.started = null;
       }
     });
   },
@@ -91,9 +58,9 @@ export const selectShiftForRequests = createDraftSafeSelector(
       publicAPI.shiftType = 'preparing';
     }
 
-    if (started.id) {
+    if (started) {
       const today = getTodayDate();
-      const requestsDeadline = getUsersRequestsDeadline(started.startedAt);
+      const requestsDeadline = getUsersRequestsDeadline(started.started_at);
 
       if (today <= requestsDeadline) {
         publicAPI.id = started.id;

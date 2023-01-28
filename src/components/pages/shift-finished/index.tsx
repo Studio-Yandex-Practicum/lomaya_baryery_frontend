@@ -5,18 +5,18 @@ import cn from 'classnames';
 import { useGetAllShiftsQuery, useGetShiftUsersQuery } from '../../../redux-store/api';
 import { Alert } from '../../../ui/alert';
 import { Loader } from '../../../ui/loader';
-import { Table } from '../../../ui/table-native';
+import { Table } from '../../../ui/table';
 import { ContentContainer } from '../../../ui/content-container';
 import { ContentHeading } from '../../../ui/content-heading';
 import { ShiftSettingsRow } from '../../shift-settings-row';
-import styles from './styles.module.css';
 import { FinishedShiftRow } from '../../finished-shift-row';
+import styles from './styles.module.css';
 
 export const PageFinishedShift = () => {
   const { id } = useParams();
 
-  const { shift } = useGetAllShiftsQuery(undefined, {
-    selectFromResult: ({ data }) => ({ shift: data?.find((shift) => shift.id === id) }),
+  const { finishedShift } = useGetAllShiftsQuery(undefined, {
+    selectFromResult: ({ data }) => ({ finishedShift: data?.find((shift) => shift.id === id) }),
   });
 
   const {
@@ -65,11 +65,15 @@ export const PageFinishedShift = () => {
     );
   }, [isUsersLoading, isUsersError, data]);
 
-  return !shift ? (
-    <ContentContainer>
-      <Alert title={'Смена не\u00A0найдена'} />
-    </ContentContainer>
-  ) : (
+  if (!finishedShift) {
+    return (
+      <ContentContainer>
+        <Alert title={'Смена не\u00A0найдена'} />
+      </ContentContainer>
+    );
+  }
+
+  return (
     <>
       <ContentContainer extClassName={styles.shift__headingContainer}>
         <ContentHeading title="Прошедшая" extClassName={styles.shift__heading} />
@@ -80,10 +84,10 @@ export const PageFinishedShift = () => {
           renderRows={(rowStyles) => (
             <ShiftSettingsRow
               extClassName={rowStyles}
-              title={shift.title}
-              start={shift.started_at}
-              finish={shift.finished_at}
-              participants={shift.total_users}
+              title={finishedShift.title}
+              start={finishedShift.started_at}
+              finish={finishedShift.finished_at}
+              participants={finishedShift.total_users}
             />
           )}
         />

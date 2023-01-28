@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
 import cn from 'classnames';
-import { CellLink, CellText } from '../../ui/table-native';
+import { CellLink, CellText } from '../../ui/table';
 import { StatusLabel } from '../../ui/status-label';
 import styles from './index.module.css';
 import { IShift, TShiftStatus } from '../../redux-store/api/models';
-import { CellDate } from '../../ui/table-native/cell-date';
+import { CellDate } from '../../ui/table/cell-date';
 
 interface IShiftsRow {
   extClassName?: string;
