@@ -1,0 +1,55 @@
+.container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 36px;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.overlayEnter {
+  opacity: 0;
+}
+.overlayEnterActive {
+  opacity: 1;
+  transition: opacity 300ms ease-out;
+}
+.overlayExit {
+  opacity: 1;
+}
+.overlayExitActive {
+  opacity: 0;
+  transition: opacity 300ms ease-in;
+}
+
+.mainPopupEnter {
+  transform: scale(0.01);
+  opacity: 0;
+}
+.mainPopupEnterActive {
+  transform: scale(1);
+  opacity: 1;
+  transition: transform 200ms ease-in-out 100ms, opacity 200ms ease-in-out 100ms;
+}
+.mainPopupExit {
+  opacity: 1;
+  transform: scale(1);
+}
+.mainPopupExitActive {
+  opacity: 0;
+  transform: scale(0.01);
+  transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
+}

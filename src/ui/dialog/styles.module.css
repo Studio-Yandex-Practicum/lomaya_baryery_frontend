@@ -1,0 +1,29 @@
+.container {
+  position: relative;
+  width: 500px;
+  padding: 30px;
+  background-color: var(--colors-interface-white);
+  border-radius: var(--common-border-radius);
+  box-shadow: var(--common-element-shadow);
+  user-select: none;
+}
+
+.title {
+  margin: 0 0 30x 0;
+}
+
+.text {
+  margin: 16px 0 46px;
+}
+
+.handles {
+  display: grid;
+  justify-content: end;
+  grid-auto-flow: column;
+  grid-auto-columns: 120px;
+  grid-column-gap: 20px;
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.25);
+}
