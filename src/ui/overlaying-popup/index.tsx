@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import cn from 'classnames';
 import { CSSTransition } from 'react-transition-group';
 import { ANIMATION_POPUP_TIME } from '../const';
 import { Portal } from '../portal';
@@ -22,9 +23,15 @@ const mainPopupAnimationStyles: IAnimationStyles = {
 type TOverlayingPopupProps = React.PropsWithChildren & {
   opened: boolean;
   onClose: () => void;
+  extClassName?: string;
 };
 
-export function OverlayingPopup({ opened, children, onClose }: TOverlayingPopupProps) {
+export function OverlayingPopup({
+  opened,
+  children,
+  onClose,
+  extClassName,
+}: TOverlayingPopupProps) {
   const overlayRef = useRef(null);
   const contentRef = useRef(null);
 
@@ -46,7 +53,7 @@ export function OverlayingPopup({ opened, children, onClose }: TOverlayingPopupP
     return () => {
       document.removeEventListener('keyup', handleCloseOnEsc);
     };
-  }, []); //esling-disable-line
+  }, []); // eslint-disable-line
 
   return (
     <Portal>
@@ -59,7 +66,12 @@ export function OverlayingPopup({ opened, children, onClose }: TOverlayingPopupP
           mountOnEnter
           unmountOnExit
         >
-          <div ref={overlayRef} className={styles.overlay} onClick={onClose} role="button" />
+          <div // eslint-disable-line
+            ref={overlayRef}
+            className={cn(styles.overlay, extClassName)}
+            onClick={onClose}
+            role="button"
+          />
         </CSSTransition>
         <CSSTransition
           nodeRef={contentRef}

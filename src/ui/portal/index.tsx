@@ -12,7 +12,7 @@ export function Portal({ children }: TPortalProps) {
     return () => {
       document.body.removeChild(container);
     };
-  }, []);
+  }, []); // eslint-disable-line
 
   return createPortal(children, container);
 }

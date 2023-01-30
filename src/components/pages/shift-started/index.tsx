@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import cn from 'classnames';
-import { Navigate, Route, Routes, useNavigate, useMatch, useLocation } from 'react-router-dom';
+import { Navigate, useNavigate, useMatch } from 'react-router-dom';
 import { skipToken } from '@reduxjs/toolkit/query/react';
 import { useAppSelector } from '../../../redux-store/hooks';
 import { selectRootShifts } from '../../../redux-store/root-shifts';
@@ -17,17 +17,17 @@ import { Loader } from '../../../ui/loader';
 import { ShiftDetailsTable } from '../../shift-details-table';
 import { Button } from '../../../ui/button';
 import { ParticipantRowWithStat } from '../../participant-row-with-stat';
-import { ModalAlert } from '../../../ui/modal-alert';
-import { Modal } from '../../../ui/modal';
 import { MessageForm } from '../../message-form';
 import { EditStartedShiftForm, IShiftFormData } from '../../shift-settings-form';
-import styles from './styles.module.css';
 import { MainPopup } from '../../../ui/main-popup';
+import { Dialog } from '../../../ui/dialog';
+import styles from './styles.module.css';
 
 export const PageStartedShift = () => {
   const navigate = useNavigate();
-  const editShift = Boolean(useMatch('/shifts/started/settings'));
-  const editShiftMessage = Boolean(useMatch('/shifts/started/message'));
+  const editShiftPopup = Boolean(useMatch('/shifts/started/settings'));
+  const editShiftMessagePopup = Boolean(useMatch('/shifts/started/message'));
+  const finishShiftDialog = Boolean(useMatch('/shifts/started/finish'));
   const { started: startedShift, preparing: preparingShift } = useAppSelector(selectRootShifts);
 
   const {
@@ -181,7 +181,7 @@ export const PageStartedShift = () => {
         {participantsTable}
       </ContentContainer>
 
-      <MainPopup opened={editShift} title="Редактировать смену" onClose={handleCloseModal}>
+      <MainPopup opened={editShiftPopup} title="Редактировать смену" onClose={handleCloseModal}>
         <EditStartedShiftForm
           title={startedShift.title}
           startDate={startedShift.started_at}
@@ -194,7 +194,7 @@ export const PageStartedShift = () => {
       </MainPopup>
 
       <MainPopup
-        opened={editShiftMessage}
+        opened={editShiftMessagePopup}
         title="Редактировать сообщение"
         onClose={handleCloseModal}
       >
@@ -206,38 +206,24 @@ export const PageStartedShift = () => {
         />
       </MainPopup>
 
-      <Routes>
-        <Route
-          path="finish"
-          element={
-            <ModalAlert
-              titleText="Вы уверены, что хотите завершить смену?"
-              onCloseModal={handleCloseModal}
-            >
-              <div className={styles.modalAlert__controls}>
-                <Button
-                  htmlType="button"
-                  size="small"
-                  type="primary"
-                  onClick={handleCloseModal}
-                  extClassName={styles.modalAlert__button}
-                >
-                  Отмена
-                </Button>
-                <Button
-                  htmlType="button"
-                  size="small"
-                  type="negative"
-                  onClick={handleFinishShift}
-                  extClassName={styles.modalAlert__button}
-                >
-                  Завершить
-                </Button>
-              </div>
-            </ModalAlert>
-          }
-        />
-      </Routes>
+      <Dialog
+        opened={finishShiftDialog}
+        title="Завершение смены"
+        text={
+          'Участинки смогут отправить отчёт до\u00A0конца следующего дня, не\u00A0забудьте их\u00A0проверить. Вы уверены, что хотите завершить смену?'
+        }
+        onClose={handleCloseModal}
+        primaryButton={
+          <Button htmlType="button" size="small" type="primary" onClick={handleCloseModal}>
+            Отмена
+          </Button>
+        }
+        secondaryButton={
+          <Button htmlType="button" size="small" type="negative" onClick={handleFinishShift}>
+            Завершить
+          </Button>
+        }
+      />
     </>
   );
 };

@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import cn from 'classnames';
 import { skipToken } from '@reduxjs/toolkit/query/react';
-import { Navigate, Route, Routes, useMatch, useNavigate } from 'react-router-dom';
+import { Navigate, useMatch, useNavigate } from 'react-router-dom';
 import { ContentContainer } from '../../../ui/content-container';
 import { ContentHeading } from '../../../ui/content-heading';
 import { Table } from '../../../ui/table';
@@ -11,7 +11,6 @@ import { Loader } from '../../../ui/loader';
 import { selectRootShifts } from '../../../redux-store/root-shifts';
 import { useGetShiftUsersQuery, useUpdateShiftSettingsMutation } from '../../../redux-store/api';
 import { useAppSelector } from '../../../redux-store/hooks';
-import { Modal } from '../../../ui/modal';
 import { EditPreparingShiftForm, IShiftFormData } from '../../shift-settings-form';
 import { ShiftDetailsTable } from '../../shift-details-table';
 import styles from './styles.module.css';
@@ -125,24 +124,6 @@ export const PagePreparingShift = () => {
           onSubmit={handleEditShift}
         />
       </MainPopup>
-      {/* <Routes>
-        <Route
-          path="settings"
-          element={
-            <Modal title="Редактировать смену" close={handleCloseModal}>
-              <EditPreparingShiftForm
-                title={preparingShift.title}
-                startDate={preparingShift.started_at}
-                finishDate={preparingShift.finished_at}
-                startedFinishDate={startedShift?.finished_at}
-                disabled={isUpdateLoading}
-                loading={isUpdateLoading}
-                onSubmit={handleEditShift}
-              />
-            </Modal>
-          }
-        />
-      </Routes> */}
     </>
   );
 };

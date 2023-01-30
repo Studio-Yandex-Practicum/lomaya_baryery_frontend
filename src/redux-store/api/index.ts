@@ -32,7 +32,7 @@ export const api = createApi({
       invalidatesTags: [{ type: 'shifts' }],
     }),
     getShiftUsers: builder.query<IShiftUsers, string>({
-      query: (shiftId) => `/shifts/${shiftId}/users`,
+      query: (shiftID) => `/shifts/${shiftID}/users`,
       providesTags: [{ type: 'shifts', id: 'preparing' }],
     }),
     updateShiftSettings: builder.mutation<
@@ -47,34 +47,34 @@ export const api = createApi({
       invalidatesTags: [{ type: 'shifts' }],
     }),
     finishShift: builder.mutation<Omit<IShift, 'total_users'>, string>({
-      query: (shiftId) => ({
-        url: `/shifts/${shiftId}/finish`,
+      query: (shiftID) => ({
+        url: `/shifts/${shiftID}/finish`,
         method: 'PATCH',
       }),
       invalidatesTags: [{ type: 'shifts' }],
     }),
-    getPendingRequests: builder.query<IRequest[], undefined>({
-      query: () => `/requests?status=pending`,
+    getPendingRequests: builder.query<IRequest[], string>({
+      query: (shiftID) => `/shifts/${shiftID}/requests?status=pending`,
     }),
     getConsideredRequests: builder.query<IRequest[], string>({
-      query: (SHIFT_ID) => `/shifts/${SHIFT_ID}/requests`,
+      query: (shiftID) => `/shifts/${shiftID}/requests`,
       transformResponse: (response: IRequest[]) => {
         const filteredResponse = response.filter((request) => request.request_status !== 'pending');
         return filteredResponse;
       },
     }),
-    approveRequest: builder.mutation<IRequest, { requestId: string }>({
-      query: ({ requestId }) => ({
+    approveRequest: builder.mutation<IRequest, { requestId: string; shiftID: string }>({
+      query: ({ requestId, shiftID }) => ({
         url: `/requests/${requestId}/approve`,
         method: 'PATCH',
       }),
-      async onQueryStarted({ requestId }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ requestId, shiftID }, { dispatch, queryFulfilled }) {
         try {
           const { data: updatedRequest } = await queryFulfilled;
 
           if (updatedRequest.request_status === 'approved') {
             dispatch(
-              api.util.updateQueryData('getPendingRequests', undefined, (draft) => {
+              api.util.updateQueryData('getPendingRequests', shiftID, (draft) => {
                 const modifedRequest = draft.find((request) => request.request_id === requestId);
                 if (modifedRequest) {
                   modifedRequest.request_status = 'approved';
@@ -87,19 +87,22 @@ export const api = createApi({
         }
       },
     }),
-    declineRequest: builder.mutation<IRequest, { requestId: string; message: string }>({
-      query: ({ requestId, message }) => ({
+    declineRequest: builder.mutation<
+      IRequest,
+      { requestId: string; shiftID: string; message: string }
+    >({
+      query: ({ requestId, shiftID, message }) => ({
         url: `/requests/${requestId}/decline`,
         method: 'PATCH',
         body: { message },
       }),
-      async onQueryStarted({ requestId }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ requestId, shiftID }, { dispatch, queryFulfilled }) {
         try {
           const { data: updatedRequest } = await queryFulfilled;
 
           if (updatedRequest.request_status === 'declined') {
             dispatch(
-              api.util.updateQueryData('getPendingRequests', undefined, (draft) => {
+              api.util.updateQueryData('getPendingRequests', shiftID, (draft) => {
                 const modifedRequest = draft.find((request) => request.request_id === requestId);
                 if (modifedRequest) {
                   modifedRequest.request_status = 'declined';

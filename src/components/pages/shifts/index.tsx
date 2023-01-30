@@ -1,21 +1,21 @@
 import { useCallback, useMemo } from 'react';
-import { Route, Routes, useMatch, useNavigate } from 'react-router-dom';
+import { useMatch, useNavigate } from 'react-router-dom';
 import { Button } from '../../../ui/button';
 import { PlusIcon } from '../../../ui/icons';
 import { ContentHeading } from '../../../ui/content-heading';
 import { useCreateNewShiftMutation, useGetAllShiftsQuery } from '../../../redux-store/api';
 import { ContentContainer } from '../../../ui/content-container';
-import { Modal } from '../../../ui/modal';
 import { useAppSelector } from '../../../redux-store/hooks';
 import { selectRootShifts, selectShiftForRequests } from '../../../redux-store/root-shifts';
-import { ModalAlert } from '../../../ui/modal-alert';
 import { CreateNewShiftForm, IShiftFormData } from '../../shift-settings-form';
 import { ShiftsTable } from '../../shifts-table';
 import styles from './styles.module.css';
+import { Dialog } from '../../../ui/dialog';
+import { MainPopup } from '../../../ui/main-popup';
 
 export const PageShiftsAll = () => {
   const navigate = useNavigate();
-  const createShift = Boolean(useMatch('/shifts/create'));
+  const createShift = Boolean(useMatch('/shifts/all/create'));
   const { data: shifts } = useGetAllShiftsQuery();
   const [postNewShift, { isLoading: isPostShiftLoading }] = useCreateNewShiftMutation();
   const { started: startedShift } = useAppSelector(selectRootShifts);
@@ -44,48 +44,38 @@ export const PageShiftsAll = () => {
   );
 
   const modal = useMemo(() => {
-    if (shiftType === 'preparing') {
-      return (
-        <ModalAlert onCloseModal={handleCloseModal} titleText="Новая смена уже создана">
-          <Button
-            extClassName={styles.modalAlert__button}
-            htmlType="button"
-            onClick={handleCloseModal}
-          >
-            Понятно
-          </Button>
-        </ModalAlert>
-      );
-    }
+    const dialogText =
+      shiftType === 'preparing'
+        ? 'Смена уже создана. Вы сможете создать новую через 2 дня после старта ранее созданной.'
+        : 'В текущую смену идёт набор участников. Новую смену можно создать через 2 дня после старта.';
 
-    if (shiftType === 'started') {
+    if (shiftType) {
       return (
-        <ModalAlert
-          onCloseModal={handleCloseModal}
-          titleText="Новую смену можно создать через 2 дня после старта текущей"
-        >
-          <Button
-            extClassName={styles.modalAlert__button}
-            htmlType="button"
-            onClick={handleCloseModal}
-          >
-            Понятно
-          </Button>
-        </ModalAlert>
+        <Dialog
+          onClose={handleCloseModal}
+          opened={createShift}
+          text={dialogText}
+          primaryButton={
+            <Button size="small" htmlType="button" onClick={handleCloseModal}>
+              Понятно
+            </Button>
+          }
+        />
       );
     }
 
     return (
-      <Modal title="Новая смена" close={handleCloseModal}>
+      <MainPopup title="Новая смена" opened={createShift} onClose={handleCloseModal}>
         <CreateNewShiftForm
           startedFinishDate={startedShift?.finished_at}
           onSubmit={handlePutNewShift}
           loading={isPostShiftLoading}
           disabled={isPostShiftLoading}
         />
-      </Modal>
+      </MainPopup>
     );
   }, [
+    createShift,
     shiftType,
     isPostShiftLoading,
     handleCloseModal,
@@ -104,9 +94,7 @@ export const PageShiftsAll = () => {
         </ContentHeading>
         <ShiftsTable extClassName={styles.shiftsTable} shifts={shifts} />
       </ContentContainer>
-      <Routes>
-        <Route path="create" element={modal} />
-      </Routes>
+      {modal}
     </>
   );
 };

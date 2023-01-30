@@ -13,7 +13,7 @@ export function useMount(opened: boolean) {
         setMounted(false);
       }, ANIMATION_POPUP_TIME);
     }
-  }, [opened]);
+  }, [opened]); // eslint-disable-line
 
   return { mounted };
 }
