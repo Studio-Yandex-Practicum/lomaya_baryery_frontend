@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useMatch, useNavigate } from 'react-router-dom';
 import { Button } from '../../../ui/button';
 import { PlusIcon } from '../../../ui/icons';
 import { ContentHeading } from '../../../ui/content-heading';
@@ -15,6 +15,7 @@ import styles from './styles.module.css';
 
 export const PageShiftsAll = () => {
   const navigate = useNavigate();
+  const createShift = Boolean(useMatch('/shifts/create'));
   const { data: shifts } = useGetAllShiftsQuery();
   const [postNewShift, { isLoading: isPostShiftLoading }] = useCreateNewShiftMutation();
   const { started: startedShift } = useAppSelector(selectRootShifts);

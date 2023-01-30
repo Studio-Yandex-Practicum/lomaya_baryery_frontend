@@ -1,0 +1,1 @@
+export const ANIMATION_POPUP_TIME = 300;

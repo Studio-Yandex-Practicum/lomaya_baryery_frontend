@@ -1,0 +1,30 @@
+.container {
+  position: relative;
+  width: 600px;
+  padding: 18px 24px;
+  background-color: var(--colors-interface-white);
+  border-radius: var(--common-border-radius);
+  box-shadow: var(--common-element-shadow);
+  user-select: none;
+}
+
+.heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.heading__title {
+  padding: 0 30px 0 0;
+}
+
+.heading__closeIcon {
+  padding: 8px;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: var(--transition-hover);
+}
+
+.heading__closeIcon:hover {
+  opacity: var(--hover-opacity);
+}

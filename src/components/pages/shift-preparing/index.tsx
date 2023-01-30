@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import cn from 'classnames';
 import { skipToken } from '@reduxjs/toolkit/query/react';
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes, useMatch, useNavigate } from 'react-router-dom';
 import { ContentContainer } from '../../../ui/content-container';
 import { ContentHeading } from '../../../ui/content-heading';
 import { Table } from '../../../ui/table';
@@ -15,9 +15,11 @@ import { Modal } from '../../../ui/modal';
 import { EditPreparingShiftForm, IShiftFormData } from '../../shift-settings-form';
 import { ShiftDetailsTable } from '../../shift-details-table';
 import styles from './styles.module.css';
+import { MainPopup } from '../../../ui/main-popup';
 
 export const PagePreparingShift = () => {
   const navigate = useNavigate();
+  const editShift = Boolean(useMatch('/shifts/preparing/settings'));
 
   const { preparing: preparingShift, started: startedShift } = useAppSelector(selectRootShifts);
 
@@ -111,7 +113,19 @@ export const PagePreparingShift = () => {
         <h2 className={cn(styles.title, 'text')}>Участники</h2>
         {participants}
       </ContentContainer>
-      <Routes>
+
+      <MainPopup opened={editShift} title="Редактировать смену" onClose={handleCloseModal}>
+        <EditPreparingShiftForm
+          title={preparingShift.title}
+          startDate={preparingShift.started_at}
+          finishDate={preparingShift.finished_at}
+          startedFinishDate={startedShift?.finished_at}
+          disabled={isUpdateLoading}
+          loading={isUpdateLoading}
+          onSubmit={handleEditShift}
+        />
+      </MainPopup>
+      {/* <Routes>
         <Route
           path="settings"
           element={
@@ -128,7 +142,7 @@ export const PagePreparingShift = () => {
             </Modal>
           }
         />
-      </Routes>
+      </Routes> */}
     </>
   );
 };

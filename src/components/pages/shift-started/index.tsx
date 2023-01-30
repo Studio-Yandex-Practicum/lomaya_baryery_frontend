@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import cn from 'classnames';
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate, useMatch, useLocation } from 'react-router-dom';
 import { skipToken } from '@reduxjs/toolkit/query/react';
 import { useAppSelector } from '../../../redux-store/hooks';
 import { selectRootShifts } from '../../../redux-store/root-shifts';
@@ -22,9 +22,12 @@ import { Modal } from '../../../ui/modal';
 import { MessageForm } from '../../message-form';
 import { EditStartedShiftForm, IShiftFormData } from '../../shift-settings-form';
 import styles from './styles.module.css';
+import { MainPopup } from '../../../ui/main-popup';
 
 export const PageStartedShift = () => {
   const navigate = useNavigate();
+  const editShift = Boolean(useMatch('/shifts/started/settings'));
+  const editShiftMessage = Boolean(useMatch('/shifts/started/message'));
   const { started: startedShift, preparing: preparingShift } = useAppSelector(selectRootShifts);
 
   const {
@@ -177,36 +180,33 @@ export const PageStartedShift = () => {
         <h2 className={cn(styles.title, 'text')}>Участники</h2>
         {participantsTable}
       </ContentContainer>
+
+      <MainPopup opened={editShift} title="Редактировать смену" onClose={handleCloseModal}>
+        <EditStartedShiftForm
+          title={startedShift.title}
+          startDate={startedShift.started_at}
+          finishDate={startedShift.finished_at}
+          preparingStartDate={preparingShift?.started_at}
+          onSubmit={handleEditShift}
+          loading={isUpdateLoading}
+          disabled={isUpdateLoading}
+        />
+      </MainPopup>
+
+      <MainPopup
+        opened={editShiftMessage}
+        title="Редактировать сообщение"
+        onClose={handleCloseModal}
+      >
+        <MessageForm
+          initValue={startedShift.final_message}
+          btnText="Сохранить"
+          isLoading={isUpdateLoading}
+          onSubmit={handleChangeMessage}
+        />
+      </MainPopup>
+
       <Routes>
-        <Route
-          path="settings"
-          element={
-            <Modal title="Редактировать смену" close={handleCloseModal}>
-              <EditStartedShiftForm
-                title={startedShift.title}
-                startDate={startedShift.started_at}
-                finishDate={startedShift.finished_at}
-                preparingStartDate={preparingShift?.started_at}
-                onSubmit={handleEditShift}
-                loading={isUpdateLoading}
-                disabled={isUpdateLoading}
-              />
-            </Modal>
-          }
-        />
-        <Route
-          path="message"
-          element={
-            <Modal title="Редактировать сообщение" close={handleCloseModal}>
-              <MessageForm
-                initValue={startedShift.final_message}
-                btnText="Сохранить"
-                isLoading={isUpdateLoading}
-                onSubmit={handleChangeMessage}
-              />
-            </Modal>
-          }
-        />
         <Route
           path="finish"
           element={
