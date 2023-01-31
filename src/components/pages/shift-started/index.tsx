@@ -94,13 +94,13 @@ export const PageStartedShift = () => {
 
   const handleEditShift = useCallback(
     async (form: IShiftFormData) => {
-      if (preparingShift) {
+      if (startedShift) {
         const data = {
-          shift_id: preparingShift.id,
+          shift_id: startedShift.id,
           title: form.title,
           started_at: form.start,
           finished_at: form.finish,
-          final_message: preparingShift.final_message,
+          final_message: startedShift.final_message,
         };
 
         try {
