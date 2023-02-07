@@ -12,6 +12,6 @@ export const CellTasksStat: React.FC<ICellTasksStatProps> = ({ data, extClassNam
   <p className={cn('text text_type_main-default m-0', extClassName, styles.cellStat)}>
     {`Выполнено – ${data.approved}
         Не прошли проверку – ${data.declined}
-        Ожидают проверку – ${data.under_review}`}
+        Ожидают проверку – ${data.reviewing}`}
   </p>
 );

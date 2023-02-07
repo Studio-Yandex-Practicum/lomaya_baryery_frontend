@@ -5,7 +5,7 @@ import { Button } from '../../ui/button';
 import { CheckIcon, CloseIcon } from '../../ui/icons';
 import { getFormattedDate } from '../../utils';
 
-interface ITaskDetailsProps {
+interface IReportDetailsProps {
   taskUrl: string;
   photoUrl: string;
   createdAt: string;
@@ -16,7 +16,7 @@ interface ITaskDetailsProps {
   extClassName?: string;
 }
 
-export const TaskDetails: React.FC<ITaskDetailsProps> = ({
+export const ReportDetails: React.FC<IReportDetailsProps> = ({
   taskUrl,
   photoUrl,
   createdAt,

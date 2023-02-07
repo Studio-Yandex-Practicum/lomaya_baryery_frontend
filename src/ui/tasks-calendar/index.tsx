@@ -15,7 +15,7 @@ const StatusCell: React.FC<IStatusCellProps> = ({ status, ...props }) => {
     switch (status) {
       case 'approved':
         return <CircleCheckIcon type="success" />;
-      case 'under_review':
+      case 'reviewing':
         return <CircleWarningIcon type="pending" />;
       case 'declined':
         return <CircleStopIcon type="error" />;

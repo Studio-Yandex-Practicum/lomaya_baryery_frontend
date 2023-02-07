@@ -9,9 +9,11 @@ import { PageFinishedShift } from './shift-finished';
 import { PagePreparingShift } from './shift-preparing';
 import { PageStartedShift } from './shift-started';
 import { PageShiftsAll } from './shifts';
-import { PageTasksSlider } from './tasks-slider';
-import { PageTasksUnderReview } from './tasks-under-review';
+import { PageReportsReviewingSlider } from './reports-reviewing-slider';
+import { PageReportsReviewingList } from './reports-reviewing-list';
 import { RequireAuth } from '../../hoc';
+import { PageReportsRealized } from './reports-realized';
+import { PageReportsDeclined } from './reports-declined';
 
 export function AppRoutes() {
   return (
@@ -38,24 +40,11 @@ export function AppRoutes() {
           path="users"
           element={<h1 className="text text_type_main-extra-large">UNDER DESIGN</h1>}
         />
-        <Route path="tasks/under_review" element={<PageTasksUnderReview />} />
-        <Route path="tasks/under_review/:id" element={<PageTasksSlider />} />
-        <Route
-          path="tasks/reviewed"
-          element={<h1 className="text text_type_main-extra-large">UNDER DEVELOP</h1>}
-        />
-        <Route
-          path="tasks/reviewed/:id"
-          element={<h1 className="text text_type_main-extra-large">UNDER DEVELOP</h1>}
-        />
-        <Route
-          path="tasks/declined"
-          element={<h1 className="text text_type_main-extra-large">UNDER DEVELOP</h1>}
-        />
-        <Route
-          path="tasks/declined/:id"
-          element={<h1 className="text text_type_main-extra-large">UNDER DEVELOP</h1>}
-        />
+        <Route path="reports/reviewing" element={<PageReportsReviewingList />} />
+        <Route path="reports/reviewing/:id" element={<PageReportsReviewingSlider />} />
+        <Route path="reports/realized/*" element={<PageReportsRealized />} />
+        <Route path="reports/declined/*" element={<PageReportsDeclined />} />
+
         <Route
           path="profile"
           element={<h1 className="text text_type_main-extra-large">UNDER DEVELOP</h1>}

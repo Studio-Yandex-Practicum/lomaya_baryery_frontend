@@ -12,27 +12,27 @@ import { Table } from '../../../ui/table';
 import { withTooltip } from '../../../ui/tooltip';
 import { Loader } from '../../../ui/loader';
 import {
-  useApproveTaskMutation,
-  useDeclineTaskMutation,
-  useGetTasksUnderReviewQuery,
+  useApproveReportMutation,
+  useDeclineReportMutation,
+  useGetReportsReviewingQuery,
 } from '../../../redux-store/api';
-import { TaskRow } from '../../task-row';
+import { ReportRow } from '../../report-row';
 import styles from './styles.module.css';
 
 const ButtonWithTooltip = withTooltip<TButtonProps>(Button);
 
-export const PageTasksUnderReview = () => {
+export function PageReportsReviewingList() {
   const { started: startedShift } = useAppSelector(selectRootShifts);
 
-  const { data, isLoading, isFetching, refetch } = useGetTasksUnderReviewQuery(
+  const { data, isLoading, isFetching, refetch } = useGetReportsReviewingQuery(
     startedShift?.id ?? skipToken,
     {
       refetchOnMountOrArgChange: true,
     }
   );
 
-  const [approveRequest] = useApproveTaskMutation();
-  const [declineRequest] = useDeclineTaskMutation();
+  const [approveRequest] = useApproveReportMutation();
+  const [declineRequest] = useDeclineReportMutation();
 
   const content = useMemo(() => {
     if (startedShift === null || !data) {
@@ -49,7 +49,7 @@ export const PageTasksUnderReview = () => {
 
     return (
       <Table
-        header={['Название задания', 'Имя и фамилия', 'Дата и время отправки', 'Превью', '']}
+        header={['Название задания', 'Имя и фамилия', 'Дата отправки', 'Превью', '']}
         extClassName={styles.tasksReview__table}
         gridClassName={styles.tasksReview__tableColumns}
         renderRows={(rowStyles) =>
@@ -57,21 +57,21 @@ export const PageTasksUnderReview = () => {
             <Loader extClassName={styles.tasksReview__tableLoader} />
           ) : (
             <div className={cn(styles.tasksReview__tableRows, 'custom-scroll')}>
-              {data.map((task) => (
-                <TaskRow
-                  key={task.report_id}
+              {data.map((report) => (
+                <ReportRow
+                  key={report.report_id}
                   extClassName={rowStyles}
-                  taskData={task}
+                  reportData={report}
                   approve={() =>
                     approveRequest({
-                      taskId: task.report_id,
+                      reportId: report.report_id,
                       shiftId: startedShift.id,
                       patch: { task_status: 'approved' },
                     })
                   }
                   decline={() =>
                     declineRequest({
-                      taskId: task.report_id,
+                      reportId: report.report_id,
                       shiftId: startedShift.id,
                       patch: { task_status: 'declined' },
                     })
@@ -114,4 +114,4 @@ export const PageTasksUnderReview = () => {
       {content}
     </ContentContainer>
   );
-};
+}

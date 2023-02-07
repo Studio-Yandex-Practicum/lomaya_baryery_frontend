@@ -4,7 +4,7 @@ import {
   IRequest,
   IShift,
   IShiftUsers,
-  ITask,
+  IReport,
   IUserTask,
   TShiftStatus,
   TUpdateShiftSettings,
@@ -68,6 +68,7 @@ export const api = createApi({
         url: `/requests/${requestId}/approve`,
         method: 'PATCH',
       }),
+      invalidatesTags: [{ type: 'shifts' }],
       async onQueryStarted({ requestId, shiftID }, { dispatch, queryFulfilled }) {
         try {
           const { data: updatedRequest } = await queryFulfilled;
@@ -115,28 +116,28 @@ export const api = createApi({
         }
       },
     }),
-    getTasksUnderReview: builder.query<ITask[], string>({
+    getReportsReviewing: builder.query<IReport[], string>({
       query: (shiftId) => `/reports/?shift_id=${shiftId}&status=reviewing`,
     }),
-    approveTask: builder.mutation<
-      ITask,
-      { taskId: string; shiftId: string; patch: { task_status: IUserTask['status'] } }
+    approveReport: builder.mutation<
+      IReport,
+      { reportId: string; shiftId: string; patch: { task_status: IUserTask['status'] } }
     >({
-      query: ({ taskId, patch, ...rest }) => ({
-        url: `/reports/${taskId}/approve`,
+      query: ({ reportId, patch, ...rest }) => ({
+        url: `/reports/${reportId}/approve`,
         method: 'PATCH',
         body: patch, // delete before production
       }),
-      async onQueryStarted({ taskId, shiftId, patch }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ reportId, shiftId, patch }, { dispatch, queryFulfilled }) {
         try {
           const response = await queryFulfilled; // while develop
           dispatch(
-            api.util.updateQueryData('getTasksUnderReview', shiftId, (draft) => {
+            api.util.updateQueryData('getReportsReviewing', shiftId, (draft) => {
               // refactor before production
-              const tasks = draft.map((task) =>
-                task.report_id === taskId ? { ...task, ...patch } : task
+              const reports = draft.map((report) =>
+                report.report_id === reportId ? { ...report, ...patch } : report
               );
-              return tasks;
+              return reports;
             })
           );
         } catch (error) {
@@ -144,37 +145,48 @@ export const api = createApi({
         }
       },
     }),
-    declineTask: builder.mutation<
-      ITask,
+    declineReport: builder.mutation<
+      IReport,
       {
-        taskId: string;
+        reportId: string;
         shiftId: string;
         patch: {
           task_status: IUserTask['status'];
         };
       }
     >({
-      query: ({ taskId, patch, ...rest }) => ({
-        url: `/reports/${taskId}/decline`,
+      query: ({ reportId, patch, ...rest }) => ({
+        url: `/reports/${reportId}/decline`,
         method: 'PATCH',
         body: patch, // delete before production
       }),
-      async onQueryStarted({ taskId, shiftId, patch }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ reportId, shiftId, patch }, { dispatch, queryFulfilled }) {
         try {
           const response = await queryFulfilled; // while develop
           dispatch(
-            api.util.updateQueryData('getTasksUnderReview', shiftId, (draft) => {
+            api.util.updateQueryData('getReportsReviewing', shiftId, (draft) => {
               // refactor before production
-              const tasks = draft.map((task) =>
-                task.report_id === taskId ? { ...task, ...patch } : task
+              const reports = draft.map((report) =>
+                report.report_id === reportId ? { ...report, ...patch } : report
               );
-              return tasks;
+              return reports;
             })
           );
         } catch (error) {
           console.error(error);
         }
       },
+    }),
+    getReportsRealized: builder.query<IReport[], string>({
+      query: (shiftId) => `/reports/?shift_id=${shiftId}`,
+      transformResponse(response: IReport[]) {
+        return response.filter(
+          (report) => report.report_status === 'approved' || report.report_status === 'declined'
+        );
+      },
+    }),
+    getReportsDeclined: builder.query<IReport[], string>({
+      query: (shiftId) => `/reports/?shift_id=${shiftId}&status=declined`,
     }),
   }),
 });
@@ -189,7 +201,9 @@ export const {
   useGetConsideredRequestsQuery,
   useApproveRequestMutation,
   useDeclineRequestMutation,
-  useGetTasksUnderReviewQuery,
-  useApproveTaskMutation,
-  useDeclineTaskMutation,
+  useGetReportsReviewingQuery,
+  useApproveReportMutation,
+  useDeclineReportMutation,
+  useGetReportsRealizedQuery,
+  useGetReportsDeclinedQuery,
 } = api;

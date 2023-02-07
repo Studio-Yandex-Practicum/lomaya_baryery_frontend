@@ -144,11 +144,11 @@ export const SideBar = () => {
       <SideBarAccordion title="Участники проекта" icon="UsersIcon" to="/users" />
       <SideBarAccordion
         title="Отчёты участников"
-        expandOnMount={initRoute === 'tasks'}
+        expandOnMount={initRoute === 'reports'}
         list={[
-          { title: 'Ждут проверки', to: '/tasks/under_review' },
-          { title: 'Проверенные', to: '/tasks/reviewed' },
-          { title: 'Отклонённые', to: '/tasks/declined' },
+          { title: 'Ждут проверки', to: '/reports/reviewing' },
+          { title: 'Проверенные', to: '/reports/realized' },
+          { title: 'Отклонённые', to: '/reports/declined' },
         ]}
         icon="FileCheckIcon"
       />

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import cn from 'classnames';
 import { Link } from 'react-router-dom';
-import { ITask } from '../../redux-store/api/models';
+import { IReport } from '../../redux-store/api/models';
 import { StatusLabel } from '../../ui/status-label';
 import { Button } from '../../ui/button';
 import { CellDate, CellLink, CellText } from '../../ui/table';
@@ -20,21 +20,26 @@ const CellPreview: React.FC<ICellPreviewProps> = ({ id, img }) => (
   </Link>
 );
 
-interface ITaskRowProps {
+interface IReportRowProps {
   extClassName?: string;
-  taskData: ITask;
+  reportData: IReport;
   approve?: () => void;
   decline?: () => void;
 }
 
-export const TaskRow: React.FC<ITaskRowProps> = ({ taskData, approve, decline, extClassName }) => {
+export const ReportRow: React.FC<IReportRowProps> = ({
+  reportData,
+  approve,
+  decline,
+  extClassName,
+}) => {
   const actions = useMemo(() => {
-    if (taskData.task_status) {
-      if (taskData.task_status === 'approved') {
+    if (reportData.report_status) {
+      if (reportData.report_status === 'approved') {
         return <StatusLabel icon="CircleCheckIcon" type="approved" statusText="Задание принято" />;
       }
 
-      if (taskData.task_status === 'declined') {
+      if (reportData.report_status === 'declined') {
         return <StatusLabel icon="CircleStopIcon" type="rejected" statusText="Задание отклонено" />;
       }
     }
@@ -55,14 +60,14 @@ export const TaskRow: React.FC<ITaskRowProps> = ({ taskData, approve, decline, e
         </Button>
       </div>
     );
-  }, [taskData]); // eslint-disable-line
+  }, [reportData]); // eslint-disable-line
 
   return (
     <div className={cn(styles.taskRow, extClassName, 'tableContentRow')}>
-      <CellLink routeTo={taskData.report_id} text={taskData.task_description} />
-      <CellText type="accent" text={`${taskData.user_name} ${taskData.user_surname}`} />
-      <CellDate type="withTime" date={taskData.report_created_at} />
-      <CellPreview img={taskData.photo_url} id={taskData.report_id} />
+      <CellLink routeTo={reportData.report_id} text={reportData.task_description} />
+      <CellText type="accent" text={`${reportData.user_name} ${reportData.user_surname}`} />
+      <CellDate type="default" date={reportData.report_created_at} />
+      <CellPreview img={reportData.photo_url} id={reportData.report_id} />
       {actions}
     </div>
   );

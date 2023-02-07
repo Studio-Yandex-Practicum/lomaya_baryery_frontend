@@ -3,22 +3,22 @@ import cn from 'classnames';
 import { Link, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 import {
-  useApproveTaskMutation,
-  useDeclineTaskMutation,
-  useGetTasksUnderReviewQuery,
+  useApproveReportMutation,
+  useDeclineReportMutation,
+  useGetReportsReviewingQuery,
 } from '../../../redux-store/api';
 import { useAppSelector } from '../../../redux-store/hooks';
 import { selectRootShifts } from '../../../redux-store/root-shifts';
 import { ContentContainer } from '../../../ui/content-container';
-import { TaskDetails } from '../../task-detail';
+import { ReportDetails } from '../../report-detail';
 import { ArrowLeftIcon, ArrowRightIcon, ChevronLeftIcon } from '../../../ui/icons';
 import { Button } from '../../../ui/button';
-import { selectTasks } from '../../../redux-store/tasks-slider';
+import { selectTasks } from '../../../redux-store/reports-slider';
 import { Alert } from '../../../ui/alert';
 import { Loader } from '../../../ui/loader';
 import styles from './styles.module.css';
 
-export const PageTasksSlider = () => {
+export function PageReportsReviewingSlider() {
   const { started } = useAppSelector(selectRootShifts);
   const tasks = useAppSelector(selectTasks);
   const navigate = useNavigate();
@@ -29,10 +29,10 @@ export const PageTasksSlider = () => {
 
   const currentTaskIndex = tasks.findIndex((task) => task.report_id === id);
 
-  const { isError, isLoading } = useGetTasksUnderReviewQuery(started?.id ?? skipToken);
+  const { isError, isLoading } = useGetReportsReviewingQuery(started?.id ?? skipToken);
 
-  const [approveRequest] = useApproveTaskMutation();
-  const [declineRequest] = useDeclineTaskMutation();
+  const [approveRequest] = useApproveReportMutation();
+  const [declineRequest] = useDeclineReportMutation();
 
   const handlePrevTask = () => {
     if (currentTaskIndex > 0) {
@@ -78,7 +78,7 @@ export const PageTasksSlider = () => {
     const handleApprove = async () => {
       try {
         await approveRequest({
-          taskId: tasks[currentTaskIndex].report_id,
+          reportId: tasks[currentTaskIndex].report_id,
           shiftId: tasks[currentTaskIndex].shift_id,
           patch: { task_status: 'approved' },
         }).unwrap();
@@ -92,7 +92,7 @@ export const PageTasksSlider = () => {
     const handleDecline = async () => {
       try {
         await declineRequest({
-          taskId: tasks[currentTaskIndex].report_id,
+          reportId: tasks[currentTaskIndex].report_id,
           shiftId: tasks[currentTaskIndex].shift_id,
           patch: { task_status: 'declined' },
         }).unwrap();
@@ -104,7 +104,7 @@ export const PageTasksSlider = () => {
     };
 
     return (
-      <TaskDetails
+      <ReportDetails
         extClassName={styles.slider__taskDetails}
         taskUrl={tasks[currentTaskIndex].task_url}
         photoUrl={tasks[currentTaskIndex].photo_url}
@@ -176,4 +176,4 @@ export const PageTasksSlider = () => {
       )}
     </>
   );
-};
+}

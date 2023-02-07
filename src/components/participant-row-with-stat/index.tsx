@@ -31,7 +31,7 @@ export function ParticipantRowWithStat({
           acc[curr.status] += 1;
           return acc;
         },
-        { under_review: 0, approved: 0, declined: 0 }
+        { reviewing: 0, approved: 0, declined: 0 }
       ),
     [tasksData]
   );

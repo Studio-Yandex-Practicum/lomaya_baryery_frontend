@@ -28,7 +28,7 @@ export interface IUser {
 
 export interface IUserTask {
   task_id: string;
-  status: 'under_review' | 'approved' | 'declined';
+  status: 'reviewing' | 'approved' | 'declined';
   task_date: string;
 }
 
@@ -55,10 +55,12 @@ export interface IRequest extends Omit<IUser, 'id'> {
   request_status: TRequestStatus;
 }
 
-export interface ITask {
+export interface IReport {
   shift_id: string;
   shift_status: TShiftStatus;
+  shift_started_at: string;
   report_id: string;
+  report_status: IUserTask['status'];
   report_created_at: string;
   user_name: string;
   user_surname: string;
@@ -66,5 +68,4 @@ export interface ITask {
   task_description: string;
   task_url: string;
   photo_url: string;
-  task_status?: IUserTask['status']; // not exist in backend response
 }
