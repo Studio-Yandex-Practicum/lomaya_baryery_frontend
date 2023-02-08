@@ -66,14 +66,14 @@ export function PageReportsReviewingList() {
                     approveRequest({
                       reportId: report.report_id,
                       shiftId: startedShift.id,
-                      patch: { task_status: 'approved' },
+                      patch: { report_status: 'approved' },
                     })
                   }
                   decline={() =>
                     declineRequest({
                       reportId: report.report_id,
                       shiftId: startedShift.id,
-                      patch: { task_status: 'declined' },
+                      patch: { report_status: 'declined' },
                     })
                   }
                 />

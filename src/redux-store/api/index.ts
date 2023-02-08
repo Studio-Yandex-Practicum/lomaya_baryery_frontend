@@ -121,7 +121,7 @@ export const api = createApi({
     }),
     approveReport: builder.mutation<
       IReport,
-      { reportId: string; shiftId: string; patch: { task_status: IUserTask['status'] } }
+      { reportId: string; shiftId: string; patch: { report_status: IUserTask['status'] } }
     >({
       query: ({ reportId, patch, ...rest }) => ({
         url: `/reports/${reportId}/approve`,
@@ -151,7 +151,7 @@ export const api = createApi({
         reportId: string;
         shiftId: string;
         patch: {
-          task_status: IUserTask['status'];
+          report_status: IUserTask['status'];
         };
       }
     >({

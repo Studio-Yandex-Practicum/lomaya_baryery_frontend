@@ -80,7 +80,7 @@ export function PageReportsReviewingSlider() {
         await approveRequest({
           reportId: tasks[currentTaskIndex].report_id,
           shiftId: tasks[currentTaskIndex].shift_id,
-          patch: { task_status: 'approved' },
+          patch: { report_status: 'approved' },
         }).unwrap();
 
         navigateAfterReview();
@@ -94,7 +94,7 @@ export function PageReportsReviewingSlider() {
         await declineRequest({
           reportId: tasks[currentTaskIndex].report_id,
           shiftId: tasks[currentTaskIndex].shift_id,
-          patch: { task_status: 'declined' },
+          patch: { report_status: 'declined' },
         }).unwrap();
 
         navigateAfterReview();
