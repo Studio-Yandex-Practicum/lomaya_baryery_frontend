@@ -6,7 +6,7 @@ import type { IReport } from '../api/models';
 const initialState: IReport[] = [];
 
 const reportsSliderlSlice = createSlice({
-  name: 'reportSlider',
+  name: 'reportsSlider',
   initialState,
   reducers: {},
   extraReducers: (builder) => {

@@ -13,7 +13,7 @@ const initialState: IAuthState = {
   login: null,
   name: '',
   phone: '',
-  auth: false,
+  auth: true,
 };
 
 const authSlice = createSlice({

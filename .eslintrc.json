@@ -19,6 +19,8 @@
   },
   "plugins": ["react", "@typescript-eslint", "react-hooks"],
   "rules": {
+    "class-methods-use-this": "off",
+    "no-underscore-dangle": ["error", { "enforceInClassFields": false, "allowAfterThis": true }],
     "@typescript-eslint/no-use-before-define": ["error"],
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-empty-function": "off",
@@ -68,7 +70,7 @@
     "no-param-reassign": "off",
     "no-extra-boolean-cast": "off",
     "no-console": ["error", { "allow": ["warn", "error"] }],
-    "prefer-arrow-callback": [ "error", { "allowNamedFunctions": true } ]
+    "prefer-arrow-callback": ["error", { "allowNamedFunctions": true }]
   },
   "settings": {
     "import/resolver": {

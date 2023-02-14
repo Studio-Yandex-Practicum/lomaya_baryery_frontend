@@ -9,9 +9,9 @@ import { useAppSelector } from '../../../redux-store/hooks';
 import { selectRootShifts, selectShiftForRequests } from '../../../redux-store/root-shifts';
 import { CreateNewShiftForm, IShiftFormData } from '../../shift-settings-form';
 import { ShiftsTable } from '../../shifts-table';
-import styles from './styles.module.css';
 import { Dialog } from '../../../ui/dialog';
 import { MainPopup } from '../../../ui/main-popup';
+import styles from './styles.module.css';
 
 export const PageShiftsAll = () => {
   const navigate = useNavigate();

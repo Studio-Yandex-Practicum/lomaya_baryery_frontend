@@ -64,9 +64,8 @@ export function PageReportsReviewingList() {
                   reportData={report}
                   approve={() =>
                     approveRequest({
-                      reportId: report.report_id,
+                      reviewedReportId: report.report_id,
                       shiftId: startedShift.id,
-                      patch: { report_status: 'approved' },
                     })
                   }
                   decline={() =>
