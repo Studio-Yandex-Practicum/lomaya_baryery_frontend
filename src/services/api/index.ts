@@ -14,6 +14,10 @@ import Error from './exceptions';
 
 import config from './config';
 
+import { Shifts } from './models';
+
+export type { Shifts };
+
 export default {
   createNewShift,
   finishShift,

@@ -2,6 +2,7 @@ import cn from 'classnames';
 import { useMemo } from 'react';
 import { Outlet } from 'react-router-dom';
 import { useGetAllShiftsQuery } from '../../redux-store/api';
+import { useShiftsStoreQuery } from '../../services/store';
 import { Loader } from '../../ui/loader';
 import { Header } from '../header';
 import { SideBar } from '../sidebar';
@@ -9,6 +10,8 @@ import styles from './layout.module.css';
 
 export const Layout = () => {
   const { isLoading, isError } = useGetAllShiftsQuery();
+  const shiftsStore = useShiftsStoreQuery();
+  console.log(shiftsStore.isLoading, shiftsStore.rootShifts);
 
   const content = useMemo(() => {
     if (isLoading) {

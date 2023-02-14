@@ -2,7 +2,7 @@
 export namespace Shifts {
   export type TShiftStatus = 'started' | 'finished' | 'preparing';
 
-  interface IShift {
+  export interface IShift {
     id: string;
     sequence_number: number;
     status: TShiftStatus;

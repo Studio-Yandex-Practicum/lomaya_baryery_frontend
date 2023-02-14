@@ -17,7 +17,7 @@ const reportsSliderlSlice = createSlice({
         (
           state,
           { payload } // recieved null
-        ) => state.filter((report) => report.report_id !== payload.report_id)
+        ) => {}
       )
       .addMatcher(api.endpoints.declineReport.matchFulfilled, (state, { payload }) =>
         state.filter((report) => report.report_id !== payload.report_id)

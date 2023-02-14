@@ -1,3 +1,4 @@
 import { useAuthStore } from './auth';
+import { useShiftsStoreQuery } from './shifts';
 
-export { useAuthStore };
+export { useAuthStore, useShiftsStoreQuery };

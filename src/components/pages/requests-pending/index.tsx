@@ -75,7 +75,9 @@ export const PageRequestsPending = () => {
                     key={request.request_id}
                     extClassName={rowStyles}
                     requestData={request}
-                    approve={() => approveRequest({ requestId: request.request_id, shiftID })}
+                    approve={() =>
+                      approveRequest({ requestId: request.request_id, shiftId: shiftID })
+                    }
                     decline={() =>
                       navigate({ pathname: 'decline', search: `rqstId=${request.request_id}` })
                     }
@@ -125,7 +127,7 @@ export const PageRequestsPending = () => {
           onSubmit={(message) =>
             declineRequest({
               requestId: rejectingRqstId,
-              shiftID,
+              shiftId: shiftID,
               message,
             })
               .unwrap()

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import cn from 'classnames';
-import { nanoid } from '@reduxjs/toolkit';
+import { nanoid } from 'nanoid';
 import { IUserTask } from '../../redux-store/api/models';
 import { withTooltip } from '../tooltip';
 import { CircleCheckIcon, CircleStopIcon, CircleWarningIcon } from '../icons';

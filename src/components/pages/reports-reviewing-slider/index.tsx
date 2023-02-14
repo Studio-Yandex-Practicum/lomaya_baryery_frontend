@@ -78,9 +78,8 @@ export function PageReportsReviewingSlider() {
     const handleApprove = async () => {
       try {
         await approveRequest({
-          reportId: tasks[currentTaskIndex].report_id,
+          reviewedReportId: tasks[currentTaskIndex].report_id,
           shiftId: tasks[currentTaskIndex].shift_id,
-          patch: { report_status: 'approved' },
         }).unwrap();
 
         navigateAfterReview();
