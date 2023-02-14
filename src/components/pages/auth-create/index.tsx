@@ -1,15 +1,14 @@
 import { Navigate, useLocation, useParams } from 'react-router-dom';
 import { IAppLocation } from '../../../utils';
-import { useAppSelector } from '../../../redux-store/hooks';
-import { selectAuth } from '../../../redux-store/auth';
 import { PwdCreateForm } from '../../auth';
+import { useAuthStore } from '../../../services/store';
 
 export function ResetPassword() {
   const { state: locationState }: IAppLocation = useLocation();
   const params = useParams();
-  const { auth } = useAppSelector(selectAuth);
+  const { isAuth } = useAuthStore();
 
-  if (auth || !params.token) {
+  if (isAuth || !params.token) {
     return <Navigate to={locationState?.from || '/'} replace />;
   }
 

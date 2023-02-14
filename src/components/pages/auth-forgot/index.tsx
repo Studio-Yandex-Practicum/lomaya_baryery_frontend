@@ -1,14 +1,13 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { IAppLocation } from '../../../utils';
-import { useAppSelector } from '../../../redux-store/hooks';
-import { selectAuth } from '../../../redux-store/auth';
 import { ForgotPwdForm } from '../../auth';
+import { useAuthStore } from '../../../services/store';
 
 export function ForgotPassword() {
   const { state: locationState }: IAppLocation = useLocation();
-  const { auth } = useAppSelector(selectAuth);
+  const { isAuth } = useAuthStore();
 
-  if (auth) {
+  if (isAuth) {
     return <Navigate to={locationState?.from || '/'} replace />;
   }
 

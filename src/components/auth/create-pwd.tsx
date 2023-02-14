@@ -2,9 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useFormAndValidation } from '../../hook';
 import { InputText } from '../../ui/inputText';
 import { AuthContainer, Form } from './elements';
-import { signInAction } from '../../redux-store/auth';
-import { useAppDispatch } from '../../redux-store/hooks';
 import styles from './create-pwd-styles.module.css';
+import { useAuthStore } from '../../services/store';
 
 interface IPwdCreateFormProps {
   token: string;
@@ -22,7 +21,7 @@ export function PwdCreateForm({ token }: IPwdCreateFormProps) {
 
   const [submitError, setSubmitError] = useState<null | string>(null);
 
-  const dispatch = useAppDispatch();
+  const { setAuth } = useAuthStore();
 
   const createRef = useRef<HTMLInputElement>(null);
 
@@ -40,7 +39,7 @@ export function PwdCreateForm({ token }: IPwdCreateFormProps) {
     e.preventDefault();
 
     if (isValid && inputValues.create === inputValues.confirm) {
-      dispatch(signInAction('user'));
+      setAuth(true);
       return;
     }
 

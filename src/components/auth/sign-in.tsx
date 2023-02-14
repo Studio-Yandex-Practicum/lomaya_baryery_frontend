@@ -1,12 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 import { Link } from 'react-router-dom';
-import { signInAction } from '../../redux-store/auth';
 import { useFormAndValidation } from '../../hook';
-import { useAppDispatch } from '../../redux-store/hooks';
 import { AuthContainer, Form } from './elements';
 import { InputText } from '../../ui/inputText';
 import styles from './sign-in-styles.module.css';
+import { useAuthStore } from '../../services/store';
 
 export function SignInForm() {
   const {
@@ -21,7 +20,7 @@ export function SignInForm() {
 
   const [submitError, setSubmitError] = useState<null | string>(null);
 
-  const dispatch = useAppDispatch();
+  const { setAuth } = useAuthStore();
 
   const emailRef = useRef<HTMLInputElement>(null);
 
@@ -39,7 +38,7 @@ export function SignInForm() {
     e.preventDefault();
 
     if (isValid) {
-      dispatch(signInAction(inputValues.email));
+      setAuth(true);
     } else {
       if (Object.values(inputValues).some((value) => !Boolean(value))) {
         setSubmitError('Все поля обязательные');

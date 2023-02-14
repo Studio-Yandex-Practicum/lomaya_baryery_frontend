@@ -1,16 +1,15 @@
 import cn from 'classnames';
 import { Link, NavLink } from 'react-router-dom';
-import { signOutAction } from '../../redux-store/auth';
-import { useAppDispatch } from '../../redux-store/hooks';
+import { useAuthStore } from '../../services/store';
 import { EnterIcon, UserIcon } from '../../ui/icons';
 import { Logo } from '../../ui/logo/logo';
 import styles from './styles.module.css';
 
 export function Header() {
-  const dispatch = useAppDispatch();
+  const { setAuth } = useAuthStore();
 
   function handleSingOut() {
-    dispatch(signOutAction());
+    setAuth(false);
   }
 
   return (
