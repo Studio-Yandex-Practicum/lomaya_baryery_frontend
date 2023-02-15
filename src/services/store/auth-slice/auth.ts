@@ -7,7 +7,7 @@ interface AuthStore {
 
 export const useAuthStore = create<AuthStore>()(function implementStore(set) {
   return {
-    isAuth: false,
+    isAuth: true,
     setAuth: (state) => set(() => ({ isAuth: state })),
   };
 });

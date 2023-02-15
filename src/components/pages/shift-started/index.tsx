@@ -1,14 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import cn from 'classnames';
 import { Navigate, useNavigate, useMatch } from 'react-router-dom';
-import { skipToken } from '@reduxjs/toolkit/query/react';
-import { useAppSelector } from '../../../redux-store/hooks';
-import { selectRootShifts } from '../../../redux-store/root-shifts';
-import {
-  useFinishShiftMutation,
-  useGetShiftUsersQuery,
-  useUpdateShiftSettingsMutation,
-} from '../../../redux-store/api';
 import { ContentContainer } from '../../../ui/content-container';
 import { ContentHeading } from '../../../ui/content-heading';
 import { Table } from '../../../ui/table';
@@ -18,9 +10,18 @@ import { ShiftDetailsTable } from '../../shift-details-table';
 import { Button } from '../../../ui/button';
 import { ParticipantRowWithStat } from '../../participant-row-with-stat';
 import { MessageForm } from '../../message-form';
-import { EditStartedShiftForm, IShiftFormData } from '../../shift-settings-form';
+import {
+  EditStartedShiftForm,
+  IShiftFormData,
+} from '../../shift-settings-form';
 import { MainPopup } from '../../../ui/main-popup';
 import { Dialog } from '../../../ui/dialog';
+import {
+  useFinishShift,
+  useParticipantsStoreQuery,
+  useShiftsStoreQuery,
+  useUpdateShift,
+} from '../../../services/store';
 import styles from './styles.module.css';
 
 export const PageStartedShift = () => {
@@ -28,17 +29,25 @@ export const PageStartedShift = () => {
   const editShiftPopup = Boolean(useMatch('/shifts/started/settings'));
   const editShiftMessagePopup = Boolean(useMatch('/shifts/started/message'));
   const finishShiftDialog = Boolean(useMatch('/shifts/started/finish'));
-  const { started: startedShift, preparing: preparingShift } = useAppSelector(selectRootShifts);
+
+  const {
+    rootShifts: { started: startedShift, preparing: preparingShift },
+  } = useShiftsStoreQuery();
 
   const {
     data,
     isLoading: isUsersLoading,
     isError: isUsersError,
-  } = useGetShiftUsersQuery(startedShift?.id ?? skipToken);
+  } = useParticipantsStoreQuery(startedShift?.id, [
+    'participants',
+    startedShift?.id,
+  ]);
 
-  const [updateShift, { isLoading: isUpdateLoading }] = useUpdateShiftSettingsMutation();
+  const { mutateAsync: updateShift, isLoading: isUpdateLoading } =
+    useUpdateShift(startedShift?.id);
 
-  const [setFinishShift, { isLoading: isSetFinishLoading }] = useFinishShiftMutation();
+  const { mutate: setFinishShift, isLoading: isSetFinishLoading } =
+    useFinishShift();
 
   const openShiftSettings = useCallback(() => navigate('settings'), [navigate]);
 
@@ -55,7 +64,10 @@ export const PageStartedShift = () => {
 
     if (isUsersError || !data) {
       return (
-        <Alert extClassName={styles.participants__notice} title={'Что-то пошло не\u00A0так'} />
+        <Alert
+          extClassName={styles.participants__notice}
+          title={'Что-то пошло не\u00A0так'}
+        />
       );
     }
 
@@ -72,7 +84,12 @@ export const PageStartedShift = () => {
       return (
         <Table
           gridClassName={styles.participantsTable}
-          header={['Имя и фамилия', 'Город', 'Дата рождения', 'Статусы заданий']}
+          header={[
+            'Имя и фамилия',
+            'Город',
+            'Дата рождения',
+            'Статусы заданий',
+          ]}
           renderRows={(rowStyles) => (
             <>
               {data.members.map((member) => (
@@ -95,35 +112,33 @@ export const PageStartedShift = () => {
   const handleEditShift = useCallback(
     async (form: IShiftFormData) => {
       if (startedShift) {
-        const data = {
-          shift_id: startedShift.id,
-          title: form.title,
-          started_at: form.start,
-          finished_at: form.finish,
-          final_message: startedShift.final_message,
-        };
-
         try {
-          await updateShift(data).unwrap();
+          await updateShift({
+            shiftId: startedShift.id,
+            title: form.title,
+            startedAt: form.start,
+            finishedAt: form.finish,
+            message: startedShift.final_message,
+          });
           handleCloseModal();
         } catch (error) {
           console.error(error);
         }
       }
     },
-    [preparingShift, updateShift, handleCloseModal]
+    [startedShift, updateShift, handleCloseModal],
   );
 
   const handleChangeMessage = async (message: string) => {
     if (startedShift) {
       try {
         await updateShift({
-          shift_id: startedShift.id,
+          shiftId: startedShift.id,
           title: startedShift.title,
-          started_at: startedShift.started_at,
-          finished_at: startedShift.finished_at,
-          final_message: message,
-        }).unwrap();
+          startedAt: startedShift.started_at,
+          finishedAt: startedShift.finished_at,
+          message,
+        });
 
         navigate('/shifts/started', { replace: true });
       } catch (error) {
@@ -135,11 +150,10 @@ export const PageStartedShift = () => {
   const handleFinishShift = () => {
     if (startedShift) {
       setFinishShift(startedShift.id);
-      handleCloseModal();
     }
   };
 
-  if (startedShift === null) {
+  if (!startedShift) {
     return <Navigate to="/shifts/all" replace />;
   }
 
@@ -181,7 +195,11 @@ export const PageStartedShift = () => {
         {participantsTable}
       </ContentContainer>
 
-      <MainPopup opened={editShiftPopup} title="Редактировать смену" onClose={handleCloseModal}>
+      <MainPopup
+        opened={editShiftPopup}
+        title="Редактировать смену"
+        onClose={handleCloseModal}
+      >
         <EditStartedShiftForm
           title={startedShift.title}
           startDate={startedShift.started_at}
@@ -214,12 +232,22 @@ export const PageStartedShift = () => {
         }
         onClose={handleCloseModal}
         primaryButton={
-          <Button htmlType="button" size="small" type="primary" onClick={handleCloseModal}>
+          <Button
+            htmlType="button"
+            size="small"
+            type="primary"
+            onClick={handleCloseModal}
+          >
             Отмена
           </Button>
         }
         secondaryButton={
-          <Button htmlType="button" size="small" type="negative" onClick={handleFinishShift}>
+          <Button
+            htmlType="button"
+            size="small"
+            type="negative"
+            onClick={handleFinishShift}
+          >
             Завершить
           </Button>
         }

@@ -7,7 +7,11 @@ export function getShifts() {
   });
 }
 
-export function createNewShift({ title, startedAt, finishedAt }: Shifts.CreateShiftProps) {
+export function createNewShift({
+  title,
+  startedAt,
+  finishedAt,
+}: Shifts.CreateShiftProps) {
   const reqBody: Shifts.CreateShiftReq = {
     title,
     started_at: startedAt,
@@ -22,10 +26,13 @@ export function createNewShift({ title, startedAt, finishedAt }: Shifts.CreateSh
 }
 
 export function getShiftParticipants(shiftId: string) {
-  return makeRequest<Shifts.ShiftWithParticipantsRes>(`shifts/${shiftId}/users`, {
-    method: 'get',
-    authorization: false,
-  });
+  return makeRequest<Shifts.ShiftWithParticipantsRes>(
+    `shifts/${shiftId}/users`,
+    {
+      method: 'get',
+      authorization: false,
+    },
+  );
 }
 
 export function updateShiftSettings({
@@ -50,7 +57,7 @@ export function updateShiftSettings({
 }
 
 export function finishShift(shiftId: string) {
-  return makeRequest<Shifts.FinishShiftRes>(`shifts/${shiftId}`, {
+  return makeRequest<Shifts.FinishShiftRes>(`shifts/${shiftId}/finish`, {
     method: 'patch',
     authorization: false,
   });

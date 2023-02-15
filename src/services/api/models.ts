@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 export namespace Shifts {
-  export type TShiftStatus = 'started' | 'finished' | 'preparing';
+  export type TShiftStatus = 'started' | 'finished' | 'preparing' | 'cancelled';
 
   export interface IShift {
     id: string;

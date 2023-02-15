@@ -1,8 +1,6 @@
 import { useMemo } from 'react';
-import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { useParams } from 'react-router-dom';
 import cn from 'classnames';
-import { useGetAllShiftsQuery, useGetShiftUsersQuery } from '../../../redux-store/api';
 import { Alert } from '../../../ui/alert';
 import { Loader } from '../../../ui/loader';
 import { Table } from '../../../ui/table';
@@ -10,20 +8,27 @@ import { ContentContainer } from '../../../ui/content-container';
 import { ContentHeading } from '../../../ui/content-heading';
 import { ShiftDetailsTable } from '../../shift-details-table';
 import { ParticipantRowWithStat } from '../../participant-row-with-stat';
+import {
+  useParticipantsStoreQuery,
+  useShiftsStoreQuery,
+} from '../../../services/store';
 import styles from './styles.module.css';
 
 export const PageFinishedShift = () => {
   const { id } = useParams();
 
-  const { finishedShift } = useGetAllShiftsQuery(undefined, {
-    selectFromResult: ({ data }) => ({ finishedShift: data?.find((shift) => shift.id === id) }),
-  });
+  const { data: shifts } = useShiftsStoreQuery();
+
+  const finishedShift = useMemo(
+    () => shifts?.find((shift) => shift.id === id),
+    [shifts, id],
+  );
 
   const {
     data,
     isLoading: isUsersLoading,
     isError: isUsersError,
-  } = useGetShiftUsersQuery(id ?? skipToken);
+  } = useParticipantsStoreQuery(id, ['finished', id]);
 
   const participantsTable = useMemo(() => {
     if (isUsersLoading) {
@@ -31,7 +36,10 @@ export const PageFinishedShift = () => {
     }
     if (isUsersError || !data) {
       return (
-        <Alert extClassName={styles.participants__notice} title={'Что-то пошло не\u00A0так'} />
+        <Alert
+          extClassName={styles.participants__notice}
+          title={'Что-то пошло не\u00A0так'}
+        />
       );
     }
 

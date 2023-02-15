@@ -2,23 +2,26 @@ import cn from 'classnames';
 import { useMemo } from 'react';
 import { Outlet } from 'react-router-dom';
 import { useGetAllShiftsQuery } from '../../redux-store/api';
-import { useShiftsStoreQuery } from '../../services/store';
+import { useShiftsStoreQuery } from '../../services/store/shifts-slice/shifts';
 import { Loader } from '../../ui/loader';
 import { Header } from '../header';
 import { SideBar } from '../sidebar';
 import styles from './layout.module.css';
 
 export const Layout = () => {
-  const { isLoading, isError } = useGetAllShiftsQuery();
-  const shiftsStore = useShiftsStoreQuery();
-  console.log(shiftsStore.isLoading, shiftsStore.rootShifts);
+  const foo = useGetAllShiftsQuery();
+  const { isLoading, isError } = useShiftsStoreQuery();
 
   const content = useMemo(() => {
     if (isLoading) {
       return <Loader fullScreen />;
     }
     if (isError) {
-      return <h1 className={cn('text', 'text_type_main-extra-large')}>Сервер не доступен</h1>;
+      return (
+        <h1 className={cn('text', 'text_type_main-extra-large')}>
+          Сервер не доступен
+        </h1>
+      );
     }
 
     return (

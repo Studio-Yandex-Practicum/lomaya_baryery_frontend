@@ -3,23 +3,31 @@ import { useMatch, useNavigate } from 'react-router-dom';
 import { Button } from '../../../ui/button';
 import { PlusIcon } from '../../../ui/icons';
 import { ContentHeading } from '../../../ui/content-heading';
-import { useCreateNewShiftMutation, useGetAllShiftsQuery } from '../../../redux-store/api';
 import { ContentContainer } from '../../../ui/content-container';
-import { useAppSelector } from '../../../redux-store/hooks';
-import { selectRootShifts, selectShiftForRequests } from '../../../redux-store/root-shifts';
 import { CreateNewShiftForm, IShiftFormData } from '../../shift-settings-form';
 import { ShiftsTable } from '../../shifts-table';
 import { Dialog } from '../../../ui/dialog';
 import { MainPopup } from '../../../ui/main-popup';
+import {
+  useCreateNewShift,
+  useRecruitmentState,
+  useShiftsStoreQuery,
+} from '../../../services/store';
 import styles from './styles.module.css';
 
 export const PageShiftsAll = () => {
   const navigate = useNavigate();
   const createShift = Boolean(useMatch('/shifts/all/create'));
-  const { data: shifts } = useGetAllShiftsQuery();
-  const [postNewShift, { isLoading: isPostShiftLoading }] = useCreateNewShiftMutation();
-  const { started: startedShift } = useAppSelector(selectRootShifts);
-  const { shiftType } = useAppSelector(selectShiftForRequests);
+
+  const { shiftType } = useRecruitmentState();
+
+  const {
+    data: shifts,
+    rootShifts: { started: startedShift },
+  } = useShiftsStoreQuery();
+
+  const { mutateAsync: postNewShift, isLoading: isPostShiftLoading } =
+    useCreateNewShift();
 
   const handleCreateShift = useCallback(() => navigate('create'), [navigate]);
 
@@ -27,20 +35,18 @@ export const PageShiftsAll = () => {
 
   const handlePutNewShift = useCallback(
     async (form: IShiftFormData) => {
-      const data = {
-        title: form.title,
-        started_at: form.start,
-        finished_at: form.finish,
-      };
-
       try {
-        await postNewShift(data).unwrap();
+        await postNewShift({
+          title: form.title,
+          startedAt: form.start,
+          finishedAt: form.finish,
+        });
         handleCloseModal();
       } catch (error) {
         console.error(error);
       }
     },
-    [postNewShift, handleCloseModal]
+    [postNewShift, handleCloseModal],
   );
 
   const modal = useMemo(() => {
@@ -65,7 +71,11 @@ export const PageShiftsAll = () => {
     }
 
     return (
-      <MainPopup title="Новая смена" opened={createShift} onClose={handleCloseModal}>
+      <MainPopup
+        title="Новая смена"
+        opened={createShift}
+        onClose={handleCloseModal}
+      >
         <CreateNewShiftForm
           startedFinishDate={startedShift?.finished_at}
           onSubmit={handlePutNewShift}

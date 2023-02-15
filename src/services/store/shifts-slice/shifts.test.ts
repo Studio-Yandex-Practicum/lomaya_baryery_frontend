@@ -1,5 +1,5 @@
 import { findRootShifts } from './shifts';
-import type { Shifts } from '../api';
+import type { Shifts } from '../../api';
 
 describe('find root shifts', () => {
   test('root shifts not exist', () => {

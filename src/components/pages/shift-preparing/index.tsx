@@ -1,6 +1,5 @@
 import { useCallback, useMemo } from 'react';
 import cn from 'classnames';
-import { skipToken } from '@reduxjs/toolkit/query/react';
 import { Navigate, useMatch, useNavigate } from 'react-router-dom';
 import { ContentContainer } from '../../../ui/content-container';
 import { ContentHeading } from '../../../ui/content-heading';
@@ -8,27 +7,38 @@ import { Table } from '../../../ui/table';
 import { ParticipantRow } from '../../participant-row';
 import { Alert } from '../../../ui/alert';
 import { Loader } from '../../../ui/loader';
-import { selectRootShifts } from '../../../redux-store/root-shifts';
-import { useGetShiftUsersQuery, useUpdateShiftSettingsMutation } from '../../../redux-store/api';
-import { useAppSelector } from '../../../redux-store/hooks';
-import { EditPreparingShiftForm, IShiftFormData } from '../../shift-settings-form';
+import {
+  EditPreparingShiftForm,
+  IShiftFormData,
+} from '../../shift-settings-form';
 import { ShiftDetailsTable } from '../../shift-details-table';
 import styles from './styles.module.css';
 import { MainPopup } from '../../../ui/main-popup';
+import {
+  useParticipantsStoreQuery,
+  useShiftsStoreQuery,
+  useUpdateShift,
+} from '../../../services/store';
 
 export const PagePreparingShift = () => {
   const navigate = useNavigate();
   const editShift = Boolean(useMatch('/shifts/preparing/settings'));
 
-  const { preparing: preparingShift, started: startedShift } = useAppSelector(selectRootShifts);
+  const {
+    rootShifts: { preparing: preparingShift, started: startedShift },
+  } = useShiftsStoreQuery();
 
   const {
     data,
     isLoading: isUsersLoading,
     isError: isUsersError,
-  } = useGetShiftUsersQuery(preparingShift?.id ?? skipToken);
+  } = useParticipantsStoreQuery(preparingShift?.id, [
+    'participants',
+    preparingShift?.id,
+  ]);
 
-  const [updateShift, { isLoading: isUpdateLoading }] = useUpdateShiftSettingsMutation();
+  const { mutateAsync: updateShift, isLoading: isUpdateLoading } =
+    useUpdateShift(preparingShift?.id);
 
   const openShiftSettings = useCallback(() => navigate('settings'), [navigate]);
 
@@ -39,7 +49,10 @@ export const PagePreparingShift = () => {
 
     if (isUsersError || !data) {
       return (
-        <Alert extClassName={styles.participants__notice} title={'Что-то пошло не\u00A0так'} />
+        <Alert
+          extClassName={styles.participants__notice}
+          title={'Что-то пошло не\u00A0так'}
+        />
       );
     }
 
@@ -59,7 +72,11 @@ export const PagePreparingShift = () => {
         renderRows={(rowStyles) => (
           <>
             {data.members.map((member) => (
-              <ParticipantRow key={member.id} extClassName={rowStyles} userData={member.user} />
+              <ParticipantRow
+                key={member.id}
+                extClassName={rowStyles}
+                userData={member.user}
+              />
             ))}
           </>
         )}
@@ -72,26 +89,25 @@ export const PagePreparingShift = () => {
   const handleEditShift = useCallback(
     async (form: IShiftFormData) => {
       if (preparingShift) {
-        const data = {
-          shift_id: preparingShift.id,
-          title: form.title,
-          started_at: form.start,
-          finished_at: form.finish,
-          final_message: preparingShift.final_message,
-        };
-
         try {
-          await updateShift(data).unwrap();
+          await updateShift({
+            shiftId: preparingShift.id,
+            title: form.title,
+            startedAt: form.start,
+            finishedAt: form.finish,
+            message: preparingShift.final_message,
+          });
+
           handleCloseModal();
         } catch (error) {
           console.error(error);
         }
       }
     },
-    [preparingShift, updateShift, handleCloseModal]
+    [preparingShift, updateShift, handleCloseModal],
   );
 
-  if (preparingShift === null) {
+  if (!preparingShift) {
     return <Navigate to="/shifts/all" replace />;
   }
 
@@ -113,7 +129,11 @@ export const PagePreparingShift = () => {
         {participants}
       </ContentContainer>
 
-      <MainPopup opened={editShift} title="Редактировать смену" onClose={handleCloseModal}>
+      <MainPopup
+        opened={editShift}
+        title="Редактировать смену"
+        onClose={handleCloseModal}
+      >
         <EditPreparingShiftForm
           title={preparingShift.title}
           startDate={preparingShift.started_at}

@@ -4,9 +4,8 @@ import { NavLink, useLocation } from 'react-router-dom';
 import type { To } from 'react-router-dom';
 import { ChevronRightIcon, TIcons } from '../../ui/icons';
 import * as Icons from '../../ui/icons';
+import { useShiftsStoreQuery } from '../../services/store';
 import styles from './styles.module.css';
-import { useAppSelector } from '../../redux-store/hooks';
-import { selectRootShifts } from '../../redux-store/root-shifts';
 
 interface ISideBarAccordion {
   title: string;
@@ -30,7 +29,9 @@ const SideBarAccordion: React.FC<ISideBarAccordion> = ({
 
   const paths = list ? list.map((item) => item.to) : [to];
   const branch = useLocation().pathname.split('/')[1];
-  const isCurrentBranch = paths.some((path) => path?.toString().includes(branch));
+  const isCurrentBranch = paths.some((path) =>
+    path?.toString().includes(branch),
+  );
 
   const handleToggle = () => {
     setToggleDisclose((initState) => !initState);
@@ -47,9 +48,14 @@ const SideBarAccordion: React.FC<ISideBarAccordion> = ({
             className={styles.accordion__buttonIcon}
           />
           <span
-            className={cn('text', 'text_type_main-medium', styles.accordion__text, {
-              [styles.accordion__text_active]: isCurrentBranch,
-            })}
+            className={cn(
+              'text',
+              'text_type_main-medium',
+              styles.accordion__text,
+              {
+                [styles.accordion__text_active]: isCurrentBranch,
+              },
+            )}
           >
             {title}
           </span>
@@ -62,7 +68,10 @@ const SideBarAccordion: React.FC<ISideBarAccordion> = ({
         </button>
         {disclosed
           ? list.map((link) => (
-              <li className={styles.accordion__listItemWrapper} key={link.title}>
+              <li
+                className={styles.accordion__listItemWrapper}
+                key={link.title}
+              >
                 <NavLink
                   to={link.to}
                   className={({ isActive }) =>
@@ -72,7 +81,7 @@ const SideBarAccordion: React.FC<ISideBarAccordion> = ({
                         [styles.accordion__listItem_active]: isActive,
                       },
                       'text',
-                      'text_type_main-medium'
+                      'text_type_main-medium',
                     )
                   }
                 >
@@ -92,9 +101,14 @@ const SideBarAccordion: React.FC<ISideBarAccordion> = ({
           className={styles.accordion__buttonIcon}
         />
         <span
-          className={cn('text', 'text_type_main-medium', styles.accordion__text, {
-            [styles.accordion__text_active]: isCurrentBranch,
-          })}
+          className={cn(
+            'text',
+            'text_type_main-medium',
+            styles.accordion__text,
+            {
+              [styles.accordion__text_active]: isCurrentBranch,
+            },
+          )}
         >
           {title}
         </span>
@@ -104,10 +118,14 @@ const SideBarAccordion: React.FC<ISideBarAccordion> = ({
 };
 
 export const SideBar = () => {
-  const { started: startedShift, preparing: preparingShift } = useAppSelector(selectRootShifts);
+  const {
+    rootShifts: { preparing: preparingShift, started: startedShift },
+  } = useShiftsStoreQuery();
 
   const shiftsList = useMemo(() => {
-    const list: ISideBarAccordion['list'] = [{ title: 'Все', to: '/shifts/all' }];
+    const list: ISideBarAccordion['list'] = [
+      { title: 'Все', to: '/shifts/all' },
+    ];
 
     if (startedShift) {
       list.push({ title: 'Текущая', to: '/shifts/started' });
@@ -141,7 +159,11 @@ export const SideBar = () => {
         ]}
         icon="NoteEditIcon"
       />
-      <SideBarAccordion title="Участники проекта" icon="UsersIcon" to="/users" />
+      <SideBarAccordion
+        title="Участники проекта"
+        icon="UsersIcon"
+        to="/users"
+      />
       <SideBarAccordion
         title="Отчёты участников"
         expandOnMount={initRoute === 'reports'}
