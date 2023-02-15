@@ -1,13 +1,9 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import cn from 'classnames';
 import { useLocation, useMatch, useNavigate } from 'react-router-dom';
 import { ContentContainer } from '../../../ui/content-container';
 import { ContentHeading } from '../../../ui/content-heading';
 import { Table } from '../../../ui/table';
-import {
-  useApproveRequestMutation,
-  useDeclineRequestMutation,
-} from '../../../redux-store/api';
 import { RequestRow } from '../../request-row';
 import { Loader } from '../../../ui/loader';
 import { Alert } from '../../../ui/alert';
@@ -17,11 +13,9 @@ import { withTooltip } from '../../../ui/tooltip';
 import { MessageForm } from '../../message-form';
 import { deserializeQuery } from '../../../utils';
 import { MainPopup } from '../../../ui/main-popup';
-import {
-  usePendingRequests,
-  useRecruitmentState,
-} from '../../../services/store';
+import { useRecruitmentState } from '../../../services/store';
 import styles from './styles.module.css';
+import { usePendingRequestsStore } from '../../../services/store';
 
 const ButtonWithTooltip = withTooltip<TButtonProps>(Button);
 
@@ -32,19 +26,33 @@ export const PageRequestsPending = () => {
 
   const { id: shiftId } = useRecruitmentState();
 
-  const { data, isLoading, isFetching, refetch } = usePendingRequests(shiftId);
+  const {
+    requests: data,
+    isLoading,
+    fetch,
+    approve: approveRequest,
+    decline: declineRequest,
+  } = usePendingRequestsStore();
 
-  const [approveRequest] = useApproveRequestMutation();
-  const [declineRequest] = useDeclineRequestMutation();
+  useEffect(() => {
+    if (shiftId) {
+      fetch(shiftId);
+    }
+  }, [shiftId, fetch]);
 
   const { rqstId: rejectingRqstId } = deserializeQuery<{ rqstId: string }>(
     location.search,
   );
 
+  const handleDeclineRequest = async (message: string) => {
+    await declineRequest({ requestId: rejectingRqstId, message });
+    navigate('/requests/pending', { replace: true });
+  };
+
   const handleCloseModal = useCallback(() => navigate(-1), [navigate]);
 
-  const content = useMemo(() => {
-    if (isLoading || isFetching) {
+  const content = () => {
+    if (isLoading) {
       return <Loader extClassName={styles.requests__contentLoader} />;
     }
 
@@ -68,7 +76,7 @@ export const PageRequestsPending = () => {
           extClassName={styles.requests__table}
           gridClassName={styles.requests__tableColumns}
           renderRows={(rowStyles) =>
-            isLoading || isFetching ? (
+            isLoading ? (
               <Loader extClassName={styles.requests__tableLoader} />
             ) : (
               <div className={cn(styles.requests__tableRows, 'custom-scroll')}>
@@ -77,9 +85,7 @@ export const PageRequestsPending = () => {
                     key={request.request_id}
                     extClassName={rowStyles}
                     requestData={request}
-                    approve={() =>
-                      approveRequest({ requestId: request.request_id, shiftId })
-                    }
+                    approve={() => approveRequest(request.request_id)}
                     decline={() =>
                       navigate({
                         pathname: 'decline',
@@ -94,7 +100,7 @@ export const PageRequestsPending = () => {
         />
       );
     }
-  }, [data, isLoading, isFetching, navigate, approveRequest, shiftId]);
+  };
 
   if (shiftId === null) {
     return (
@@ -121,12 +127,12 @@ export const PageRequestsPending = () => {
             htmlType="button"
             type="secondary"
             extClassName={styles.requests__refreshButton}
-            onClick={() => refetch()}
+            onClick={() => fetch(shiftId)}
           >
             <RefreshIcon type="link-active" />
           </ButtonWithTooltip>
         </ContentHeading>
-        {content}
+        {content()}
       </ContentContainer>
 
       <MainPopup
@@ -134,18 +140,7 @@ export const PageRequestsPending = () => {
         opened={decline}
         onClose={handleCloseModal}
       >
-        <MessageForm
-          btnText="Отклонить"
-          onSubmit={(message) =>
-            declineRequest({
-              requestId: rejectingRqstId,
-              shiftId,
-              message,
-            })
-              .unwrap()
-              .then(() => navigate('/requests/pending', { replace: true }))
-          }
-        />
+        <MessageForm btnText="Отклонить" onSubmit={handleDeclineRequest} />
       </MainPopup>
     </>
   );

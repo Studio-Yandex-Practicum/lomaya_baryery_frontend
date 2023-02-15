@@ -9,10 +9,8 @@ export {
 } from './shifts-slice/shifts';
 
 export {
-  usePendingRequests,
-  useApproveRequest,
-  useDeclineRequest,
-  useRealizedRequests,
+  usePendingRequestsStore,
+  useRealizedRequestsStore,
 } from './requests-slice/requests';
 
 export { useParticipantsStoreQuery } from './participants-slice/participants';

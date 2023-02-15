@@ -7,6 +7,7 @@ export function getPendingRequests(shiftId: string) {
     {
       method: 'get',
       authorization: false,
+      prefixUrl: 'http://127.0.0.1:3000',
     },
   );
 }
@@ -21,7 +22,11 @@ export function getRequests(shiftId: string) {
 export function approveRequest(requestId: string) {
   return makeRequest<Requests.ApproveRequestRes>(
     `requests/${requestId}/approve`,
-    { method: 'patch', authorization: false },
+    {
+      method: 'patch',
+      authorization: false,
+      prefixUrl: 'http://127.0.0.1:3000',
+    },
   );
 }
 
@@ -35,6 +40,7 @@ export function declineRequest({
       method: 'patch',
       json: { message },
       authorization: false,
+      prefixUrl: 'http://127.0.0.1:3000',
     },
   );
 }

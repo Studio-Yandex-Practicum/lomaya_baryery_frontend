@@ -7,7 +7,7 @@ export function useShiftsStoreQuery() {
   const queryData = useQuery({
     queryKey: ['shifts'],
     queryFn: Api.getShifts,
-    select: (data) => data?.filter((shift) => shift.status !== 'cancelled'),
+    select: (data) => data.filter((shift) => shift.status !== 'cancelled'),
   });
 
   const rootShifts = useMemo(

@@ -6,7 +6,7 @@ const fetcher = ky.create({ prefixUrl: 'https://lombaryery.tk' });
 
 async function makeRequest<Result>(
   url: string,
-  options: Options & { authorization?: boolean; isRetry?: boolean }
+  options: Options & { authorization?: boolean; isRetry?: boolean },
 ) {
   if (options.authorization) {
     try {
@@ -39,10 +39,13 @@ async function makeRequest<Result>(
             refreshToken: string;
           }
 
-          const { accessToken, refreshToken } = await fetcher('administrators/token', {
-            method: 'post',
-            json: { token: config.refreshToken },
-          }).json<ITokenRes>();
+          const { accessToken, refreshToken } = await fetcher(
+            'administrators/token',
+            {
+              method: 'post',
+              json: { token: config.refreshToken },
+            },
+          ).json<ITokenRes>();
 
           config.setAccessToken(accessToken);
           config.setRefreshToken(refreshToken);
@@ -55,9 +58,22 @@ async function makeRequest<Result>(
         }
       } else {
         console.error(error);
+        throw error;
       }
+      throw error;
     }
   })();
 }
 
 export default makeRequest;
+
+async function foo() {
+  try {
+    return await fetcher.get('shifts').json<{ message: string }>();
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw error;
+  }
+}

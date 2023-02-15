@@ -77,7 +77,7 @@ export namespace Users {
 export namespace Requests {
   type TRequestStatus = 'pending' | 'approved' | 'declined';
 
-  interface IRequest {
+  export interface IRequest {
     request_id: string;
     user_id: string;
     name: string;

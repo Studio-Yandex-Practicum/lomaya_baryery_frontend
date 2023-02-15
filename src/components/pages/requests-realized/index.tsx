@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import cn from 'classnames';
 import { ContentContainer } from '../../../ui/content-container';
 import { ContentHeading } from '../../../ui/content-heading';
@@ -8,13 +8,19 @@ import { selectShiftForRequests } from '../../../redux-store/root-shifts';
 import { RequestRow } from '../../request-row';
 import { Loader } from '../../../ui/loader';
 import { Alert } from '../../../ui/alert';
+import { useRealizedRequestsStore } from '../../../services/store';
 import styles from './styles.module.css';
-import { useRealizedRequests } from '../../../services/store';
 
 export const PageRequestsRealized = () => {
   const { id: shiftId } = useAppSelector(selectShiftForRequests);
 
-  const { data, isLoading } = useRealizedRequests(shiftId);
+  const { requests: data, isLoading, fetch } = useRealizedRequestsStore();
+
+  useEffect(() => {
+    if (shiftId) {
+      fetch(shiftId);
+    }
+  }, [shiftId, fetch]);
 
   const content = useMemo(() => {
     if (isLoading) {

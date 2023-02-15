@@ -1,9 +1,7 @@
 import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-const queryClient = new QueryClient({
-  defaultOptions: { queries: { staleTime: 10 * 60 * 1000 } },
-});
+const queryClient = new QueryClient();
 
 export function withServerState(
   WrappedComponent: React.ComponentType,
