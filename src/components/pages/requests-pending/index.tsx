@@ -10,8 +10,6 @@ import {
   useDeclineRequestMutation,
   useGetPendingRequestsQuery,
 } from '../../../redux-store/api';
-import { useAppSelector } from '../../../redux-store/hooks';
-import { selectShiftForRequests } from '../../../redux-store/root-shifts';
 import { RequestRow } from '../../request-row';
 import { Loader } from '../../../ui/loader';
 import { Alert } from '../../../ui/alert';
@@ -22,6 +20,7 @@ import { MessageForm } from '../../message-form';
 import { deserializeQuery } from '../../../utils';
 import { MainPopup } from '../../../ui/main-popup';
 import styles from './styles.module.css';
+import { useRecruitmentState } from '../../../services/store';
 
 const ButtonWithTooltip = withTooltip<TButtonProps>(Button);
 
@@ -30,19 +29,21 @@ export const PageRequestsPending = () => {
   const location = useLocation();
   const decline = Boolean(useMatch('/requests/pending/decline'));
 
-  const { id: shiftID } = useAppSelector(selectShiftForRequests);
+  const { id: shiftId } = useRecruitmentState();
 
   const { data, isLoading, isFetching, refetch } = useGetPendingRequestsQuery(
-    shiftID ?? skipToken,
+    shiftId ?? skipToken,
     {
       refetchOnMountOrArgChange: true,
-    }
+    },
   );
 
   const [approveRequest] = useApproveRequestMutation();
   const [declineRequest] = useDeclineRequestMutation();
 
-  const { rqstId: rejectingRqstId } = deserializeQuery<{ rqstId: string }>(location.search);
+  const { rqstId: rejectingRqstId } = deserializeQuery<{ rqstId: string }>(
+    location.search,
+  );
 
   const handleCloseModal = useCallback(() => navigate(-1), [navigate]);
 
@@ -56,10 +57,15 @@ export const PageRequestsPending = () => {
     }
 
     if (data.length === 0) {
-      return <Alert extClassName={styles.requests__contentAlert} title="Новых заявок нет" />;
+      return (
+        <Alert
+          extClassName={styles.requests__contentAlert}
+          title="Новых заявок нет"
+        />
+      );
     }
 
-    if (shiftID) {
+    if (shiftId) {
       return (
         <Table
           header={['Имя и фамилия', 'Город', 'Телефон', 'Дата рождения', '']}
@@ -76,10 +82,13 @@ export const PageRequestsPending = () => {
                     extClassName={rowStyles}
                     requestData={request}
                     approve={() =>
-                      approveRequest({ requestId: request.request_id, shiftId: shiftID })
+                      approveRequest({ requestId: request.request_id, shiftId })
                     }
                     decline={() =>
-                      navigate({ pathname: 'decline', search: `rqstId=${request.request_id}` })
+                      navigate({
+                        pathname: 'decline',
+                        search: `rqstId=${request.request_id}`,
+                      })
                     }
                   />
                 ))}
@@ -89,9 +98,9 @@ export const PageRequestsPending = () => {
         />
       );
     }
-  }, [data, isLoading, isFetching, navigate, approveRequest, shiftID]);
+  }, [data, isLoading, isFetching, navigate, approveRequest, shiftId]);
 
-  if (shiftID === null) {
+  if (shiftId === null) {
     return (
       <ContentContainer extClassName={styles.requests__alert}>
         <Alert
@@ -105,7 +114,10 @@ export const PageRequestsPending = () => {
   return (
     <>
       <ContentContainer extClassName={styles.requests}>
-        <ContentHeading extClassName={styles.requests__heading} title="Активные">
+        <ContentHeading
+          extClassName={styles.requests__heading}
+          title="Активные"
+        >
           <ButtonWithTooltip
             tooltipEnabled
             tooltipText="Проверить, есть ли новые заявки"
@@ -121,13 +133,17 @@ export const PageRequestsPending = () => {
         {content}
       </ContentContainer>
 
-      <MainPopup title="Отклонить заявку" opened={decline} onClose={handleCloseModal}>
+      <MainPopup
+        title="Отклонить заявку"
+        opened={decline}
+        onClose={handleCloseModal}
+      >
         <MessageForm
           btnText="Отклонить"
           onSubmit={(message) =>
             declineRequest({
               requestId: rejectingRqstId,
-              shiftId: shiftID,
+              shiftId,
               message,
             })
               .unwrap()
