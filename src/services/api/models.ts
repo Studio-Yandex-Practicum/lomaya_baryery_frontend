@@ -91,17 +91,14 @@ export namespace Requests {
 
   export type GetRequestsRes = IRequest[];
 
-  export type GetPendingRequestsRes = Array<
-    Omit<IRequest, 'request_status'> & {
-      request_status: Extract<TRequestStatus, 'pending'>;
-    }
-  >;
+  export type GetPendingRequestsRes = IRequest[];
 
   export type ApproveRequestRes = Omit<IRequest, 'request_status'> & {
     request_status: Extract<TRequestStatus, 'approved'>;
   };
 
   export type DeclineRequestReq = {
+    requestId: string;
     message: string;
   };
   export type DeclineRequestRes = Omit<IRequest, 'request_status'> & {

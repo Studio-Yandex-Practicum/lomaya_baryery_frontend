@@ -1,14 +1,12 @@
 import { useCallback, useMemo } from 'react';
 import cn from 'classnames';
 import { useLocation, useMatch, useNavigate } from 'react-router-dom';
-import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { ContentContainer } from '../../../ui/content-container';
 import { ContentHeading } from '../../../ui/content-heading';
 import { Table } from '../../../ui/table';
 import {
   useApproveRequestMutation,
   useDeclineRequestMutation,
-  useGetPendingRequestsQuery,
 } from '../../../redux-store/api';
 import { RequestRow } from '../../request-row';
 import { Loader } from '../../../ui/loader';
@@ -19,8 +17,11 @@ import { withTooltip } from '../../../ui/tooltip';
 import { MessageForm } from '../../message-form';
 import { deserializeQuery } from '../../../utils';
 import { MainPopup } from '../../../ui/main-popup';
+import {
+  usePendingRequests,
+  useRecruitmentState,
+} from '../../../services/store';
 import styles from './styles.module.css';
-import { useRecruitmentState } from '../../../services/store';
 
 const ButtonWithTooltip = withTooltip<TButtonProps>(Button);
 
@@ -31,12 +32,7 @@ export const PageRequestsPending = () => {
 
   const { id: shiftId } = useRecruitmentState();
 
-  const { data, isLoading, isFetching, refetch } = useGetPendingRequestsQuery(
-    shiftId ?? skipToken,
-    {
-      refetchOnMountOrArgChange: true,
-    },
-  );
+  const { data, isLoading, isFetching, refetch } = usePendingRequests(shiftId);
 
   const [approveRequest] = useApproveRequestMutation();
   const [declineRequest] = useDeclineRequestMutation();
@@ -125,7 +121,7 @@ export const PageRequestsPending = () => {
             htmlType="button"
             type="secondary"
             extClassName={styles.requests__refreshButton}
-            onClick={refetch}
+            onClick={() => refetch()}
           >
             <RefreshIcon type="link-active" />
           </ButtonWithTooltip>

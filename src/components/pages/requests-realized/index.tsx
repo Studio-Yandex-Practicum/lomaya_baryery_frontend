@@ -1,26 +1,23 @@
 import { useMemo } from 'react';
 import cn from 'classnames';
-import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { ContentContainer } from '../../../ui/content-container';
 import { ContentHeading } from '../../../ui/content-heading';
 import { Table } from '../../../ui/table';
-import { useGetConsideredRequestsQuery } from '../../../redux-store/api';
 import { useAppSelector } from '../../../redux-store/hooks';
 import { selectShiftForRequests } from '../../../redux-store/root-shifts';
 import { RequestRow } from '../../request-row';
 import { Loader } from '../../../ui/loader';
 import { Alert } from '../../../ui/alert';
 import styles from './styles.module.css';
+import { useRealizedRequests } from '../../../services/store';
 
-export const PageRequestsConsidered = () => {
-  const { id: shiftID } = useAppSelector(selectShiftForRequests);
+export const PageRequestsRealized = () => {
+  const { id: shiftId } = useAppSelector(selectShiftForRequests);
 
-  const { data, isLoading, isFetching } = useGetConsideredRequestsQuery(shiftID ?? skipToken, {
-    refetchOnMountOrArgChange: true,
-  });
+  const { data, isLoading } = useRealizedRequests(shiftId);
 
   const content = useMemo(() => {
-    if (isLoading || isFetching) {
+    if (isLoading) {
       return <Loader extClassName={styles.requests__contentLoader} />;
     }
 
@@ -30,17 +27,26 @@ export const PageRequestsConsidered = () => {
 
     if (data.length === 0) {
       return (
-        <Alert extClassName={styles.requests__contentAlert} title="Рассмотренных заявок нет" />
+        <Alert
+          extClassName={styles.requests__contentAlert}
+          title="Рассмотренных заявок нет"
+        />
       );
     }
 
     return (
       <Table
-        header={['Имя и фамилия', 'Город', 'Телефон', 'Дата рождения', 'Статус']}
+        header={[
+          'Имя и фамилия',
+          'Город',
+          'Телефон',
+          'Дата рождения',
+          'Статус',
+        ]}
         extClassName={styles.requests__table}
         gridClassName={styles.requests__tableColumns}
         renderRows={(rowStyles) =>
-          isLoading || isFetching ? (
+          isLoading ? (
             <Loader extClassName={styles.requests__tableLoader} />
           ) : (
             <div className={cn(styles.requests__tableRows, 'custom-scroll')}>
@@ -56,9 +62,9 @@ export const PageRequestsConsidered = () => {
         }
       />
     );
-  }, [data, isLoading, isFetching]);
+  }, [data, isLoading]);
 
-  if (shiftID === null) {
+  if (shiftId === null) {
     return (
       <ContentContainer extClassName={styles.requests__alert}>
         <Alert
@@ -71,7 +77,10 @@ export const PageRequestsConsidered = () => {
 
   return (
     <ContentContainer extClassName={styles.requests}>
-      <ContentHeading extClassName={styles.requests__heading} title="Рассмотренные" />
+      <ContentHeading
+        extClassName={styles.requests__heading}
+        title="Рассмотренные"
+      />
       {content}
     </ContentContainer>
   );

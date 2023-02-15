@@ -3,7 +3,7 @@ import { Login } from './auth-login';
 import { ForgotPassword } from './auth-forgot';
 import { ResetPassword } from './auth-create';
 import { Layout } from './layout';
-import { PageRequestsConsidered } from './requests-considered';
+import { PageRequestsRealized } from './requests-realized';
 import { PageRequestsPending } from './requests-pending';
 import { PageFinishedShift } from './shift-finished';
 import { PagePreparingShift } from './shift-preparing';
@@ -35,19 +35,29 @@ export function AppRoutes() {
         <Route path="shifts/started/*" element={<PageStartedShift />} />
         <Route path="shifts/finished/:id" element={<PageFinishedShift />} />
         <Route path="requests/pending/*" element={<PageRequestsPending />} />
-        <Route path="requests/considered" element={<PageRequestsConsidered />} />
+        <Route path="requests/considered" element={<PageRequestsRealized />} />
         <Route
           path="users"
-          element={<h1 className="text text_type_main-extra-large">UNDER DESIGN</h1>}
+          element={
+            <h1 className="text text_type_main-extra-large">UNDER DESIGN</h1>
+          }
         />
-        <Route path="reports/reviewing" element={<PageReportsReviewingList />} />
-        <Route path="reports/reviewing/:id" element={<PageReportsReviewingSlider />} />
+        <Route
+          path="reports/reviewing"
+          element={<PageReportsReviewingList />}
+        />
+        <Route
+          path="reports/reviewing/:id"
+          element={<PageReportsReviewingSlider />}
+        />
         <Route path="reports/realized/*" element={<PageReportsRealized />} />
         <Route path="reports/declined/*" element={<PageReportsDeclined />} />
 
         <Route
           path="profile"
-          element={<h1 className="text text_type_main-extra-large">UNDER DEVELOP</h1>}
+          element={
+            <h1 className="text text_type_main-extra-large">UNDER DEVELOP</h1>
+          }
         />
         <Route
           path="*"
