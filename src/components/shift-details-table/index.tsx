@@ -30,7 +30,14 @@ export function ShiftDetailsTable({
           <CellText type="accent" text={title} />
           <div className={styles.row__date}>
             <CellDate date={start} />
-            <span className={cn(styles.row__dateDevider, 'text text_type_main-medium')}>–</span>
+            <span
+              className={cn(
+                styles.row__dateDevider,
+                'text text_type_main-medium',
+              )}
+            >
+              –
+            </span>
             <CellDate date={finish} />
             {onButtonClick && (
               <Button

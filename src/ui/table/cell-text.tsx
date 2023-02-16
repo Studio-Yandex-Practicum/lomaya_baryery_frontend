@@ -8,7 +8,11 @@ export interface ICellTextProps {
   extClassName?: string;
 }
 
-export const CellText: React.FC<ICellTextProps> = ({ text, type = 'primary', extClassName }) => (
+export const CellText: React.FC<ICellTextProps> = ({
+  text,
+  type = 'primary',
+  extClassName,
+}) => (
   <p
     className={cn(
       styles.cellText,
@@ -16,7 +20,7 @@ export const CellText: React.FC<ICellTextProps> = ({ text, type = 'primary', ext
       'text',
       'text_type_main-default',
       `text_color_${type}`,
-      'm-0'
+      'm-0',
     )}
   >
     {text}

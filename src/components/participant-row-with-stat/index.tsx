@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react';
 import cn from 'classnames';
 import { CellDate } from '../../ui/table/cell-date';
 import styles from './styles.module.css';
-import { IUser, IUserTask } from '../../redux-store/api/models';
 import { CellTasksStat, CellText } from '../../ui/table';
 import { TasksCalendar } from '../../ui/tasks-calendar';
 import { ChevronRightIcon } from '../../ui/icons';
@@ -31,9 +30,9 @@ export function ParticipantRowWithStat({
           acc[curr.status] += 1;
           return acc;
         },
-        { reviewing: 0, approved: 0, declined: 0 }
+        { reviewing: 0, approved: 0, declined: 0 },
       ),
-    [tasksData]
+    [tasksData],
   );
 
   return (
@@ -47,14 +46,21 @@ export function ParticipantRowWithStat({
               [styles.row__nameIcon_rotated]: toggle,
             })}
           />
-          <CellText type="accent" text={`${userData.name} ${userData.surname}`} />
+          <CellText
+            type="accent"
+            text={`${userData.name} ${userData.surname}`}
+          />
         </div>
         <CellText text={userData.city} />
         <CellDate date={userData.date_of_birth} />
         <CellTasksStat data={statistics} />
       </div>
       {toggle ? (
-        <TasksCalendar start={shiftStart} finish={shiftFinish} userTasks={tasksData} />
+        <TasksCalendar
+          start={shiftStart}
+          finish={shiftFinish}
+          userTasks={tasksData}
+        />
       ) : null}
     </div>
   );

@@ -7,9 +7,16 @@ interface ILoaderProps {
   fullScreen?: boolean;
 }
 
-export const Loader: React.FC<ILoaderProps> = ({ extClassName, fullScreen }) => (
+export const Loader: React.FC<ILoaderProps> = ({
+  extClassName,
+  fullScreen,
+}) => (
   <div
-    className={cn(styles.loader_wrapper, { [styles.loader_fullScreen]: fullScreen }, extClassName)}
+    className={cn(
+      styles.loader_wrapper,
+      { [styles.loader_fullScreen]: fullScreen },
+      extClassName,
+    )}
   >
     <svg
       className={cn({ [styles.loader__icon]: fullScreen })}

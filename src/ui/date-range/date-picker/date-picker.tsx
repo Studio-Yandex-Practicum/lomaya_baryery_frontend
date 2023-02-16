@@ -1,10 +1,12 @@
 import { ReactNode } from 'react';
-import ReactDatePicker, { ReactDatePickerCustomHeaderProps } from 'react-datepicker';
-import './react-datepicker.css';
+import ReactDatePicker, {
+  ReactDatePickerCustomHeaderProps,
+} from 'react-datepicker';
 import ru from 'date-fns/locale/ru';
 import cn from 'classnames';
-import { getMonth, getShortenWeekDay } from './lib';
+import { getMonth } from './lib';
 import { StepButton } from '../../step-button';
+import './react-datepicker.css';
 import styles from './styles.module.css';
 
 function customHeader({
@@ -50,7 +52,13 @@ export interface IDatePickerProps {
   disabled?: boolean;
 }
 
-export function DatePicker({ name, value, onChangeValue, filter, disabled }: IDatePickerProps) {
+export function DatePicker({
+  name,
+  value,
+  onChangeValue,
+  filter,
+  disabled,
+}: IDatePickerProps) {
   const handleOnChange = (date: Date | null) => {
     if (date) onChangeValue(date);
   };
@@ -71,14 +79,13 @@ export function DatePicker({ name, value, onChangeValue, filter, disabled }: IDa
           [styles.dataPicker__input_disabled]: disabled,
         },
         'text',
-        'text_type_extra_default'
+        'text_type_extra_default',
       )}
       calendarClassName={styles.dataPicker__calendar}
       dateFormat="dd.MM.yyyy"
       fixedHeight
       renderCustomHeader={customHeader}
       dayClassName={() => styles.dataPicker__calendarWeekDay}
-      formatWeekDay={(formattedDate) => getShortenWeekDay(formattedDate)}
     />
   );
 }

@@ -5,9 +5,7 @@ interface AuthStore {
   setAuth: (state: boolean) => void;
 }
 
-export const useAuthStore = create<AuthStore>()(function implementStore(set) {
-  return {
-    isAuth: true,
-    setAuth: (state) => set(() => ({ isAuth: state })),
-  };
-});
+export const useAuthStore = create<AuthStore>()((set) => ({
+  isAuth: true,
+  setAuth: (state) => set(() => ({ isAuth: state })),
+}));

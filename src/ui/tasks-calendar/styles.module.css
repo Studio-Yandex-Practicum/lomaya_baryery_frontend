@@ -13,7 +13,8 @@
   justify-content: center;
   align-items: center;
   background-color: var(--colors-interface-white);
-  box-shadow: 0 1px 0px 0px var(--colors-interface-border), 1px 0 0 0 var(--colors-interface-border);
+  box-shadow: 0 1px 0px 0px var(--colors-interface-border),
+    1px 0 0 0 var(--colors-interface-border);
 }
 
 .taskCalendar__item_type_heading,

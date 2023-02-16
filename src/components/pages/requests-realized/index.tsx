@@ -3,16 +3,17 @@ import cn from 'classnames';
 import { ContentContainer } from '../../../ui/content-container';
 import { ContentHeading } from '../../../ui/content-heading';
 import { Table } from '../../../ui/table';
-import { useAppSelector } from '../../../redux-store/hooks';
-import { selectShiftForRequests } from '../../../redux-store/root-shifts';
 import { RequestRow } from '../../request-row';
 import { Loader } from '../../../ui/loader';
 import { Alert } from '../../../ui/alert';
-import { useRealizedRequestsStore } from '../../../services/store';
+import {
+  useRealizedRequestsStore,
+  useRecruitmentState,
+} from '../../../services/store';
 import styles from './styles.module.css';
 
 export const PageRequestsRealized = () => {
-  const { id: shiftId } = useAppSelector(selectShiftForRequests);
+  const { id: shiftId } = useRecruitmentState();
 
   const { requests: data, isLoading, fetch } = useRealizedRequestsStore();
 

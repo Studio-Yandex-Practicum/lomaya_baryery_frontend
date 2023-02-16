@@ -9,7 +9,12 @@ type TMainPopupProps = React.PropsWithChildren & {
   onClose: () => void;
 };
 
-export function MainPopup({ title, opened, onClose, children }: TMainPopupProps) {
+export function MainPopup({
+  title,
+  opened,
+  onClose,
+  children,
+}: TMainPopupProps) {
   const { mounted } = useMount(opened);
 
   if (!mounted) return null;
@@ -18,7 +23,14 @@ export function MainPopup({ title, opened, onClose, children }: TMainPopupProps)
     <OverlayingPopup onClose={onClose} opened={opened}>
       <div className={styles.container}>
         <div className={styles.heading}>
-          <p className={['text', 'text_type_main-large', 'm-0', styles.heading__title].join(' ')}>
+          <p
+            className={[
+              'text',
+              'text_type_main-large',
+              'm-0',
+              styles.heading__title,
+            ].join(' ')}
+          >
             {title}
           </p>
           <CloseIcon

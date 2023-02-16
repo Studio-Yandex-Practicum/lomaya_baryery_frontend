@@ -37,7 +37,8 @@
   --common-border-radius: 10px;
   --common-border-width: 1px;
   --common-border-style: solid;
-  --common-element-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 10px 20px -5px rgba(0, 0, 0, 0.4);
+  --common-element-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1),
+    0 10px 20px -5px rgba(0, 0, 0, 0.4);
 }
 
 .custom-scroll::-webkit-scrollbar {
@@ -56,7 +57,8 @@
 }
 
 .border {
-  border: var(--common-border-width) var(--common-border-style) var(--colors-interface-border);
+  border: var(--common-border-width) var(--common-border-style)
+    var(--colors-interface-border);
   border-radius: var(--common-border-radius);
 }
 

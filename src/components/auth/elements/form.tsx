@@ -21,10 +21,18 @@ export function Form({
   extClassName,
 }: IFormContainerProps) {
   return (
-    <form noValidate onSubmit={onSubmit} className={cn(extClassName, styles.form)}>
+    <form
+      noValidate
+      onSubmit={onSubmit}
+      className={cn(extClassName, styles.form)}
+    >
       {children}
       <div className={styles.form__submitWrapper}>
-        {submitError && <span className={cn('text', styles.form__submitError)}>{submitError}</span>}
+        {submitError && (
+          <span className={cn('text', styles.form__submitError)}>
+            {submitError}
+          </span>
+        )}
         <Button
           extClassName={styles.form__element}
           htmlType="submit"

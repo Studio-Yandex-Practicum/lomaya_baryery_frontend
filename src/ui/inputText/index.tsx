@@ -2,7 +2,8 @@ import cn from 'classnames';
 import React, { useMemo } from 'react';
 import styles from './styles.module.css';
 
-export interface IInputTextProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface IInputTextProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   value: string | number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   extClassName?: string;
@@ -15,9 +16,11 @@ export const InputText = React.forwardRef<HTMLInputElement, IInputTextProps>(
     const errorToRender = useMemo(
       () =>
         error && errorText ? (
-          <span className={cn(styles.inputText__error, 'text')}>{errorText}</span>
+          <span className={cn(styles.inputText__error, 'text')}>
+            {errorText}
+          </span>
         ) : null,
-      [error, errorText]
+      [error, errorText],
     );
 
     return (
@@ -33,5 +36,5 @@ export const InputText = React.forwardRef<HTMLInputElement, IInputTextProps>(
         {errorToRender}
       </div>
     );
-  }
+  },
 );

@@ -13,6 +13,10 @@ export const Alert: FC<AlertProps> = ({ title, extClassName }) => (
     <div className={styles.alert__icon}>
       <AlertIcon type="link-active" />
     </div>
-    <p className={cn(styles.alert__text, 'text', 'text_type_main-large', 'm-0')}>{title}</p>
+    <p
+      className={cn(styles.alert__text, 'text', 'text_type_main-large', 'm-0')}
+    >
+      {title}
+    </p>
   </div>
 );

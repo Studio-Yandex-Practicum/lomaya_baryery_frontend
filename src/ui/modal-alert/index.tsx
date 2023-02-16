@@ -11,8 +11,14 @@ interface IModalAlertProps {
   children: React.ReactNode;
 }
 
-export function ModalAlert({ titleText, onCloseModal, children }: IModalAlertProps) {
-  const clickOnOverlay = (evt: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+export function ModalAlert({
+  titleText,
+  onCloseModal,
+  children,
+}: IModalAlertProps) {
+  const clickOnOverlay = (
+    evt: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
     if (evt.currentTarget === evt.target) {
       onCloseModal();
     }
@@ -39,6 +45,6 @@ export function ModalAlert({ titleText, onCloseModal, children }: IModalAlertPro
         {children}
       </div>
     </div>,
-    modalRoot
+    modalRoot,
   );
 }

@@ -50,7 +50,16 @@ export const Modal: React.FC<IModalProps> = ({ title, children, close }) => {
     >
       <div className={styles.modal} ref={modalRef}>
         <div className={styles.modal__heading}>
-          <p className={cn('text', 'text_type_main-large', 'm-0', styles.modal__title)}>{title}</p>
+          <p
+            className={cn(
+              'text',
+              'text_type_main-large',
+              'm-0',
+              styles.modal__title,
+            )}
+          >
+            {title}
+          </p>
           <CloseIcon
             className={styles.modal__closeIcon}
             type="interface-secondary"
@@ -60,6 +69,6 @@ export const Modal: React.FC<IModalProps> = ({ title, children, close }) => {
         {children}
       </div>
     </CSSTransition>,
-    modalRoot
+    modalRoot,
   );
 };

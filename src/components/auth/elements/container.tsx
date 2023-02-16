@@ -12,7 +12,9 @@ export function AuthContainer({ title, children }: IAuthContainer) {
     <section className={styles.surface}>
       <div className={styles.container}>
         <Logo />
-        <h1 className={cn(styles.title, 'text text_type_main-extra-large')}>{title}</h1>
+        <h1 className={cn(styles.title, 'text text_type_main-extra-large')}>
+          {title}
+        </h1>
         {children}
       </div>
     </section>

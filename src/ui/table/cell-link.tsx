@@ -10,7 +10,12 @@ interface ICellLinkProps extends Omit<ICellTextProps, 'type'> {
 export const CellLink: React.FC<ICellLinkProps> = ({ text, routeTo }) => (
   <Link
     to={routeTo}
-    className={cn(styles.cellText, 'text', 'text_type_main-default', 'spreadsheetLink')}
+    className={cn(
+      styles.cellText,
+      'text',
+      'text_type_main-default',
+      'spreadsheetLink',
+    )}
   >
     {text}
   </Link>

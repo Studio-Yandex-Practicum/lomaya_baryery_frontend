@@ -52,7 +52,11 @@ export function SignInForm() {
 
   return (
     <AuthContainer title="Вход">
-      <Form onSubmit={handleSubmit} submitError={submitError} buttonText="Войти">
+      <Form
+        onSubmit={handleSubmit}
+        submitError={submitError}
+        buttonText="Войти"
+      >
         <InputText
           extClassName={styles.form__input}
           ref={emailRef}
@@ -80,7 +84,7 @@ export function SignInForm() {
           className={cn(
             styles.form__element,
             styles.form__link,
-            'link text text_type_main-default text_color_secondary'
+            'link text text_type_main-default text_color_secondary',
           )}
         >
           Не помню пароль

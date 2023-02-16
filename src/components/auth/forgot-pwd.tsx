@@ -53,8 +53,11 @@ export function ForgotPwdForm() {
       <p
         className={cn(
           'text text_type_main-default',
-          { text_color_secondary: !formSuccess, text_color_primary: formSuccess },
-          styles.explanation
+          {
+            text_color_secondary: !formSuccess,
+            text_color_primary: formSuccess,
+          },
+          styles.explanation,
         )}
       >
         {expanation}
@@ -66,14 +69,18 @@ export function ForgotPwdForm() {
             styles.form__element,
             styles.form__link,
             styles.form__link_align_center,
-            'link text text_type_main-default text_color_secondary'
+            'link text text_type_main-default text_color_secondary',
           )}
         >
           На страницу авторизации
         </Link>
       )}
       {formSuccess === false && (
-        <Form onSubmit={handleSubmit} submitError={submitError} buttonText="Восстановить">
+        <Form
+          onSubmit={handleSubmit}
+          submitError={submitError}
+          buttonText="Восстановить"
+        >
           <InputText
             extClassName={styles.form__input}
             ref={emailRef}
@@ -91,7 +98,7 @@ export function ForgotPwdForm() {
               styles.form__element,
               styles.form__link,
               styles.form__link_align_end,
-              'link text text_type_main-default text_color_secondary'
+              'link text text_type_main-default text_color_secondary',
             )}
           >
             Вспомнил пароль

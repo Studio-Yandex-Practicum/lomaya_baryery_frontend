@@ -7,7 +7,11 @@ export interface ICellTextProps {
   extClassName?: string;
 }
 
-export const CellDate: React.FC<ICellTextProps> = ({ date, type = 'default', extClassName }) => {
+export const CellDate: React.FC<ICellTextProps> = ({
+  date,
+  type = 'default',
+  extClassName,
+}) => {
   const renderDate = useMemo(() => {
     if (type === 'default') {
       return date.split('-').reverse().join('.');
@@ -20,7 +24,15 @@ export const CellDate: React.FC<ICellTextProps> = ({ date, type = 'default', ext
   }, [date, type]);
 
   return (
-    <p className={cn(extClassName, 'text', 'text_type_main-default', `text_color_primary`, 'm-0')}>
+    <p
+      className={cn(
+        extClassName,
+        'text',
+        'text_type_main-default',
+        `text_color_primary`,
+        'm-0',
+      )}
+    >
       {renderDate}
     </p>
   );

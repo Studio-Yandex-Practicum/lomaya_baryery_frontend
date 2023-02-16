@@ -9,7 +9,12 @@ export interface IStatusLabelProps {
   icon?: keyof appIcons.TStatusIcons;
 }
 
-export const StatusLabel = ({ type, icon, statusText, className }: IStatusLabelProps) => {
+export const StatusLabel = ({
+  type,
+  icon,
+  statusText,
+  className,
+}: IStatusLabelProps) => {
   const HTMLClass = className || '';
 
   const typeStyle = styles[`status_type_${type}`];
@@ -49,7 +54,9 @@ export const StatusLabel = ({ type, icon, statusText, className }: IStatusLabelP
   }, [icon, type]);
 
   return (
-    <p className={`${styles.status} ${typeStyle} ${HTMLClass} text text_type_main-small `}>
+    <p
+      className={`${styles.status} ${typeStyle} ${HTMLClass} text text_type_main-small `}
+    >
       {iconToRender}
       {statusText}
     </p>

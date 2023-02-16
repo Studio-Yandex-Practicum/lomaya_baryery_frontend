@@ -10,7 +10,9 @@ interface ITable extends React.PropsWithChildren {
    * @param commonGridClassName refer on grid column template,
    * use ReactFragment or div for contain
    */
-  renderRows: (commonGridClassName: CSSModuleClasses[string]) => React.ReactNode;
+  renderRows: (
+    commonGridClassName: CSSModuleClasses[string],
+  ) => React.ReactNode;
 }
 
 export const Table: React.FC<ITable> = ({
@@ -26,7 +28,13 @@ export const Table: React.FC<ITable> = ({
 
   return (
     <section className={cn(styles.table, extClassName)}>
-      <div className={cn(styles.table__row, styles.table__headingRow, gridClassName)}>
+      <div
+        className={cn(
+          styles.table__row,
+          styles.table__headingRow,
+          gridClassName,
+        )}
+      >
         {header.map((title) => (
           <CellText key={title} text={title} type="secondary" />
         ))}

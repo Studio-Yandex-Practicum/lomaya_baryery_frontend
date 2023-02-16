@@ -30,7 +30,10 @@ type TStepButton = {
   dirrection: 'right' | 'left';
   buttonClassName?: string;
   iconClassName?: string;
-} & React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
+} & React.DetailedHTMLProps<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  HTMLButtonElement
+>;
 
 export const StepButton: React.FC<TStepButton> = ({
   dirrection,
@@ -39,6 +42,9 @@ export const StepButton: React.FC<TStepButton> = ({
   ...props
 }) => (
   <button className={cn(styles.button, buttonClassName)} {...props}>
-    <IconArrow dirrection={dirrection} extClassname={cn(styles.button__icon, iconClassName)} />
+    <IconArrow
+      dirrection={dirrection}
+      extClassname={cn(styles.button__icon, iconClassName)}
+    />
   </button>
 );

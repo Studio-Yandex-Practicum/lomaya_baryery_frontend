@@ -11,7 +11,13 @@ interface IPagination {
   extClassName?: string;
 }
 
-export const Pagination: React.FC<IPagination> = ({ page, total, next, prev, extClassName }) => {
+export const Pagination: React.FC<IPagination> = ({
+  page,
+  total,
+  next,
+  prev,
+  extClassName,
+}) => {
   const preventPrev = page === 1;
   const preventNext = page === total;
 
@@ -26,7 +32,11 @@ export const Pagination: React.FC<IPagination> = ({ page, total, next, prev, ext
   return (
     <div className={cn(styles.pagination, extClassName)}>
       <span
-        className={cn('text', 'text_type_extra_default', styles.pagination__counter)}
+        className={cn(
+          'text',
+          'text_type_extra_default',
+          styles.pagination__counter,
+        )}
       >{`${page} / ${total}`}</span>
       <StepButton
         disabled={preventPrev}

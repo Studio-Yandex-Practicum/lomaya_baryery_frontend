@@ -19,7 +19,7 @@ export const ContentHeading: React.FC<IContentHeadingProps> = ({
         'text',
         'text_type_main-extra-large',
         'p-0',
-        'm-0'
+        'm-0',
       )}
     >
       {title}

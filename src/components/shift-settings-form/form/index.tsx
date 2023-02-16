@@ -46,13 +46,18 @@ export function ShiftSettingsForm({
   const [finishValue, setfinishValue] = useState(finishDate);
   const [error, setError] = useState('');
 
-  const dayCount = useMemo(() => getInterval(finishValue, startValue), [startValue, finishValue]);
+  const dayCount = useMemo(
+    () => getInterval(finishValue, startValue),
+    [startValue, finishValue],
+  );
 
   const handleChangeTitle = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setTitleValue(evt.target.value);
   };
 
-  const handleValidateTitle = (evt: React.FocusEvent<HTMLInputElement, Element>) => {
+  const handleValidateTitle = (
+    evt: React.FocusEvent<HTMLInputElement, Element>,
+  ) => {
     setError(evt.target.validationMessage);
   };
 
@@ -71,7 +76,11 @@ export function ShiftSettingsForm({
   };
 
   return (
-    <form noValidate className={cn(styles.shiftForm, extClassName)} onSubmit={handleSubmit}>
+    <form
+      noValidate
+      className={cn(styles.shiftForm, extClassName)}
+      onSubmit={handleSubmit}
+    >
       <div className={styles.shiftForm__field}>
         <label
           htmlFor="title-id"
@@ -79,7 +88,7 @@ export function ShiftSettingsForm({
             styles.shiftForm__label,
             'text',
             'text_type_main-default',
-            'text_color_secondary'
+            'text_color_secondary',
           )}
         >
           Название
@@ -105,7 +114,7 @@ export function ShiftSettingsForm({
             styles.shiftForm__label,
             'text',
             'text_type_main-default',
-            'text_color_secondary'
+            'text_color_secondary',
           )}
         >
           Дата
@@ -127,7 +136,7 @@ export function ShiftSettingsForm({
             styles.shiftForm__label,
             'text',
             'text_type_main-default',
-            'text_color_secondary'
+            'text_color_secondary',
           )}
         >
           Выбрано дней

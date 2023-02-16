@@ -55,7 +55,11 @@ export function PwdCreateForm({ token }: IPwdCreateFormProps) {
 
   return (
     <AuthContainer title="Создание пароля">
-      <Form onSubmit={handleSubmit} submitError={submitError} buttonText="Сохранить">
+      <Form
+        onSubmit={handleSubmit}
+        submitError={submitError}
+        buttonText="Сохранить"
+      >
         <InputText
           extClassName={styles.form__input}
           ref={createRef}

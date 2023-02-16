@@ -1,6 +1,6 @@
 import cn from 'classnames';
-import styles from './styles.module.css';
 import { DatePicker } from './date-picker/date-picker';
+import styles from './styles.module.css';
 
 interface IDateRangeProps {
   startValue: Date;

@@ -41,5 +41,7 @@ export interface IIconProps {
   type: IconType;
   size?: '24' | '18';
   className?: string;
-  onClick?: (() => void) | ((e: React.MouseEvent<SVGSVGElement, MouseEvent>) => void);
+  onClick?:
+    | (() => void)
+    | ((e: React.MouseEvent<SVGSVGElement, MouseEvent>) => void);
 }

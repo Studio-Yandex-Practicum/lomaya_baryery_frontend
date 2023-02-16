@@ -1,5 +1,4 @@
 import cn from 'classnames';
-import { IShift, TShiftStatus } from '../../redux-store/api/models';
 import { StatusLabel } from '../../ui/status-label';
 import { CellDate, CellLink, CellText, Table } from '../../ui/table';
 import styles from './styles.module.css';
@@ -52,7 +51,10 @@ export function ShiftsTable({ shifts, extClassName }: IShiftsTableProps) {
         shifts && (
           <div className={cn(styles.shifts, 'custom-scroll')}>
             {shifts.map((shift) => (
-              <div key={shift.id} className={cn(styles.row, commonGridStyles, 'tableContentRow')}>
+              <div
+                key={shift.id}
+                className={cn(styles.row, commonGridStyles, 'tableContentRow')}
+              >
                 <CellText text={shift.sequence_number} />
                 <CellLink text={shift.title} routeTo={getRoutePath(shift)} />
                 <CellDate date={shift.started_at} />

@@ -24,12 +24,24 @@ export function Dialog({
   if (!mounted) return null;
 
   return (
-    <OverlayingPopup onClose={onClose} opened={opened} extClassName={styles.overlay}>
+    <OverlayingPopup
+      onClose={onClose}
+      opened={opened}
+      extClassName={styles.overlay}
+    >
       <div className={styles.container}>
         {title && (
-          <h2 className={['text', 'text_type_main-large', styles.title].join(' ')}>{title}</h2>
+          <h2
+            className={['text', 'text_type_main-large', styles.title].join(' ')}
+          >
+            {title}
+          </h2>
         )}
-        <p className={['text', 'text_type_main-default', styles.text].join(' ')}>{text}</p>
+        <p
+          className={['text', 'text_type_main-default', styles.text].join(' ')}
+        >
+          {text}
+        </p>
         <div className={styles.handles}>
           {primaryButton}
           {secondaryButton}

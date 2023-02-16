@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import cn from 'classnames';
 import { nanoid } from 'nanoid';
-import { IUserTask } from '../../redux-store/api/models';
 import { withTooltip } from '../tooltip';
 import { CircleCheckIcon, CircleStopIcon, CircleWarningIcon } from '../icons';
 import styles from './styles.module.css';
@@ -39,7 +38,11 @@ interface ITasksCalendarProps {
   userTasks: IUserTask[];
 }
 
-export const TasksCalendar: React.FC<ITasksCalendarProps> = ({ start, finish, userTasks }) => {
+export const TasksCalendar: React.FC<ITasksCalendarProps> = ({
+  start,
+  finish,
+  userTasks,
+}) => {
   const heading = useMemo(() => {
     const startDate = new Date(start).getDate();
     const monthDays: (string | number)[] = ['№'];
@@ -60,7 +63,7 @@ export const TasksCalendar: React.FC<ITasksCalendarProps> = ({ start, finish, us
         className={cn(
           styles.taskCalendar__item,
           styles.taskCalendar__item_type_heading,
-          'text text_type_main-small text_color_secondary'
+          'text text_type_main-small text_color_secondary',
         )}
       >
         {val}
@@ -72,13 +75,19 @@ export const TasksCalendar: React.FC<ITasksCalendarProps> = ({ start, finish, us
     const startDate = new Date(start);
     const finishDate = new Date(finish);
 
-    type TRenderArr = ({ date: string; task: IUserTask | undefined } | null | string)[];
+    type TRenderArr = (
+      | { date: string; task: IUserTask | undefined }
+      | null
+      | string
+    )[];
     const renderArr: TRenderArr = ['м1'];
 
     const daysDiff =
       userTasks.length > 0
         ? (startDate.getTime() -
-            new Date(new Date(userTasks[0].task_date).setUTCHours(0, 0, 0, 0)).getTime()) /
+            new Date(
+              new Date(userTasks[0].task_date).setUTCHours(0, 0, 0, 0),
+            ).getTime()) /
           (24 * 60 * 60 * 1000)
         : 0;
 
@@ -124,7 +133,7 @@ export const TasksCalendar: React.FC<ITasksCalendarProps> = ({ start, finish, us
             className={cn(
               styles.taskCalendar__item,
               styles.taskCalendar__item_type_heading,
-              'text text_type_main-small text_color_secondary'
+              'text text_type_main-small text_color_secondary',
             )}
           >
             {value}
@@ -136,7 +145,10 @@ export const TasksCalendar: React.FC<ITasksCalendarProps> = ({ start, finish, us
         return (
           <div
             key={nanoid()}
-            className={cn(styles.taskCalendar__item, styles.taskCalendar__item_type_notExist)}
+            className={cn(
+              styles.taskCalendar__item,
+              styles.taskCalendar__item_type_notExist,
+            )}
           />
         );
       }

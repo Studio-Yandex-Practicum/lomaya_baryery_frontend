@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect } from 'react';
 import cn from 'classnames';
 import { useLocation, useMatch, useNavigate } from 'react-router-dom';
 import { ContentContainer } from '../../../ui/content-container';

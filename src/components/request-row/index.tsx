@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import cn from 'classnames';
 import { CellDate, CellText } from '../../ui/table';
-import { IRequest } from '../../redux-store/api/models';
 import { Button } from '../../ui/button';
 import { StatusLabel } from '../../ui/status-label';
 import styles from './styles.module.css';
@@ -33,15 +32,32 @@ export const RequestRow: React.FC<IRequestRowProps> = ({
             >
               Принять
             </Button>
-            <Button size="small" type="primary" htmlType="button" onClick={decline}>
+            <Button
+              size="small"
+              type="primary"
+              htmlType="button"
+              onClick={decline}
+            >
               Отклонить
             </Button>
           </div>
         );
       case 'approved':
-        return <StatusLabel icon="CircleCheckIcon" type="approved" statusText="Участник одобрен" />;
+        return (
+          <StatusLabel
+            icon="CircleCheckIcon"
+            type="approved"
+            statusText="Участник одобрен"
+          />
+        );
       case 'declined':
-        return <StatusLabel icon="CircleStopIcon" type="rejected" statusText="Участник отклонён" />;
+        return (
+          <StatusLabel
+            icon="CircleStopIcon"
+            type="rejected"
+            statusText="Участник отклонён"
+          />
+        );
       default:
         return null;
     }
@@ -49,7 +65,10 @@ export const RequestRow: React.FC<IRequestRowProps> = ({
 
   return (
     <div className={cn(styles.requestRow, extClassName, 'tableContentRow')}>
-      <CellText type="accent" text={`${requestData.name} ${requestData.surname}`} />
+      <CellText
+        type="accent"
+        text={`${requestData.name} ${requestData.surname}`}
+      />
       <CellText text={requestData.city} />
       <CellText text={requestData.phone_number} />
       <CellDate date={requestData.date_of_birth} />

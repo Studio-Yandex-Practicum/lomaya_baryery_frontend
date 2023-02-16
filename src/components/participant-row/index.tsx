@@ -1,5 +1,4 @@
 import cn from 'classnames';
-import { IUser } from '../../redux-store/api/models';
 import { CellText } from '../../ui/table';
 import { CellDate } from '../../ui/table';
 import styles from './styles.module.css';
@@ -9,7 +8,10 @@ interface IParticipantRowProps {
   userData: IUser;
 }
 
-export function ParticipantRow({ extClassName, userData }: IParticipantRowProps) {
+export function ParticipantRow({
+  extClassName,
+  userData,
+}: IParticipantRowProps) {
   return (
     <div className={cn(styles.row, extClassName, 'tableContentRow')}>
       <CellText type="accent" text={`${userData.name} ${userData.surname}`} />

@@ -64,6 +64,7 @@
 }
 
 .statusLabel {
+  justify-content: center;
   width: 226px;
   height: 140px;
 }

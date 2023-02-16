@@ -6,6 +6,9 @@ interface IContentContainerProps extends PropsWithChildren {
   extClassName?: string;
 }
 
-export const ContentContainer: React.FC<IContentContainerProps> = ({ children, extClassName }) => (
+export const ContentContainer: React.FC<IContentContainerProps> = ({
+  children,
+  extClassName,
+}) => (
   <div className={cn(styles.contentContainer, extClassName)}>{children}</div>
 );

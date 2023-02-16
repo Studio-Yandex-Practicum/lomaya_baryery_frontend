@@ -20,7 +20,13 @@ export function Header() {
       <nav className={styles.header__nav}>
         <NavLink
           to={{ pathname: '/profile' }}
-          className={cn('text', 'text_type_main-medium', 'm-1', 'link', styles.header__link)}
+          className={cn(
+            'text',
+            'text_type_main-medium',
+            'm-1',
+            'link',
+            styles.header__link,
+          )}
         >
           <UserIcon className={styles.header__linkIcon} type="link" />
           Аккаунт
@@ -30,7 +36,7 @@ export function Header() {
           className={cn(
             'text text_type_main-medium link',
             styles.header__link,
-            styles.header__button
+            styles.header__button,
           )}
         >
           <EnterIcon className={styles.header__linkIcon} type="link" />

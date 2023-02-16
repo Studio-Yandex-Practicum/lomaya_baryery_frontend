@@ -22,58 +22,45 @@ async function makeRequest<Result>(
     }
   }
 
-  return (async () => {
-    try {
-      const resData = await fetcher(url, options).json<Result>();
-      return resData;
-    } catch (error) {
-      if (
-        error instanceof HTTPError &&
-        error.response.status === 401 &&
-        options.authorization &&
-        !options.isRetry
-      ) {
-        try {
-          interface ITokenRes {
-            accessToken: string;
-            refreshToken: string;
-          }
-
-          const { accessToken, refreshToken } = await fetcher(
-            'administrators/token',
-            {
-              method: 'post',
-              json: { token: config.refreshToken },
-            },
-          ).json<ITokenRes>();
-
-          config.setAccessToken(accessToken);
-          config.setRefreshToken(refreshToken);
-
-          options.isRetry = true;
-
-          makeRequest(url, options);
-        } catch (error) {
-          throw ApiError.Unauthorized();
-        }
-      } else {
-        console.error(error);
-        throw error;
-      }
-      throw error;
-    }
-  })();
-}
-
-export default makeRequest;
-
-async function foo() {
   try {
-    return await fetcher.get('shifts').json<{ message: string }>();
+    const resData = await fetcher(url, options).json<Result>();
+    return resData;
   } catch (error) {
-    if (error instanceof Error) {
+    if (
+      error instanceof HTTPError &&
+      error.response.status === 401 &&
+      options.authorization &&
+      !options.isRetry
+    ) {
+      try {
+        interface ITokenRes {
+          accessToken: string;
+          refreshToken: string;
+        }
+
+        const { accessToken, refreshToken } = await fetcher(
+          'administrators/token',
+          {
+            method: 'post',
+            json: { token: config.refreshToken },
+          },
+        ).json<ITokenRes>();
+
+        config.setAccessToken(accessToken);
+        config.setRefreshToken(refreshToken);
+
+        options.isRetry = true;
+
+        makeRequest(url, options);
+      } catch (error) {
+        throw ApiError.Unauthorized();
+      }
+    } else {
+      console.error(error);
       throw error;
     }
     throw error;
   }
 }
+
+export default makeRequest;

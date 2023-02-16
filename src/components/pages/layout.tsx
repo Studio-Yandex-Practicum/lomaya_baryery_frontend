@@ -1,7 +1,6 @@
 import cn from 'classnames';
 import { useMemo } from 'react';
 import { Outlet } from 'react-router-dom';
-import { useGetAllShiftsQuery } from '../../redux-store/api';
 import { useShiftsStoreQuery } from '../../services/store/shifts-store/shifts';
 import { Loader } from '../../ui/loader';
 import { Header } from '../header';
@@ -9,7 +8,6 @@ import { SideBar } from '../sidebar';
 import styles from './layout.module.css';
 
 export const Layout = () => {
-  const foo = useGetAllShiftsQuery();
   const { isLoading, isError } = useShiftsStoreQuery();
 
   const content = useMemo(() => {
