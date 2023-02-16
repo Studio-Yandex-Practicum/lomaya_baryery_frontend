@@ -37,12 +37,6 @@ export function AppRoutes() {
         <Route path="requests/pending/*" element={<PageRequestsPending />} />
         <Route path="requests/considered" element={<PageRequestsRealized />} />
         <Route
-          path="users"
-          element={
-            <h1 className="text text_type_main-extra-large">UNDER DESIGN</h1>
-          }
-        />
-        <Route
           path="reports/reviewing"
           element={<PageReportsReviewingList />}
         />

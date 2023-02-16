@@ -7,6 +7,7 @@ import { Button } from '../../ui/button';
 import { CellDate, CellLink, CellText } from '../../ui/table';
 import { ZoomIcon } from '../../ui/icons';
 import styles from './styles.module.css';
+import { Reports } from '../../services/api/models';
 
 interface ICellPreviewProps {
   id: string;
@@ -22,7 +23,7 @@ const CellPreview: React.FC<ICellPreviewProps> = ({ id, img }) => (
 
 interface IReportRowProps {
   extClassName?: string;
-  reportData: IReport;
+  reportData: Reports.IReport;
   approve?: () => void;
   decline?: () => void;
 }
@@ -36,11 +37,23 @@ export const ReportRow: React.FC<IReportRowProps> = ({
   const actions = useMemo(() => {
     if (reportData.report_status) {
       if (reportData.report_status === 'approved') {
-        return <StatusLabel icon="CircleCheckIcon" type="approved" statusText="Задание принято" />;
+        return (
+          <StatusLabel
+            icon="CircleCheckIcon"
+            type="approved"
+            statusText="Задание принято"
+          />
+        );
       }
 
       if (reportData.report_status === 'declined') {
-        return <StatusLabel icon="CircleStopIcon" type="rejected" statusText="Задание отклонено" />;
+        return (
+          <StatusLabel
+            icon="CircleStopIcon"
+            type="rejected"
+            statusText="Задание отклонено"
+          />
+        );
       }
     }
 
@@ -64,8 +77,14 @@ export const ReportRow: React.FC<IReportRowProps> = ({
 
   return (
     <div className={cn(styles.taskRow, extClassName, 'tableContentRow')}>
-      <CellLink routeTo={reportData.report_id} text={reportData.task_description} />
-      <CellText type="accent" text={`${reportData.user_name} ${reportData.user_surname}`} />
+      <CellLink
+        routeTo={reportData.report_id}
+        text={reportData.task_description}
+      />
+      <CellText
+        type="accent"
+        text={`${reportData.user_name} ${reportData.user_surname}`}
+      />
       <CellDate type="default" date={reportData.report_created_at} />
       <CellPreview img={reportData.photo_url} id={reportData.report_id} />
       {actions}

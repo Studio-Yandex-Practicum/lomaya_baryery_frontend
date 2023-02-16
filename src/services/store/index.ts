@@ -1,4 +1,4 @@
-export { useAuthStore } from './auth-slice/auth';
+export { useAuthStore } from './auth-store/auth';
 
 export {
   useShiftsStoreQuery,
@@ -6,11 +6,17 @@ export {
   useUpdateShift,
   useFinishShift,
   useRecruitmentState,
-} from './shifts-slice/shifts';
+} from './shifts-store/shifts';
 
 export {
   usePendingRequestsStore,
   useRealizedRequestsStore,
-} from './requests-slice/requests';
+} from './requests-store/requests';
 
-export { useParticipantsStoreQuery } from './participants-slice/participants';
+export { useReviewingReportsStore } from './user-reports-store/reviewing-user-reports';
+export {
+  useRealizedReportsStore,
+  useDeclinedReportsStore,
+} from './user-reports-store/user-reports';
+
+export { useParticipantsStoreQuery } from './participants-store/participants';

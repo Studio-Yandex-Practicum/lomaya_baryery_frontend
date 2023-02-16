@@ -2,7 +2,7 @@ import cn from 'classnames';
 import { useMemo } from 'react';
 import { Outlet } from 'react-router-dom';
 import { useGetAllShiftsQuery } from '../../redux-store/api';
-import { useShiftsStoreQuery } from '../../services/store/shifts-slice/shifts';
+import { useShiftsStoreQuery } from '../../services/store/shifts-store/shifts';
 import { Loader } from '../../ui/loader';
 import { Header } from '../header';
 import { SideBar } from '../sidebar';

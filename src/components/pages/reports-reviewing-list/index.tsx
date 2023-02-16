@@ -1,8 +1,5 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import cn from 'classnames';
-import { skipToken } from '@reduxjs/toolkit/dist/query';
-import { selectRootShifts } from '../../../redux-store/root-shifts';
-import { useAppSelector } from '../../../redux-store/hooks';
 import { Alert } from '../../../ui/alert';
 import { Button, TButtonProps } from '../../../ui/button';
 import { ContentContainer } from '../../../ui/content-container';
@@ -11,49 +8,65 @@ import { RefreshIcon } from '../../../ui/icons';
 import { Table } from '../../../ui/table';
 import { withTooltip } from '../../../ui/tooltip';
 import { Loader } from '../../../ui/loader';
-import {
-  useApproveReportMutation,
-  useDeclineReportMutation,
-  useGetReportsReviewingQuery,
-} from '../../../redux-store/api';
 import { ReportRow } from '../../report-row';
+import {
+  useReviewingReportsStore,
+  useShiftsStoreQuery,
+} from '../../../services/store';
 import styles from './styles.module.css';
 
 const ButtonWithTooltip = withTooltip<TButtonProps>(Button);
 
 export function PageReportsReviewingList() {
-  const { started: startedShift } = useAppSelector(selectRootShifts);
+  const {
+    rootShifts: { started: startedShift },
+  } = useShiftsStoreQuery();
 
-  const { data, isLoading, isFetching, refetch } = useGetReportsReviewingQuery(
-    startedShift?.id ?? skipToken,
-    {
-      refetchOnMountOrArgChange: true,
+  const {
+    reports: data,
+    isLoading,
+    fetch,
+    approve: approveRequest,
+    decline: declineRequest,
+  } = useReviewingReportsStore();
+
+  useEffect(() => {
+    if (startedShift) {
+      fetch(startedShift.id);
     }
-  );
-
-  const [approveRequest] = useApproveReportMutation();
-  const [declineRequest] = useDeclineReportMutation();
+  }, [startedShift, fetch]);
 
   const content = useMemo(() => {
     if (startedShift === null || !data) {
       return;
     }
 
-    if ((!data || data.length === 0) && (isLoading || isFetching)) {
+    if ((!data || data.length === 0) && isLoading) {
       return <Loader extClassName={styles.tasksReview__contentLoader} />;
     }
 
     if (data?.length === 0) {
-      return <Alert extClassName={styles.tasksReview__contentAlert} title="Новых отчётов нет" />;
+      return (
+        <Alert
+          extClassName={styles.tasksReview__contentAlert}
+          title="Новых отчётов нет"
+        />
+      );
     }
 
     return (
       <Table
-        header={['Название задания', 'Имя и фамилия', 'Дата отправки', 'Превью', '']}
+        header={[
+          'Название задания',
+          'Имя и фамилия',
+          'Дата отправки',
+          'Превью',
+          '',
+        ]}
         extClassName={styles.tasksReview__table}
         gridClassName={styles.tasksReview__tableColumns}
         renderRows={(rowStyles) =>
-          isLoading || isFetching ? (
+          isLoading ? (
             <Loader extClassName={styles.tasksReview__tableLoader} />
           ) : (
             <div className={cn(styles.tasksReview__tableRows, 'custom-scroll')}>
@@ -62,19 +75,8 @@ export function PageReportsReviewingList() {
                   key={report.report_id}
                   extClassName={rowStyles}
                   reportData={report}
-                  approve={() =>
-                    approveRequest({
-                      reviewedReportId: report.report_id,
-                      shiftId: startedShift.id,
-                    })
-                  }
-                  decline={() =>
-                    declineRequest({
-                      reportId: report.report_id,
-                      shiftId: startedShift.id,
-                      patch: { report_status: 'declined' },
-                    })
-                  }
+                  approve={() => approveRequest(report.report_id)}
+                  decline={() => declineRequest(report.report_id)}
                 />
               ))}
             </div>
@@ -82,9 +84,9 @@ export function PageReportsReviewingList() {
         }
       />
     );
-  }, [data, isLoading, isFetching, startedShift, approveRequest, declineRequest]);
+  }, [data, isLoading, startedShift, approveRequest, declineRequest]);
 
-  if (startedShift === null) {
+  if (!startedShift) {
     return (
       <ContentContainer extClassName={styles.tasksReview__alert}>
         <Alert
@@ -97,7 +99,10 @@ export function PageReportsReviewingList() {
 
   return (
     <ContentContainer extClassName={styles.tasksReview}>
-      <ContentHeading extClassName={styles.tasksReview__heading} title="Ждут проверки">
+      <ContentHeading
+        extClassName={styles.tasksReview__heading}
+        title="Ждут проверки"
+      >
         <ButtonWithTooltip
           tooltipEnabled
           tooltipText="Проверить, есть ли новые отчёты"
@@ -105,7 +110,9 @@ export function PageReportsReviewingList() {
           htmlType="button"
           type="secondary"
           extClassName={styles.tasksReview__refreshButton}
-          onClick={refetch}
+          onClick={() => {
+            fetch(startedShift.id);
+          }}
         >
           <RefreshIcon type="link-active" />
         </ButtonWithTooltip>

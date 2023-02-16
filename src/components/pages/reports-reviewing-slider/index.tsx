@@ -1,57 +1,80 @@
 import { useMemo } from 'react';
 import cn from 'classnames';
-import { Link, Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { skipToken } from '@reduxjs/toolkit/dist/query';
 import {
-  useApproveReportMutation,
-  useDeclineReportMutation,
-  useGetReportsReviewingQuery,
-} from '../../../redux-store/api';
-import { useAppSelector } from '../../../redux-store/hooks';
-import { selectRootShifts } from '../../../redux-store/root-shifts';
+  Link,
+  Navigate,
+  useLocation,
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
 import { ContentContainer } from '../../../ui/content-container';
 import { ReportDetails } from '../../report-detail';
-import { ArrowLeftIcon, ArrowRightIcon, ChevronLeftIcon } from '../../../ui/icons';
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  ChevronLeftIcon,
+} from '../../../ui/icons';
 import { Button } from '../../../ui/button';
-import { selectTasks } from '../../../redux-store/reports-slider';
 import { Alert } from '../../../ui/alert';
 import { Loader } from '../../../ui/loader';
 import styles from './styles.module.css';
+import {
+  useReviewingReportsStore,
+  useShiftsStoreQuery,
+} from '../../../services/store';
 
 export function PageReportsReviewingSlider() {
-  const { started } = useAppSelector(selectRootShifts);
-  const tasks = useAppSelector(selectTasks);
+  const {
+    rootShifts: { started },
+  } = useShiftsStoreQuery();
+
+  const {
+    reports,
+    isLoading,
+    isError,
+    approve: approveReport,
+    decline: declineReport,
+  } = useReviewingReportsStore();
+
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { id } = useParams();
-
-  const parentRoutePath = useMemo(() => pathname.slice(0, pathname.lastIndexOf('/')), [pathname]);
-
-  const currentTaskIndex = tasks.findIndex((task) => task.report_id === id);
-
-  const { isError, isLoading } = useGetReportsReviewingQuery(started?.id ?? skipToken);
-
-  const [approveRequest] = useApproveReportMutation();
-  const [declineRequest] = useDeclineReportMutation();
+  const parentRoutePath = useMemo(
+    () => pathname.slice(0, pathname.lastIndexOf('/')),
+    [pathname],
+  );
+  const currentTaskIndex = reports?.findIndex(
+    (report) => report.report_id === id,
+  );
 
   const handlePrevTask = () => {
-    if (currentTaskIndex > 0) {
+    if (reports && currentTaskIndex && currentTaskIndex > 0) {
       const prevTaskIndex = currentTaskIndex - 1;
-      navigate(`${parentRoutePath}/${tasks[prevTaskIndex].report_id}`);
+      navigate(`${parentRoutePath}/${reports[prevTaskIndex].report_id}`);
     }
   };
 
   const handleNextTask = () => {
-    const lastTaskIndex = tasks.length - 1;
-    if (currentTaskIndex < lastTaskIndex) {
-      const nextTaskIndex = currentTaskIndex + 1;
-      navigate(`${parentRoutePath}/${tasks[nextTaskIndex].report_id}`);
+    if (reports) {
+      const lastTaskIndex = reports.length - 1;
+      if (currentTaskIndex && currentTaskIndex < lastTaskIndex) {
+        const nextTaskIndex = currentTaskIndex + 1;
+        navigate(`${parentRoutePath}/${reports[nextTaskIndex].report_id}`);
+      }
     }
   };
 
   const content = useMemo(() => {
+    if (!reports || !currentTaskIndex) {
+      return null;
+    }
+
     if (isError) {
-      return <h1 className="text text_type_main-large text_color_primary">Что-то пошло не так</h1>;
+      return (
+        <h1 className="text text_type_main-large text_color_primary">
+          Что-то пошло не так
+        </h1>
+      );
     }
 
     if (isLoading) {
@@ -59,16 +82,22 @@ export function PageReportsReviewingSlider() {
     }
 
     if (currentTaskIndex === -1) {
-      return <Alert extClassName={styles.slider__alert} title="Отчёт не найден" />;
+      return (
+        <Alert extClassName={styles.slider__alert} title="Отчёт не найден" />
+      );
     }
 
     const navigateAfterReview = () => {
-      if (tasks.length > 0) {
-        if (currentTaskIndex === tasks.length - 1) {
-          navigate(`${parentRoutePath}/${tasks[currentTaskIndex - 1].report_id}`);
+      if (reports.length > 0) {
+        if (currentTaskIndex === reports.length - 1) {
+          navigate(
+            `${parentRoutePath}/${reports[currentTaskIndex - 1].report_id}`,
+          );
           return;
         }
-        navigate(`${parentRoutePath}/${tasks[currentTaskIndex + 1].report_id}`);
+        navigate(
+          `${parentRoutePath}/${reports[currentTaskIndex + 1].report_id}`,
+        );
         return;
       }
 
@@ -77,10 +106,7 @@ export function PageReportsReviewingSlider() {
 
     const handleApprove = async () => {
       try {
-        await approveRequest({
-          reviewedReportId: tasks[currentTaskIndex].report_id,
-          shiftId: tasks[currentTaskIndex].shift_id,
-        }).unwrap();
+        approveReport(reports[currentTaskIndex].report_id);
 
         navigateAfterReview();
       } catch (error) {
@@ -90,11 +116,7 @@ export function PageReportsReviewingSlider() {
 
     const handleDecline = async () => {
       try {
-        await declineRequest({
-          reportId: tasks[currentTaskIndex].report_id,
-          shiftId: tasks[currentTaskIndex].shift_id,
-          patch: { report_status: 'declined' },
-        }).unwrap();
+        declineReport(reports[currentTaskIndex].report_id);
 
         navigateAfterReview();
       } catch (error) {
@@ -105,11 +127,11 @@ export function PageReportsReviewingSlider() {
     return (
       <ReportDetails
         extClassName={styles.slider__taskDetails}
-        taskUrl={tasks[currentTaskIndex].task_url}
-        photoUrl={tasks[currentTaskIndex].photo_url}
-        userName={tasks[currentTaskIndex].user_name}
-        userSurname={tasks[currentTaskIndex].user_surname}
-        createdAt={tasks[currentTaskIndex].report_created_at}
+        taskUrl={reports[currentTaskIndex].task_url}
+        photoUrl={reports[currentTaskIndex].photo_url}
+        userName={reports[currentTaskIndex].user_name}
+        userSurname={reports[currentTaskIndex].user_surname}
+        createdAt={reports[currentTaskIndex].report_created_at}
         accept={handleApprove}
         decline={handleDecline}
       />
@@ -118,21 +140,24 @@ export function PageReportsReviewingSlider() {
     isError,
     isLoading,
     currentTaskIndex,
-    tasks,
-    approveRequest,
-    declineRequest,
+    reports,
+    approveReport,
+    declineReport,
     navigate,
     parentRoutePath,
   ]);
 
-  if (!started) {
+  if (!started || !reports || !currentTaskIndex) {
     return <Navigate to={parentRoutePath} />;
   }
 
   return (
     <>
       <ContentContainer>
-        <Link to={parentRoutePath} className={cn(styles.slider__backLink, 'link')}>
+        <Link
+          to={parentRoutePath}
+          className={cn(styles.slider__backLink, 'link')}
+        >
           <ChevronLeftIcon type="interface-secondary" />
           <p
             className={cn(
@@ -140,7 +165,7 @@ export function PageReportsReviewingSlider() {
               'text',
               'text_type_main-small',
               'text_color_secondary',
-              'm-0'
+              'm-0',
             )}
           >
             Назад
@@ -148,31 +173,34 @@ export function PageReportsReviewingSlider() {
         </Link>
         {content}
       </ContentContainer>
-      {!isLoading && !isError && tasks.length > 0 && currentTaskIndex !== -1 && (
-        <nav className={styles.slider__nav}>
-          <Button
-            extClassName={styles.slider__navButton}
-            htmlType="button"
-            type="secondary"
-            onClick={handlePrevTask}
-          >
-            <ArrowLeftIcon type="link-active" />
-            Предыдущий отчёт
-          </Button>
-          <p className="text text_type_main-default text_color_secondary m-0">{`${
-            currentTaskIndex + 1
-          } из ${tasks.length}`}</p>
-          <Button
-            extClassName={styles.slider__navButton}
-            htmlType="button"
-            type="secondary"
-            onClick={handleNextTask}
-          >
-            Следующий отчёт
-            <ArrowRightIcon type="link-active" />
-          </Button>
-        </nav>
-      )}
+      {!isLoading &&
+        !isError &&
+        reports.length > 0 &&
+        currentTaskIndex !== -1 && (
+          <nav className={styles.slider__nav}>
+            <Button
+              extClassName={styles.slider__navButton}
+              htmlType="button"
+              type="secondary"
+              onClick={handlePrevTask}
+            >
+              <ArrowLeftIcon type="link-active" />
+              Предыдущий отчёт
+            </Button>
+            <p className="text text_type_main-default text_color_secondary m-0">{`${
+              currentTaskIndex + 1
+            } из ${reports.length}`}</p>
+            <Button
+              extClassName={styles.slider__navButton}
+              htmlType="button"
+              type="secondary"
+              onClick={handleNextTask}
+            >
+              Следующий отчёт
+              <ArrowRightIcon type="link-active" />
+            </Button>
+          </nav>
+        )}
     </>
   );
 }

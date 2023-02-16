@@ -14,8 +14,8 @@ import { MessageForm } from '../../message-form';
 import { deserializeQuery } from '../../../utils';
 import { MainPopup } from '../../../ui/main-popup';
 import { useRecruitmentState } from '../../../services/store';
-import styles from './styles.module.css';
 import { usePendingRequestsStore } from '../../../services/store';
+import styles from './styles.module.css';
 
 const ButtonWithTooltip = withTooltip<TButtonProps>(Button);
 
@@ -32,7 +32,7 @@ export const PageRequestsPending = () => {
     fetch,
     approve: approveRequest,
     decline: declineRequest,
-  } = usePendingRequestsStore();
+  } = usePendingRequestsStore((state) => state);
 
   useEffect(() => {
     if (shiftId) {

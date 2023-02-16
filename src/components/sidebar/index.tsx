@@ -160,11 +160,6 @@ export const SideBar = () => {
         icon="NoteEditIcon"
       />
       <SideBarAccordion
-        title="Участники проекта"
-        icon="UsersIcon"
-        to="/users"
-      />
-      <SideBarAccordion
         title="Отчёты участников"
         expandOnMount={initRoute === 'reports'}
         list={[

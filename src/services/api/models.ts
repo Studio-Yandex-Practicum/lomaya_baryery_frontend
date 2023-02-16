@@ -109,7 +109,7 @@ export namespace Requests {
 export namespace Reports {
   type TReportStatus = 'reviewing' | 'approved' | 'declined' | 'waiting';
 
-  interface IReport {
+  export interface IReport {
     shift_id: string;
     shift_status: Shifts.TShiftStatus;
     shift_started_at: string;

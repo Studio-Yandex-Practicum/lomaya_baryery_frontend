@@ -1,28 +1,31 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import cn from 'classnames';
-import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { useMatch, useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../../redux-store/hooks';
-import { selectRootShifts } from '../../../redux-store/root-shifts';
 import { Alert } from '../../../ui/alert';
 import { Loader } from '../../../ui/loader';
 import { Table } from '../../../ui/table';
 import { ReportRow } from '../../report-row';
 import { ContentContainer } from '../../../ui/content-container';
 import { ContentHeading } from '../../../ui/content-heading';
-import { useGetReportsRealizedQuery } from '../../../redux-store/api';
-import styles from './styles.module.css';
 import { ImagePopup } from '../../../ui/image-popup';
+import styles from './styles.module.css';
+import {
+  useRealizedReportsStore,
+  useShiftsStoreQuery,
+} from '../../../services/store';
 
 export function PageReportsRealized() {
-  const { started: startedShift } = useAppSelector(selectRootShifts);
+  const {
+    rootShifts: { started: startedShift },
+  } = useShiftsStoreQuery();
 
-  const { data, isLoading, isFetching } = useGetReportsRealizedQuery(
-    startedShift?.id ?? skipToken,
-    {
-      refetchOnMountOrArgChange: true,
+  const { reports: data, isLoading, fetch } = useRealizedReportsStore();
+
+  useEffect(() => {
+    if (startedShift) {
+      fetch(startedShift.id);
     }
-  );
+  }, [startedShift, fetch]);
 
   const navigate = useNavigate();
   const idByParams = useMatch('/reports/realized/:id')?.params.id;
@@ -39,35 +42,48 @@ export function PageReportsRealized() {
       return;
     }
 
-    if ((!data || data.length === 0) && (isLoading || isFetching)) {
+    if ((!data || data.length === 0) && isLoading) {
       return <Loader extClassName={styles.tasksReview__contentLoader} />;
     }
 
     if (data?.length === 0) {
       return (
-        <Alert extClassName={styles.tasksReview__contentAlert} title="Проверенных отчётов нет" />
+        <Alert
+          extClassName={styles.tasksReview__contentAlert}
+          title="Проверенных отчётов нет"
+        />
       );
     }
 
     return (
       <Table
-        header={['Название задания', 'Имя и фамилия', 'Дата отправки', 'Превью', '']}
+        header={[
+          'Название задания',
+          'Имя и фамилия',
+          'Дата отправки',
+          'Превью',
+          '',
+        ]}
         extClassName={styles.tasksReview__table}
         gridClassName={styles.tasksReview__tableColumns}
         renderRows={(rowStyles) =>
-          isLoading || isFetching ? (
+          isLoading ? (
             <Loader extClassName={styles.tasksReview__tableLoader} />
           ) : (
             <div className={cn(styles.tasksReview__tableRows, 'custom-scroll')}>
               {data.map((report) => (
-                <ReportRow key={report.report_id} extClassName={rowStyles} reportData={report} />
+                <ReportRow
+                  key={report.report_id}
+                  extClassName={rowStyles}
+                  reportData={report}
+                />
               ))}
             </div>
           )
         }
       />
     );
-  }, [data, isLoading, isFetching, startedShift]);
+  }, [data, isLoading, startedShift]);
 
   const handleCloseModal = useCallback(() => navigate(-1), [navigate]);
 
@@ -85,11 +101,18 @@ export function PageReportsRealized() {
   return (
     <>
       <ContentContainer extClassName={styles.tasksReview}>
-        <ContentHeading extClassName={styles.tasksReview__heading} title="Проверенные" />
+        <ContentHeading
+          extClassName={styles.tasksReview__heading}
+          title="Проверенные"
+        />
         {content}
       </ContentContainer>
 
-      <ImagePopup opened={Boolean(photoUrl)} imgSrc={photoUrl} onClose={handleCloseModal} />
+      <ImagePopup
+        opened={Boolean(photoUrl)}
+        imgSrc={photoUrl}
+        onClose={handleCloseModal}
+      />
     </>
   );
 }
