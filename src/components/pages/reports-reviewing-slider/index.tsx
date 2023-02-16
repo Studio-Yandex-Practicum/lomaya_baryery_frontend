@@ -43,7 +43,8 @@ export function PageReportsReviewingSlider() {
     () => pathname.slice(0, pathname.lastIndexOf('/')),
     [pathname],
   );
-  const currentTaskIndex = reports?.findIndex(
+
+  const currentTaskIndex = reports.findIndex(
     (report) => report.report_id === id,
   );
 
@@ -64,7 +65,7 @@ export function PageReportsReviewingSlider() {
     }
   };
 
-  const content = useMemo(() => {
+  const content = () => {
     if (!reports || currentTaskIndex === undefined) {
       return null;
     }
@@ -87,38 +88,17 @@ export function PageReportsReviewingSlider() {
       );
     }
 
-    const navigateAfterReview = () => {
-      if (reports.length > 0) {
-        if (currentTaskIndex === reports.length - 1) {
-          navigate(
-            `${parentRoutePath}/${reports[currentTaskIndex - 1].report_id}`,
-          );
-          return;
-        }
-        navigate(
-          `${parentRoutePath}/${reports[currentTaskIndex + 1].report_id}`,
-        );
-        return;
-      }
-
-      navigate(parentRoutePath);
-    };
-
-    const handleApprove = async () => {
+    const handleApprove = () => {
       try {
         approveReport(reports[currentTaskIndex].report_id);
-
-        navigateAfterReview();
       } catch (error) {
         console.error(error);
       }
     };
 
-    const handleDecline = async () => {
+    const handleDecline = () => {
       try {
         declineReport(reports[currentTaskIndex].report_id);
-
-        navigateAfterReview();
       } catch (error) {
         console.error(error);
       }
@@ -131,21 +111,13 @@ export function PageReportsReviewingSlider() {
         photoUrl={reports[currentTaskIndex].photo_url}
         userName={reports[currentTaskIndex].user_name}
         userSurname={reports[currentTaskIndex].user_surname}
+        reportStatus={reports[currentTaskIndex].report_status}
         createdAt={reports[currentTaskIndex].report_created_at}
         accept={handleApprove}
         decline={handleDecline}
       />
     );
-  }, [
-    isError,
-    isLoading,
-    currentTaskIndex,
-    reports,
-    approveReport,
-    declineReport,
-    navigate,
-    parentRoutePath,
-  ]);
+  };
 
   if (
     !started ||
@@ -176,7 +148,7 @@ export function PageReportsReviewingSlider() {
             Назад
           </p>
         </Link>
-        {content}
+        {content()}
       </ContentContainer>
       {!isLoading &&
         !isError &&

@@ -35,7 +35,8 @@
   width: 122px;
   height: 122px;
   object-fit: contain;
-  border: var(--common-border-width) var(--common-border-style) var(--colors-interface-border);
+  border: var(--common-border-width) var(--common-border-style)
+    var(--colors-interface-border);
   border-radius: var(--common-border-radius);
 }
 
@@ -60,4 +61,9 @@
   overflow: hidden;
   border-radius: var(--common-border-radius);
   background: var(--background);
+}
+
+.statusLabel {
+  width: 226px;
+  height: 140px;
 }
