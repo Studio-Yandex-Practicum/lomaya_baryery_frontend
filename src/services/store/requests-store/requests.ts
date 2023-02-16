@@ -1,10 +1,11 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
+import { findIndexById } from '../../../utils/common-helpers';
 import Api from '../../api';
 import { Requests } from '../../api/models';
 
 interface PendingRequestsStore {
-  requests: Requests.IRequest[] | null;
+  requests: Requests.IRequest[];
   isIdle: boolean;
   isLoading: boolean;
   isSuccess: boolean;
@@ -15,8 +16,8 @@ interface PendingRequestsStore {
 }
 
 export const usePendingRequestsStore = create<PendingRequestsStore>()(
-  immer((set) => ({
-    requests: null,
+  immer((set, get) => ({
+    requests: [],
     isIdle: true,
     isSuccess: false,
     isLoading: false,
@@ -30,6 +31,7 @@ export const usePendingRequestsStore = create<PendingRequestsStore>()(
         const requests = await Api.getPendingRequests(shiftId);
         set((state) => {
           state.requests = requests;
+          state.isSuccess = true;
         });
       } catch (error) {
         set((state) => {
@@ -46,15 +48,11 @@ export const usePendingRequestsStore = create<PendingRequestsStore>()(
       try {
         await Api.approveRequest(requestId);
         set((state) => {
-          if (state.requests) {
-            const requestIndex = state.requests.findIndex(
-              (request) => request.request_id === requestId,
-            );
-            if (requestIndex !== -1) {
-              state.requests[requestIndex].request_status = 'approved';
-            }
-          } else {
-            throw new Error('internal error');
+          const { requests } = get();
+
+          const requestIndex = findIndexById(requests, 'request_id', requestId);
+          if (requestIndex !== null) {
+            state.requests[requestIndex].request_status = 'approved';
           }
         });
       } catch (error) {
@@ -67,15 +65,14 @@ export const usePendingRequestsStore = create<PendingRequestsStore>()(
       try {
         await Api.declineRequest(payload);
         set((state) => {
-          if (state.requests) {
-            const requestIndex = state.requests.findIndex(
-              (request) => request.request_id === payload.requestId,
-            );
-            if (requestIndex !== -1) {
-              state.requests[requestIndex].request_status = 'declined';
-            }
-          } else {
-            throw new Error('internal error');
+          const { requests } = get();
+          const requestIndex = findIndexById(
+            requests,
+            'request_id',
+            payload.requestId,
+          );
+          if (requestIndex !== null) {
+            state.requests[requestIndex].request_status = 'declined';
           }
         });
       } catch (error) {
@@ -88,7 +85,7 @@ export const usePendingRequestsStore = create<PendingRequestsStore>()(
 );
 
 interface RealizedRequestsStore {
-  requests: Requests.IRequest[] | null;
+  requests: Requests.IRequest[];
   isIdle: boolean;
   isLoading: boolean;
   isSuccess: boolean;
@@ -98,7 +95,7 @@ interface RealizedRequestsStore {
 
 export const useRealizedRequestsStore = create<RealizedRequestsStore>()(
   immer((set) => ({
-    requests: null,
+    requests: [],
     isIdle: true,
     isSuccess: false,
     isLoading: false,
@@ -114,6 +111,7 @@ export const useRealizedRequestsStore = create<RealizedRequestsStore>()(
 
         set((state) => {
           state.requests = realizedRequests;
+          state.isSuccess = true;
         });
       } catch (error) {
         set((state) => {

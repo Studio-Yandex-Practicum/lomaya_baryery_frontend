@@ -5,7 +5,7 @@ import Api from '../../api';
 import { Reports } from '../../api/models';
 
 interface ReviewingReportsStore {
-  reports: Reports.IReport[] | null;
+  reports: Reports.IReport[];
   isIdle: boolean;
   isLoading: boolean;
   isSuccess: boolean;
@@ -16,8 +16,8 @@ interface ReviewingReportsStore {
 }
 
 export const useReviewingReportsStore = create<ReviewingReportsStore>()(
-  immer((set) => ({
-    reports: null,
+  immer((set, get) => ({
+    reports: [],
     isIdle: true,
     isLoading: false,
     isSuccess: false,
@@ -33,6 +33,7 @@ export const useReviewingReportsStore = create<ReviewingReportsStore>()(
 
         set((state) => {
           state.reports = reviewingReports;
+          state.isSuccess = true;
         });
       } catch (error) {
         set((state) => {
@@ -46,18 +47,14 @@ export const useReviewingReportsStore = create<ReviewingReportsStore>()(
       }
     },
     async approve(reportId) {
-      set((state) => {
-        state.isIdle = false;
-        state.isLoading = true;
-      });
-
       try {
         await Api.approveReport(reportId);
         set((state) => {
-          if (state.reports) {
-            const index = findIndexById(state.reports, 'report_id', reportId);
+          const { reports } = get();
+          if (reports) {
+            const index = findIndexById(reports, 'report_id', reportId);
 
-            if (index) {
+            if (index !== null) {
               state.reports[index].report_status = 'approved';
             }
           }
@@ -66,26 +63,17 @@ export const useReviewingReportsStore = create<ReviewingReportsStore>()(
         set((state) => {
           state.isError = true;
         });
-      } finally {
-        set((state) => {
-          state.isIdle = true;
-          state.isLoading = false;
-        });
       }
     },
     async decline(reportId) {
-      set((state) => {
-        state.isIdle = false;
-        state.isLoading = true;
-      });
-
       try {
         await Api.declineReport(reportId);
         set((state) => {
-          if (state.reports) {
-            const index = findIndexById(state.reports, 'report_id', reportId);
+          const { reports } = get();
+          if (reports) {
+            const index = findIndexById(reports, 'report_id', reportId);
 
-            if (index) {
+            if (index !== null) {
               state.reports[index].report_status = 'declined';
             }
           }
@@ -93,11 +81,6 @@ export const useReviewingReportsStore = create<ReviewingReportsStore>()(
       } catch (error) {
         set((state) => {
           state.isError = true;
-        });
-      } finally {
-        set((state) => {
-          state.isIdle = true;
-          state.isLoading = false;
         });
       }
     },

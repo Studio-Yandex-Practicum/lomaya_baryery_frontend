@@ -25,6 +25,7 @@ export function PageReportsReviewingList() {
   const {
     reports: data,
     isLoading,
+    isSuccess,
     fetch,
     approve: approveRequest,
     decline: declineRequest,
@@ -37,15 +38,15 @@ export function PageReportsReviewingList() {
   }, [startedShift, fetch]);
 
   const content = useMemo(() => {
-    if (startedShift === null || !data) {
+    if (startedShift === null) {
       return;
     }
 
-    if ((!data || data.length === 0) && isLoading) {
+    if (data.length === 0 && isLoading) {
       return <Loader extClassName={styles.tasksReview__contentLoader} />;
     }
 
-    if (data?.length === 0) {
+    if (data.length === 0 && isSuccess) {
       return (
         <Alert
           extClassName={styles.tasksReview__contentAlert}
@@ -53,7 +54,6 @@ export function PageReportsReviewingList() {
         />
       );
     }
-
     return (
       <Table
         header={[
@@ -84,7 +84,14 @@ export function PageReportsReviewingList() {
         }
       />
     );
-  }, [data, isLoading, startedShift, approveRequest, declineRequest]);
+  }, [
+    data,
+    isLoading,
+    isSuccess,
+    startedShift,
+    approveRequest,
+    declineRequest,
+  ]);
 
   if (!startedShift) {
     return (

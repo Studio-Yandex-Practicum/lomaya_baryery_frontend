@@ -13,10 +13,10 @@ export {
   useRealizedRequestsStore,
 } from './requests-store/requests';
 
-export { useReviewingReportsStore } from './user-reports-store/reviewing-user-reports';
+export { useReviewingReportsStore } from './reports-store/reviewing-reports';
 export {
   useRealizedReportsStore,
   useDeclinedReportsStore,
-} from './user-reports-store/user-reports';
+} from './reports-store/reports';
 
 export { useParticipantsStoreQuery } from './participants-store/participants';

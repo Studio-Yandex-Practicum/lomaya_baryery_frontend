@@ -6,9 +6,20 @@ import {
   updateShiftSettings,
 } from './shifts';
 
-import { approveRequest, declineRequest, getPendingRequests, getRequests } from './requests';
+import {
+  approveRequest,
+  declineRequest,
+  getPendingRequests,
+  getRequests,
+} from './requests';
 
-import { approveReport, declineReport, getReports, getReviewingReports } from './reports';
+import {
+  approveReport,
+  declineReport,
+  getReports,
+  getReviewingReports,
+  getDeclinedReports,
+} from './reports';
 
 import Error from './exceptions';
 
@@ -32,6 +43,7 @@ export default {
   declineReport,
   getReports,
   getReviewingReports,
+  getDeclinedReports,
   Error,
   config,
 };

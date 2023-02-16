@@ -19,7 +19,12 @@ export function PageReportsRealized() {
     rootShifts: { started: startedShift },
   } = useShiftsStoreQuery();
 
-  const { reports: data, isLoading, fetch } = useRealizedReportsStore();
+  const {
+    reports: data,
+    isLoading,
+    isSuccess,
+    fetch,
+  } = useRealizedReportsStore();
 
   useEffect(() => {
     if (startedShift) {
@@ -31,7 +36,7 @@ export function PageReportsRealized() {
   const idByParams = useMatch('/reports/realized/:id')?.params.id;
 
   const photoUrl = useMemo(() => {
-    if (data && data.length > 0 && idByParams) {
+    if (data.length > 0 && idByParams) {
       const report = data.find((report) => report.report_id === idByParams);
       if (report) return report.photo_url;
     }
@@ -42,11 +47,11 @@ export function PageReportsRealized() {
       return;
     }
 
-    if ((!data || data.length === 0) && isLoading) {
+    if (data.length === 0 && isLoading) {
       return <Loader extClassName={styles.tasksReview__contentLoader} />;
     }
 
-    if (data?.length === 0) {
+    if (data.length === 0 && isSuccess) {
       return (
         <Alert
           extClassName={styles.tasksReview__contentAlert}
@@ -83,7 +88,7 @@ export function PageReportsRealized() {
         }
       />
     );
-  }, [data, isLoading, startedShift]);
+  }, [data, isLoading, isSuccess, startedShift]);
 
   const handleCloseModal = useCallback(() => navigate(-1), [navigate]);
 

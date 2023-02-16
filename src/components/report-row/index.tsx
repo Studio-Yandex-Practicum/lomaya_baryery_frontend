@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import cn from 'classnames';
 import { Link } from 'react-router-dom';
-import { IReport } from '../../redux-store/api/models';
 import { StatusLabel } from '../../ui/status-label';
 import { Button } from '../../ui/button';
 import { CellDate, CellLink, CellText } from '../../ui/table';
@@ -64,11 +63,19 @@ export const ReportRow: React.FC<IReportRowProps> = ({
           type="primary"
           htmlType="button"
           onClick={approve}
-          extClassName={styles.taskRow__approveButton}
+          extClassName={[styles.button, styles.taskRow__approveButton].join(
+            ' ',
+          )}
         >
           Принять
         </Button>
-        <Button size="small" type="primary" htmlType="button" onClick={decline}>
+        <Button
+          extClassName={styles.button}
+          size="small"
+          type="primary"
+          htmlType="button"
+          onClick={decline}
+        >
           Отклонить
         </Button>
       </div>

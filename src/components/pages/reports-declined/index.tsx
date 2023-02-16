@@ -19,7 +19,12 @@ export function PageReportsDeclined() {
     rootShifts: { started: startedShift },
   } = useShiftsStoreQuery();
 
-  const { reports: data, isLoading, fetch } = useDeclinedReportsStore();
+  const {
+    reports: data,
+    isLoading,
+    isSuccess,
+    fetch,
+  } = useDeclinedReportsStore();
 
   useEffect(() => {
     if (startedShift) {
@@ -31,22 +36,22 @@ export function PageReportsDeclined() {
   const idByParams = useMatch('/reports/declined/:id')?.params.id;
 
   const photoUrl = useMemo(() => {
-    if (data && data.length > 0 && idByParams) {
+    if (data.length > 0 && idByParams) {
       const report = data.find((report) => report.report_id === idByParams);
       if (report) return report.photo_url;
     }
   }, [idByParams, data]);
 
   const content = useMemo(() => {
-    if (startedShift === null || !data) {
+    if (!startedShift) {
       return;
     }
 
-    if ((!data || data.length === 0) && isLoading) {
+    if (data.length === 0 && isLoading) {
       return <Loader extClassName={styles.tasksReview__contentLoader} />;
     }
 
-    if (data?.length === 0) {
+    if (data.length === 0 && isSuccess) {
       return (
         <Alert
           extClassName={styles.tasksReview__contentAlert}
@@ -83,11 +88,11 @@ export function PageReportsDeclined() {
         }
       />
     );
-  }, [data, isLoading, startedShift]);
+  }, [data, isSuccess, isLoading, startedShift]);
 
   const handleCloseModal = useCallback(() => navigate(-1), [navigate]);
 
-  if (startedShift === null) {
+  if (!startedShift) {
     return (
       <ContentContainer extClassName={styles.tasksReview__alert}>
         <Alert

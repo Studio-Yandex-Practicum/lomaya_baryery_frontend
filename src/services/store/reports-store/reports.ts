@@ -4,7 +4,7 @@ import Api from '../../api';
 import { Reports } from '../../api/models';
 
 interface ReportsStore {
-  reports: Reports.IReport[] | null;
+  reports: Reports.IReport[];
   isIdle: boolean;
   isLoading: boolean;
   isSuccess: boolean;
@@ -14,7 +14,7 @@ interface ReportsStore {
 
 export const useReportsStore = create<ReportsStore>()(
   immer((set) => ({
-    reports: null,
+    reports: [],
     isIdle: true,
     isLoading: false,
     isSuccess: false,
@@ -30,6 +30,7 @@ export const useReportsStore = create<ReportsStore>()(
 
         set((state) => {
           state.reports = reports;
+          state.isSuccess = true;
         });
       } catch (error) {
         set((state) => {
@@ -46,7 +47,7 @@ export const useReportsStore = create<ReportsStore>()(
 );
 
 function selectRealizedReports(state: ReportsStore) {
-  let reports = null;
+  let reports: Reports.IReport[] = [];
   if (state.reports) {
     reports = state.reports.filter(
       ({ report_status: status }) =>
@@ -57,21 +58,40 @@ function selectRealizedReports(state: ReportsStore) {
   return { ...state, reports };
 }
 
-function selectDeclinedReports(state: ReportsStore) {
-  let reports = null;
-  if (state.reports) {
-    reports = state.reports.filter(
-      ({ report_status: status }) => status === 'declined',
-    );
-  }
-
-  return { ...state, reports };
-}
-
 export function useRealizedReportsStore() {
   return useReportsStore(selectRealizedReports);
 }
 
-export function useDeclinedReportsStore() {
-  return useReportsStore(selectDeclinedReports);
-}
+export const useDeclinedReportsStore = create<ReportsStore>()(
+  immer((set) => ({
+    reports: [],
+    isIdle: true,
+    isLoading: false,
+    isSuccess: false,
+    isError: false,
+    async fetch(shiftId) {
+      set((state) => {
+        state.isIdle = false;
+        state.isLoading = true;
+      });
+
+      try {
+        const reports = await Api.getDeclinedReports(shiftId);
+
+        set((state) => {
+          state.reports = reports;
+          state.isSuccess = true;
+        });
+      } catch (error) {
+        set((state) => {
+          state.isError = true;
+        });
+      } finally {
+        set((state) => {
+          state.isIdle = true;
+          state.isLoading = false;
+        });
+      }
+    },
+  })),
+);

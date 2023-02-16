@@ -48,7 +48,7 @@ export function PageReportsReviewingSlider() {
   );
 
   const handlePrevTask = () => {
-    if (reports && currentTaskIndex && currentTaskIndex > 0) {
+    if (reports && currentTaskIndex !== undefined && currentTaskIndex > 0) {
       const prevTaskIndex = currentTaskIndex - 1;
       navigate(`${parentRoutePath}/${reports[prevTaskIndex].report_id}`);
     }
@@ -57,7 +57,7 @@ export function PageReportsReviewingSlider() {
   const handleNextTask = () => {
     if (reports) {
       const lastTaskIndex = reports.length - 1;
-      if (currentTaskIndex && currentTaskIndex < lastTaskIndex) {
+      if (currentTaskIndex !== undefined && currentTaskIndex < lastTaskIndex) {
         const nextTaskIndex = currentTaskIndex + 1;
         navigate(`${parentRoutePath}/${reports[nextTaskIndex].report_id}`);
       }
@@ -65,7 +65,7 @@ export function PageReportsReviewingSlider() {
   };
 
   const content = useMemo(() => {
-    if (!reports || !currentTaskIndex) {
+    if (!reports || currentTaskIndex === undefined) {
       return null;
     }
 
@@ -147,7 +147,12 @@ export function PageReportsReviewingSlider() {
     parentRoutePath,
   ]);
 
-  if (!started || !reports || !currentTaskIndex) {
+  if (
+    !started ||
+    !reports ||
+    currentTaskIndex === -1 ||
+    currentTaskIndex === undefined
+  ) {
     return <Navigate to={parentRoutePath} />;
   }
 

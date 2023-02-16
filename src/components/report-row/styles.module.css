@@ -46,6 +46,10 @@
   display: flex;
 }
 
+.button {
+  width: 112px;
+}
+
 .taskRow__approveButton {
   margin-right: 10px;
 }
