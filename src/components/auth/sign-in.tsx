@@ -6,6 +6,7 @@ import { AuthContainer, Form } from './elements';
 import { InputText } from '../../ui/inputText';
 import styles from './sign-in-styles.module.css';
 import { useAuthStore } from '../../services/store';
+import { authEvent } from '../../services/store/auth-store/auth';
 
 export function SignInForm() {
   const {
@@ -19,8 +20,6 @@ export function SignInForm() {
   });
 
   const [submitError, setSubmitError] = useState<null | string>(null);
-
-  const { setAuth } = useAuthStore();
 
   const emailRef = useRef<HTMLInputElement>(null);
 
@@ -38,7 +37,7 @@ export function SignInForm() {
     e.preventDefault();
 
     if (isValid) {
-      setAuth(true);
+      authEvent(true);
     } else {
       if (Object.values(inputValues).some((value) => !Boolean(value))) {
         setSubmitError('Все поля обязательные');

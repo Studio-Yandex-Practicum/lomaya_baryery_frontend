@@ -6,7 +6,7 @@ const fetcher = ky.create({ prefixUrl: 'https://lombaryery.tk' });
 
 async function makeRequest<Result>(
   url: string,
-  options: Options & { authorization?: boolean; isRetry?: boolean },
+  options: Options & { authorization?: boolean; isRetry?: boolean }
 ) {
   if (options.authorization) {
     try {
@@ -43,7 +43,7 @@ async function makeRequest<Result>(
           {
             method: 'post',
             json: { token: config.refreshToken },
-          },
+          }
         ).json<ITokenRes>();
 
         config.setAccessToken(accessToken);
@@ -56,10 +56,14 @@ async function makeRequest<Result>(
         throw ApiError.Unauthorized();
       }
     } else {
-      console.error(error);
+      if (error instanceof HTTPError) {
+        const errorBody = await error.response.json();
+        if (errorBody.detail) {
+          throw new Error(errorBody.detail);
+        }
+      }
       throw error;
     }
-    throw error;
   }
 }
 

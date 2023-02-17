@@ -13,6 +13,21 @@ export namespace Shifts {
     total_users: number;
   }
 
+  interface ShiftSchema {
+    id: string;
+    sequence_number: number;
+    status: TShiftStatus;
+    title: string;
+    final_message: string;
+    started_at: string;
+    finished_at: string;
+    total_users: number;
+  }
+
+  export type TShift<T extends TShiftStatus> = Omit<ShiftSchema, 'status'> & {
+    status: T;
+  };
+
   export interface ShiftWithParticipantsRes {
     shift: Omit<IShift, 'total_users' | 'sequence_number'>;
     members: Array<{
@@ -48,7 +63,9 @@ export namespace Shifts {
     finished_at: string;
   }
 
-  export type CreateShiftRes = IShift;
+  export type CreateShiftRes = Omit<IShift, 'status'> & {
+    status: Extract<TShiftStatus, 'preparing'>;
+  };
 
   export interface UpdateShiftProps {
     shiftId: string;

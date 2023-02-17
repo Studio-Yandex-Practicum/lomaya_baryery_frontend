@@ -2,9 +2,10 @@ import React, { useMemo, useState } from 'react';
 import cn from 'classnames';
 import { NavLink, useLocation } from 'react-router-dom';
 import type { To } from 'react-router-dom';
+import { useStore } from 'effector-react';
 import { ChevronRightIcon, TIcons } from '../../ui/icons';
 import * as Icons from '../../ui/icons';
-import { useShiftsStore } from '../../services/store';
+import { shiftsModel } from '../../services/models';
 import styles from './styles.module.css';
 
 interface ISideBarAccordion {
@@ -30,7 +31,7 @@ const SideBarAccordion: React.FC<ISideBarAccordion> = ({
   const paths = list ? list.map((item) => item.to) : [to];
   const branch = useLocation().pathname.split('/')[1];
   const isCurrentBranch = paths.some((path) =>
-    path?.toString().includes(branch),
+    path?.toString().includes(branch)
   );
 
   const handleToggle = () => {
@@ -54,7 +55,7 @@ const SideBarAccordion: React.FC<ISideBarAccordion> = ({
               styles.accordion__text,
               {
                 [styles.accordion__text_active]: isCurrentBranch,
-              },
+              }
             )}
           >
             {title}
@@ -81,7 +82,7 @@ const SideBarAccordion: React.FC<ISideBarAccordion> = ({
                         [styles.accordion__listItem_active]: isActive,
                       },
                       'text',
-                      'text_type_main-medium',
+                      'text_type_main-medium'
                     )
                   }
                 >
@@ -107,7 +108,7 @@ const SideBarAccordion: React.FC<ISideBarAccordion> = ({
             styles.accordion__text,
             {
               [styles.accordion__text_active]: isCurrentBranch,
-            },
+            }
           )}
         >
           {title}
@@ -118,9 +119,9 @@ const SideBarAccordion: React.FC<ISideBarAccordion> = ({
 };
 
 export const SideBar = () => {
-  const {
-    rootShifts: { preparing: preparingShift, started: startedShift },
-  } = useShiftsStore();
+  const { preparing: preparingShift, started: startedShift } = useStore(
+    shiftsModel.store.$shifts
+  );
 
   const shiftsList = useMemo(() => {
     const list: ISideBarAccordion['list'] = [

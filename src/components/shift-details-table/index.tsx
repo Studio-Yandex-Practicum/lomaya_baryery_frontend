@@ -1,5 +1,4 @@
 import cn from 'classnames';
-import { Button } from '../../ui/button';
 import { CellDate, CellText, Table } from '../../ui/table';
 import styles from './styles.module.css';
 
@@ -8,7 +7,7 @@ interface IShiftDetailsTableProps {
   start: string;
   finish: string;
   participants: number;
-  onButtonClick?: () => void;
+  featureComponent?: React.ReactNode;
   extClassName?: string;
 }
 
@@ -17,7 +16,7 @@ export function ShiftDetailsTable({
   start,
   finish,
   participants,
-  onButtonClick,
+  featureComponent,
   extClassName,
 }: IShiftDetailsTableProps) {
   return (
@@ -33,23 +32,13 @@ export function ShiftDetailsTable({
             <span
               className={cn(
                 styles.row__dateDevider,
-                'text text_type_main-medium',
+                'text text_type_main-medium'
               )}
             >
               –
             </span>
             <CellDate date={finish} />
-            {onButtonClick && (
-              <Button
-                extClassName={styles.row__editButton}
-                htmlType="button"
-                type="secondary"
-                size="small"
-                onClick={onButtonClick}
-              >
-                Изменить
-              </Button>
-            )}
+            {featureComponent}
           </div>
           <CellText text={participants} />
         </div>

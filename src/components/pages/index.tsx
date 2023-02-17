@@ -2,7 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { Login } from './auth-login';
 import { ForgotPassword } from './auth-forgot';
 import { ResetPassword } from './auth-create';
-import { Layout } from './layout';
+import { Layout } from './layout/layout';
 import { PageRequestsRealized } from './requests-realized';
 import { PageRequestsPending } from './requests-pending';
 import { PageFinishedShift } from './shift-finished';
@@ -30,7 +30,7 @@ export function AppRoutes() {
         }
       >
         <Route index element={<Navigate to="shifts/all" replace />} />
-        <Route path="shifts/all/*" element={<PageShiftsAll />} />
+        <Route path="shifts/all/" element={<PageShiftsAll />} />
         <Route path="shifts/preparing/*" element={<PagePreparingShift />} />
         <Route path="shifts/started/*" element={<PageStartedShift />} />
         <Route path="shifts/finished/:id" element={<PageFinishedShift />} />

@@ -1,15 +1,28 @@
 import cn from 'classnames';
+import { useStore } from 'effector-react';
+import { useMemo } from 'react';
+import { Shifts } from '../../services/api';
+import { shiftsModel } from '../../services/models';
 import { StatusLabel } from '../../ui/status-label';
 import { CellDate, CellLink, CellText, Table } from '../../ui/table';
 import styles from './styles.module.css';
 
 interface IShiftsTableProps {
-  shifts: IShift[] | undefined;
   extClassName?: string;
 }
 
-export function ShiftsTable({ shifts, extClassName }: IShiftsTableProps) {
-  function renderStatusLabel(status: TShiftStatus) {
+export function ShiftsTable({ extClassName }: IShiftsTableProps) {
+  const shifts = useStore(shiftsModel.store.$shifts);
+
+  const renderData = useMemo(
+    () =>
+      Object.values(shifts)
+        .flat()
+        .filter((shift) => shift !== null),
+    [shifts]
+  );
+
+  function renderStatusLabel(status: Shifts.TShiftStatus) {
     switch (status) {
       case 'preparing':
         return <StatusLabel statusText="Новая" type="new" />;
@@ -22,7 +35,7 @@ export function ShiftsTable({ shifts, extClassName }: IShiftsTableProps) {
     }
   }
 
-  function getRoutePath(shift: IShift) {
+  function getRoutePath(shift: Shifts.IShift) {
     switch (shift.status) {
       case 'preparing':
         return `/shifts/preparing`;
@@ -50,7 +63,7 @@ export function ShiftsTable({ shifts, extClassName }: IShiftsTableProps) {
       renderRows={(commonGridStyles) =>
         shifts && (
           <div className={cn(styles.shifts, 'custom-scroll')}>
-            {shifts.map((shift) => (
+            {renderData.map((shift) => (
               <div
                 key={shift.id}
                 className={cn(styles.row, commonGridStyles, 'tableContentRow')}

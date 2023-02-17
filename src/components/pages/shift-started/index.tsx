@@ -16,34 +16,14 @@ import {
 } from '../../shift-settings-form';
 import { MainPopup } from '../../../ui/main-popup';
 import { Dialog } from '../../../ui/dialog';
-import {
-  useParticipantsStoreQuery,
-  useShiftsStore,
-} from '../../../services/store';
 import styles from './styles.module.css';
+import { StartedShift } from '../../entities/started-shift';
 
 export const PageStartedShift = () => {
   const navigate = useNavigate();
   const editShiftPopup = Boolean(useMatch('/shifts/started/settings'));
   const editShiftMessagePopup = Boolean(useMatch('/shifts/started/message'));
   const finishShiftDialog = Boolean(useMatch('/shifts/started/finish'));
-
-  const {
-    rootShifts: { started: startedShift, preparing: preparingShift },
-    shifts,
-    update: updateShift,
-    finish: setFinishShift,
-    isMutating,
-  } = useShiftsStore();
-  console.log(startedShift);
-  const {
-    data,
-    isLoading: isUsersLoading,
-    isError: isUsersError,
-  } = useParticipantsStoreQuery(startedShift?.id, [
-    'participants',
-    startedShift?.id,
-  ]);
 
   const openShiftSettings = useCallback(() => navigate('settings'), [navigate]);
 
@@ -122,7 +102,7 @@ export const PageStartedShift = () => {
         }
       }
     },
-    [startedShift, updateShift, handleCloseModal],
+    [startedShift, updateShift, handleCloseModal]
   );
 
   const handleChangeMessage = async (message: string) => {
@@ -177,14 +157,8 @@ export const PageStartedShift = () => {
             Завершить смену
           </Button>
         </ContentHeading>
-        <ShiftDetailsTable
-          extClassName={styles.shiftTable}
-          title={startedShift.title}
-          start={startedShift.started_at}
-          finish={startedShift.finished_at}
-          onButtonClick={openShiftSettings}
-          participants={startedShift.total_users}
-        />
+        <StartedShift extClassName={styles.shiftTable} />
+        {/* reserv extClassName={styles.shiftTable}*/}
       </ContentContainer>
       <ContentContainer extClassName={styles.participantsContainer}>
         <h2 className={cn(styles.title, 'text')}>Участники</h2>

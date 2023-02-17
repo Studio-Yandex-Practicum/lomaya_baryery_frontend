@@ -1,26 +1,28 @@
 import cn from 'classnames';
+import { useStore } from 'effector-react';
 import { useEffect, useMemo } from 'react';
 import { Outlet } from 'react-router-dom';
-import { useShiftsStore } from '../../services/store';
-import { Loader } from '../../ui/loader';
-import { Header } from '../header';
-import { SideBar } from '../sidebar';
-import styles from './layout.module.css';
+import { shiftsModel } from '../../../services/models';
+import { Loader } from '../../../ui/loader';
+import { Header } from '../../header';
+import { SideBar } from '../../sidebar';
+import { layoutMounted } from './model';
+import styles from './styles.module.css';
 
 export const Layout = () => {
-  const { isFetching, isSuccess, isFetchError, fetch } = useShiftsStore();
+  const { isLoading, isSuccess, isError } = useStore(
+    shiftsModel.store.$shiftsLoading
+  );
 
   useEffect(() => {
-    if (!isSuccess) {
-      fetch();
-    }
-  }, [fetch, isSuccess]);
+    layoutMounted();
+  }, []);
 
   const content = useMemo(() => {
-    if (isFetching) {
+    if (isLoading) {
       return <Loader fullScreen />;
     }
-    if (isFetchError && !isSuccess) {
+    if (isError && !isSuccess) {
       return (
         <h1 className={cn('text', 'text_type_main-extra-large')}>
           Сервер не доступен
@@ -39,7 +41,7 @@ export const Layout = () => {
         </>
       );
     }
-  }, [isFetchError, isFetching, isSuccess]);
+  }, [isLoading, isSuccess, isError]);
 
   return (
     <>
