@@ -1,5 +1,7 @@
 export { useAuthStore } from './auth-store/auth';
 
+export { useShiftsStore } from './shifts-store/awesome-shifts-store';
+
 export {
   useShiftsStoreQuery,
   useCreateNewShift,

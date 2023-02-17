@@ -17,10 +17,8 @@ import {
 import { MainPopup } from '../../../ui/main-popup';
 import { Dialog } from '../../../ui/dialog';
 import {
-  useFinishShift,
   useParticipantsStoreQuery,
-  useShiftsStoreQuery,
-  useUpdateShift,
+  useShiftsStore,
 } from '../../../services/store';
 import styles from './styles.module.css';
 
@@ -32,8 +30,12 @@ export const PageStartedShift = () => {
 
   const {
     rootShifts: { started: startedShift, preparing: preparingShift },
-  } = useShiftsStoreQuery();
-
+    shifts,
+    update: updateShift,
+    finish: setFinishShift,
+    isMutating,
+  } = useShiftsStore();
+  console.log(startedShift);
   const {
     data,
     isLoading: isUsersLoading,
@@ -42,12 +44,6 @@ export const PageStartedShift = () => {
     'participants',
     startedShift?.id,
   ]);
-
-  const { mutateAsync: updateShift, isLoading: isUpdateLoading } =
-    useUpdateShift(startedShift?.id);
-
-  const { mutate: setFinishShift, isLoading: isSetFinishLoading } =
-    useFinishShift();
 
   const openShiftSettings = useCallback(() => navigate('settings'), [navigate]);
 
@@ -113,7 +109,7 @@ export const PageStartedShift = () => {
     async (form: IShiftFormData) => {
       if (startedShift) {
         try {
-          await updateShift({
+          updateShift({
             shiftId: startedShift.id,
             title: form.title,
             startedAt: form.start,
@@ -132,7 +128,7 @@ export const PageStartedShift = () => {
   const handleChangeMessage = async (message: string) => {
     if (startedShift) {
       try {
-        await updateShift({
+        updateShift({
           shiftId: startedShift.id,
           title: startedShift.title,
           startedAt: startedShift.started_at,
@@ -175,8 +171,8 @@ export const PageStartedShift = () => {
             type="negative"
             size="small"
             onClick={finishShift}
-            loading={isSetFinishLoading}
-            disabled={isSetFinishLoading}
+            loading={isMutating}
+            disabled={isMutating}
           >
             Завершить смену
           </Button>
@@ -206,8 +202,8 @@ export const PageStartedShift = () => {
           finishDate={startedShift.finished_at}
           preparingStartDate={preparingShift?.started_at}
           onSubmit={handleEditShift}
-          loading={isUpdateLoading}
-          disabled={isUpdateLoading}
+          loading={isMutating}
+          disabled={isMutating}
         />
       </MainPopup>
 
@@ -219,7 +215,7 @@ export const PageStartedShift = () => {
         <MessageForm
           initValue={startedShift.final_message}
           btnText="Сохранить"
-          isLoading={isUpdateLoading}
+          isLoading={isMutating}
           onSubmit={handleChangeMessage}
         />
       </MainPopup>

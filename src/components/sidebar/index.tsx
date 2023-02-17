@@ -4,7 +4,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import type { To } from 'react-router-dom';
 import { ChevronRightIcon, TIcons } from '../../ui/icons';
 import * as Icons from '../../ui/icons';
-import { useShiftsStoreQuery } from '../../services/store';
+import { useShiftsStore } from '../../services/store';
 import styles from './styles.module.css';
 
 interface ISideBarAccordion {
@@ -120,7 +120,7 @@ const SideBarAccordion: React.FC<ISideBarAccordion> = ({
 export const SideBar = () => {
   const {
     rootShifts: { preparing: preparingShift, started: startedShift },
-  } = useShiftsStoreQuery();
+  } = useShiftsStore();
 
   const shiftsList = useMemo(() => {
     const list: ISideBarAccordion['list'] = [

@@ -8,28 +8,20 @@ import { CreateNewShiftForm, IShiftFormData } from '../../shift-settings-form';
 import { ShiftsTable } from '../../shifts-table';
 import { Dialog } from '../../../ui/dialog';
 import { MainPopup } from '../../../ui/main-popup';
-import {
-  useCreateNewShift,
-  useRecruitmentState,
-  useShiftsStoreQuery,
-} from '../../../services/store';
+import { useShiftsStore } from '../../../services/store';
 import styles from './styles.module.css';
-import { DateRange } from '../../../ui/date-range';
-import { DatePicker } from '../../../ui/date-range/date-picker/date-picker';
 
 export const PageShiftsAll = () => {
   const navigate = useNavigate();
   const createShift = Boolean(useMatch('/shifts/all/create'));
 
-  const { shiftType } = useRecruitmentState();
-
   const {
-    data: shifts,
+    shifts,
     rootShifts: { started: startedShift },
-  } = useShiftsStoreQuery();
-
-  const { mutateAsync: postNewShift, isLoading: isPostShiftLoading } =
-    useCreateNewShift();
+    recruitment: { shiftType: isRecruitment },
+    createShift: postNewShift,
+    isMutating,
+  } = useShiftsStore();
 
   const handleCreateShift = useCallback(() => navigate('create'), [navigate]);
 
@@ -38,7 +30,7 @@ export const PageShiftsAll = () => {
   const handlePutNewShift = useCallback(
     async (form: IShiftFormData) => {
       try {
-        await postNewShift({
+        postNewShift({
           title: form.title,
           startedAt: form.start,
           finishedAt: form.finish,
@@ -53,11 +45,11 @@ export const PageShiftsAll = () => {
 
   const modal = useMemo(() => {
     const dialogText =
-      shiftType === 'preparing'
+      isRecruitment === 'preparing'
         ? 'Смена уже создана. Вы сможете создать новую через 2 дня после старта ранее созданной.'
         : 'В текущую смену идёт набор участников. Новую смену можно создать через 2 дня после старта.';
 
-    if (shiftType) {
+    if (!isRecruitment) {
       return (
         <Dialog
           onClose={handleCloseModal}
@@ -81,15 +73,15 @@ export const PageShiftsAll = () => {
         <CreateNewShiftForm
           startedFinishDate={startedShift?.finished_at}
           onSubmit={handlePutNewShift}
-          loading={isPostShiftLoading}
-          disabled={isPostShiftLoading}
+          loading={isMutating}
+          disabled={isMutating}
         />
       </MainPopup>
     );
   }, [
     createShift,
-    shiftType,
-    isPostShiftLoading,
+    isRecruitment,
+    isMutating,
     handleCloseModal,
     handlePutNewShift,
     startedShift?.finished_at,
