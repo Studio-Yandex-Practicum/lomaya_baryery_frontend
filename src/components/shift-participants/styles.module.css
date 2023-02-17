@@ -1,0 +1,3 @@
+.participantsTable {
+  grid-template-columns: 1fr 0.8fr 0.8fr 0.8fr;
+}

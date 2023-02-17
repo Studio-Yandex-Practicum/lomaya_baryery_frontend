@@ -82,9 +82,14 @@ export namespace Shifts {
     final_message: string;
   }
 
-  export type UpdateShiftRes = Omit<IShift, 'total_users' | 'sequence_number'>;
+  export type UpdateShiftRes<T extends TShiftStatus> = Omit<
+    IShift,
+    'status'
+  > & {
+    status: Extract<TShiftStatus, T>;
+  };
 
-  export type FinishShiftRes = Omit<IShift, 'total_users' | 'sequence_number'>;
+  export type FinishShiftRes = IShift;
 }
 
 export namespace Users {

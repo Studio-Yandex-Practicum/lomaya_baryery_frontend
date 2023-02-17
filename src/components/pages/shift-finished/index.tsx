@@ -7,7 +7,7 @@ import { Table } from '../../../ui/table';
 import { ContentContainer } from '../../../ui/content-container';
 import { ContentHeading } from '../../../ui/content-heading';
 import { ShiftDetailsTable } from '../../shift-details-table';
-import { ParticipantRowWithStat } from '../../participant-row-with-stat';
+import { ParticipantRowWithStat } from '../../shift-participants/participant-row-with-stat';
 import {
   useParticipantsStoreQuery,
   useShiftsStoreQuery,
@@ -21,7 +21,7 @@ export const PageFinishedShift = () => {
 
   const finishedShift = useMemo(
     () => shifts?.find((shift) => shift.id === id),
-    [shifts, id],
+    [shifts, id]
   );
 
   const {

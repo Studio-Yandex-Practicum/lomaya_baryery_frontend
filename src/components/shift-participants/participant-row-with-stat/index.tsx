@@ -1,10 +1,10 @@
 import { useMemo, useState } from 'react';
 import cn from 'classnames';
-import { CellDate } from '../../ui/table/cell-date';
+import { CellDate } from '../../../ui/table/cell-date';
 import styles from './styles.module.css';
-import { CellTasksStat, CellText } from '../../ui/table';
-import { TasksCalendar } from '../../ui/tasks-calendar';
-import { ChevronRightIcon } from '../../ui/icons';
+import { CellTasksStat, CellText } from '../../../ui/table';
+import { TasksCalendar } from '../../../ui/tasks-calendar';
+import { ChevronRightIcon } from '../../../ui/icons';
 
 interface IParticipantRowWithStatProps {
   shiftStart: string;
@@ -30,9 +30,9 @@ export function ParticipantRowWithStat({
           acc[curr.status] += 1;
           return acc;
         },
-        { reviewing: 0, approved: 0, declined: 0 },
+        { reviewing: 0, approved: 0, declined: 0 }
       ),
-    [tasksData],
+    [tasksData]
   );
 
   return (

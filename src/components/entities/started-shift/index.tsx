@@ -2,34 +2,16 @@ import { useStore } from 'effector-react';
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { shiftsModel } from '../../../services/models';
-import { Button } from '../../../ui/button';
 import { ShiftDetailsTable } from '../../shift-details-table';
-import styles from './styles.module.css';
-
-function FeatureButton() {
-  return (
-    <Button
-      extClassName={styles.row__editButton}
-      htmlType="button"
-      type="secondary"
-      size="small"
-      onClick={() => {
-        console.log('click');
-      }}
-    >
-      Изменить
-    </Button>
-  );
-}
 
 interface IStartedShiftProps {
-  extClassName: string;
-  FeatureComponent: React.ComponentType;
+  extClassName?: string;
+  featureComponent?: React.ReactNode;
 }
 
 export function StartedShift({
   extClassName,
-  FeatureComponent,
+  featureComponent,
 }: IStartedShiftProps) {
   const { started: shift } = useStore(shiftsModel.store.$shifts);
 
@@ -43,7 +25,7 @@ export function StartedShift({
       title={shift.title}
       start={shift.started_at}
       finish={shift.finished_at}
-      featureComponent={FeatureComponent}
+      featureComponent={featureComponent}
       participants={shift.total_users}
     />
   );

@@ -1,6 +1,6 @@
 import cn from 'classnames';
-import { CellText } from '../../ui/table';
-import { CellDate } from '../../ui/table';
+import { CellText } from '../../../ui/table';
+import { CellDate } from '../../../ui/table';
 import styles from './styles.module.css';
 
 interface IParticipantRowProps {

@@ -4,7 +4,7 @@ import { Navigate, useMatch, useNavigate } from 'react-router-dom';
 import { ContentContainer } from '../../../ui/content-container';
 import { ContentHeading } from '../../../ui/content-heading';
 import { Table } from '../../../ui/table';
-import { ParticipantRow } from '../../participant-row';
+import { ParticipantRow } from '../../shift-participants/participant-row';
 import { Alert } from '../../../ui/alert';
 import { Loader } from '../../../ui/loader';
 import {
@@ -104,7 +104,7 @@ export const PagePreparingShift = () => {
         }
       }
     },
-    [preparingShift, updateShift, handleCloseModal],
+    [preparingShift, updateShift, handleCloseModal]
   );
 
   if (!preparingShift) {
