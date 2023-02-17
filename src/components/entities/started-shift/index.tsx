@@ -1,7 +1,7 @@
 import { useStore } from 'effector-react';
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { shiftsModel } from '../../../services/models';
+import * as startedShiftModel from './model';
 import { ShiftDetailsTable } from '../../shift-details-table';
 
 interface IStartedShiftProps {
@@ -13,7 +13,7 @@ export function StartedShift({
   extClassName,
   featureComponent,
 }: IStartedShiftProps) {
-  const { started: shift } = useStore(shiftsModel.store.$shifts);
+  const shift = useStore(startedShiftModel.store.startedShiftStore);
 
   if (!shift) {
     return <Navigate to="/shifts/all" replace />;

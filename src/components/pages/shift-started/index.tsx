@@ -41,7 +41,7 @@ export function PageStartedShift() {
         </ContentContainer>
         <ContentContainer extClassName={styles.participantsContainer}>
           <h2 className={cn(styles.title, 'text')}>Участники</h2>
-          <ShiftParticipantsWithStat shiftId={startedShift?.id} />
+          <ShiftParticipantsWithStat shiftId={startedShift.id} />
         </ContentContainer>
 
         {/* <Dialog

@@ -9,6 +9,7 @@ import { shiftsModel } from '../../../services/models';
 
 export function CreateNewShift() {
   const { isLoading } = useStore(createShiftModel.store.$createShift);
+
   const opened = useStore(createShiftModel.store.$openModal);
 
   const { started: startedShift } = useStore(shiftsModel.store.$shifts);

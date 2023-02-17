@@ -14,13 +14,13 @@ interface IShiftsTableProps {
 export function ShiftsTable({ extClassName }: IShiftsTableProps) {
   const shifts = useStore(shiftsModel.store.$shifts);
 
-  const renderData = useMemo(
-    () =>
-      Object.values(shifts)
-        .flat()
-        .filter((shift) => shift !== null),
-    [shifts]
-  );
+  const renderData = useMemo(() => {
+    const { preparing, started, finished } = shifts;
+    const renderList: Shifts.IShift[] = [];
+    if (preparing) renderList.push(preparing);
+    if (started) renderList.push(started);
+    return renderList.concat(finished);
+  }, [shifts]);
 
   function renderStatusLabel(status: Shifts.TShiftStatus) {
     switch (status) {

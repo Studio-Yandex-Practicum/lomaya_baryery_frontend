@@ -42,7 +42,6 @@ sample({
   },
 });
 
-const $data = createStore<Shifts.CreateShiftRes | null>(null);
 const $isLoading = createStore(false);
 const $isError = createStore(false);
 const $error = createStore<null | string>(null);
@@ -56,11 +55,7 @@ $isLoading.on(postNewShiftFx.pending, (_, isLoading) => isLoading);
 $openModal
   .on(openPopup, () => true)
   .on(closePopup, () => false)
-  .on($data, () => false);
-
-$data
-  .on(postNewShiftFx.doneData, (_, data) => data)
-  .reset([closePopup, submitClicker]);
+  .on(postNewShiftFx.doneData, () => false);
 
 $isError.on(postNewShiftFx.fail, () => true).reset([closePopup, submitClicker]);
 
@@ -68,7 +63,7 @@ $error
   .on(postNewShiftFx.failData, (_, error) => error.message)
   .reset([closePopup, submitClicker]);
 
-shiftsModel.store.$shifts.on($data, (state, newShift) => {
+shiftsModel.store.$shifts.on(postNewShiftFx.doneData, (state, newShift) => {
   if (newShift) {
     newShift.total_users = 0;
     return { ...state, preparing: newShift };
@@ -76,7 +71,6 @@ shiftsModel.store.$shifts.on($data, (state, newShift) => {
 });
 
 const $createShift = combine({
-  data: $data,
   isLoading: $isLoading,
   isError: $isError,
   error: $error,

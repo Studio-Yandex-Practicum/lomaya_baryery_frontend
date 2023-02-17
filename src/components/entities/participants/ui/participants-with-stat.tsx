@@ -25,13 +25,13 @@ export function ShiftParticipantsWithStat({
     return () => {
       unmountEvent();
     };
-  }, [shiftId]);
+  }, [shiftId, mountEvent, unmountEvent]);
 
   if (isLoading) {
     return <Loader extClassName={styles.participants__notice} />;
   }
 
-  if (isError || data === null) {
+  if (isError) {
     return (
       <Alert
         extClassName={styles.participants__notice}
@@ -40,7 +40,7 @@ export function ShiftParticipantsWithStat({
     );
   }
 
-  if (data.members.length === 0) {
+  if (data?.members.length === 0) {
     return (
       <Alert
         extClassName={styles.participants__notice}
@@ -53,7 +53,7 @@ export function ShiftParticipantsWithStat({
     <ShiftParticipants
       renderRows={
         <>
-          {data.members.map((member) => (
+          {data?.members.map((member) => (
             <ParticipantRowWithStat
               key={member.id}
               cellsClassName={styles.row}
