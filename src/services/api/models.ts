@@ -2,17 +2,6 @@
 export namespace Shifts {
   export type TShiftStatus = 'started' | 'finished' | 'preparing' | 'cancelled';
 
-  export interface IShift {
-    id: string;
-    sequence_number: number;
-    status: TShiftStatus;
-    title: string;
-    final_message: string;
-    started_at: string;
-    finished_at: string;
-    total_users: number;
-  }
-
   interface ShiftSchema {
     id: string;
     sequence_number: number;
@@ -29,7 +18,7 @@ export namespace Shifts {
   };
 
   export interface ShiftWithParticipantsRes {
-    shift: Omit<IShift, 'total_users' | 'sequence_number'>;
+    shift: Omit<ShiftSchema, 'total_users' | 'sequence_number'>;
     members: Array<{
       id: string;
       status: string;
@@ -49,7 +38,7 @@ export namespace Shifts {
     }>;
   }
 
-  export type GetShiftsRes = IShift[];
+  export type GetShiftsRes = ShiftSchema[];
 
   export interface CreateShiftProps {
     title: string;
@@ -63,9 +52,7 @@ export namespace Shifts {
     finished_at: string;
   }
 
-  export type CreateShiftRes = Omit<IShift, 'status'> & {
-    status: Extract<TShiftStatus, 'preparing'>;
-  };
+  export type CreateShiftRes = TShift<'preparing'>;
 
   export interface UpdateShiftProps {
     shiftId: string;
@@ -82,14 +69,9 @@ export namespace Shifts {
     final_message: string;
   }
 
-  export type UpdateShiftRes<T extends TShiftStatus> = Omit<
-    IShift,
-    'status'
-  > & {
-    status: Extract<TShiftStatus, T>;
-  };
+  export type UpdateShiftRes<T extends TShiftStatus> = TShift<T>;
 
-  export type FinishShiftRes = IShift;
+  export type FinishShiftRes = TShift<'finished'>;
 }
 
 export namespace Users {

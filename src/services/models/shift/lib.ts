@@ -2,7 +2,7 @@ import { Shifts } from '../../api';
 import { ShiftsStore } from './model';
 
 function isStatus<Status extends Shifts.TShiftStatus>(
-  shift: Shifts.IShift,
+  shift: Shifts.TShift<Shifts.TShiftStatus>,
   status: Status
 ): shift is Shifts.TShift<Status> {
   if (shift.status === status) {
@@ -12,7 +12,9 @@ function isStatus<Status extends Shifts.TShiftStatus>(
   return false;
 }
 
-export function normalizer(shifts: Shifts.IShift[] | undefined | null) {
+export function mapShifts(
+  shifts: Shifts.TShift<Shifts.TShiftStatus>[] | undefined | null
+) {
   const result: ShiftsStore = {
     started: null,
     preparing: null,
@@ -37,10 +39,6 @@ export function normalizer(shifts: Shifts.IShift[] | undefined | null) {
       }
 
       cur += 1;
-    }
-
-    if (result.finished.length > 1) {
-      result.finished.reverse();
     }
 
     return result;

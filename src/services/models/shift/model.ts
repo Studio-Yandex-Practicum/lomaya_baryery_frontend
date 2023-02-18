@@ -1,6 +1,6 @@
 import { combine, createEffect, createStore } from 'effector';
 import Api, { Shifts } from '../../api';
-import { normalizer } from './lib';
+import { mapShifts } from './lib';
 
 export interface ShiftsStore {
   preparing: Shifts.TShift<'preparing'> | null;
@@ -27,12 +27,12 @@ const $shiftsLoading = combine(
     isLoading: $isLoadingShifts,
     isSuccess: $isLoadingSuccess,
     isError: $isLoadingError,
-  }),
+  })
 );
 
 const getShiftsFx = createEffect(async () => {
   const data = await Api.getShifts();
-  return normalizer(data);
+  return mapShifts(data);
 });
 
 $shifts.on(getShiftsFx.doneData, (_, data) => data);

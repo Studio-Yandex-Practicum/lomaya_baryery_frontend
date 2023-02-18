@@ -2,7 +2,7 @@ import cn from 'classnames';
 import { useStore } from 'effector-react';
 import { ContentContainer } from '../../../ui/content-container';
 import { ContentHeading } from '../../../ui/content-heading';
-import { StartedShift } from '../../entities/started-shift';
+import { StartedShiftDetails } from '../../entities/started-shift';
 import { UpdateStartedShift } from '../../features/update-started-shift';
 import { ShiftParticipantsWithStat } from '../../entities/participants';
 import * as startedShiftModel from '../../entities/started-shift/model';
@@ -34,7 +34,7 @@ export function PageStartedShift() {
             Завершить смену
           </Button> */}
           </ContentHeading>
-          <StartedShift
+          <StartedShiftDetails
             extClassName={styles.shiftTable}
             featureComponent={<UpdateStartedShift />}
           />

@@ -31,7 +31,7 @@ export function getShiftParticipants(shiftId: string) {
     {
       method: 'get',
       authorization: false,
-    },
+    }
   );
 }
 
@@ -49,11 +49,14 @@ export function updateShiftSettings({
     final_message: message,
   };
 
-  return makeRequest<Shifts.UpdateShiftRes>(`shifts/${shiftId}`, {
-    method: 'patch',
-    json: reqBody,
-    authorization: false,
-  });
+  return makeRequest<Shifts.UpdateShiftRes<'preparing' | 'started'>>(
+    `shifts/${shiftId}`,
+    {
+      method: 'patch',
+      json: reqBody,
+      authorization: false,
+    }
+  );
 }
 
 export function finishShift(shiftId: string) {
