@@ -50,6 +50,7 @@ function ShiftsTable() {
           <FinishedShiftRows
             data={finishedShifts}
             gridClassName={commonGridClassName}
+            routePath="/shifts/finished"
           />
         </div>
       )}

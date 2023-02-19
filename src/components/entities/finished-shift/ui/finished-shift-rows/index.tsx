@@ -3,6 +3,7 @@ import { StatusLabel } from '../../../../../ui/status-label';
 
 interface FinishedShiftRowProps {
   gridClassName: string;
+  routePath: string;
   data: {
     id: string;
     sequence_number: number;
@@ -15,6 +16,7 @@ interface FinishedShiftRowProps {
 
 export function FinishedShiftRows({
   gridClassName,
+  routePath,
   data,
 }: FinishedShiftRowProps) {
   return (
@@ -22,7 +24,7 @@ export function FinishedShiftRows({
       {data.map((shift) => (
         <ShiftRow
           key={shift.id}
-          routePath={shift.id}
+          routePath={`${routePath}/${shift.id}`}
           gridClassName={gridClassName}
           shiftParams={shift}
           label={<StatusLabel statusText="Прошедшая" type="past" />}

@@ -3,19 +3,18 @@ import cn from 'classnames';
 import { useEvent, useStore } from 'effector-react';
 import { ContentContainer } from '../../../ui/content-container';
 import { ContentHeading } from '../../../ui/content-heading';
-import { StartedShiftDetails } from '../../entities/started-shift';
-import { UpdateStartedShift } from '../../features/update-started-shift';
-// import { ShiftParticipantsWithStat } from '../../entities/participants';
-import styles from './styles.module.css';
-import { ChangeFinalMessage } from '../../features/change-final-message';
 import { Table } from '../../../ui/table';
+import { Loader } from '../../../ui/loader';
+import { Alert } from '../../../ui/alert';
+import { StartedShiftDetails } from '../../entities/started-shift';
 import {
   ParticipantRowWithStat,
   participantsModel,
 } from '../../entities/participant';
-import { Loader } from '../../../ui/loader';
-import { Alert } from '../../../ui/alert';
+import { FinalMessageForm } from '../../features/change-final-message';
+import { UpdateStartedShift } from '../../features/update-started-shift';
 import { startedShiftPageModel } from './model';
+import styles from './styles.module.css';
 
 function Participants() {
   const {
@@ -93,7 +92,7 @@ export function PageStartedShift() {
     <>
       <ContentContainer extClassName={styles.headingContainer}>
         <ContentHeading title="Текущая" extClassName={styles.heading}>
-          {/* <ChangeFinalMessage extClassName={styles.heading__msgButton} /> */}
+          <FinalMessageForm extClassName={styles.heading__msgButton} />
           {/* <Button
             htmlType="button"
             type="negative"

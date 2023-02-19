@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import cn from 'classnames';
-import { Button } from '../../ui/button';
+import { Button } from '../../../ui/button';
 import styles from './styles.module.css';
 
 interface IMessageFormProps {

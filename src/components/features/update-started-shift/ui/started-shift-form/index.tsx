@@ -1,44 +1,27 @@
 import { useEvent, useStore } from 'effector-react';
 import { updateStartedShiftModel } from '../..';
-// import { shiftsModel } from '../../../services/models';
 import { Button } from '../../../../../ui/button';
 import { MainPopup } from '../../../../../ui/main-popup';
-// import {
-//   EditStartedShiftForm,
-//   IShiftFormData,
-// } from '../../shift-settings-form';
-// import { useShiftForm } from './lib';
-// import * as updateStartedShiftModel from './model';
+import { ShiftSettingsForm } from '../../../../shared/shft-settings-form';
 import styles from './styles.module.css';
 
 export function UpdateStartedShift() {
-  // const { started: startedShift, preparing: preparingShift } = useStore(
-  //   shiftsModel.store.$shifts
-  // );
-  // const { isLoading } = useStore(
-  //   updateStartedShiftModel.store.$updateStartedShift
-  // );
-  // const opened = useStore(updateStartedShiftModel.store.$openModal);
-
-  // const { openPopup, closePopup, submitClicker } = useEvent(
-  //   updateStartedShiftModel.events
-  // );
-
-  // const formProps = useShiftForm(startDate, finishDate, preparingStartDate);
-
-  // if (!startedShift) {
-  //   return null;
-  // }
-
-  const { isLoading, error } = useStore(
+  const { isLoading } = useStore(
     updateStartedShiftModel.store.$updateStartedShiftState
   );
+
+  const title = useStore(updateStartedShiftModel.store.$shiftTitle);
+
   const { startDate, finishDate } = useStore(
     updateStartedShiftModel.store.$dateRange
   );
+
   const filterFinish = useStore(
     updateStartedShiftModel.store.$finishDateFilter
   );
+
+  const opened = useStore(updateStartedShiftModel.$opened);
+
   const { openPopup, closePopup, submitClicker } = useEvent(
     updateStartedShiftModel.events
   );
@@ -51,13 +34,16 @@ export function UpdateStartedShift() {
     closePopup();
   };
 
-  const handleUpdateShift = ({ title, start, finish }: IShiftFormData) => {
+  const handleUpdateShift = ({
+    title,
+    finish,
+  }: {
+    title: string;
+    finish: string;
+  }) => {
     submitClicker({
       title,
-      startedAt: start,
-      finishedAt: finish,
-      message: startedShift.final_message,
-      shiftId: startedShift.id,
+      finishDate: finish,
     });
   };
 
@@ -79,21 +65,14 @@ export function UpdateStartedShift() {
       >
         <ShiftSettingsForm
           title={title}
-          {...formProps}
+          startDate={startDate}
+          finishDate={finishDate}
+          filterFinish={filterFinish}
           disabledStart
-          disabled={disabled}
-          loading={loading}
-          onSubmit={onSubmit}
-        />
-        {/* <EditStartedShiftForm
-          title={startedShift.title}
-          startDate={startedShift.started_at}
-          finishDate={startedShift.finished_at}
-          preparingStartDate={preparingShift?.started_at}
-          onSubmit={handleUpdateShift}
-          loading={isLoading}
           disabled={isLoading}
-        /> */}
+          loading={isLoading}
+          onSubmit={handleUpdateShift}
+        />
       </MainPopup>
     </>
   );

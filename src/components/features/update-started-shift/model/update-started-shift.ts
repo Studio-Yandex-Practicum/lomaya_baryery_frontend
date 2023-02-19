@@ -57,6 +57,19 @@ $opened
   .on(closePopup, () => false)
   .on(updateStartedShiftFx.doneData, () => false);
 
+startedShiftModel.$startedShift.on(
+  updateStartedShiftFx.doneData,
+  (state, data) => {
+    if (state) {
+      return {
+        ...state,
+        title: data.title,
+        finished_at: data.finished_at,
+      };
+    }
+  }
+);
+
 export const $updateStartedShiftState = combine({
   isLoading: $isLoading,
   error: $error,
@@ -65,6 +78,13 @@ export const $updateStartedShiftState = combine({
 forward({
   from: submitClicker,
   to: updateStartedShiftFx,
+});
+
+export const $shiftTitle = startedShiftModel.$startedShift.map((state) => {
+  if (state) {
+    return state.title;
+  }
+  return '';
 });
 
 export const $dateRange = startedShiftModel.$startedShift.map((state) => {
@@ -93,34 +113,6 @@ export const store = {
   $opened,
   $dateRange,
   $finishDateFilter,
+  $shiftTitle,
 };
 export const events = { openPopup, closePopup, submitClicker };
-
-// relocate from UI
-
-// interface IUseShiftForm {
-//   startDate: Date;
-//   finishDate: Date;
-//   filterFinish: Date | undefined;
-// }
-
-// export function useShiftForm(
-//   startDate: string,
-//   finishDate: string,
-//   preparingStartDate?: string
-// ): IUseShiftForm {
-//   return useMemo(() => {
-//     let filterFinish: Date | undefined;
-
-//     if (preparingStartDate) {
-//       filterFinish = new Date(preparingStartDate);
-//       filterFinish.setHours(-24, 0, 0, 0);
-//     }
-
-//     return {
-//       startDate: new Date(startDate),
-//       finishDate: new Date(finishDate),
-//       filterFinish,
-//     };
-//   }, [startDate, finishDate, preparingStartDate]);
-// }

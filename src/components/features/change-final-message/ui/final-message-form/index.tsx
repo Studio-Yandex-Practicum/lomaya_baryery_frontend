@@ -1,20 +1,20 @@
 import { useEvent, useStore } from 'effector-react';
-import { Button } from '../../../ui/button';
-import { MainPopup } from '../../../ui/main-popup';
-import { MessageForm } from '../../message-form';
-import * as changeMessageModel from './model';
+import { changeFinalMessageModel } from '../..';
+import { Button } from '../../../../../ui/button';
+import { MainPopup } from '../../../../../ui/main-popup';
+import { MessageForm } from '../../../../shared/message-form';
 
-interface ChangeFinalMessageProps {
+interface FinalMessageFormProps {
   extClassName: string;
 }
 
-export function ChangeFinalMessage({ extClassName }: ChangeFinalMessageProps) {
+export function FinalMessageForm({ extClassName }: FinalMessageFormProps) {
   const { initMessage, openedPopup, isLoading } = useStore(
-    changeMessageModel.store.changeMessage
+    changeFinalMessageModel.store.changeMessage
   );
 
   const { openPopup, closePopup, submitClicker } = useEvent(
-    changeMessageModel.events
+    changeFinalMessageModel.events
   );
 
   const handleOpenPopup = () => {
