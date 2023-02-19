@@ -1,4 +1,4 @@
-import { attach, combine, createEvent, forward } from 'effector';
+import { attach, createEvent, forward } from 'effector';
 import { startedShiftModel } from '../../entities/started-shift';
 import { participantsModel } from '../../entities/participant';
 
@@ -15,6 +15,15 @@ const getStartedShiftParticipantsFx = attach({
     throw new Error('started shift not exist');
   },
 });
+
+startedShiftModel.$startedShift.on(
+  getStartedShiftParticipantsFx.doneData,
+  (state, data) => {
+    if (state) {
+      return { ...state, total_users: data.members.length };
+    }
+  }
+);
 
 forward({
   from: mount,
