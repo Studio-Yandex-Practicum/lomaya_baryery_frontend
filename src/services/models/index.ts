@@ -1,3 +1,3 @@
-import * as shiftsModel from './shift/model';
+import * as shiftsModel from './shifts/model';
 
 export { shiftsModel };

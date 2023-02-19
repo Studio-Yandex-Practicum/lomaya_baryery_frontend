@@ -37,12 +37,3 @@
 .participantsTable {
   grid-template-columns: 1fr 0.8fr 0.8fr 0.8fr;
 }
-
-.modalAlert__controls {
-  display: flex;
-  justify-content: space-between;
-}
-
-.modalAlert__button {
-  width: 112px;
-}

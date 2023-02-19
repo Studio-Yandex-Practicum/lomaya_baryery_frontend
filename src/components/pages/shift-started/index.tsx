@@ -7,6 +7,7 @@ import { ContentHeading } from '../../../ui/content-heading';
 import { Table } from '../../../ui/table';
 import { Loader } from '../../../ui/loader';
 import { Alert } from '../../../ui/alert';
+import * as pageModel from './model';
 import { StartedShiftDetails } from '../../entities/started-shift';
 import {
   ParticipantRowWithStat,
@@ -14,9 +15,8 @@ import {
 } from '../../entities/participant';
 import { FinalMessageForm } from '../../features/change-final-message';
 import { UpdateStartedShift } from '../../features/update-started-shift';
-import * as startedShiftPageModel from './model';
-import styles from './styles.module.css';
 import { FinishShiftDialog } from '../../features/finish-shift';
+import styles from './styles.module.css';
 
 function Participants() {
   const {
@@ -75,8 +75,8 @@ function Participants() {
 }
 
 export function PageStartedShift() {
-  const { mount, unmount } = useEvent(startedShiftPageModel.events);
-  const isRedirect = useStore(startedShiftPageModel.store.isRedirect);
+  const { mount, unmount } = useEvent(pageModel.events);
+  const isRedirect = useStore(pageModel.store.isRedirect);
 
   useEffect(() => {
     mount();
