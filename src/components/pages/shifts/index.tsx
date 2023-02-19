@@ -2,7 +2,6 @@ import cn from 'classnames';
 import { useStore } from 'effector-react';
 import { ContentHeading } from '../../../ui/content-heading';
 import { ContentContainer } from '../../../ui/content-container';
-import { CreateNewShift } from '../../features/create-shift';
 import { Table } from '../../../ui/table';
 import {
   preparingShiftModel,
@@ -16,6 +15,7 @@ import {
   startedShiftModel,
   StartedShiftRow,
 } from '../../entities/started-shift';
+import { CreateNewShift } from '../../features/create-shift';
 import styles from './styles.module.css';
 
 function ShiftsTable() {
@@ -35,21 +35,21 @@ function ShiftsTable() {
         'Статус',
       ]}
       gridClassName={styles.columnsTemplate}
-      renderRows={(commonGridStyles) => (
+      renderRows={(commonGridClassName) => (
         <div className={cn(styles.shifts, 'custom-scroll')}>
           <PreparingShiftRow
             shiftParams={preparingShift}
-            gridClassName={commonGridStyles}
-            routePath="preparing"
+            gridClassName={commonGridClassName}
+            routePath="/shifts/preparing"
           />
           <StartedShiftRow
             shiftParams={startedShift}
-            gridClassName={commonGridStyles}
-            routePath="started"
+            gridClassName={commonGridClassName}
+            routePath="/shifts/started"
           />
           <FinishedShiftRows
             data={finishedShifts}
-            gridClassName={commonGridStyles}
+            gridClassName={commonGridClassName}
           />
         </div>
       )}

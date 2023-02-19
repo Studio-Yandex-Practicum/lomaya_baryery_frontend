@@ -5,11 +5,17 @@ import { withTooltip } from '../tooltip';
 import { CircleCheckIcon, CircleStopIcon, CircleWarningIcon } from '../icons';
 import styles from './styles.module.css';
 
-interface IStatusCellProps {
+interface IUserTask {
+  task_id: string;
+  status: 'reviewing' | 'approved' | 'declined';
+  task_date: string;
+}
+
+interface StatusCellProps {
   status: IUserTask['status'];
 }
 
-const StatusCell: React.FC<IStatusCellProps> = ({ status, ...props }) => {
+const StatusCell: React.FC<StatusCellProps> = ({ status, ...props }) => {
   const renderIcon = useMemo(() => {
     switch (status) {
       case 'approved':
@@ -30,15 +36,15 @@ const StatusCell: React.FC<IStatusCellProps> = ({ status, ...props }) => {
   );
 };
 
-const StatusCellWithTooltip = withTooltip<IStatusCellProps>(StatusCell);
+const StatusCellWithTooltip = withTooltip<StatusCellProps>(StatusCell);
 
-interface ITasksCalendarProps {
+interface TasksCalendarProps {
   start: string;
   finish: string;
   userTasks: IUserTask[];
 }
 
-export const TasksCalendar: React.FC<ITasksCalendarProps> = ({
+export const TasksCalendar: React.FC<TasksCalendarProps> = ({
   start,
   finish,
   userTasks,
@@ -63,7 +69,7 @@ export const TasksCalendar: React.FC<ITasksCalendarProps> = ({
         className={cn(
           styles.taskCalendar__item,
           styles.taskCalendar__item_type_heading,
-          'text text_type_main-small text_color_secondary',
+          'text text_type_main-small text_color_secondary'
         )}
       >
         {val}
@@ -86,7 +92,7 @@ export const TasksCalendar: React.FC<ITasksCalendarProps> = ({
       userTasks.length > 0
         ? (startDate.getTime() -
             new Date(
-              new Date(userTasks[0].task_date).setUTCHours(0, 0, 0, 0),
+              new Date(userTasks[0].task_date).setUTCHours(0, 0, 0, 0)
             ).getTime()) /
           (24 * 60 * 60 * 1000)
         : 0;
@@ -133,7 +139,7 @@ export const TasksCalendar: React.FC<ITasksCalendarProps> = ({
             className={cn(
               styles.taskCalendar__item,
               styles.taskCalendar__item_type_heading,
-              'text text_type_main-small text_color_secondary',
+              'text text_type_main-small text_color_secondary'
             )}
           >
             {value}
@@ -147,7 +153,7 @@ export const TasksCalendar: React.FC<ITasksCalendarProps> = ({
             key={nanoid()}
             className={cn(
               styles.taskCalendar__item,
-              styles.taskCalendar__item_type_notExist,
+              styles.taskCalendar__item_type_notExist
             )}
           />
         );

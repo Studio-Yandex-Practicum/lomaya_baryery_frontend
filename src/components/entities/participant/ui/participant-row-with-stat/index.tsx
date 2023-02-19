@@ -1,70 +1,75 @@
-import { useEvent, useStore } from 'effector-react';
-import { useEffect } from 'react';
-import { Alert } from '../../../../ui/alert';
-import { Loader } from '../../../../ui/loader';
-import { ShiftParticipants } from '../../../shift-participants';
-import { ParticipantRowWithStat } from '../../../shift-participants/participant-row-with-stat';
-import * as participantsModel from '../model';
+import { useMemo, useState } from 'react';
+import cn from 'classnames';
+import { ChevronRightIcon } from '../../../../../ui/icons';
+import { CellDate, CellTasksStat, CellText } from '../../../../../ui/table';
+import { TasksCalendar } from '../../../../../ui/tasks-calendar';
 import styles from './styles.module.css';
 
-interface ShiftParticipantsWithStatProps {
-  shiftId: string;
+interface IParticipantRowWithStatProps {
+  gridClassName: string;
+  shiftStart: string;
+  shiftFinish: string;
+  userData: {
+    name: string;
+    surname: string;
+    city: string;
+    date_of_birth: string;
+  };
+  tasksData: Array<{
+    task_id: string;
+    status: 'reviewing' | 'approved' | 'declined';
+    task_date: string;
+  }>;
 }
 
-export function ShiftParticipantsWithStat({
-  shiftId,
-}: ShiftParticipantsWithStatProps) {
-  const { data, isLoading, isError } = useStore(
-    participantsModel.store.participants
+export function ParticipantRowWithStat({
+  userData,
+  tasksData,
+  shiftStart,
+  shiftFinish,
+  gridClassName,
+}: IParticipantRowWithStatProps) {
+  const [toggle, setToggle] = useState(false);
+
+  const statistics = useMemo(
+    () =>
+      tasksData.reduce(
+        (acc, curr) => {
+          acc[curr.status] += 1;
+          return acc;
+        },
+        { reviewing: 0, approved: 0, declined: 0 }
+      ),
+    [tasksData]
   );
 
-  const { mountEvent, unmountEvent } = useEvent(participantsModel.events);
-
-  useEffect(() => {
-    mountEvent(shiftId);
-    return () => {
-      unmountEvent();
-    };
-  }, [shiftId, mountEvent, unmountEvent]);
-
-  if (isLoading) {
-    return <Loader extClassName={styles.participants__notice} />;
-  }
-
-  if (isError) {
-    return (
-      <Alert
-        extClassName={styles.participants__notice}
-        title="Что-то пошло не так, список не загружен"
-      />
-    );
-  }
-
-  if (data?.members.length === 0) {
-    return (
-      <Alert
-        extClassName={styles.participants__notice}
-        title={'Нет принятых заявок на\u00A0участие'}
-      />
-    );
-  }
-
   return (
-    <ShiftParticipants
-      renderRows={
-        <>
-          {data?.members.map((member) => (
-            <ParticipantRowWithStat
-              key={member.id}
-              cellsClassName={styles.row}
-              userData={member.user}
-              tasksData={member.reports}
-              shiftStart={data.shift.started_at}
-              shiftFinish={data.shift.finished_at}
-            />
-          ))}
-        </>
-      }
-    />
+    <div className={cn(styles.row, 'tableContentRow')}>
+      <div className={cn(styles.row__data, gridClassName)}>
+        <div className={styles.row__name}>
+          <ChevronRightIcon
+            onClick={() => setToggle((toggle) => !toggle)}
+            type="interface-primary"
+            className={cn(styles.row__nameIcon, {
+              [styles.row__nameIcon_rotated]: toggle,
+            })}
+          />
+          <CellText
+            type="accent"
+            text={`${userData.name} ${userData.surname}`}
+          />
+        </div>
+        <CellText text={userData.city} />
+        <CellDate date={userData.date_of_birth} />
+        <CellTasksStat data={statistics} />
+      </div>
+      {toggle ? (
+        <TasksCalendar
+          start={shiftStart}
+          finish={shiftFinish}
+          userTasks={tasksData}
+        />
+      ) : null}
+    </div>
   );
 }

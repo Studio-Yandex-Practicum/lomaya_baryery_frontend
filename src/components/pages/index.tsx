@@ -32,7 +32,7 @@ export function AppRoutes() {
         <Route index element={<Navigate to="shifts/all" replace />} />
         <Route path="shifts/all/" element={<PageShiftsAll />} />
         <Route path="shifts/preparing/*" element={<PagePreparingShift />} />
-        {/* <Route path="shifts/started/*" element={<PageStartedShift />} /> */}
+        <Route path="shifts/started/*" element={<PageStartedShift />} />
         <Route path="shifts/finished/:id" element={<PageFinishedShift />} />
         <Route path="requests/pending/*" element={<PageRequestsPending />} />
         <Route path="requests/considered" element={<PageRequestsRealized />} />

@@ -27,6 +27,17 @@
   min-height: calc(100vh - 382px);
 }
 
+.participants__notice {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 472px);
+}
+
+.participantsTable {
+  grid-template-columns: 1fr 0.8fr 0.8fr 0.8fr;
+}
+
 .modalAlert__controls {
   display: flex;
   justify-content: space-between;

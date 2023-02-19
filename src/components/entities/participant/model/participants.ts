@@ -1,44 +1,35 @@
-import { createStore, createEffect, createEvent, attach } from 'effector';
+import { combine, createEffect, createEvent, createStore } from 'effector';
 import Api, { Shifts } from '../../../../services/api';
 
-import { $startedShift } from './started-shift-details';
-
-type ParticipantsStore = Shifts.ShiftWithParticipantsRes | { members: [] };
+interface ParticipantsStore {
+  shift: Shifts.ShiftWithParticipantsRes['shift'] | null;
+  members: Shifts.ShiftWithParticipantsRes['members'];
+}
 
 export const clear = createEvent();
 
-export const $participants = createStore<ParticipantsStore>({
+const $participants = createStore<ParticipantsStore>({
+  shift: null,
   members: [],
 });
 
-export const getParticipanstFx = createEffect((shiftId: string) =>
+export const getParticipantsFx = createEffect((shiftId: string) =>
   Api.getShiftParticipants(shiftId)
 );
 
-export const $isLoading = createStore(false);
-export const $error = createStore<null | string>(null);
+const $isLoading = createStore(false);
+const $error = createStore<null | string>(null);
 
-$isLoading.on(getParticipanstFx.pending, (_, isLoading) => isLoading);
+$isLoading.on(getParticipantsFx.pending, (_, isLoading) => isLoading);
 
 $error
-  .on(getParticipanstFx.failData, (_, error) => error.message)
-  .reset([getParticipanstFx, clear]);
+  .on(getParticipantsFx.failData, (_, error) => error.message)
+  .reset([getParticipantsFx, clear]);
 
-$participants.on(getParticipanstFx.doneData, (_, data) => data).reset(clear);
+$participants.on(getParticipantsFx.doneData, (_, data) => data).reset(clear);
 
-$startedShift.on(getParticipanstFx.doneData, (state, data) => {
-  if (data && state !== null) {
-    return { ...state, total_users: data.members.length };
-  }
-});
-
-attach({
-  source: $startedShift,
-  effect: getParticipanstFx,
-  mapParams(_, state) {
-    if (state) {
-      return state.id;
-    }
-    throw new Error('started shift not exist');
-  },
+export const $participantsState = combine({
+  data: $participants,
+  isLoading: $isLoading,
+  error: $error,
 });
