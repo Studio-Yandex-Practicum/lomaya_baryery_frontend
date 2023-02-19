@@ -25,6 +25,13 @@ startedShiftModel.$startedShift.on(
   }
 );
 
+const isRedirect = startedShiftModel.$startedShift.map((state) => {
+  if (state === null) {
+    return true;
+  }
+  return false;
+});
+
 forward({
   from: mount,
   to: getStartedShiftParticipantsFx,
@@ -35,4 +42,6 @@ forward({
   to: participantsModel.clear,
 });
 
-export const startedShiftPageModel = { mount, unmount };
+export const events = { mount, unmount };
+
+export const store = { isRedirect };

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import cn from 'classnames';
 import { useEvent, useStore } from 'effector-react';
+import { Navigate } from 'react-router-dom';
 import { ContentContainer } from '../../../ui/content-container';
 import { ContentHeading } from '../../../ui/content-heading';
 import { Table } from '../../../ui/table';
@@ -13,8 +14,9 @@ import {
 } from '../../entities/participant';
 import { FinalMessageForm } from '../../features/change-final-message';
 import { UpdateStartedShift } from '../../features/update-started-shift';
-import { startedShiftPageModel } from './model';
+import * as startedShiftPageModel from './model';
 import styles from './styles.module.css';
+import { FinishShiftDialog } from '../../features/finish-shift';
 
 function Participants() {
   const {
@@ -73,7 +75,8 @@ function Participants() {
 }
 
 export function PageStartedShift() {
-  const { mount, unmount } = useEvent(startedShiftPageModel);
+  const { mount, unmount } = useEvent(startedShiftPageModel.events);
+  const isRedirect = useStore(startedShiftPageModel.store.isRedirect);
 
   useEffect(() => {
     mount();
@@ -82,27 +85,16 @@ export function PageStartedShift() {
     };
   }, [mount, unmount]);
 
-  // const handleFinishShift = () => {
-  //   if (startedShift) {
-  //     setFinishShift(startedShift.id);
-  //   }
-  // };
+  if (isRedirect) {
+    return <Navigate to="/shifts/all" replace />;
+  }
 
   return (
     <>
       <ContentContainer extClassName={styles.headingContainer}>
         <ContentHeading title="Текущая" extClassName={styles.heading}>
           <FinalMessageForm extClassName={styles.heading__msgButton} />
-          {/* <Button
-            htmlType="button"
-            type="negative"
-            size="small"
-            onClick={finishShift}
-            loading={isMutating}
-            disabled={isMutating}
-          >
-            Завершить смену
-          </Button> */}
+          <FinishShiftDialog />
         </ContentHeading>
         <StartedShiftDetails
           extClassName={styles.shiftTable}
@@ -112,35 +104,6 @@ export function PageStartedShift() {
       <ContentContainer extClassName={styles.participantsContainer}>
         <Participants />
       </ContentContainer>
-
-      {/* <Dialog
-        opened={finishShiftDialog}
-        title="Завершение смены"
-        text={
-          'Участинки смогут отправить отчёт до\u00A0конца следующего дня, не\u00A0забудьте их\u00A0проверить. Вы уверены, что хотите завершить смену?'
-        }
-        onClose={handleCloseModal}
-        primaryButton={
-          <Button
-            htmlType="button"
-            size="small"
-            type="primary"
-            onClick={handleCloseModal}
-          >
-            Отмена
-          </Button>
-        }
-        secondaryButton={
-          <Button
-            htmlType="button"
-            size="small"
-            type="negative"
-            onClick={handleFinishShift}
-          >
-            Завершить
-          </Button>
-        }
-      /> */}
     </>
   );
 }

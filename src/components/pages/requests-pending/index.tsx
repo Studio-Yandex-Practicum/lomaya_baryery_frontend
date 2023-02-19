@@ -10,7 +10,7 @@ import { Alert } from '../../../ui/alert';
 import { Button, TButtonProps } from '../../../ui/button';
 import { RefreshIcon } from '../../../ui/icons';
 import { withTooltip } from '../../../ui/tooltip';
-import { MessageForm } from '../../message-form';
+import { MessageForm } from '../../shared/message-form';
 import { deserializeQuery } from '../../../utils';
 import { MainPopup } from '../../../ui/main-popup';
 import { useRecruitmentState } from '../../../services/store';
@@ -41,7 +41,7 @@ export const PageRequestsPending = () => {
   }, [shiftId, fetch]);
 
   const { rqstId: rejectingRqstId } = deserializeQuery<{ rqstId: string }>(
-    location.search,
+    location.search
   );
 
   const handleDeclineRequest = async (message: string) => {
