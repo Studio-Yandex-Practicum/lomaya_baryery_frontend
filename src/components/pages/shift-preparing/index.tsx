@@ -1,113 +1,84 @@
-import { useCallback, useMemo } from 'react';
+import { useEffect } from 'react';
 import cn from 'classnames';
-import { Navigate, useMatch, useNavigate } from 'react-router-dom';
+import { useEvent, useStore } from 'effector-react';
+import { Navigate } from 'react-router-dom';
 import { ContentContainer } from '../../../ui/content-container';
 import { ContentHeading } from '../../../ui/content-heading';
 import { Table } from '../../../ui/table';
-import { ParticipantRow } from '../../shift-participants/participant-row';
-import { Alert } from '../../../ui/alert';
 import { Loader } from '../../../ui/loader';
-import {
-  EditPreparingShiftForm,
-  IShiftFormData,
-} from '../../shift-settings-form';
-import { ShiftDetailsTable } from '../../shift-details-table';
+import { Alert } from '../../../ui/alert';
+import * as pageModel from './model';
+import { StartedShiftDetails } from '../../entities/started-shift';
+import { participantsModel } from '../../entities/participant';
+import { ParticipantRow } from '../../entities/participant/ui/participant-row';
+import { UpdatePreparingShift } from '../../features/update-preparing-shift';
 import styles from './styles.module.css';
-import { MainPopup } from '../../../ui/main-popup';
-import {
-  useParticipantsStoreQuery,
-  useShiftsStoreQuery,
-  useUpdateShift,
-} from '../../../services/store';
 
-export const PagePreparingShift = () => {
-  const navigate = useNavigate();
-  const editShift = Boolean(useMatch('/shifts/preparing/settings'));
-
+function Participants() {
   const {
-    rootShifts: { preparing: preparingShift, started: startedShift },
-  } = useShiftsStoreQuery();
+    data: { shift, members },
+    isLoading,
+    error,
+  } = useStore(participantsModel.$participantsState);
 
-  const {
-    data,
-    isLoading: isUsersLoading,
-    isError: isUsersError,
-  } = useParticipantsStoreQuery(preparingShift?.id, [
-    'participants',
-    preparingShift?.id,
-  ]);
+  if (!shift) {
+    return null;
+  }
 
-  const { mutateAsync: updateShift, isLoading: isUpdateLoading } =
-    useUpdateShift(preparingShift?.id);
+  if (isLoading) {
+    return <Loader extClassName={styles.participants__notice} />;
+  }
 
-  const openShiftSettings = useCallback(() => navigate('settings'), [navigate]);
-
-  const participants = useMemo(() => {
-    if (isUsersLoading) {
-      return <Loader extClassName={styles.participants__notice} />;
-    }
-
-    if (isUsersError || !data) {
-      return (
-        <Alert
-          extClassName={styles.participants__notice}
-          title={'Что-то пошло не\u00A0так'}
-        />
-      );
-    }
-
-    if (data.members.length === 0) {
-      return (
-        <Alert
-          extClassName={styles.participants__notice}
-          title={'Нет принятых заявок на\u00A0участие'}
-        />
-      );
-    }
-
+  if (error) {
     return (
+      <Alert
+        extClassName={styles.participants__notice}
+        title="Что-то пошло не так, список не загружен"
+      />
+    );
+  }
+
+  if (members.length === 0) {
+    return (
+      <Alert
+        extClassName={styles.participants__notice}
+        title={'Нет принятых заявок на\u00A0участие'}
+      />
+    );
+  }
+
+  return (
+    <>
+      <h2 className={cn(styles.title, 'text')}>Участники</h2>
       <Table
         gridClassName={styles.participantsTable}
         header={['Имя и фамилия', 'Город', 'Телефон', 'Дата рождения']}
-        renderRows={(rowStyles) => (
-          <>
-            {data.members.map((member) => (
-              <ParticipantRow
-                key={member.id}
-                extClassName={rowStyles}
-                userData={member.user}
-              />
-            ))}
-          </>
-        )}
-      />
-    );
-  }, [isUsersLoading, isUsersError, data]);
-
-  const handleCloseModal = useCallback(() => navigate(-1), [navigate]);
-
-  const handleEditShift = useCallback(
-    async (form: IShiftFormData) => {
-      if (preparingShift) {
-        try {
-          await updateShift({
-            shiftId: preparingShift.id,
-            title: form.title,
-            startedAt: form.start,
-            finishedAt: form.finish,
-            message: preparingShift.final_message,
-          });
-
-          handleCloseModal();
-        } catch (error) {
-          console.error(error);
+        renderRows={(commonGridClassName) =>
+          members.map(({ id, user }) => (
+            <ParticipantRow
+              key={id}
+              gridClassName={commonGridClassName}
+              userData={user}
+            />
+          ))
         }
-      }
-    },
-    [preparingShift, updateShift, handleCloseModal]
+      />
+    </>
   );
+}
 
-  if (!preparingShift) {
+export function PagePreparingShift() {
+  const { mount, unmount } = useEvent(pageModel.events);
+  const isRedirect = useStore(pageModel.store.isRedirect);
+
+  useEffect(() => {
+    mount();
+    return () => {
+      unmount();
+    };
+  }, [mount, unmount]);
+
+  if (isRedirect) {
     return <Navigate to="/shifts/all" replace />;
   }
 
@@ -115,35 +86,14 @@ export const PagePreparingShift = () => {
     <>
       <ContentContainer extClassName={styles.headingContainer}>
         <ContentHeading title="Новая" extClassName={styles.heading} />
-        <ShiftDetailsTable
+        <StartedShiftDetails
           extClassName={styles.shiftTable}
-          title={preparingShift.title}
-          start={preparingShift.started_at}
-          finish={preparingShift.finished_at}
-          onButtonClick={openShiftSettings}
-          participants={preparingShift.total_users}
+          featureComponent={<UpdatePreparingShift />}
         />
       </ContentContainer>
       <ContentContainer extClassName={styles.participantsContainer}>
-        <h2 className={cn(styles.title, 'text')}>Участники</h2>
-        {participants}
+        <Participants />
       </ContentContainer>
-
-      <MainPopup
-        opened={editShift}
-        title="Редактировать смену"
-        onClose={handleCloseModal}
-      >
-        <EditPreparingShiftForm
-          title={preparingShift.title}
-          startDate={preparingShift.started_at}
-          finishDate={preparingShift.finished_at}
-          startedFinishDate={startedShift?.finished_at}
-          disabled={isUpdateLoading}
-          loading={isUpdateLoading}
-          onSubmit={handleEditShift}
-        />
-      </MainPopup>
     </>
   );
-};
+}

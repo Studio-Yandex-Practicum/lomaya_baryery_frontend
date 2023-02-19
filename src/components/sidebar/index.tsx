@@ -7,6 +7,8 @@ import { ChevronRightIcon, TIcons } from '../../ui/icons';
 import * as Icons from '../../ui/icons';
 import { shiftsModel } from '../../services/models';
 import styles from './styles.module.css';
+import { preparingShiftModel } from '../entities/preparing-shift';
+import { startedShiftModel } from '../entities/started-shift';
 
 interface ISideBarAccordion {
   title: string;
@@ -119,9 +121,9 @@ const SideBarAccordion: React.FC<ISideBarAccordion> = ({
 };
 
 export const SideBar = () => {
-  const { preparing: preparingShift, started: startedShift } = useStore(
-    shiftsModel.store.$shifts
-  );
+  const startedShift = useStore(startedShiftModel.$startedShift);
+
+  const preparingShift = useStore(preparingShiftModel.$preparingShift);
 
   const shiftsList = useMemo(() => {
     const list: ISideBarAccordion['list'] = [

@@ -1,12 +1,19 @@
 import { attach, createEvent, forward } from 'effector';
-import { startedShiftModel } from '../../entities/started-shift';
 import { participantsModel } from '../../entities/participant';
+import { preparingShiftModel } from '../../entities/preparing-shift';
 
 const mount = createEvent();
 const unmount = createEvent();
 
-const getStartedShiftParticipantsFx = attach({
-  source: startedShiftModel.$startedShift,
+const $isRedirect = preparingShiftModel.$preparingShift.map((state) => {
+  if (state === null) {
+    return true;
+  }
+  return false;
+});
+
+const getPreparingShiftParticipantsFx = attach({
+  source: preparingShiftModel.$preparingShift,
   effect: participantsModel.getParticipantsFx,
   mapParams(_, state) {
     if (state) {
@@ -16,8 +23,8 @@ const getStartedShiftParticipantsFx = attach({
   },
 });
 
-startedShiftModel.$startedShift.on(
-  getStartedShiftParticipantsFx.doneData,
+preparingShiftModel.$preparingShift.on(
+  getPreparingShiftParticipantsFx.doneData,
   (state, data) => {
     if (state) {
       return { ...state, total_users: data.members.length };
@@ -25,16 +32,9 @@ startedShiftModel.$startedShift.on(
   }
 );
 
-const $isRedirect = startedShiftModel.$startedShift.map((state) => {
-  if (state === null) {
-    return true;
-  }
-  return false;
-});
-
 forward({
   from: mount,
-  to: getStartedShiftParticipantsFx,
+  to: getPreparingShiftParticipantsFx,
 });
 
 forward({
