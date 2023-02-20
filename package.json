@@ -9,8 +9,7 @@
     "prettier": "prettier --check src/**/*.{ts,tsx,css}",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test": "jest --watchAll",
-    "build-gh-pages": "tsc && vite build --base=/lomaya_baryery_frontend/"
+    "test": "jest --watchAll"
   },
   "dependencies": {
     "classnames": "^2.3.2",
