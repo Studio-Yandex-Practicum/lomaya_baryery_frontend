@@ -1,10 +1,9 @@
 import { useStore } from 'effector-react';
 import { Navigate, useLocation, useParams } from 'react-router-dom';
 import { authModel, PwdCreateForm } from '../../processes/auth';
-import { IAppLocation } from '../../shared/utils';
 
 export function ResetPassword() {
-  const { state: locationState }: IAppLocation = useLocation();
+  const { state: locationState } = useLocation();
   const params = useParams();
   const isAuth = useStore(authModel.$isAuth);
 
