@@ -1,5 +1,5 @@
 import { makeRequest } from './base';
-import { Request } from '../model';
+import { Request, RequestStatus } from '../model';
 
 export function getPendingRequests(shiftId: string) {
   return makeRequest<Request<'pending'>[]>(
@@ -11,10 +11,16 @@ export function getPendingRequests(shiftId: string) {
   );
 }
 
-export function getRequests(shiftId: string) {
+export interface GetRequestsParams {
+  shiftId: string;
+  status?: RequestStatus;
+}
+
+export function getRequests({ shiftId, status }: GetRequestsParams) {
   return makeRequest<Request[]>(`shifts/${shiftId}/requests`, {
     method: 'get',
     authorization: false,
+    searchParams: status ? { status } : undefined,
   });
 }
 
@@ -25,7 +31,7 @@ export function approveRequest(requestId: string) {
   });
 }
 
-interface DeclineRequestParams {
+export interface DeclineRequestParams {
   requestId: string;
   message: string;
 }

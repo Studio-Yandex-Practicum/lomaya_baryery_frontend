@@ -2,10 +2,10 @@ import React, { useMemo, useState } from 'react';
 import cn from 'classnames';
 import { NavLink, useLocation } from 'react-router-dom';
 import type { To } from 'react-router-dom';
+import { ChevronRightIcon, TIcons } from 'shared/ui-kit/icons';
+import * as Icons from 'shared/ui-kit/icons';
 import { useStore } from 'effector-react';
-import { ChevronRightIcon, TIcons } from '../../../../shared/ui-kit/icons';
-import * as Icons from '../../../../shared/ui-kit/icons';
-import { shiftModel } from '../../../../entities/shift';
+import { shiftModel } from 'entities/shift';
 import styles from './styles.module.css';
 
 interface ISideBarAccordion {
@@ -156,7 +156,7 @@ export const SideBar = () => {
         expandOnMount={initRoute === 'requests'}
         list={[
           { title: 'Активные', to: '/requests/pending' },
-          { title: 'Рассмотренные', to: '/requests/considered' },
+          { title: 'Рассмотренные', to: '/requests/realized' },
         ]}
         icon="NoteEditIcon"
       />

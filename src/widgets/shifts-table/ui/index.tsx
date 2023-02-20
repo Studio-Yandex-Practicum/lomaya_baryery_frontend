@@ -44,8 +44,9 @@ export function ShiftsTable({ extClassName }: ShiftsTableProps) {
           />
           {finishedShifts.map((shift) => (
             <ShiftRow
+              key={shift.id}
               gridClassName={gridClassName}
-              routePath={`/shifts/finishe/${shift.id}`}
+              routePath={`/shifts/finished/${shift.id}`}
               shiftParams={shift}
               label={<ShiftLabel shiftStatus={shift?.status} />}
             />

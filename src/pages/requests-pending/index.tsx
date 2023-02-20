@@ -1,147 +1,60 @@
-import { useCallback, useEffect } from 'react';
-import cn from 'classnames';
-import { useLocation, useMatch, useNavigate } from 'react-router-dom';
-import { ContentContainer } from '../../shared/ui-kit/content-container';
-import { ContentHeading } from '../../shared/ui-kit/content-heading';
-import { Table } from '../../shared/ui-kit/table';
-import { RequestRow } from '../../entities/request/ui/request-row';
-import { Loader } from '../../shared/ui-kit/loader';
-import { Alert } from '../../shared/ui-kit/alert';
-import { Button, TButtonProps } from '../../shared/ui-kit/button';
-import { RefreshIcon } from '../../shared/ui-kit/icons';
-import { withTooltip } from '../../shared/ui-kit/tooltip';
-import { MessageForm } from '../../shared/ui-kit/message-form';
-import { deserializeQuery } from '../../shared/utils';
-import { MainPopup } from '../../shared/ui-kit/main-popup';
-import { useRecruitmentState } from '../../../deprecated-services/deprecated-store';
-import { usePendingRequestsStore } from '../../../deprecated-services/deprecated-store';
+import { useEffect } from 'react';
+import { Alert } from 'shared/ui-kit/alert';
+import { ContentContainer } from 'shared/ui-kit/content-container';
+import { ContentHeading } from 'shared/ui-kit/content-heading';
+import { Loader } from 'shared/ui-kit/loader';
+import { useStore } from 'effector-react';
+import { RefetchRequests, requestModel } from 'entities/request';
+import { RequestsTable } from 'widgets/request-table';
+import { mount, refetch, unmount } from './model';
 import styles from './styles.module.css';
 
-const ButtonWithTooltip = withTooltip<TButtonProps>(Button);
+interface NoticeProps {
+  isLoading: boolean;
+  data: unknown[];
+  error: string | null;
+}
 
-export const PageRequestsPending = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const decline = Boolean(useMatch('/requests/pending/decline'));
-
-  const { id: shiftId } = useRecruitmentState();
-
-  const {
-    requests: data,
-    isLoading,
-    fetch,
-    approve: approveRequest,
-    decline: declineRequest,
-  } = usePendingRequestsStore((state) => state);
-
-  useEffect(() => {
-    if (shiftId) {
-      fetch(shiftId);
-    }
-  }, [shiftId, fetch]);
-
-  const { rqstId: rejectingRqstId } = deserializeQuery<{ rqstId: string }>(
-    location.search
-  );
-
-  const handleDeclineRequest = async (message: string) => {
-    await declineRequest({ requestId: rejectingRqstId, message });
-    navigate('/requests/pending', { replace: true });
-  };
-
-  const handleCloseModal = useCallback(() => navigate(-1), [navigate]);
-
-  const content = () => {
-    if (isLoading) {
-      return <Loader extClassName={styles.requests__contentLoader} />;
-    }
-
-    if (!data) {
-      return null;
-    }
-
-    if (data.length === 0) {
-      return (
-        <Alert
-          extClassName={styles.requests__contentAlert}
-          title="Новых заявок нет"
-        />
-      );
-    }
-
-    if (shiftId) {
-      return (
-        <Table
-          header={['Имя и фамилия', 'Город', 'Телефон', 'Дата рождения', '']}
-          extClassName={styles.requests__table}
-          gridClassName={styles.requests__tableColumns}
-          renderRows={(rowStyles) =>
-            isLoading ? (
-              <Loader extClassName={styles.requests__tableLoader} />
-            ) : (
-              <div className={cn(styles.requests__tableRows, 'custom-scroll')}>
-                {data.map((request) => (
-                  <RequestRow
-                    key={request.request_id}
-                    extClassName={rowStyles}
-                    requestData={request}
-                    approve={() => approveRequest(request.request_id)}
-                    decline={() =>
-                      navigate({
-                        pathname: 'decline',
-                        search: `rqstId=${request.request_id}`,
-                      })
-                    }
-                  />
-                ))}
-              </div>
-            )
-          }
-        />
-      );
-    }
-  };
-
-  if (shiftId === null) {
-    return (
-      <ContentContainer extClassName={styles.requests__alert}>
-        <Alert
-          extClassName={styles.requests__tableAlert}
-          title="Заявки не принимаются, пока нет новой смены"
-        />
-      </ContentContainer>
-    );
+function Notice({ data, isLoading, error }: NoticeProps) {
+  if (isLoading && data.length === 0) {
+    return <Loader extClassName={styles.loader} />;
   }
 
-  return (
-    <>
-      <ContentContainer extClassName={styles.requests}>
-        <ContentHeading
-          extClassName={styles.requests__heading}
-          title="Активные"
-        >
-          <ButtonWithTooltip
-            tooltipEnabled
-            tooltipText="Проверить, есть ли новые заявки"
-            size="micro"
-            htmlType="button"
-            type="secondary"
-            extClassName={styles.requests__refreshButton}
-            onClick={() => fetch(shiftId)}
-          >
-            <RefreshIcon type="link-active" />
-          </ButtonWithTooltip>
-        </ContentHeading>
-        {content()}
-      </ContentContainer>
+  if (error) {
+    return <Alert extClassName={styles.alert} title={error} />;
+  }
 
-      <MainPopup
-        title="Отклонить заявку"
-        opened={decline}
-        onClose={handleCloseModal}
-      >
-        <MessageForm btnText="Отклонить" onSubmit={handleDeclineRequest} />
-      </MainPopup>
-    </>
+  if (data.length === 0) {
+    return <Alert extClassName={styles.alert} title="Новых заявок нет" />;
+  }
+
+  return null;
+}
+
+export function PageRequestsPending() {
+  const { data, isLoading, error } = useStore(requestModel.$requestsState);
+
+  useEffect(() => {
+    mount();
+    return () => {
+      unmount();
+    };
+  }, []);
+
+  const handleRefetch = () => {
+    refetch();
+  };
+
+  return (
+    <ContentContainer extClassName={styles.container}>
+      <ContentHeading extClassName={styles.heading} title="Активные">
+        <RefetchRequests
+          extClassName={styles.refreshButton}
+          getRequests={handleRefetch}
+        />
+      </ContentHeading>
+      <Notice data={data} error={error} isLoading={isLoading} />
+      <RequestsTable extClassName={styles.table} />
+    </ContentContainer>
   );
-};
+}

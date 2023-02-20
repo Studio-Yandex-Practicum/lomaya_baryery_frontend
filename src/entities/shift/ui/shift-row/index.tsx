@@ -1,5 +1,6 @@
 import React from 'react';
 import { CellDate, CellLink, CellText, RowLow } from 'shared/ui-kit/table';
+import styles from './styles.module.css';
 
 interface ShiftRowProps {
   routePath: string;
@@ -25,7 +26,7 @@ export function ShiftRow({
   }
 
   return (
-    <RowLow gridClassName={gridClassName}>
+    <RowLow extClassName={styles.row} gridClassName={gridClassName}>
       <CellText text={shiftParams.sequence_number} />
       <CellLink text={shiftParams.title} routeTo={routePath} />
       <CellDate date={shiftParams.started_at} />

@@ -1,0 +1,12 @@
+.rows {
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+}
+
+.columns {
+  grid-template-columns: 1.3fr 0.8fr 0.6fr 0.6fr 1.12fr;
+}
+
+.row {
+  padding-right: 0;
+}

@@ -4,11 +4,14 @@ import styles from './styles.module.css';
 
 interface RowProps extends React.PropsWithChildren {
   gridClassName: string;
+  extClassName?: string;
 }
 
-export function RowLow({ gridClassName, children }: RowProps) {
+export function RowLow({ gridClassName, extClassName, children }: RowProps) {
   return (
-    <div className={cn(styles.row, gridClassName, 'tableContentRow')}>
+    <div
+      className={cn(styles.row, extClassName, gridClassName, 'tableContentRow')}
+    >
       {children}
     </div>
   );

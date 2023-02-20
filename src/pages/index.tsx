@@ -37,9 +37,11 @@ export function AppRoutes() {
           path="shifts/finished/:shiftId"
           element={<PageFinishedShift />}
         />
-        {/* <Route path="requests/pending/*" element={<PageRequestsPending />} />
-        <Route path="requests/considered" element={<PageRequestsRealized />} />
-        <Route
+        <Route path="requests/pending/*" element={<PageRequestsPending />} />
+
+        <Route path="requests/realized" element={<PageRequestsRealized />} />
+
+        {/* <Route
           path="reports/reviewing"
           element={<PageReportsReviewingList />}
         />
