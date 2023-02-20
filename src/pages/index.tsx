@@ -9,8 +9,8 @@ import { PageFinishedShift } from './shift-finished';
 import { PagePreparingShift } from './shift-preparing';
 import { PageStartedShift } from './shift-started';
 import { PageShiftsAll } from './shifts';
-import { PageReportsReviewingSlider } from './reports-reviewing-slider';
-import { PageReportsReviewingList } from './reports-reviewing-list';
+// import { PageReportsReviewingSlider } from './reports-reviewing-slider';
+import { PageReportsReviewing } from './reports-reviewing';
 import { RequireAuth } from '../processes/auth/hoc';
 import { PageReportsRealized } from './reports-realized';
 import { PageReportsDeclined } from './reports-declined';
@@ -38,19 +38,16 @@ export function AppRoutes() {
           element={<PageFinishedShift />}
         />
         <Route path="requests/pending/*" element={<PageRequestsPending />} />
-
         <Route path="requests/realized" element={<PageRequestsRealized />} />
+        <Route path="reports/reviewing" element={<PageReportsReviewing />} />
 
         {/* <Route
-          path="reports/reviewing"
-          element={<PageReportsReviewingList />}
-        />
-        <Route
           path="reports/reviewing/:id"
           element={<PageReportsReviewingSlider />}
-        />
+        /> */}
+
         <Route path="reports/realized/*" element={<PageReportsRealized />} />
-        <Route path="reports/declined/*" element={<PageReportsDeclined />} /> */}
+        <Route path="reports/declined/*" element={<PageReportsDeclined />} />
 
         <Route
           path="profile"

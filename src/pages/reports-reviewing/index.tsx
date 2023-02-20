@@ -4,9 +4,9 @@ import { ContentContainer } from 'shared/ui-kit/content-container';
 import { ContentHeading } from 'shared/ui-kit/content-heading';
 import { Loader } from 'shared/ui-kit/loader';
 import { useStore } from 'effector-react';
-import { reportModel } from 'entities/participant-report';
+import { RefetchReports, reportModel } from 'entities/participant-report';
 import { ReportsTable } from 'widgets/reports-table';
-import { mount, unmount } from './model';
+import { mount, refetch, unmount } from './model';
 import styles from './styles.module.css';
 
 interface NoticeProps {
@@ -25,15 +25,13 @@ function Notice({ data, isLoading, error }: NoticeProps) {
   }
 
   if (data.length === 0) {
-    return (
-      <Alert extClassName={styles.alert} title="Отклонённых отчётов нет" />
-    );
+    return <Alert extClassName={styles.alert} title="Новых отчётов нет" />;
   }
 
   return null;
 }
 
-export function PageReportsDeclined() {
+export function PageReportsReviewing() {
   const { data, isLoading, error } = useStore(reportModel.store.$reportsState);
 
   useEffect(() => {
@@ -43,9 +41,18 @@ export function PageReportsDeclined() {
     };
   }, []);
 
+  const handleRefetch = () => {
+    refetch();
+  };
+
   return (
     <ContentContainer extClassName={styles.container}>
-      <ContentHeading extClassName={styles.heading} title="Отклонённые" />
+      <ContentHeading extClassName={styles.heading} title="Ждут проверки">
+        <RefetchReports
+          extClassName={styles.refreshButton}
+          getReports={handleRefetch}
+        />
+      </ContentHeading>
       <Notice data={data} error={error} isLoading={isLoading} />
       <ReportsTable extClassName={styles.table} />
     </ContentContainer>

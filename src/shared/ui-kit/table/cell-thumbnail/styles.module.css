@@ -1,4 +1,4 @@
-.cellPreview {
+.container {
   position: relative;
   width: 60px;
   height: 60px;
@@ -7,12 +7,12 @@
   transition: all 150ms ease-out;
 }
 
-.cellPreview:hover {
+.container:hover {
   width: 78px;
   height: 78px;
 }
 
-.cellPreview__image {
+.thumbnail {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -20,11 +20,11 @@
   transition: filter 150ms ease-out;
 }
 
-.cellPreview:hover .cellPreview__image {
+.container:hover .thumbnail {
   filter: brightness(1);
 }
 
-.cellPreview__icon {
+.icon {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -32,24 +32,7 @@
   transition: all 150ms ease-out;
 }
 
-.cellPreview:hover .cellPreview__icon {
+.container:hover .icon {
   visibility: hidden;
   opacity: 0;
-}
-
-.taskRow {
-  grid-template-rows: 80px;
-  padding-right: 0;
-}
-
-.taskRow__actions {
-  display: flex;
-}
-
-.button {
-  width: 112px;
-}
-
-.taskRow__approveButton {
-  margin-right: 10px;
 }

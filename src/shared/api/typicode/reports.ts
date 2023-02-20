@@ -1,35 +1,21 @@
 import { makeRequest } from './base';
-import { Report } from '../model';
+import { Report, ReportStatus } from '../model';
 
 const ROUTE = 'reports';
 
-export function getReviewingReports(shiftId: string) {
-  return makeRequest<Report<'reviewing'>[]>(
-    `${ROUTE}/?shift_id=${shiftId}&status=reviewing`,
-    {
-      method: 'get',
-      authorization: false,
-      prefixUrl: 'http://127.0.0.1:3000',
-    }
-  );
+export interface GetReportsParams {
+  shiftId: string;
+  status: ReportStatus | undefined;
 }
 
-export function getDeclinedReports(shiftId: string) {
-  return makeRequest<Report<'declined'>[]>(
-    `${ROUTE}/?shift_id=${shiftId}&status=declined`,
-    {
-      method: 'get',
-      authorization: false,
-      prefixUrl: 'http://127.0.0.1:3000',
-    }
-  );
-}
-
-export function getReports(shiftId: string) {
-  return makeRequest<Report[]>(`${ROUTE}/?shift_id=${shiftId}`, {
+export function getReports({ shiftId, status }: GetReportsParams) {
+  return makeRequest<Report[]>(ROUTE, {
     method: 'get',
     authorization: false,
     prefixUrl: 'http://127.0.0.1:3000',
+    searchParams: status
+      ? { shift_id: shiftId, status }
+      : { shift_id: shiftId },
   });
 }
 

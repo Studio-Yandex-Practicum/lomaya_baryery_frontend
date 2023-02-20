@@ -24,9 +24,6 @@ export function RowControls({
 
   const opened = useStore(requestReviewModel.store.$opened);
 
-  const isApproveLoading = useStore(requestReviewModel.store.$isApproveLoading);
-  const isDeclineLoading = useStore(requestReviewModel.store.$isDeclineLoading);
-
   const handleApprove = () => {
     approve(requestId);
   };
@@ -55,8 +52,6 @@ export function RowControls({
           type="primary"
           htmlType="button"
           onClick={handleApprove}
-          loading={isApproveLoading}
-          disabled={isApproveLoading}
           extClassName={cn(styles.button, styles.button_type_approve)}
         >
           Принять
@@ -76,12 +71,7 @@ export function RowControls({
         opened={opened}
         onClose={handleClosePopup}
       >
-        <MessageForm
-          isLoading={isDeclineLoading}
-          isDisabled={isDeclineLoading}
-          btnText="Отклонить"
-          onSubmit={handleSubmit}
-        />
+        <MessageForm btnText="Отклонить" onSubmit={handleSubmit} />
       </MainPopup>
     </>
   );

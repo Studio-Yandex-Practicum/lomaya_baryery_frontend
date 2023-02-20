@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+}
+
+.button {
+  width: 112px;
+}
+
+.button_type_approve {
+  margin-right: 10px;
+}

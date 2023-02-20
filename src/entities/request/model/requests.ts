@@ -54,7 +54,7 @@ export const getPendingRequestsFx = attach({
     if (shiftId !== null) {
       return shiftId;
     }
-    throw new Error('recruitment shift not exist');
+    throw new Error('Создайте новую смену, чтобы начать принимать заявки');
   },
 });
 
@@ -65,7 +65,7 @@ export const getRealizedRequestsFx = attach({
     if (shiftId !== null) {
       return shiftId;
     }
-    throw new Error('recruitment shift not exist');
+    throw new Error('Создайте новую смену, чтобы начать принимать заявки');
   },
 });
 

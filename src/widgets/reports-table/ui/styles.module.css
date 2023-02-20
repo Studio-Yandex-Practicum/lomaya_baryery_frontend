@@ -1,0 +1,19 @@
+.rows {
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+}
+
+.columns {
+  grid-template-columns: 1fr 1.2fr 1.2fr 0.7fr 1.4fr;
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80px;
+}
+
+.row {
+  padding-right: 0;
+}
