@@ -6,8 +6,8 @@ import {
   forward,
   attach,
 } from 'effector';
-import { api } from '../../../shared/api';
-import { shiftModel } from '../../../entities/shift';
+import { api } from 'shared/api';
+import { shiftModel } from 'entities/shift';
 
 export const closePopup = createEvent();
 

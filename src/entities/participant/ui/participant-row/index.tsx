@@ -1,5 +1,4 @@
-import cn from 'classnames';
-import { CellDate, CellText } from '../../../../shared/ui-kit/table';
+import { CellDate, CellText } from 'shared/ui-kit/table';
 import styles from './styles.module.css';
 
 interface ParticipantRowProps {
@@ -18,7 +17,7 @@ export function ParticipantRow({
   userData,
 }: ParticipantRowProps) {
   return (
-    <div className={cn(styles.row, gridClassName, 'tableContentRow')}>
+    <div className={[styles.row, gridClassName, 'tableContentRow'].join(' ')}>
       <CellText type="accent" text={`${userData.name} ${userData.surname}`} />
       <CellText text={userData.city} />
       <CellText text={userData.phone_number} />

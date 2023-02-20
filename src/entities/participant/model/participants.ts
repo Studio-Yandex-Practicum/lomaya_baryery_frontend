@@ -1,5 +1,5 @@
 import { combine, createEffect, createEvent, createStore } from 'effector';
-import { api, Participant, Shift } from '../../../shared/api';
+import { api, Participant, Shift } from 'shared/api';
 
 interface ParticipantsStore {
   shift: Shift | null;

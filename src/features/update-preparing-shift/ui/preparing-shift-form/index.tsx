@@ -1,8 +1,8 @@
 import { useEvent, useStore } from 'effector-react';
+import { Button } from 'shared/ui-kit/button';
+import { MainPopup } from 'shared/ui-kit/main-popup';
+import { ShiftSettingsForm } from 'entities/shift/ui/shft-settings-form';
 import { updatePreparingShiftModel } from '../..';
-import { Button } from '../../../../shared/ui-kit/button';
-import { MainPopup } from '../../../../shared/ui-kit/main-popup';
-import { ShiftSettingsForm } from '../../../../entities/shift/ui/shft-settings-form';
 import styles from './styles.module.css';
 
 export function UpdatePreparingShift() {

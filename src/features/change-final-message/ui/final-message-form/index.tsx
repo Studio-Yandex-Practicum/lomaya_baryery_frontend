@@ -1,8 +1,8 @@
 import { useEvent, useStore } from 'effector-react';
+import { Button } from 'shared/ui-kit/button';
+import { MainPopup } from 'shared/ui-kit/main-popup';
+import { MessageForm } from 'shared/ui-kit/message-form';
 import { changeFinalMessageModel } from '../..';
-import { Button } from '../../../../shared/ui-kit/button';
-import { MainPopup } from '../../../../shared/ui-kit/main-popup';
-import { MessageForm } from '../../../../shared/ui-kit/message-form';
 
 interface FinalMessageFormProps {
   extClassName: string;

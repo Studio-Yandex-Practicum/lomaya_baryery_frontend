@@ -6,8 +6,8 @@ import {
   createStore,
   forward,
 } from 'effector';
-import { shiftModel } from '../../../entities/shift';
-import { api } from '../../../shared/api';
+import { shiftModel } from 'entities/shift';
+import { api } from 'shared/api';
 
 const openPopup = createEvent();
 const closePopup = createEvent();

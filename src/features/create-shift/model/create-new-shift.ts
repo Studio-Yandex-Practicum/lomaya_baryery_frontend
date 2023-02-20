@@ -6,8 +6,8 @@ import {
   sample,
   forward,
 } from 'effector';
-import { shiftModel } from '../../../entities/shift';
-import { api } from '../../../shared/api';
+import { shiftModel } from 'entities/shift';
+import { api } from 'shared/api';
 
 import { getRecruitmentState } from '../lib';
 

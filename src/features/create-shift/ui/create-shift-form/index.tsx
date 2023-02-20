@@ -1,9 +1,9 @@
 import { useEvent, useStore } from 'effector-react';
-import { Dialog } from '../../../../shared/ui-kit/dialog';
-import { MainPopup } from '../../../../shared/ui-kit/main-popup';
-import { Button } from '../../../../shared/ui-kit/button';
-import { PlusIcon } from '../../../../shared/ui-kit/icons';
-import { ShiftSettingsForm } from '../../../../entities/shift/ui/shft-settings-form';
+import { Dialog } from 'shared/ui-kit/dialog';
+import { MainPopup } from 'shared/ui-kit/main-popup';
+import { Button } from 'shared/ui-kit/button';
+import { PlusIcon } from 'shared/ui-kit/icons';
+import { ShiftSettingsForm } from 'entities/shift/ui/shft-settings-form';
 import { createShiftModel } from '../..';
 
 export function CreateNewShift() {
@@ -29,7 +29,7 @@ export function CreateNewShift() {
     closePopup();
   };
 
-  const handleCreateShift = async ({
+  const handleCreateShift = ({
     title,
     start,
     finish,

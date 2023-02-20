@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react';
-import cn from 'classnames';
 import { Request } from 'shared/api';
-import { CellDate, CellText } from '../../../../shared/ui-kit/table';
-import { Button } from '../../../../shared/ui-kit/button';
-import { StatusLabel } from '../../../../shared/ui-kit/status-label';
+import { CellDate, CellText } from 'shared/ui-kit/table';
+import { Button } from 'shared/ui-kit/button';
+import { StatusLabel } from 'shared/ui-kit/status-label';
 import styles from './styles.module.css';
 
 interface IRequestRowProps {
@@ -65,7 +64,9 @@ export const RequestRow: React.FC<IRequestRowProps> = ({
   }, [requestData]); // eslint-disable-line
 
   return (
-    <div className={cn(styles.requestRow, extClassName, 'tableContentRow')}>
+    <div
+      className={[styles.requestRow, extClassName, 'tableContentRow'].join(' ')}
+    >
       <CellText
         type="accent"
         text={`${requestData.name} ${requestData.surname}`}

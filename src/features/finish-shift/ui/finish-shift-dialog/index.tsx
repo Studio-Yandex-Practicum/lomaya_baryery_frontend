@@ -1,7 +1,7 @@
 import { useEvent, useStore } from 'effector-react';
+import { Button } from 'shared/ui-kit/button';
+import { Dialog } from 'shared/ui-kit/dialog';
 import { finishShiftModel } from '../..';
-import { Button } from '../../../../shared/ui-kit/button';
-import { Dialog } from '../../../../shared/ui-kit/dialog';
 
 export function FinishShiftDialog() {
   const { dialogText, isLoading } = useStore(

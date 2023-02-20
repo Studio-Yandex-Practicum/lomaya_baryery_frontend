@@ -1,12 +1,8 @@
 import { useMemo, useState } from 'react';
 import cn from 'classnames';
-import { ChevronRightIcon } from '../../../../shared/ui-kit/icons';
-import {
-  CellDate,
-  CellTasksStat,
-  CellText,
-} from '../../../../shared/ui-kit/table';
-import { TasksCalendar } from '../../../../shared/ui-kit/tasks-calendar';
+import { ChevronRightIcon } from 'shared/ui-kit/icons';
+import { CellDate, CellTasksStat, CellText } from 'shared/ui-kit/table';
+import { TasksCalendar } from 'shared/ui-kit/tasks-calendar';
 import styles from './styles.module.css';
 
 interface IParticipantRowWithStatProps {

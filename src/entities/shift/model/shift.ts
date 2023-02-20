@@ -1,5 +1,5 @@
 import { combine, createEffect, createStore } from 'effector';
-import { api, Shift } from '../../../shared/api';
+import { api, Shift } from 'shared/api';
 import { mapShifts } from '../lib';
 
 export interface ShiftsStore {

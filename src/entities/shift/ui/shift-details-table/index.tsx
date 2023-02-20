@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { CellDate, CellText, Table } from '../../../../shared/ui-kit/table';
+import { CellDate, CellText, Table } from 'shared/ui-kit/table';
 import styles from './styles.module.css';
 
 interface IShiftDetailsTableProps {

@@ -1,5 +1,5 @@
 import { createStore } from 'effector';
-import { Shift } from '../../../shared/api';
+import { Shift } from 'shared/api';
 import { $shifts } from './shift';
 
 const $startedShift = createStore<Shift<'started'> | null>(null);
