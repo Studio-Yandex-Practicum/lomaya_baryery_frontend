@@ -6,9 +6,8 @@ import {
   forward,
   attach,
 } from 'effector';
-import { startedShiftModel } from '../../../entities/deprecated-started-shift';
-import Api, { Shifts } from '../../../shared/api';
-import { preparingShiftModel } from '../../../entities/deprecated-preparing-shift';
+import { api } from '../../../shared/api';
+import { shiftModel } from '../../../entities/shift';
 
 export const closePopup = createEvent();
 
@@ -26,12 +25,12 @@ const $isLoading = createStore(false);
 
 const $error = createStore<null | string>(null);
 
-const updateShiftFx = createEffect((params: Shifts.UpdateShiftProps) =>
-  Api.updateShiftSettings(params)
+const updateShiftFx = createEffect((params: api.UpdateShiftParams) =>
+  api.updateShiftSettings(params)
 );
 
 const updatePreparingShiftFx = attach({
-  source: preparingShiftModel.$preparingShift,
+  source: shiftModel.$preparingShift,
   effect: updateShiftFx,
   mapParams(
     params: { title: string; startDate: string; finishDate: string },
@@ -61,7 +60,7 @@ $opened
   .on(closePopup, () => false)
   .on(updatePreparingShiftFx.doneData, () => false);
 
-preparingShiftModel.$preparingShift.on(
+shiftModel.$preparingShift.on(
   updatePreparingShiftFx.doneData,
   (state, data) => {
     if (state) {
@@ -84,14 +83,14 @@ forward({
   to: updatePreparingShiftFx,
 });
 
-export const $shiftTitle = preparingShiftModel.$preparingShift.map((state) => {
+export const $shiftTitle = shiftModel.$preparingShift.map((state) => {
   if (state) {
     return state.title;
   }
   return '';
 });
 
-export const $dateRange = preparingShiftModel.$preparingShift.map((state) => {
+export const $dateRange = shiftModel.$preparingShift.map((state) => {
   if (state) {
     return {
       startDate: new Date(state.started_at),
@@ -101,7 +100,7 @@ export const $dateRange = preparingShiftModel.$preparingShift.map((state) => {
   return { startDate: new Date(), finishDate: new Date() };
 });
 
-export const $startDateFilter = startedShiftModel.$startedShift.map((state) => {
+export const $startDateFilter = shiftModel.$startedShift.map((state) => {
   let filter = new Date();
   if (state) {
     filter = new Date(state.finished_at);

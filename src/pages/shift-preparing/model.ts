@@ -1,19 +1,12 @@
 import { attach, createEvent, forward } from 'effector';
 import { participantsModel } from '../../entities/participant';
-import { preparingShiftModel } from '../../entities/deprecated-preparing-shift';
+import { shiftModel } from '../../entities/shift';
 
 const mount = createEvent();
 const unmount = createEvent();
 
-const $isRedirect = preparingShiftModel.$preparingShift.map((state) => {
-  if (state === null) {
-    return true;
-  }
-  return false;
-});
-
 const getPreparingShiftParticipantsFx = attach({
-  source: preparingShiftModel.$preparingShift,
+  source: shiftModel.$preparingShift,
   effect: participantsModel.getParticipantsFx,
   mapParams(_, state) {
     if (state) {
@@ -23,7 +16,7 @@ const getPreparingShiftParticipantsFx = attach({
   },
 });
 
-preparingShiftModel.$preparingShift.on(
+shiftModel.$preparingShift.on(
   getPreparingShiftParticipantsFx.doneData,
   (state, data) => {
     if (state) {
@@ -43,5 +36,3 @@ forward({
 });
 
 export const events = { mount, unmount };
-
-export const store = { isRedirect: $isRedirect };

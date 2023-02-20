@@ -12,6 +12,7 @@
   padding: 8px;
   cursor: pointer;
   transition: var(--transition-common);
+  flex-shrink: 0;
 }
 
 .row__nameIcon:hover {

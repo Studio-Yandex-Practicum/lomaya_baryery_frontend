@@ -8,9 +8,9 @@ export function getFormattedDate(stringOfDate: string) {
 export function findIndexById<T extends { [Property in keyof T]: T[Property] }>(
   array: T[] | null | undefined,
   idKey: keyof T,
-  entityId: string,
+  entityId: string | undefined | null
 ): number | null {
-  if (!array) return null;
+  if (!array || !entityId) return null;
 
   const necessaryIndex = array.findIndex((item) => item[idKey] === entityId);
 

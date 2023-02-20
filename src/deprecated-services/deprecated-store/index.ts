@@ -1,13 +1,3 @@
-export { useAuthStore } from './auth-store/auth';
-
-export {
-  useShiftsStoreQuery,
-  useCreateNewShift,
-  useUpdateShift,
-  useFinishShift,
-  useRecruitmentState,
-} from './shifts-store/shifts';
-
 export {
   usePendingRequestsStore,
   useRealizedRequestsStore,

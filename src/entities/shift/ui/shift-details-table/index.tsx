@@ -24,8 +24,8 @@ export function ShiftDetailsTable({
       extClassName={extClassName}
       header={['Название смены', 'Дата старта/окончания', 'Кол-во участников']}
       gridClassName={styles.columnsTemplate}
-      renderRows={() => (
-        <div className={cn(styles.row)}>
+      renderRows={(commonGridStyles) => (
+        <div className={cn(styles.row, commonGridStyles)}>
           <CellText type="accent" text={title} />
           <div className={styles.row__date}>
             <CellDate date={start} />

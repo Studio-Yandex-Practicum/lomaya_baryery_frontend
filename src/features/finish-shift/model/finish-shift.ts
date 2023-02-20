@@ -6,9 +6,8 @@ import {
   createStore,
   forward,
 } from 'effector';
-import Api from '../../../shared/api';
-import { finishedShiftModel } from '../../../entities/deprecated-finished-shift';
-import { startedShiftModel } from '../../../entities/deprecated-started-shift';
+import { api } from '../../../shared/api';
+import { shiftModel } from '../../../entities/shift';
 
 const submitClicker = createEvent();
 const openPopup = createEvent();
@@ -25,11 +24,11 @@ const $isLoading = createStore(false);
 const $error = createStore<null | string>(null);
 
 const finishShiftFx = createEffect((shiftId: string) =>
-  Api.finishShift(shiftId)
+  api.finishShift(shiftId)
 );
 
 const finishStartedShiftFx = attach({
-  source: startedShiftModel.$startedShift,
+  source: shiftModel.$startedShift,
   mapParams(_, state) {
     if (state) {
       return state.id;
@@ -50,16 +49,13 @@ $error
   .on(finishStartedShiftFx.failData, (_, error) => error.message)
   .reset([submitClicker, closePopup]);
 
-startedShiftModel.$startedShift.on(finishStartedShiftFx.doneData, () => null);
+shiftModel.$startedShift.on(finishStartedShiftFx.doneData, () => null);
 
-finishedShiftModel.$finishedShifts.on(
-  finishStartedShiftFx.doneData,
-  (state, data) => {
-    const newState = [...state];
-    newState.unshift(data);
-    return newState;
-  }
-);
+shiftModel.$finishedShifts.on(finishStartedShiftFx.doneData, (state, data) => {
+  const newState = [...state];
+  newState.unshift(data);
+  return newState;
+});
 
 forward({
   from: submitClicker,

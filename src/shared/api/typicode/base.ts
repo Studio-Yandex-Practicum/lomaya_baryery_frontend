@@ -4,7 +4,7 @@ import ApiError from './exceptions';
 
 const fetcher = ky.create({ prefixUrl: 'https://lombaryery.tk' });
 
-async function makeRequest<Result>(
+export async function makeRequest<Result>(
   url: string,
   options: Options & { authorization?: boolean; isRetry?: boolean }
 ) {
@@ -67,5 +67,3 @@ async function makeRequest<Result>(
     throw error;
   }
 }
-
-export default makeRequest;

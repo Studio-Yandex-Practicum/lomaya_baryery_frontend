@@ -1,4 +1,4 @@
-import { Shifts } from '../../shared/api';
+import { ShiftStatus } from '../../shared/api';
 
 function getTodayDate() {
   const today = new Date(new Date().setHours(0, 0, 0, 0));
@@ -22,7 +22,7 @@ export function getRecruitmentState(
 ) {
   interface RecruitmentState {
     id: null | string;
-    shiftType: Extract<Shifts.TShiftStatus, 'preparing' | 'started'> | null;
+    shiftType: Extract<ShiftStatus, 'preparing' | 'started'> | null;
   }
 
   const state: RecruitmentState = {

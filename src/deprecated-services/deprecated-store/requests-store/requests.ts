@@ -1,18 +1,18 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
-import { findIndexById } from '../../../components/shared/utils/common-helpers';
-import Api from '../../../components/shared/api';
-import { Requests } from '../../../components/shared/api/models';
+import { findIndexById } from '../../../shared/utils/common-helpers';
+import { api } from '../../../shared/api';
+import type { Request } from '../../../shared/api';
 
 interface PendingRequestsStore {
-  requests: Requests.IRequest[];
+  requests: Request[];
   isIdle: boolean;
   isLoading: boolean;
   isSuccess: boolean;
   isError: boolean;
   fetch: (shiftId: string) => void;
   approve: (requestId: string) => void;
-  decline: (reqBody: Requests.DeclineRequestReq) => void;
+  decline: (reqBody: Request<'declined'>) => void;
 }
 
 export const usePendingRequestsStore = create<PendingRequestsStore>()(
@@ -28,7 +28,7 @@ export const usePendingRequestsStore = create<PendingRequestsStore>()(
         state.isLoading = true;
       });
       try {
-        const requests = await Api.getPendingRequests(shiftId);
+        const requests = await api.getPendingRequests(shiftId);
         set((state) => {
           state.requests = requests;
           state.isSuccess = true;
@@ -46,7 +46,7 @@ export const usePendingRequestsStore = create<PendingRequestsStore>()(
     },
     async approve(requestId) {
       try {
-        await Api.approveRequest(requestId);
+        await api.approveRequest(requestId);
         set((state) => {
           const { requests } = get();
 
@@ -63,13 +63,13 @@ export const usePendingRequestsStore = create<PendingRequestsStore>()(
     },
     async decline(payload) {
       try {
-        await Api.declineRequest(payload);
+        await api.declineRequest(payload);
         set((state) => {
           const { requests } = get();
           const requestIndex = findIndexById(
             requests,
             'request_id',
-            payload.requestId
+            payload.request_id
           );
           if (requestIndex !== null) {
             state.requests[requestIndex].request_status = 'declined';
@@ -85,7 +85,7 @@ export const usePendingRequestsStore = create<PendingRequestsStore>()(
 );
 
 interface RealizedRequestsStore {
-  requests: Requests.IRequest[];
+  requests: Request[];
   isIdle: boolean;
   isLoading: boolean;
   isSuccess: boolean;
@@ -107,7 +107,7 @@ export const useRealizedRequestsStore = create<RealizedRequestsStore>()(
       });
 
       try {
-        const realizedRequests = await Api.getRequests(shiftId);
+        const realizedRequests = await api.getRequests(shiftId);
 
         set((state) => {
           state.requests = realizedRequests;

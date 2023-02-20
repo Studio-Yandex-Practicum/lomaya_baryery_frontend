@@ -6,14 +6,14 @@ import {
   createStore,
   forward,
 } from 'effector';
-import { startedShiftModel } from '../../../entities/deprecated-started-shift';
-import Api, { Shifts } from '../../../shared/api';
+import { shiftModel } from '../../../entities/shift';
+import { api } from '../../../shared/api';
 
 const openPopup = createEvent();
 const closePopup = createEvent();
 const submitClicker = createEvent<string>();
 
-const $initMessage = startedShiftModel.$startedShift.map((state) => {
+const $initMessage = shiftModel.$startedShift.map((state) => {
   if (state) {
     return state.final_message;
   }
@@ -25,12 +25,12 @@ const $error = createStore<string | null>(null);
 
 const $openedPopup = createStore(false);
 
-const updateShiftFx = createEffect(async (params: Shifts.UpdateShiftProps) =>
-  Api.updateShiftSettings(params)
+const updateShiftFx = createEffect(async (params: api.UpdateShiftParams) =>
+  api.updateShiftSettings(params)
 );
 
 const changeFinalMessageFx = attach({
-  source: startedShiftModel.$startedShift,
+  source: shiftModel.$startedShift,
   mapParams(params: string, state) {
     if (state) {
       return {
@@ -57,14 +57,11 @@ $error
   .on(changeFinalMessageFx.failData, (_, error) => error.message)
   .reset([closePopup, submitClicker]);
 
-startedShiftModel.$startedShift.on(
-  changeFinalMessageFx.doneData,
-  (state, data) => {
-    if (state) {
-      return { ...state, final_message: data.final_message };
-    }
+shiftModel.$startedShift.on(changeFinalMessageFx.doneData, (state, data) => {
+  if (state) {
+    return { ...state, final_message: data.final_message };
   }
-);
+});
 
 const $changeMessageStore = combine({
   initMessage: $initMessage,

@@ -8,7 +8,7 @@ import { Table } from '../../shared/ui-kit/table';
 import { Loader } from '../../shared/ui-kit/loader';
 import { Alert } from '../../shared/ui-kit/alert';
 import * as pageModel from './model';
-import { StartedShiftDetails } from '../../entities/deprecated-started-shift';
+import { ShiftDetailsTable, shiftModel } from '../../entities/shift';
 import { participantsModel } from '../../entities/participant';
 import { ParticipantRow } from '../../entities/participant/ui/participant-row';
 import { UpdatePreparingShift } from '../../features/update-preparing-shift';
@@ -69,7 +69,7 @@ function Participants() {
 
 export function PagePreparingShift() {
   const { mount, unmount } = useEvent(pageModel.events);
-  const isRedirect = useStore(pageModel.store.isRedirect);
+  const shiftData = useStore(shiftModel.$preparingShift);
 
   useEffect(() => {
     mount();
@@ -78,7 +78,7 @@ export function PagePreparingShift() {
     };
   }, [mount, unmount]);
 
-  if (isRedirect) {
+  if (shiftData === null) {
     return <Navigate to="/shifts/all" replace />;
   }
 
@@ -86,7 +86,11 @@ export function PagePreparingShift() {
     <>
       <ContentContainer extClassName={styles.headingContainer}>
         <ContentHeading title="Новая" extClassName={styles.heading} />
-        <StartedShiftDetails
+        <ShiftDetailsTable
+          title={shiftData.title}
+          start={shiftData.started_at}
+          finish={shiftData.finished_at}
+          participants={shiftData.total_users}
           extClassName={styles.shiftTable}
           featureComponent={<UpdatePreparingShift />}
         />

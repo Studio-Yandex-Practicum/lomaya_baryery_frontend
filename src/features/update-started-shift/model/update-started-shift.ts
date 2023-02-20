@@ -6,9 +6,8 @@ import {
   forward,
   attach,
 } from 'effector';
-import { startedShiftModel } from '../../../entities/deprecated-started-shift';
-import Api, { Shifts } from '../../../shared/api';
-import { preparingShiftModel } from '../../../entities/deprecated-preparing-shift';
+import { api } from '../../../shared/api';
+import { shiftModel } from '../../../entities/shift';
 
 export const closePopup = createEvent();
 
@@ -25,12 +24,12 @@ const $isLoading = createStore(false);
 
 const $error = createStore<null | string>(null);
 
-const updateShiftFx = createEffect((params: Shifts.UpdateShiftProps) =>
-  Api.updateShiftSettings(params)
+const updateShiftFx = createEffect((params: api.UpdateShiftParams) =>
+  api.updateShiftSettings(params)
 );
 
 const updateStartedShiftFx = attach({
-  source: startedShiftModel.$startedShift,
+  source: shiftModel.$startedShift,
   effect: updateShiftFx,
   mapParams(params: { title: string; finishDate: string }, state) {
     if (state) {
@@ -57,18 +56,15 @@ $opened
   .on(closePopup, () => false)
   .on(updateStartedShiftFx.doneData, () => false);
 
-startedShiftModel.$startedShift.on(
-  updateStartedShiftFx.doneData,
-  (state, data) => {
-    if (state) {
-      return {
-        ...state,
-        title: data.title,
-        finished_at: data.finished_at,
-      };
-    }
+shiftModel.$startedShift.on(updateStartedShiftFx.doneData, (state, data) => {
+  if (state) {
+    return {
+      ...state,
+      title: data.title,
+      finished_at: data.finished_at,
+    };
   }
-);
+});
 
 export const $updateStartedShiftState = combine({
   isLoading: $isLoading,
@@ -80,14 +76,14 @@ forward({
   to: updateStartedShiftFx,
 });
 
-export const $shiftTitle = startedShiftModel.$startedShift.map((state) => {
+export const $shiftTitle = shiftModel.$startedShift.map((state) => {
   if (state) {
     return state.title;
   }
   return '';
 });
 
-export const $dateRange = startedShiftModel.$startedShift.map((state) => {
+export const $dateRange = shiftModel.$startedShift.map((state) => {
   if (state) {
     return {
       startDate: new Date(state.started_at),
@@ -97,16 +93,14 @@ export const $dateRange = startedShiftModel.$startedShift.map((state) => {
   return { startDate: new Date(), finishDate: new Date() };
 });
 
-export const $finishDateFilter = preparingShiftModel.$preparingShift.map(
-  (state) => {
-    let filter;
-    if (state) {
-      filter = new Date(state.started_at);
-      filter.setHours(-24, 0, 0, 0);
-    }
-    return filter;
+export const $finishDateFilter = shiftModel.$preparingShift.map((state) => {
+  let filter;
+  if (state) {
+    filter = new Date(state.started_at);
+    filter.setHours(-24, 0, 0, 0);
   }
-);
+  return filter;
+});
 
 export const store = {
   $updateStartedShiftState,

@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 import { Link } from 'react-router-dom';
+import { useEvent } from 'effector-react';
+import { appUserModel } from '../..';
 import { useFormAndValidation } from '../../../../shared/hook';
-import { AuthContainer, Form } from './elements';
 import { InputText } from '../../../../shared/ui-kit/inputText';
+import { AuthContainer } from '../../../../shared/ui/auth-container';
+import { Form } from '../../../../shared/ui/auth-form';
 import styles from './styles.module.css';
 
 export function SignInForm() {
@@ -16,6 +19,7 @@ export function SignInForm() {
     email: '',
     pwd: '',
   });
+  const setAuth = useEvent(appUserModel.setAuth);
 
   const [submitError, setSubmitError] = useState<null | string>(null);
 
@@ -35,7 +39,7 @@ export function SignInForm() {
     e.preventDefault();
 
     if (isValid) {
-      authEvent(true);
+      setAuth(true);
     } else {
       if (Object.values(inputValues).some((value) => !Boolean(value))) {
         setSubmitError('Все поля обязательные');

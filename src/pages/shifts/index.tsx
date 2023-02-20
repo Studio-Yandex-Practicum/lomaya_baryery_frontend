@@ -3,25 +3,16 @@ import { useStore } from 'effector-react';
 import { ContentHeading } from '../../shared/ui-kit/content-heading';
 import { ContentContainer } from '../../shared/ui-kit/content-container';
 import { Table } from '../../shared/ui-kit/table';
-import {
-  preparingShiftModel,
-  PreparingShiftRow,
-} from '../../entities/deprecated-preparing-shift';
-import {
-  finishedShiftModel,
-  FinishedShiftRows,
-} from '../../entities/deprecated-finished-shift';
-import {
-  startedShiftModel,
-  StartedShiftRow,
-} from '../../entities/deprecated-started-shift';
+import { PreparingShiftRow, shiftModel } from '../../entities/shift';
+import { FinishedShiftRows } from '../../entities/shift';
+import { StartedShiftRow } from '../../entities/shift';
 import { CreateNewShift } from '../../features/create-shift';
 import styles from './styles.module.css';
 
 function ShiftsTable() {
-  const preparingShift = useStore(preparingShiftModel.$preparingShift);
-  const startedShift = useStore(startedShiftModel.$startedShift);
-  const finishedShifts = useStore(finishedShiftModel.$finishedShifts);
+  const preparingShift = useStore(shiftModel.$preparingShift);
+  const startedShift = useStore(shiftModel.$startedShift);
+  const finishedShifts = useStore(shiftModel.$finishedShifts);
 
   return (
     <Table

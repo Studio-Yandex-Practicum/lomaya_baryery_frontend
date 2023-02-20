@@ -3,7 +3,7 @@ import { Dialog } from '../../../../shared/ui-kit/dialog';
 import { MainPopup } from '../../../../shared/ui-kit/main-popup';
 import { Button } from '../../../../shared/ui-kit/button';
 import { PlusIcon } from '../../../../shared/ui-kit/icons';
-import { ShiftSettingsForm } from '../../../../shared/shft-settings-form';
+import { ShiftSettingsForm } from '../../../../shared/ui/shft-settings-form';
 import { createShiftModel } from '../..';
 
 export function CreateNewShift() {

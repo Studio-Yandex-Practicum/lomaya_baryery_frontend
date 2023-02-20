@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import Api from '../../../components/shared/api';
+import { api } from '../../../shared/api';
 
 export function useParticipantsStoreQuery(
   shiftId?: string | undefined,
@@ -7,7 +7,7 @@ export function useParticipantsStoreQuery(
 ) {
   return useQuery({
     queryKey,
-    queryFn: shiftId ? () => Api.getShiftParticipants(shiftId) : undefined,
+    queryFn: shiftId ? () => api.getShiftParticipants(shiftId) : undefined,
     enabled: Boolean(shiftId),
   });
 }

@@ -8,7 +8,7 @@ import { Table } from '../../shared/ui-kit/table';
 import { Loader } from '../../shared/ui-kit/loader';
 import { Alert } from '../../shared/ui-kit/alert';
 import * as pageModel from './model';
-import { StartedShiftDetails } from '../../entities/deprecated-started-shift';
+import { ShiftDetailsTable, shiftModel } from '../../entities/shift';
 import {
   ParticipantRowWithStat,
   participantsModel,
@@ -76,7 +76,7 @@ function Participants() {
 
 export function PageStartedShift() {
   const { mount, unmount } = useEvent(pageModel.events);
-  const isRedirect = useStore(pageModel.store.isRedirect);
+  const shiftData = useStore(shiftModel.$startedShift);
 
   useEffect(() => {
     mount();
@@ -85,7 +85,7 @@ export function PageStartedShift() {
     };
   }, [mount, unmount]);
 
-  if (isRedirect) {
+  if (shiftData === null) {
     return <Navigate to="/shifts/all" replace />;
   }
 
@@ -96,7 +96,11 @@ export function PageStartedShift() {
           <FinalMessageForm extClassName={styles.heading__msgButton} />
           <FinishShiftDialog />
         </ContentHeading>
-        <StartedShiftDetails
+        <ShiftDetailsTable
+          title={shiftData.title}
+          start={shiftData.started_at}
+          finish={shiftData.finished_at}
+          participants={shiftData.total_users}
           extClassName={styles.shiftTable}
           featureComponent={<UpdateStartedShift />}
         />

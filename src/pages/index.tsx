@@ -37,7 +37,7 @@ export function AppRoutes() {
           path="shifts/finished/:shiftId"
           element={<PageFinishedShift />}
         />
-        <Route path="requests/pending/*" element={<PageRequestsPending />} />
+        {/* <Route path="requests/pending/*" element={<PageRequestsPending />} />
         <Route path="requests/considered" element={<PageRequestsRealized />} />
         <Route
           path="reports/reviewing"
@@ -48,7 +48,7 @@ export function AppRoutes() {
           element={<PageReportsReviewingSlider />}
         />
         <Route path="reports/realized/*" element={<PageReportsRealized />} />
-        <Route path="reports/declined/*" element={<PageReportsDeclined />} />
+        <Route path="reports/declined/*" element={<PageReportsDeclined />} /> */}
 
         <Route
           path="profile"

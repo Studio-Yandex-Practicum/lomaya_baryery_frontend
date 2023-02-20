@@ -1,20 +1,18 @@
-import { Shifts } from '../../api';
-import { ShiftsStore } from './model';
+import { Shift, ShiftStatus } from '../../shared/api';
+import { ShiftsStore } from './model/shift';
 
-function isStatus<Status extends Shifts.TShiftStatus>(
-  shift: Shifts.TShift<Shifts.TShiftStatus>,
-  status: Status
-): shift is Shifts.TShift<Status> {
+function isStatus<T extends ShiftStatus>(
+  shift: Shift,
+  status: T
+): shift is Shift<T> {
   if (shift.status === status) {
-    shift as Shifts.TShift<Status>;
+    shift as Shift<T>;
     return true;
   }
   return false;
 }
 
-export function mapShifts(
-  shifts: Shifts.TShift<Shifts.TShiftStatus>[] | undefined | null
-) {
+export function mapShifts(shifts: Shift[] | undefined | null) {
   const result: ShiftsStore = {
     started: null,
     preparing: null,

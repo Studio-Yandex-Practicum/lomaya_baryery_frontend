@@ -1,10 +1,11 @@
 import React, { useMemo, useState } from 'react';
 import cn from 'classnames';
-import { InputText } from '../ui-kit/inputText';
-import { DateRange } from '../ui-kit/date-range';
-import { Button } from '../ui-kit/button';
+
 import { getAPIDateFormat, getInterval } from './lib';
 import styles from './styles.module.css';
+import { InputText } from '../../ui-kit/inputText';
+import { DateRange } from '../../ui-kit/date-range';
+import { Button } from '../../ui-kit/button';
 
 export interface IShiftFormData {
   title: string;

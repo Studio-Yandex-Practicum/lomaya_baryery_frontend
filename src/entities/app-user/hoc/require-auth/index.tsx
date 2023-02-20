@@ -1,9 +1,9 @@
 import { useStore } from 'effector-react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { $auth } from '../../../../../deprecated-services/deprecated-store/auth-store/auth';
+import { appUserModel } from '../..';
 
 export function RequireAuth({ children }: { children: React.ReactElement }) {
-  const isAuth = useStore($auth);
+  const isAuth = useStore(appUserModel.$isAuth);
   const location = useLocation();
 
   return isAuth ? (

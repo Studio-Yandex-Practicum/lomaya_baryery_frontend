@@ -8,12 +8,13 @@ import { Table } from '../../shared/ui-kit/table';
 import { Loader } from '../../shared/ui-kit/loader';
 import { Alert } from '../../shared/ui-kit/alert';
 import * as pageModel from './model';
-import { StartedShiftDetails } from '../../entities/deprecated-started-shift';
+import { ShiftDetailsTable, shiftModel } from '../../entities/shift';
 import {
   ParticipantRowWithStat,
   participantsModel,
 } from '../../entities/participant';
 import styles from './styles.module.css';
+import { findIndexById } from '../../shared/utils/common-helpers';
 
 function Participants() {
   const {
@@ -74,6 +75,7 @@ function Participants() {
 export function PageFinishedShift() {
   const { shiftId } = useParams();
   const { mount, unmount } = useEvent(pageModel.events);
+  const finishedShifts = useStore(shiftModel.$finishedShifts);
 
   useEffect(() => {
     if (shiftId) {
@@ -84,15 +86,25 @@ export function PageFinishedShift() {
     };
   }, [mount, unmount, shiftId]);
 
-  if (!shiftId) {
+  const index = findIndexById(finishedShifts, 'id', shiftId);
+
+  if (index === null) {
     return <Navigate to="/shifts/all" replace />;
   }
+
+  const shiftData = finishedShifts[index];
 
   return (
     <>
       <ContentContainer extClassName={styles.headingContainer}>
         <ContentHeading title="Прошедшая" extClassName={styles.heading} />
-        <StartedShiftDetails extClassName={styles.shiftTable} />
+        <ShiftDetailsTable
+          title={shiftData.title}
+          start={shiftData.started_at}
+          finish={shiftData.finished_at}
+          participants={shiftData.total_users}
+          extClassName={styles.shiftTable}
+        />
       </ContentContainer>
       <ContentContainer extClassName={styles.participantsContainer}>
         <Participants />

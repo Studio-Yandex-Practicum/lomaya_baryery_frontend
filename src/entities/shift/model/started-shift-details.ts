@@ -1,9 +1,9 @@
 import { createStore } from 'effector';
-import { Shifts } from '../../../shared/api';
-import { shiftsModel } from '../../../../deprecated-services/deprecated-store/deprecated-models';
+import { Shift } from '../../../shared/api';
+import { $shifts } from './shift';
 
-const $startedShift = createStore<Shifts.TShift<'started'> | null>(null);
+const $startedShift = createStore<Shift<'started'> | null>(null);
 
-$startedShift.on(shiftsModel.store.$shifts, (_, shifts) => shifts.started);
+$startedShift.on($shifts, (_, shifts) => shifts.started);
 
 export { $startedShift };

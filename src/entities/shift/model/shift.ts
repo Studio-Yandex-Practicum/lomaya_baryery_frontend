@@ -1,11 +1,11 @@
 import { combine, createEffect, createStore } from 'effector';
-import Api, { Shifts } from '../../api';
-import { mapShifts } from './lib';
+import { api, Shift } from '../../../shared/api';
+import { mapShifts } from '../lib';
 
 export interface ShiftsStore {
-  preparing: Shifts.TShift<'preparing'> | null;
-  started: Shifts.TShift<'started'> | null;
-  finished: Shifts.TShift<'finished'>[];
+  preparing: Shift<'preparing'> | null;
+  started: Shift<'started'> | null;
+  finished: Shift<'finished'>[];
 }
 
 const initShiftStore: ShiftsStore = {
@@ -31,7 +31,7 @@ const $shiftsLoading = combine(
 );
 
 const getShiftsFx = createEffect(async () => {
-  const data = await Api.getShifts();
+  const data = await api.getShifts();
   return mapShifts(data);
 });
 
@@ -40,5 +40,4 @@ $isLoadingShifts.on(getShiftsFx.pending, (_, isPending) => isPending);
 $isLoadingSuccess.on(getShiftsFx.doneData, () => true);
 $isLoadingError.on(getShiftsFx.fail, () => true);
 
-export const effects = { getShiftsFx };
-export const store = { $shifts, $shiftsLoading };
+export { $shifts, $shiftsLoading, getShiftsFx };

@@ -5,8 +5,7 @@ import type { To } from 'react-router-dom';
 import { useStore } from 'effector-react';
 import { ChevronRightIcon, TIcons } from '../../../../shared/ui-kit/icons';
 import * as Icons from '../../../../shared/ui-kit/icons';
-import { preparingShiftModel } from '../../../deprecated-preparing-shift';
-import { startedShiftModel } from '../../../deprecated-started-shift';
+import { shiftModel } from '../../../shift';
 import styles from './styles.module.css';
 
 interface ISideBarAccordion {
@@ -120,9 +119,9 @@ const SideBarAccordion: React.FC<ISideBarAccordion> = ({
 };
 
 export const SideBar = () => {
-  const startedShift = useStore(startedShiftModel.$startedShift);
+  const startedShift = useStore(shiftModel.$startedShift);
 
-  const preparingShift = useStore(preparingShiftModel.$preparingShift);
+  const preparingShift = useStore(shiftModel.$preparingShift);
 
   const shiftsList = useMemo(() => {
     const list: ISideBarAccordion['list'] = [

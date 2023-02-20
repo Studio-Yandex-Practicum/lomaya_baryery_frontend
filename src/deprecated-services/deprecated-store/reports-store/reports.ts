@@ -1,10 +1,10 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
-import Api from '../../../components/shared/api';
-import { Reports } from '../../../components/shared/api/models';
+import { api } from '../../../shared/api';
+import type { Report } from '../../../shared/api';
 
 interface ReportsStore {
-  reports: Reports.IReport[];
+  reports: Report[];
   isIdle: boolean;
   isLoading: boolean;
   isSuccess: boolean;
@@ -26,7 +26,7 @@ export const useReportsStore = create<ReportsStore>()(
       });
 
       try {
-        const reports = await Api.getReports(shiftId);
+        const reports = await api.getReports(shiftId);
 
         set((state) => {
           state.reports = reports;
@@ -47,7 +47,7 @@ export const useReportsStore = create<ReportsStore>()(
 );
 
 function selectRealizedReports(state: ReportsStore) {
-  let reports: Reports.IReport[] = [];
+  let reports: Report[] = [];
   if (state.reports) {
     reports = state.reports.filter(
       ({ report_status: status }) =>
@@ -76,7 +76,7 @@ export const useDeclinedReportsStore = create<ReportsStore>()(
       });
 
       try {
-        const reports = await Api.getDeclinedReports(shiftId);
+        const reports = await api.getDeclinedReports(shiftId);
 
         set((state) => {
           state.reports = reports;

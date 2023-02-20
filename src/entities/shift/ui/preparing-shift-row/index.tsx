@@ -1,5 +1,5 @@
 import { StatusLabel } from '../../../../shared/ui-kit/status-label';
-import { ShiftRow } from '../../../../shared/shift-row';
+import { ShiftRow } from '../../../../shared/ui/shift-row';
 
 interface PreparingShiftRowProps {
   routePath: string;

@@ -1,9 +1,9 @@
 import { createEvent, forward } from 'effector';
-import { shiftsModel } from '../../../deprecated-services/deprecated-store/deprecated-models';
+import { shiftModel } from '../../entities/shift';
 
 export const layoutMounted = createEvent();
 
 forward({
   from: layoutMounted,
-  to: shiftsModel.effects.getShiftsFx,
+  to: shiftModel.getShiftsFx,
 });

@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 import { Link } from 'react-router-dom';
-import { useFormAndValidation } from '../../hook';
-import { InputText } from '../shared/ui-kit/inputText';
-import { AuthContainer, Form } from './elements';
+import { useFormAndValidation } from '../../../../shared/hook';
+import { AuthContainer } from '../../../../shared/ui/auth-container';
+import { Form } from '../../../../shared/ui/auth-form';
+import { InputText } from '../../../../shared/ui-kit/inputText';
 import styles from './styles.module.css';
 
 export function ForgotPwdForm() {

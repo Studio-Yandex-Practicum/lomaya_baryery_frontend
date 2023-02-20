@@ -1,9 +1,9 @@
 import { combine, createEffect, createEvent, createStore } from 'effector';
-import Api, { Shifts } from '../../../shared/api';
+import { api, Participant, Shift } from '../../../shared/api';
 
 interface ParticipantsStore {
-  shift: Shifts.ShiftWithParticipantsRes['shift'] | null;
-  members: Shifts.ShiftWithParticipantsRes['members'];
+  shift: Shift | null;
+  members: Participant[];
 }
 
 export const clear = createEvent();
@@ -14,7 +14,7 @@ const $participants = createStore<ParticipantsStore>({
 });
 
 export const getParticipantsFx = createEffect((shiftId: string) =>
-  Api.getShiftParticipants(shiftId)
+  api.getShiftParticipants(shiftId)
 );
 
 const $isLoading = createStore(false);

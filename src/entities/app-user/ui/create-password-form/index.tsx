@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import { useFormAndValidation } from '../../hook';
-import { InputText } from '../shared/ui-kit/inputText';
-import { AuthContainer, Form } from './elements';
-import { useAuthStore } from '../../services/store';
+import { useEvent } from 'effector-react';
+import { appUserModel } from '../..';
+import { useFormAndValidation } from '../../../../shared/hook';
+import { InputText } from '../../../../shared/ui-kit/inputText';
+import { AuthContainer } from '../../../../shared/ui/auth-container';
+import { Form } from '../../../../shared/ui/auth-form';
 import styles from './styles.module.css';
 
 interface IPwdCreateFormProps {
@@ -21,7 +23,7 @@ export function PwdCreateForm({ token }: IPwdCreateFormProps) {
 
   const [submitError, setSubmitError] = useState<null | string>(null);
 
-  const { setAuth } = useAuthStore();
+  const setAuth = useEvent(appUserModel.setAuth);
 
   const createRef = useRef<HTMLInputElement>(null);
 

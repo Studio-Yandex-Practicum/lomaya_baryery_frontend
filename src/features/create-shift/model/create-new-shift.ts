@@ -6,9 +6,9 @@ import {
   sample,
   forward,
 } from 'effector';
-import Api, { Shifts } from '../../../shared/api';
-import { preparingShiftModel } from '../../../entities/deprecated-preparing-shift';
-import { startedShiftModel } from '../../../entities/deprecated-started-shift';
+import { shiftModel } from '../../../entities/shift';
+import { api } from '../../../shared/api';
+
 import { getRecruitmentState } from '../lib';
 
 const closePopup = createEvent();
@@ -22,8 +22,8 @@ const submitClicker = createEvent<{
 }>();
 
 const $shiftsWithRecruitment = combine({
-  preparing: preparingShiftModel.$preparingShift,
-  started: startedShiftModel.$startedShift,
+  preparing: shiftModel.$preparingShift,
+  started: shiftModel.$startedShift,
 });
 
 const $dialogText = createStore<string | null>(null);
@@ -55,8 +55,9 @@ const $isLoading = createStore(false);
 
 const $error = createStore<null | string>(null);
 
-const postNewShiftFx = createEffect((params: Shifts.CreateShiftProps) =>
-  Api.createNewShift(params)
+const postNewShiftFx = createEffect(
+  (params: { title: string; startedAt: string; finishedAt: string }) =>
+    api.createNewShift(params)
 );
 
 $isLoading.on(postNewShiftFx.pending, (_, isLoading) => isLoading);
@@ -70,13 +71,13 @@ $opened
   .on(closePopup, () => false)
   .on(postNewShiftFx.doneData, () => false);
 
-preparingShiftModel.$preparingShift.on(postNewShiftFx.doneData, (_, data) => {
+shiftModel.$preparingShift.on(postNewShiftFx.doneData, (_, data) => {
   data.total_users = 0;
   data.sequence_number = 0;
   return data;
 });
 
-export const $dateRange = startedShiftModel.$startedShift.map((state) => {
+export const $dateRange = shiftModel.$startedShift.map((state) => {
   let startDate = new Date();
 
   if (state) {

@@ -1,12 +1,13 @@
 import cn from 'classnames';
+import { useEvent } from 'effector-react';
 import { Link, NavLink } from 'react-router-dom';
-import { useAuthStore } from '../../../../../deprecated-services/deprecated-store';
 import { EnterIcon, UserIcon } from '../../../../shared/ui-kit/icons';
 import { Logo } from '../../../../shared/ui-kit/logo';
+import { appUserModel } from '../../../app-user';
 import styles from './styles.module.css';
 
 export function Header() {
-  const { setAuth } = useAuthStore();
+  const setAuth = useEvent(appUserModel.setAuth);
 
   function handleSingOut() {
     setAuth(false);

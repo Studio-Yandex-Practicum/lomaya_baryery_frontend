@@ -5,14 +5,12 @@ import { Outlet } from 'react-router-dom';
 import { Loader } from '../../shared/ui-kit/loader';
 import { Header } from '../../entities/header';
 import { SideBar } from '../../entities/sidebar';
-import { shiftsModel } from '../../../deprecated-services/deprecated-store/deprecated-models';
+import { shiftModel } from '../../entities/shift';
 import { layoutMounted } from './model';
 import styles from './styles.module.css';
 
 export const Layout = () => {
-  const { isLoading, isSuccess, isError } = useStore(
-    shiftsModel.store.$shiftsLoading
-  );
+  const { isLoading, isSuccess, isError } = useStore(shiftModel.$shiftsLoading);
 
   useEffect(() => {
     layoutMounted();

@@ -1,6 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
-import { CellDate, CellLink, CellText } from '../ui-kit/table';
+import { CellDate, CellLink, CellText } from '../../ui-kit/table';
 import styles from './styles.module.css';
 
 interface ShiftRowProps {
