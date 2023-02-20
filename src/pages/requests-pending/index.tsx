@@ -10,7 +10,7 @@ import { Alert } from '../../shared/ui-kit/alert';
 import { Button, TButtonProps } from '../../shared/ui-kit/button';
 import { RefreshIcon } from '../../shared/ui-kit/icons';
 import { withTooltip } from '../../shared/ui-kit/tooltip';
-import { MessageForm } from '../../shared/ui/message-form';
+import { MessageForm } from '../../shared/ui-kit/message-form';
 import { deserializeQuery } from '../../shared/utils';
 import { MainPopup } from '../../shared/ui-kit/main-popup';
 import { useRecruitmentState } from '../../../deprecated-services/deprecated-store';

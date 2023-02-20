@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import cn from 'classnames';
+import { Request } from 'shared/api';
 import { CellDate, CellText } from '../../../../shared/ui-kit/table';
 import { Button } from '../../../../shared/ui-kit/button';
 import { StatusLabel } from '../../../../shared/ui-kit/status-label';
@@ -7,7 +8,7 @@ import styles from './styles.module.css';
 
 interface IRequestRowProps {
   extClassName?: string;
-  requestData: IRequest;
+  requestData: Request;
   approve?: () => void;
   decline?: () => void;
 }

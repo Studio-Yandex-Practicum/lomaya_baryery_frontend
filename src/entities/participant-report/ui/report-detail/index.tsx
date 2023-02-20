@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
 import cn from 'classnames';
-import styles from './styles.module.css';
+import { ReportStatus } from 'shared/api';
 import { Button } from '../../../../shared/ui-kit/button';
 import { CheckIcon, CloseIcon } from '../../../../shared/ui-kit/icons';
 import { getFormattedDate } from '../../../../shared/utils';
-import { Reports } from '../../../../shared/api/models';
 import { StatusLabel } from '../../../../shared/ui-kit/status-label';
+import styles from './styles.module.css';
 
 interface IReportDetailsProps {
   taskUrl: string;
@@ -13,7 +13,7 @@ interface IReportDetailsProps {
   createdAt: string;
   userName: string;
   userSurname: string;
-  reportStatus: Reports.IReport['report_status'];
+  reportStatus: ReportStatus;
   accept?: () => void;
   decline?: () => void;
   extClassName?: string;

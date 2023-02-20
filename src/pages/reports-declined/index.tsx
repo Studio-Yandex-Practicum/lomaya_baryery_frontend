@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import cn from 'classnames';
 import { useMatch, useNavigate } from 'react-router-dom';
+import { ReportRow } from 'entities/participant-report';
 import { Alert } from '../../shared/ui-kit/alert';
 import { Loader } from '../../shared/ui-kit/loader';
 import { Table } from '../../shared/ui-kit/table';
-import { ReportRow } from '../../report-row';
 import { ContentContainer } from '../../shared/ui-kit/content-container';
 import { ContentHeading } from '../../shared/ui-kit/content-heading';
 import { ImagePopup } from '../../shared/ui-kit/image-popup';

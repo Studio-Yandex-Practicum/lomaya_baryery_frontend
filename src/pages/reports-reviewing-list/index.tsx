@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import cn from 'classnames';
+import { ReportRow } from 'entities/participant-report';
 import { Alert } from '../../shared/ui-kit/alert';
 import { Button, TButtonProps } from '../../shared/ui-kit/button';
 import { ContentContainer } from '../../shared/ui-kit/content-container';
@@ -8,7 +9,6 @@ import { RefreshIcon } from '../../shared/ui-kit/icons';
 import { Table } from '../../shared/ui-kit/table';
 import { withTooltip } from '../../shared/ui-kit/tooltip';
 import { Loader } from '../../shared/ui-kit/loader';
-import { ReportRow } from '../../report-row';
 import {
   useReviewingReportsStore,
   useShiftsStoreQuery,

@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react';
 import cn from 'classnames';
 import { Link } from 'react-router-dom';
-import { StatusLabel } from '../shared/ui-kit/status-label';
-import { Button } from '../shared/ui-kit/button';
-import { CellDate, CellLink, CellText } from '../shared/ui-kit/table';
-import { ZoomIcon } from '../shared/ui-kit/icons';
+import { StatusLabel } from 'shared/ui-kit/status-label';
+import { Button } from 'shared/ui-kit/button';
+import { CellDate, CellLink, CellText } from 'shared/ui-kit/table';
+import { ZoomIcon } from 'shared/ui-kit/icons';
+import { Report } from 'shared/api';
 import styles from './styles.module.css';
-import { Reports } from '../../services/api/models';
 
 interface ICellPreviewProps {
   id: string;
@@ -22,7 +22,7 @@ const CellPreview: React.FC<ICellPreviewProps> = ({ id, img }) => (
 
 interface IReportRowProps {
   extClassName?: string;
-  reportData: Reports.IReport;
+  reportData: Report;
   approve?: () => void;
   decline?: () => void;
 }

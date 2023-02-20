@@ -2,10 +2,10 @@ import cn from 'classnames';
 import { useStore } from 'effector-react';
 import { useEffect, useMemo } from 'react';
 import { Outlet } from 'react-router-dom';
-import { Loader } from '../../shared/ui-kit/loader';
-import { Header } from '../../entities/header';
-import { SideBar } from '../../entities/sidebar';
-import { shiftModel } from '../../entities/shift';
+import { Loader } from 'shared/ui-kit/loader';
+import { Header } from 'widgets/header';
+import { SideBar } from 'widgets/sidebar';
+import { shiftModel } from 'entities/shift';
 import { layoutMounted } from './model';
 import styles from './styles.module.css';
 

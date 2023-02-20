@@ -11,7 +11,7 @@ import { PageStartedShift } from './shift-started';
 import { PageShiftsAll } from './shifts';
 import { PageReportsReviewingSlider } from './reports-reviewing-slider';
 import { PageReportsReviewingList } from './reports-reviewing-list';
-import { RequireAuth } from '../entities/app-user/hoc';
+import { RequireAuth } from '../processes/auth/hoc';
 import { PageReportsRealized } from './reports-realized';
 import { PageReportsDeclined } from './reports-declined';
 

@@ -1,11 +1,11 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { useStore } from 'effector-react';
 import { IAppLocation } from '../../shared/utils';
-import { appUserModel, ForgotPwdForm } from '../../entities/app-user';
+import { authModel, ForgotPwdForm } from '../../processes/auth';
 
 export function ForgotPassword() {
   const { state: locationState }: IAppLocation = useLocation();
-  const isAuth = useStore(appUserModel.$isAuth);
+  const isAuth = useStore(authModel.$isAuth);
 
   if (isAuth) {
     return <Navigate to={locationState?.from || '/'} replace />;
