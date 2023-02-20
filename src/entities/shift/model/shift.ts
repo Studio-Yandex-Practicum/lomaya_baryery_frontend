@@ -15,20 +15,13 @@ const initShiftStore: ShiftsStore = {
 };
 
 const $shifts = createStore<ShiftsStore>(initShiftStore);
-const $isLoadingShifts = createStore(false);
 const $isLoadingSuccess = createStore(false);
 const $isLoadingError = createStore(false);
 
-const $shiftsLoading = combine(
-  $isLoadingShifts,
-  $isLoadingSuccess,
-  $isLoadingError,
-  ($isLoadingShifts, $isLoadingSuccess, $isLoadingError) => ({
-    isLoading: $isLoadingShifts,
-    isSuccess: $isLoadingSuccess,
-    isError: $isLoadingError,
-  })
-);
+const $shiftsLoading = combine({
+  isSuccess: $isLoadingSuccess,
+  isError: $isLoadingError,
+});
 
 const getShiftsFx = createEffect(async () => {
   const data = await api.getShifts();
@@ -36,7 +29,6 @@ const getShiftsFx = createEffect(async () => {
 });
 
 $shifts.on(getShiftsFx.doneData, (_, data) => data);
-$isLoadingShifts.on(getShiftsFx.pending, (_, isPending) => isPending);
 $isLoadingSuccess.on(getShiftsFx.doneData, () => true);
 $isLoadingError.on(getShiftsFx.fail, () => true);
 

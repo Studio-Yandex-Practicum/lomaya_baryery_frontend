@@ -23,6 +23,7 @@ export function RequestsTable({ extClassName }: { extClassName: string }) {
       <div className={[styles.rows, 'custom-scroll'].join(' ')}>
         {data.map((request) => (
           <RequestRow
+            key={request.request_id}
             extClassName={styles.row}
             gridClassName={gridClassName}
             requestData={request}
