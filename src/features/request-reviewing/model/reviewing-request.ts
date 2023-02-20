@@ -3,6 +3,7 @@ import { api } from 'shared/api';
 import { DeclineRequestParams } from 'shared/api/typicode';
 import { requestModel } from 'entities/request';
 import { findIndexById } from 'shared/utils/common-helpers';
+import { shiftModel } from 'entities/shift';
 
 const openPopup = createEvent();
 const closePopup = createEvent();
@@ -54,6 +55,27 @@ requestModel.$requests.on(declineRequestFx.done, (state, { params }) => {
     const updatedState = [...state];
     updatedState[index].request_status = 'declined';
     return updatedState;
+  }
+});
+
+shiftModel.$shifts.on(approveRequestFx.doneData, (state) => {
+  if (state.preparing) {
+    return {
+      ...state,
+      preparing: {
+        ...state.preparing,
+        total_users: state.preparing.total_users + 1,
+      },
+    };
+  }
+  if (state.started) {
+    return {
+      ...state,
+      started: {
+        ...state.started,
+        total_users: state.started.total_users + 1,
+      },
+    };
   }
 });
 
