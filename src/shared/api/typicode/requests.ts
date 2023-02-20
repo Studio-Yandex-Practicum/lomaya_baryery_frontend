@@ -1,16 +1,6 @@
 import { makeRequest } from './base';
 import { Request, RequestStatus } from '../model';
 
-export function getPendingRequests(shiftId: string) {
-  return makeRequest<Request<'pending'>[]>(
-    `shifts/${shiftId}/requests?status=pending`,
-    {
-      method: 'get',
-      authorization: false,
-    }
-  );
-}
-
 export interface GetRequestsParams {
   shiftId: string;
   status?: RequestStatus;
