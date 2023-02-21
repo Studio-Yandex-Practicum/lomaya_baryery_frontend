@@ -1,5 +1,5 @@
 import { createStore, createEffect, createEvent, forward } from 'effector';
-import { reportModel } from 'entities/participant-report';
+import { reportModel } from 'entities/report';
 import { api } from 'shared/api';
 import { findIndexById } from 'shared/utils/common-helpers';
 

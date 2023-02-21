@@ -3,9 +3,10 @@ import { StatusLabel } from 'shared/ui-kit/status-label';
 
 interface ReportLabelProps {
   status: ReportStatus | undefined | null;
+  extClassName?: string;
 }
 
-export function ReportLabel({ status }: ReportLabelProps) {
+export function ReportLabel({ status, extClassName }: ReportLabelProps) {
   if (!status || status === 'reviewing') {
     return null;
   }
@@ -34,5 +35,5 @@ export function ReportLabel({ status }: ReportLabelProps) {
     }
   })();
 
-  return <StatusLabel {...labelProps} />;
+  return <StatusLabel className={extClassName} {...labelProps} />;
 }

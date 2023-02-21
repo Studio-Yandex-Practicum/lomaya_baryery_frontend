@@ -1,5 +1,5 @@
 import { useStore } from 'effector-react';
-import { reportModel, ReportRow } from 'entities/participant-report';
+import { reportModel, ReportRow } from 'entities/report';
 import { ReportLabel, RowControls } from 'features/report-reviewing';
 import { Loader } from 'shared/ui-kit/loader';
 import { Table } from 'shared/ui-kit/table';

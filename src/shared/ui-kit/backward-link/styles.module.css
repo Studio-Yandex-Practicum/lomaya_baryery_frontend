@@ -1,0 +1,14 @@
+.link {
+  display: flex;
+  width: min-content;
+  align-items: center;
+  transition: var(--transition-hover);
+}
+
+.link:hover {
+  opacity: var(--hover-opacity);
+}
+
+.text {
+  padding-bottom: 1px;
+}

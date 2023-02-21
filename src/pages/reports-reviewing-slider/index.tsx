@@ -8,7 +8,7 @@ import {
   useParams,
 } from 'react-router-dom';
 import { ContentContainer } from '../../shared/ui-kit/content-container';
-import { ReportDetails } from '../../entities/participant-report/ui/report-detail';
+import { ReportDetails } from '../../entities/report/ui/report-detail';
 import {
   ArrowLeftIcon,
   ArrowRightIcon,

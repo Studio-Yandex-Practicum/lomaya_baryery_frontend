@@ -4,7 +4,7 @@ import { ContentContainer } from 'shared/ui-kit/content-container';
 import { ContentHeading } from 'shared/ui-kit/content-heading';
 import { Loader } from 'shared/ui-kit/loader';
 import { useStore } from 'effector-react';
-import { RefetchReports, reportModel } from 'entities/participant-report';
+import { RefetchReports, reportModel } from 'entities/report';
 import { ReportsTable } from 'widgets/reports-table';
 import { mount, refetch, unmount } from './model';
 import styles from './styles.module.css';

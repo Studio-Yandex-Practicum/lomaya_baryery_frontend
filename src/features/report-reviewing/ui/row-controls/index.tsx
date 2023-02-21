@@ -1,5 +1,4 @@
 import cn from 'classnames';
-import { useStore } from 'effector-react';
 import { reportReviewModel } from 'features/report-reviewing';
 import { ReportStatus } from 'shared/api';
 import { Button } from 'shared/ui-kit/button';
