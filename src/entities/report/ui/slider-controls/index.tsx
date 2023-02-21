@@ -9,11 +9,15 @@ interface SliderControlsProps {
   extClassName?: string;
   onPrev: () => void;
   onNext: () => void;
+  disablePrev?: boolean;
+  disableNext?: boolean;
 }
 
 export function SliderControls({
   onPrev,
   onNext,
+  disableNext,
+  disablePrev,
   currentSlide,
   totalSlides,
   extClassName,
@@ -25,6 +29,7 @@ export function SliderControls({
         htmlType="button"
         type="secondary"
         onClick={onPrev}
+        disabled={disablePrev}
       >
         <ArrowLeftIcon type="link-active" />
         Предыдущий отчёт
@@ -35,6 +40,7 @@ export function SliderControls({
         htmlType="button"
         type="secondary"
         onClick={onNext}
+        disabled={disableNext}
       >
         Следующий отчёт
         <ArrowRightIcon type="link-active" />

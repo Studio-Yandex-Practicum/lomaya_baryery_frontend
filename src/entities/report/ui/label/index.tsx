@@ -7,7 +7,7 @@ interface ReportLabelProps {
 }
 
 export function ReportLabel({ status, extClassName }: ReportLabelProps) {
-  if (!status || status === 'reviewing') {
+  if (status === null || !status) {
     return null;
   }
 
@@ -27,6 +27,12 @@ export function ReportLabel({ status, extClassName }: ReportLabelProps) {
           statusText: 'Задание отклонено',
         };
       case 'waiting':
+        return {
+          icon: 'CircleStopIcon' as const,
+          type: 'review' as const,
+          statusText: 'Задание на проверке',
+        };
+      case 'reviewing':
         return {
           icon: 'CircleStopIcon' as const,
           type: 'review' as const,

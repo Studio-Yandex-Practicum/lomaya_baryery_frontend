@@ -1,6 +1,6 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { useStore } from 'effector-react';
-import { authModel, SignInForm } from '../../processes/auth';
+import { authModel, SignInForm } from 'processes/auth';
 
 export function Login() {
   const { state: locationState } = useLocation();

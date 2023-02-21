@@ -1,18 +1,18 @@
 import { useEffect } from 'react';
 import cn from 'classnames';
-import { useEvent, useStore } from 'effector-react';
+import { useStore } from 'effector-react';
 import { Navigate } from 'react-router-dom';
-import { ContentContainer } from '../../shared/ui-kit/content-container';
-import { ContentHeading } from '../../shared/ui-kit/content-heading';
-import { Table } from '../../shared/ui-kit/table';
-import { Loader } from '../../shared/ui-kit/loader';
-import { Alert } from '../../shared/ui-kit/alert';
-import * as pageModel from './model';
-import { ShiftDetailsTable, shiftModel } from '../../entities/shift';
-import { participantsModel } from '../../entities/participant';
-import { ParticipantRow } from '../../entities/participant/ui/participant-row';
-import { UpdatePreparingShift } from '../../features/update-preparing-shift';
+import { ContentContainer } from 'shared/ui-kit/content-container';
+import { ContentHeading } from 'shared/ui-kit/content-heading';
+import { Table } from 'shared/ui-kit/table';
+import { Loader } from 'shared/ui-kit/loader';
+import { Alert } from 'shared/ui-kit/alert';
+import { ShiftDetailsTable, shiftModel } from 'entities/shift';
+import { participantsModel } from 'entities/participant';
+import { ParticipantRow } from 'entities/participant/ui/participant-row';
+import { UpdatePreparingShift } from 'features/update-preparing-shift';
 import styles from './styles.module.css';
+import { mount, unmount } from './model';
 
 function Participants() {
   const {
@@ -68,7 +68,6 @@ function Participants() {
 }
 
 export function PagePreparingShift() {
-  const { mount, unmount } = useEvent(pageModel.events);
   const shiftData = useStore(shiftModel.$preparingShift);
 
   useEffect(() => {
@@ -76,7 +75,7 @@ export function PagePreparingShift() {
     return () => {
       unmount();
     };
-  }, [mount, unmount]);
+  }, []);
 
   if (shiftData === null) {
     return <Navigate to="/shifts/all" replace />;

@@ -1,9 +1,9 @@
 import { createEvent, forward } from 'effector';
 import { shiftModel } from '../../entities/shift';
 
-export const layoutMounted = createEvent();
+export const mountLayout = createEvent();
 
 forward({
-  from: layoutMounted,
+  from: mountLayout,
   to: shiftModel.getShiftsFx,
 });

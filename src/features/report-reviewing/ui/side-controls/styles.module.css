@@ -1,0 +1,16 @@
+.button {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.button:last-child {
+  margin-bottom: 0;
+}
+
+.declineIcon {
+  transition: var(--transition-common);
+}
+
+.button:hover > .declineIcon {
+  fill: var(--colors-interface-red);
+}

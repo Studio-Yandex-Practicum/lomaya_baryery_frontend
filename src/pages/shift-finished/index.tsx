@@ -1,20 +1,20 @@
 import { useEffect } from 'react';
 import cn from 'classnames';
-import { useEvent, useStore } from 'effector-react';
+import { useStore } from 'effector-react';
 import { Navigate, useParams } from 'react-router-dom';
-import { ContentContainer } from '../../shared/ui-kit/content-container';
-import { ContentHeading } from '../../shared/ui-kit/content-heading';
-import { Table } from '../../shared/ui-kit/table';
-import { Loader } from '../../shared/ui-kit/loader';
-import { Alert } from '../../shared/ui-kit/alert';
-import * as pageModel from './model';
-import { ShiftDetailsTable, shiftModel } from '../../entities/shift';
+import { ContentContainer } from 'shared/ui-kit/content-container';
+import { ContentHeading } from 'shared/ui-kit/content-heading';
+import { Table } from 'shared/ui-kit/table';
+import { Loader } from 'shared/ui-kit/loader';
+import { Alert } from 'shared/ui-kit/alert';
+import { ShiftDetailsTable, shiftModel } from 'entities/shift';
 import {
   ParticipantRowWithStat,
   participantsModel,
-} from '../../entities/participant';
+} from 'entities/participant';
+import { findIndexById } from 'shared/utils/common-helpers';
 import styles from './styles.module.css';
-import { findIndexById } from '../../shared/utils/common-helpers';
+import { mount, unmount } from './model';
 
 function Participants() {
   const {
@@ -74,7 +74,6 @@ function Participants() {
 
 export function PageFinishedShift() {
   const { shiftId } = useParams();
-  const { mount, unmount } = useEvent(pageModel.events);
   const finishedShifts = useStore(shiftModel.$finishedShifts);
 
   useEffect(() => {
@@ -84,7 +83,7 @@ export function PageFinishedShift() {
     return () => {
       unmount();
     };
-  }, [mount, unmount, shiftId]);
+  }, [shiftId]);
 
   const index = findIndexById(finishedShifts, 'id', shiftId);
 

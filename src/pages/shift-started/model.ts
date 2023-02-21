@@ -2,8 +2,8 @@ import { attach, createEvent, forward } from 'effector';
 import { participantsModel } from '../../entities/participant';
 import { shiftModel } from '../../entities/shift';
 
-const mount = createEvent();
-const unmount = createEvent();
+export const mount = createEvent();
+export const unmount = createEvent();
 
 const getStartedShiftParticipantsFx = attach({
   source: shiftModel.$startedShift,
@@ -34,5 +34,3 @@ forward({
   from: unmount,
   to: participantsModel.clear,
 });
-
-export const events = { mount, unmount };

@@ -9,13 +9,13 @@ import { RequestsTable } from 'widgets/request-table';
 import { mount, unmount } from './model';
 import styles from './styles.module.css';
 
-interface NoticeProps {
+interface GuardProps {
   isLoading: boolean;
   data: unknown[];
   error: string | null;
 }
 
-function Notice({ data, isLoading, error }: NoticeProps) {
+function Guard({ data, isLoading, error }: GuardProps) {
   if (isLoading && data.length === 0) {
     return <Loader extClassName={styles.loader} />;
   }
@@ -46,7 +46,7 @@ export function PageRequestsRealized() {
   return (
     <ContentContainer extClassName={styles.container}>
       <ContentHeading extClassName={styles.heading} title="Рассмотренные" />
-      <Notice data={data} error={error} isLoading={isLoading} />
+      <Guard data={data} error={error} isLoading={isLoading} />
       <RequestsTable extClassName={styles.table} />
     </ContentContainer>
   );

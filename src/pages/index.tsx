@@ -9,7 +9,7 @@ import { PageFinishedShift } from './shift-finished';
 import { PagePreparingShift } from './shift-preparing';
 import { PageStartedShift } from './shift-started';
 import { PageShiftsAll } from './shifts';
-// import { PageReportsReviewingSlider } from './reports-reviewing-slider';
+import { PageReportsReviewingSlider } from './reports-reviewing-slider';
 import { PageReportsReviewing } from './reports-reviewing';
 import { RequireAuth } from '../processes/auth/hoc';
 import { PageReportsRealized } from './reports-realized';
@@ -40,20 +40,15 @@ export function AppRoutes() {
         <Route path="requests/pending/*" element={<PageRequestsPending />} />
         <Route path="requests/realized" element={<PageRequestsRealized />} />
         <Route path="reports/reviewing" element={<PageReportsReviewing />} />
-
-        {/* <Route
-          path="reports/reviewing/:id"
+        <Route
+          path="reports/reviewing/detailed"
           element={<PageReportsReviewingSlider />}
-        /> */}
-
+        />
         <Route path="reports/realized/*" element={<PageReportsRealized />} />
         <Route path="reports/declined/*" element={<PageReportsDeclined />} />
-
         <Route
           path="profile"
-          element={
-            <h1 className="text text_type_main-extra-large">UNDER DEVELOP</h1>
-          }
+          element={<h1 className="text text_type_main-extra-large">...</h1>}
         />
         <Route
           path="*"

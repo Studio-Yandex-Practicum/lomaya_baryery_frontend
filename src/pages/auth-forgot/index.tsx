@@ -1,6 +1,6 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { useStore } from 'effector-react';
-import { authModel, ForgotPwdForm } from '../../processes/auth';
+import { authModel, ForgotPwdForm } from 'processes/auth';
 
 export function ForgotPassword() {
   const { state: locationState } = useLocation();

@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { InputText } from 'shared/ui-kit/inputText';
 import { DateRange } from 'shared/ui-kit/date-range';
 import { Button } from 'shared/ui-kit/button';
-import { getAPIDateFormat, getInterval } from './lib';
+import { getApiDateFormat, getInterval } from './lib';
 import styles from './styles.module.css';
 
 export interface IShiftFormData {
@@ -68,8 +68,8 @@ export function ShiftSettingsForm({
 
     const form = {
       title: titleValue.trim(),
-      start: getAPIDateFormat(startValue),
-      finish: getAPIDateFormat(finishValue),
+      start: getApiDateFormat(startValue),
+      finish: getApiDateFormat(finishValue),
     };
 
     onSubmit(form);

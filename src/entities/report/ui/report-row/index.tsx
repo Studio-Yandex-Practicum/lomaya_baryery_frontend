@@ -1,4 +1,5 @@
 import React from 'react';
+import { To } from 'react-router-dom';
 import {
   CellDate,
   CellLink,
@@ -17,28 +18,27 @@ interface ReportRowProps {
     report_id: string;
   };
   gridClassName: string;
-  feature: React.ReactNode;
+  routeTo: To;
+  feature?: React.ReactNode;
   extClassName?: string;
 }
 
 export function ReportRow({
   gridClassName,
   reportData,
+  routeTo,
   feature,
   extClassName,
 }: ReportRowProps) {
   return (
     <RowHigh gridClassName={gridClassName} extClassName={extClassName}>
-      <CellLink
-        routeTo={reportData.report_id}
-        text={reportData.task_description}
-      />
+      <CellLink routeTo={routeTo} text={reportData.task_description} />
       <CellText
         type="accent"
         text={`${reportData.user_name} ${reportData.user_surname}`}
       />
       <CellDate type="default" date={reportData.report_created_at} />
-      <CellThumbnail img={reportData.photo_url} id={reportData.report_id} />
+      <CellThumbnail img={reportData.photo_url} routeTo={routeTo} />
       {feature}
     </RowHigh>
   );

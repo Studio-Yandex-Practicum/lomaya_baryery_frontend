@@ -1,9 +1,9 @@
 import cn from 'classnames';
 import { useEvent } from 'effector-react';
 import { Link, NavLink } from 'react-router-dom';
-import { EnterIcon, UserIcon } from '../../../../shared/ui-kit/icons';
-import { Logo } from '../../../../shared/ui-kit/logo';
-import { authModel } from '../../../../processes/auth';
+import { EnterIcon, UserIcon } from 'shared/ui-kit/icons';
+import { Logo } from 'shared/ui-kit/logo';
+import { authModel } from 'processes/auth';
 import styles from './styles.module.css';
 
 export function Header() {

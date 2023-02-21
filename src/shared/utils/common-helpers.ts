@@ -16,3 +16,12 @@ export function findIndexById<T extends { [Property in keyof T]: T[Property] }>(
 
   return necessaryIndex !== -1 ? necessaryIndex : null;
 }
+
+export function deserializeSearchParams<T extends Record<string, string>>(
+  params: string
+): Partial<T> {
+  const paramsList = params.split('&');
+  const paramsEntries = paramsList.map((value) => value.split('='));
+  const deserializedObject = Object.fromEntries(paramsEntries) as Partial<T>;
+  return deserializedObject;
+}

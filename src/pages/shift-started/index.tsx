@@ -1,21 +1,21 @@
 import { useEffect } from 'react';
 import cn from 'classnames';
-import { useEvent, useStore } from 'effector-react';
+import { useStore } from 'effector-react';
 import { Navigate } from 'react-router-dom';
-import { ContentContainer } from '../../shared/ui-kit/content-container';
-import { ContentHeading } from '../../shared/ui-kit/content-heading';
-import { Table } from '../../shared/ui-kit/table';
-import { Loader } from '../../shared/ui-kit/loader';
-import { Alert } from '../../shared/ui-kit/alert';
-import * as pageModel from './model';
-import { ShiftDetailsTable, shiftModel } from '../../entities/shift';
+import { ContentContainer } from 'shared/ui-kit/content-container';
+import { ContentHeading } from 'shared/ui-kit/content-heading';
+import { Table } from 'shared/ui-kit/table';
+import { Loader } from 'shared/ui-kit/loader';
+import { Alert } from 'shared/ui-kit/alert';
+import { ShiftDetailsTable, shiftModel } from 'entities/shift';
 import {
   ParticipantRowWithStat,
   participantsModel,
-} from '../../entities/participant';
-import { FinalMessageForm } from '../../features/change-final-message';
-import { UpdateStartedShift } from '../../features/update-started-shift';
-import { FinishShiftDialog } from '../../features/finish-shift';
+} from 'entities/participant';
+import { FinalMessageForm } from 'features/change-final-message';
+import { UpdateStartedShift } from 'features/update-started-shift';
+import { FinishShiftDialog } from 'features/finish-shift';
+import { mount, unmount } from './model';
 import styles from './styles.module.css';
 
 function Participants() {
@@ -75,7 +75,6 @@ function Participants() {
 }
 
 export function PageStartedShift() {
-  const { mount, unmount } = useEvent(pageModel.events);
   const shiftData = useStore(shiftModel.$startedShift);
 
   useEffect(() => {
@@ -83,7 +82,7 @@ export function PageStartedShift() {
     return () => {
       unmount();
     };
-  }, [mount, unmount]);
+  }, []);
 
   if (shiftData === null) {
     return <Navigate to="/shifts/all" replace />;

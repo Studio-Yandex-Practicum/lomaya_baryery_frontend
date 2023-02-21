@@ -3,28 +3,26 @@ import cn from 'classnames';
 import { getFormattedDate } from 'shared/utils';
 import styles from './styles.module.css';
 
-interface IReportDetailsProps {
-  reportData: {
-    taskUrl: string;
-    photoUrl: string;
-    createdAt: string;
-    userName: string;
-    userSurname: string;
+interface ReportDetailsProps {
+  data: {
+    task_url: string;
+    photo_url: string;
+    report_created_at: string;
+    user_name: string;
+    user_surname: string;
   };
   feature?: React.ReactNode;
   extClassName?: string;
 }
 
-export const ReportDetails: React.FC<IReportDetailsProps> = ({
-  reportData,
+export function ReportDetails({
+  data,
   feature,
   extClassName,
-}) => {
-  const { createdAt, userName, userSurname, taskUrl, photoUrl } = reportData;
+}: ReportDetailsProps) {
+  const createdDate = getFormattedDate(data.report_created_at);
 
-  const createdDate = getFormattedDate(createdAt);
-
-  const unitedUserName = `${userName}\n${userSurname}`;
+  const unitedUserName = `${data.user_name}\n${data.user_surname}`;
 
   const titleClassName = cn(
     styles.title,
@@ -40,16 +38,16 @@ export const ReportDetails: React.FC<IReportDetailsProps> = ({
     <section className={cn(styles.container, extClassName)}>
       <div className={styles.side}>
         <p className={titleClassName}>Задание</p>
-        <img src={taskUrl} className={styles.picture} alt="task" />
+        <img src={data.task_url} className={styles.picture} alt="task" />
         <p className={titleClassName}>Участник</p>
         <p className={textClassName}>{unitedUserName}</p>
         <p className={titleClassName}>Отправлено</p>
         <p className={textClassName}>{createdDate}</p>
         {feature}
       </div>
-      <div className={styles.photoConteiner}>
-        <img src={photoUrl} alt="user task" />
+      <div className={styles.photoContainer}>
+        <img src={data.photo_url} alt="user task" />
       </div>
     </section>
   );
-};
+}

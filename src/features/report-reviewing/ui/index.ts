@@ -1,2 +1,2 @@
 export * from './row-controls';
-export * from './label';
+export * from './side-controls';

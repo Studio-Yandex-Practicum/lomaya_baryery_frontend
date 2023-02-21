@@ -3,10 +3,10 @@ import cn from 'classnames';
 import { Link } from 'react-router-dom';
 import { useEvent } from 'effector-react';
 import { Form } from 'shared/ui-kit/auth-form';
+import { useFormAndValidation } from 'shared/hook';
+import { InputText } from 'shared/ui-kit/inputText';
+import { AuthContainer } from 'shared/ui-kit/auth-container';
 import { authModel } from '../..';
-import { useFormAndValidation } from '../../../../shared/hook';
-import { InputText } from '../../../../shared/ui-kit/inputText';
-import { AuthContainer } from '../../../../shared/ui-kit/auth-container';
 import styles from './styles.module.css';
 
 export function SignInForm() {

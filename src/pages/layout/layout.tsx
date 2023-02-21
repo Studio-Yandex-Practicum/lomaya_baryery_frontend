@@ -5,14 +5,14 @@ import { Outlet } from 'react-router-dom';
 import { Header } from 'widgets/header';
 import { SideBar } from 'widgets/sidebar';
 import { shiftModel } from 'entities/shift';
-import { layoutMounted } from './model';
+import { mountLayout } from './model';
 import styles from './styles.module.css';
 
 export const Layout = () => {
   const { isSuccess, isError } = useStore(shiftModel.$shiftsLoading);
 
   useEffect(() => {
-    layoutMounted();
+    mountLayout();
   }, []);
 
   const content = useMemo(() => {
