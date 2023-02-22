@@ -6,13 +6,9 @@ import { findIndexById } from 'shared/utils/common-helpers';
 const approve = createEvent<string>();
 const decline = createEvent<string>();
 
-const approveReportFx = createEffect((reportId: string) =>
-  api.approveReport(reportId)
-);
+const approveReportFx = createEffect(api.approveReport);
 
-const declineReportFx = createEffect((reportId: string) =>
-  api.declineReport(reportId)
-);
+const declineReportFx = createEffect(api.declineReport);
 
 const $isApproveLoadingId = createStore<string | null>(null)
   .on(approveReportFx, (_, reportId) => reportId)

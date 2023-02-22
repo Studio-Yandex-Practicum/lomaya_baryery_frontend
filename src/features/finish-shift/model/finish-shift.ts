@@ -23,9 +23,7 @@ const $isLoading = createStore(false);
 
 const $error = createStore<null | string>(null);
 
-const finishShiftFx = createEffect((shiftId: string) =>
-  api.finishShift(shiftId)
-);
+const finishShiftFx = createEffect(api.finishShift);
 
 const finishStartedShiftFx = attach({
   source: shiftModel.$startedShift,

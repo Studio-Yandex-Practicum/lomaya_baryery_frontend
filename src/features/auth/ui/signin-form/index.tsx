@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 import { Link } from 'react-router-dom';
-import { useEvent } from 'effector-react';
 import { Form } from 'shared/ui-kit/auth-form';
 import { useFormAndValidation } from 'shared/hook';
 import { InputText } from 'shared/ui-kit/inputText';
 import { AuthContainer } from 'shared/ui-kit/auth-container';
-import { authModel } from '../..';
+import { useStore } from 'effector-react';
+import { authModel } from 'features/auth';
 import styles from './styles.module.css';
 
 export function SignInForm() {
@@ -19,7 +19,8 @@ export function SignInForm() {
     email: '',
     pwd: '',
   });
-  const setAuth = useEvent(authModel.setAuth);
+  const isLoading = useStore(authModel.$isLoading);
+  const error = useStore(authModel.$error);
 
   const [submitError, setSubmitError] = useState<null | string>(null);
 
@@ -38,24 +39,27 @@ export function SignInForm() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (isValid) {
-      setAuth(true);
-    } else {
+    if (!isValid) {
       if (Object.values(inputValues).some((value) => !Boolean(value))) {
         setSubmitError('Все поля обязательные');
         return;
       }
+
       if (inputErrors.email) {
         setSubmitError(inputErrors.email);
+        return;
       }
     }
+
+    authModel.login({ email: inputValues.email, password: inputValues.pwd });
   };
 
   return (
     <AuthContainer title="Вход">
       <Form
+        loading={isLoading}
         onSubmit={handleSubmit}
-        submitError={submitError}
+        submitError={submitError || error}
         buttonText="Войти"
       >
         <InputText

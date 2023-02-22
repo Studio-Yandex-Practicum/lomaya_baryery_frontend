@@ -14,9 +14,7 @@ export const clear = createEvent();
 
 export const $requests = createStore<Request[]>([]);
 
-const fetchPendingRequestsFx = createEffect((shiftId: string) =>
-  api.getRequests({ shiftId, status: 'pending' })
-);
+const fetchPendingRequestsFx = createEffect(api.getRequests);
 
 const fetchRealizedRequestsFx = createEffect(async (shiftId: string) => {
   try {
@@ -54,7 +52,7 @@ export const getPendingRequestsFx = attach({
   effect: fetchPendingRequestsFx,
   mapParams(_, shiftId) {
     if (shiftId !== null) {
-      return shiftId;
+      return { shiftId, status: 'pending' as const };
     }
     throw new Error('Создайте новую смену, чтобы начать принимать заявки');
   },

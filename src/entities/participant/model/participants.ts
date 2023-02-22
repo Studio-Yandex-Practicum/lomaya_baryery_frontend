@@ -13,9 +13,7 @@ const $participants = createStore<ParticipantsStore>({
   members: [],
 });
 
-export const getParticipantsFx = createEffect((shiftId: string) =>
-  api.getShiftParticipants(shiftId)
-);
+export const getParticipantsFx = createEffect(api.getShiftParticipants);
 
 const $isLoading = createStore(false);
 const $error = createStore<null | string>(null);

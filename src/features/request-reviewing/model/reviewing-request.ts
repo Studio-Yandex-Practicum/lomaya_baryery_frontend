@@ -11,14 +11,9 @@ const closePopup = createEvent();
 const approve = createEvent<string>();
 const decline = createEvent<DeclineRequestParams>();
 
-const approveRequestFx = createEffect((requestId: string) =>
-  api.approveRequest(requestId)
-);
+const approveRequestFx = createEffect(api.approveRequest);
 
-const declineRequestFx = createEffect(
-  ({ requestId, message }: DeclineRequestParams) =>
-    api.declineRequest({ requestId, message })
-);
+const declineRequestFx = createEffect(api.declineRequest);
 
 const $isApproveLoading = createStore(false).on(
   approveRequestFx.pending,

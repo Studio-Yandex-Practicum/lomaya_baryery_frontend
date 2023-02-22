@@ -25,9 +25,7 @@ const $isLoading = createStore(false);
 
 const $error = createStore<null | string>(null);
 
-const updateShiftFx = createEffect((params: api.UpdateShiftParams) =>
-  api.updateShiftSettings(params)
-);
+const updateShiftFx = createEffect(api.updateShiftSettings);
 
 const updatePreparingShiftFx = attach({
   source: shiftModel.$preparingShift,

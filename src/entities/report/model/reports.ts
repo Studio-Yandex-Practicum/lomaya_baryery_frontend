@@ -7,15 +7,12 @@ import {
 } from 'effector';
 import { shiftModel } from 'entities/shift';
 import { api, Report } from 'shared/api';
-import { GetReportsParams } from 'shared/api/typicode';
 
 const clear = createEvent();
 
 const $reports = createStore<Report[]>([]);
 
-const fetchReportsFx = createEffect((params: GetReportsParams) =>
-  api.getReports(params)
-);
+const fetchReportsFx = createEffect(api.getReports);
 
 const getReviewingReportsFx = attach({
   source: shiftModel.$startedShift,

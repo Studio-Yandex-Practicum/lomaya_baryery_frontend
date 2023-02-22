@@ -1,10 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import { useEvent } from 'effector-react';
 import { Form } from 'shared/ui-kit/auth-form';
 import { useFormAndValidation } from 'shared/hook';
 import { InputText } from 'shared/ui-kit/inputText';
 import { AuthContainer } from 'shared/ui-kit/auth-container';
-import { authModel } from '../..';
 import styles from './styles.module.css';
 
 export function PwdCreateForm() {
@@ -18,8 +16,6 @@ export function PwdCreateForm() {
   });
 
   const [submitError, setSubmitError] = useState<null | string>(null);
-
-  const setAuth = useEvent(authModel.setAuth);
 
   const createRef = useRef<HTMLInputElement>(null);
 
@@ -37,7 +33,6 @@ export function PwdCreateForm() {
     e.preventDefault();
 
     if (isValid && inputValues.create === inputValues.confirm) {
-      setAuth(true);
       return;
     }
 

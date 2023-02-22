@@ -8,7 +8,6 @@ import {
 } from 'effector';
 import { shiftModel } from 'entities/shift';
 import { api } from 'shared/api';
-
 import { getRecruitmentState } from '../lib';
 
 const closePopup = createEvent();
@@ -55,10 +54,7 @@ const $isLoading = createStore(false);
 
 const $error = createStore<null | string>(null);
 
-const postNewShiftFx = createEffect(
-  (params: { title: string; startedAt: string; finishedAt: string }) =>
-    api.createNewShift(params)
-);
+const postNewShiftFx = createEffect(api.createNewShift);
 
 $isLoading.on(postNewShiftFx.pending, (_, isLoading) => isLoading);
 
