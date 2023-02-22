@@ -18,6 +18,7 @@ interface ReportsSliderProps {
 export function ReportsSlider({ reportId, extClassName }: ReportsSliderProps) {
   const { data: list } = useStore(reportModel.store.$reportsState);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setSearchParams] = useSearchParams();
 
   const start = 0;

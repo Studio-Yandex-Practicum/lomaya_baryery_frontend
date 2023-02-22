@@ -36,10 +36,17 @@ function Guard({ data, isLoading, error, reportId }: GuardProps) {
     return <Navigate to="/not-found" />;
   }
 
-  if (findIndexById(data, 'report_id', reportId) === null) {
+  const reportIndex = findIndexById(data, 'report_id', reportId);
+  const isReport = reportIndex !== null;
+
+  if (!isReport) {
     if (data.length === 0) {
       return <Alert extClassName={styles.alert} title="Отчёт не найден" />;
     }
+  }
+
+  if (isReport) {
+    return null;
   }
 
   return <Navigate to="/not-found" />;

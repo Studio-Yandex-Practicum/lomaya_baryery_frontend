@@ -6,11 +6,11 @@ import { Loader } from 'shared/ui-kit/loader';
 import { Table } from 'shared/ui-kit/table';
 import styles from './styles.module.css';
 
-export function ReviewingReportsTable({
-  extClassName,
-}: {
-  extClassName: string;
-}) {
+interface ReportsTableProps {
+  extClassName?: string;
+}
+
+export function ReviewingReportsTable({ extClassName }: ReportsTableProps) {
   const { data, isLoading } = useStore(reportModel.store.$reportsState);
 
   if (data.length === 0) {
