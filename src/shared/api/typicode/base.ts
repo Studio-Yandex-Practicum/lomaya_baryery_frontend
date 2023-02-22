@@ -51,13 +51,14 @@ export async function makeRequest<Result>(
 
         options.isRetry = true;
 
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         makeRequest(url, options);
       } catch (error) {
         throw ApiError.Unauthorized();
       }
     } else {
       if (error instanceof HTTPError) {
-        const errorBody = await error.response.json();
+        const errorBody = (await error.response.json()) as { detail?: string };
         if (errorBody.detail) {
           throw new Error(errorBody.detail);
         }

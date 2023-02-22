@@ -1,6 +1,8 @@
 import { useState } from 'react';
 
-export function useFormAndValidation<T extends string>(initValues: Record<T, string>) {
+export function useFormAndValidation<T extends string>(
+  initValues: Record<T, string>
+) {
   const [values, setValues] = useState(initValues);
 
   const [errors, setErrors] = useState(function lazyInit() {
@@ -24,7 +26,8 @@ export function useFormAndValidation<T extends string>(initValues: Record<T, str
     switch (type) {
       case 'email':
         if (validity.typeMismatch || validity.valueMissing) {
-          validationMessage = 'E-mail не соответствует формату: address@domain.ru';
+          validationMessage =
+            'E-mail не соответствует формату: address@domain.ru';
         }
         break;
       default:

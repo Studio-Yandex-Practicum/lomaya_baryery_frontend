@@ -24,7 +24,7 @@ export function FinalMessageForm({ extClassName }: FinalMessageFormProps) {
     closePopup();
   };
 
-  const handleChangeMessage = async (message: string) => {
+  const handleChangeMessage = (message: string) => {
     submitClicker(message);
   };
 

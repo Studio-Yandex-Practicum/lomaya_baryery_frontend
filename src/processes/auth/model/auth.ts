@@ -1,6 +1,6 @@
 import { createEvent, createStore } from 'effector';
 
-export const $isAuth = createStore(true);
+export const $isAuth = createStore(false);
 
 export const setAuth = createEvent<boolean>();
 

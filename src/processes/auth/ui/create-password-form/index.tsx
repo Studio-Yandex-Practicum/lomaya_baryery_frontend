@@ -7,11 +7,7 @@ import { AuthContainer } from 'shared/ui-kit/auth-container';
 import { authModel } from '../..';
 import styles from './styles.module.css';
 
-interface IPwdCreateFormProps {
-  token: string;
-}
-
-export function PwdCreateForm({ token }: IPwdCreateFormProps) {
+export function PwdCreateForm() {
   const {
     values: inputValues,
     isValid,

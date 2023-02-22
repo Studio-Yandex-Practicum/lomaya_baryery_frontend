@@ -25,3 +25,10 @@ export function deserializeSearchParams<T extends Record<string, string>>(
   const deserializedObject = Object.fromEntries(paramsEntries) as Partial<T>;
   return deserializedObject;
 }
+
+export function getFromProp(state: unknown) {
+  if (typeof state === 'object' && state !== null && 'from' in state) {
+    if (typeof state.from === 'string') return state.from;
+  }
+  return null;
+}
