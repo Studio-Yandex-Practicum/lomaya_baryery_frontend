@@ -1,0 +1,9 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.button {
+  flex-basis: 256px;
+}

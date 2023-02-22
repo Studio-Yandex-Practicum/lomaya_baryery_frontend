@@ -1,0 +1,15 @@
+.label {
+  margin: 0 0 10px;
+  justify-content: center;
+  width: 226px;
+  height: 140px;
+}
+
+.controls {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.nav {
+  margin-top: 30px;
+}

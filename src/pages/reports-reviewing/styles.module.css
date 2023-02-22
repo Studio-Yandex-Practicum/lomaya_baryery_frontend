@@ -1,0 +1,30 @@
+.loader {
+  height: calc(100% - 40px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.alert {
+  height: calc(100% - 40px);
+}
+
+.container {
+  height: calc(100vh - 140px);
+}
+
+.heading {
+  margin-top: 10px;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.refreshButton {
+  margin-left: 8px;
+}
+
+.table {
+  margin-top: 30px;
+  min-height: 102px;
+  max-height: calc(100vh - 218px);
+}

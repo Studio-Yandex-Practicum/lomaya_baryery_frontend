@@ -1,0 +1,16 @@
+.columnsTemplate {
+  grid-template-columns: 2fr 2fr 1.2fr;
+}
+
+.row {
+  height: 60px;
+}
+
+.row__date {
+  display: flex;
+  align-items: center;
+}
+
+.row__dateDevider {
+  margin: 0 4px;
+}

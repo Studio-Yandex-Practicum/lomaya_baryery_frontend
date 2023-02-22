@@ -1,0 +1,31 @@
+.container {
+  position: relative;
+  min-height: 687px;
+}
+
+.loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.alert {
+  position: relative;
+  top: 240px;
+}
+
+.link {
+  margin-top: 10px;
+  margin-left: -6px;
+}
+
+.slider {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  height: calc((100vh - 358px));
+}

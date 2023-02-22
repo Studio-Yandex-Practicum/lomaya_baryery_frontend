@@ -1,0 +1,46 @@
+import cn from 'classnames';
+import { useStore } from 'effector-react';
+import { useEffect, useMemo } from 'react';
+import { Outlet } from 'react-router-dom';
+import { Header } from 'widgets/header';
+import { SideBar } from 'widgets/sidebar';
+import { shiftModel } from 'entities/shift';
+import { mountLayout } from './model';
+import styles from './styles.module.css';
+
+export const Layout = () => {
+  const { isSuccess, isError } = useStore(shiftModel.$shiftsLoading);
+
+  useEffect(() => {
+    mountLayout();
+  }, []);
+
+  const content = useMemo(() => {
+    if (isError) {
+      return (
+        <h1 className={cn('text', 'text_type_main-extra-large')}>
+          Сервер не доступен
+        </h1>
+      );
+    }
+    if (isSuccess) {
+      return (
+        <>
+          <nav className={styles.navigation}>
+            <SideBar />
+          </nav>
+          <section className={cn(styles.content, 'custom-scroll')}>
+            <Outlet />
+          </section>
+        </>
+      );
+    }
+  }, [isSuccess, isError]);
+
+  return (
+    <>
+      <Header />
+      <main className={styles.main}>{content}</main>
+    </>
+  );
+};

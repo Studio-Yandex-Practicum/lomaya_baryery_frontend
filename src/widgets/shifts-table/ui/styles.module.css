@@ -1,0 +1,8 @@
+.columnsTemplate {
+  grid-template-columns: 120px 3fr 2fr 2fr 2fr 2fr;
+}
+
+.rows {
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+}

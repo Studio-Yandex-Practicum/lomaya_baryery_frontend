@@ -1,0 +1,18 @@
+.shifts {
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+}
+
+.columnsTemplate {
+  grid-template-columns: 120px 3fr 2fr 2fr 2fr 2fr;
+}
+
+.content {
+  margin-bottom: 20px;
+  height: calc(100vh - 140px);
+}
+
+.shiftsTable {
+  margin-top: 20px;
+  height: calc(100vh - 222px);
+}
