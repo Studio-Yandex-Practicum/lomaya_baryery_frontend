@@ -15,7 +15,7 @@ export const Loader: React.FC<ILoaderProps> = ({
     className={cn(
       styles.loader_wrapper,
       { [styles.loader_fullScreen]: fullScreen },
-      extClassName,
+      extClassName
     )}
   >
     <svg

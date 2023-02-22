@@ -35,7 +35,7 @@ export const Pagination: React.FC<IPagination> = ({
         className={cn(
           'text',
           'text_type_extra_default',
-          styles.pagination__counter,
+          styles.pagination__counter
         )}
       >{`${page} / ${total}`}</span>
       <StepButton

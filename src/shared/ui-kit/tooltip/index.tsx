@@ -16,8 +16,8 @@ export const Tooltip = React.forwardRef<HTMLParagraphElement, ITooltip>(
       <p ref={ref} className={styles.tooltip} style={{ top: posY, left: posX }}>
         {text}
       </p>,
-      tooltipRoot,
-    ),
+      tooltipRoot
+    )
 );
 
 export type TTooltipHOC = {
@@ -30,7 +30,7 @@ export type TTooltipHOC = {
  * В дженерик WP передать типы пропсов оборачиваемого компонента
  */
 export function withTooltip<WP>(
-  WrappedComponent: React.ComponentType<Omit<WP, keyof TTooltipHOC>>,
+  WrappedComponent: React.ComponentType<Omit<WP, keyof TTooltipHOC>>
 ) {
   return ({ tooltipText, tooltipEnabled, ...props }: WP & TTooltipHOC) => {
     const [isShow, toggle] = useState(false);

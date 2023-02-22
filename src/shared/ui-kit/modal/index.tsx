@@ -55,7 +55,7 @@ export const Modal: React.FC<IModalProps> = ({ title, children, close }) => {
               'text',
               'text_type_main-large',
               'm-0',
-              styles.modal__title,
+              styles.modal__title
             )}
           >
             {title}
@@ -69,6 +69,6 @@ export const Modal: React.FC<IModalProps> = ({ title, children, close }) => {
         {children}
       </div>
     </CSSTransition>,
-    modalRoot,
+    modalRoot
   );
 };

@@ -36,7 +36,7 @@ export const Button = ({
         typeStyle,
         { [styles.button_loading]: loading },
         { [styles.button_disabled]: disabled },
-        extClassName,
+        extClassName
       )}
       disabled={disabled}
       {...props}

@@ -79,7 +79,7 @@ export function DatePicker({
           [styles.dataPicker__input_disabled]: disabled,
         },
         'text',
-        'text_type_extra_default',
+        'text_type_extra_default'
       )}
       calendarClassName={styles.dataPicker__calendar}
       dateFormat="dd.MM.yyyy"

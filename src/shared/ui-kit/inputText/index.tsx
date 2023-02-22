@@ -20,7 +20,7 @@ export const InputText = React.forwardRef<HTMLInputElement, IInputTextProps>(
             {errorText}
           </span>
         ) : null,
-      [error, errorText],
+      [error, errorText]
     );
 
     return (
@@ -36,5 +36,5 @@ export const InputText = React.forwardRef<HTMLInputElement, IInputTextProps>(
         {errorToRender}
       </div>
     );
-  },
+  }
 );

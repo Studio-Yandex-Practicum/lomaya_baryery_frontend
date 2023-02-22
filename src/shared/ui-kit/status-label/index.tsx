@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import * as appIcons from '../icons';
-import styles from './status-label.module.css';
+import styles from './styles.module.css';
 
 export interface IStatusLabelProps {
   statusText: string;
