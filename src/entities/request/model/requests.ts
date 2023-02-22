@@ -20,10 +20,12 @@ const fetchPendingRequestsFx = createEffect((shiftId: string) =>
 
 const fetchRealizedRequestsFx = createEffect(async (shiftId: string) => {
   try {
-    const declined = await api.getRequests({ shiftId, status: 'declined' });
-    const approved = await api.getRequests({ shiftId, status: 'approved' });
-    const result = declined.concat(approved);
-    return result;
+    const declined = api.getRequests({ shiftId, status: 'declined' });
+    const approved = api.getRequests({ shiftId, status: 'approved' });
+
+    const all = await Promise.all([declined, approved]);
+
+    return all.flat();
   } catch (error) {
     if (error instanceof Error) {
       throw error;
