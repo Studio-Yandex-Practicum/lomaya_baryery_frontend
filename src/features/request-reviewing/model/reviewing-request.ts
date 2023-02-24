@@ -2,7 +2,7 @@ import { createStore, createEvent, createEffect, forward } from 'effector';
 import { api } from 'shared/api';
 import { DeclineRequestParams } from 'shared/api/typicode';
 import { requestModel } from 'entities/request';
-import { findIndexById } from 'shared/utils/common-helpers';
+import { findIndexById } from 'shared/lib/helpers';
 import { shiftModel } from 'entities/shift';
 
 const openPopup = createEvent();
@@ -11,14 +11,9 @@ const closePopup = createEvent();
 const approve = createEvent<string>();
 const decline = createEvent<DeclineRequestParams>();
 
-const approveRequestFx = createEffect((requestId: string) =>
-  api.approveRequest(requestId)
-);
+const approveRequestFx = createEffect(api.approveRequest);
 
-const declineRequestFx = createEffect(
-  ({ requestId, message }: DeclineRequestParams) =>
-    api.declineRequest({ requestId, message })
-);
+const declineRequestFx = createEffect(api.declineRequest);
 
 const $isApproveLoading = createStore(false).on(
   approveRequestFx.pending,

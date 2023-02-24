@@ -12,6 +12,7 @@ interface ShiftsTableProps {
 export function ShiftsTable({ extClassName }: ShiftsTableProps) {
   const preparingShift = useStore(shiftModel.$preparingShift);
   const startedShift = useStore(shiftModel.$startedShift);
+  const readyForCompleteShift = useStore(shiftModel.$readyForCompleteShift);
   const finishedShifts = useStore(shiftModel.$finishedShifts);
 
   const header = [
@@ -41,6 +42,12 @@ export function ShiftsTable({ extClassName }: ShiftsTableProps) {
             routePath="/shifts/started"
             shiftParams={startedShift}
             label={<ShiftLabel shiftStatus={startedShift?.status} />}
+          />
+          <ShiftRow
+            gridClassName={gridClassName}
+            routePath={`/shifts/finished/${readyForCompleteShift?.id || ''}`}
+            shiftParams={readyForCompleteShift}
+            label={<ShiftLabel shiftStatus={readyForCompleteShift?.status} />}
           />
           {finishedShifts.map((shift) => (
             <ShiftRow

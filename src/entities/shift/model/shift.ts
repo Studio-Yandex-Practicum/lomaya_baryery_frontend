@@ -5,12 +5,14 @@ import { mapShifts } from '../lib';
 export interface ShiftsStore {
   preparing: Shift<'preparing'> | null;
   started: Shift<'started'> | null;
+  readyForComplete: Shift<'ready_for_complete'> | null;
   finished: Shift<'finished'>[];
 }
 
 const initShiftStore: ShiftsStore = {
   preparing: null,
   started: null,
+  readyForComplete: null,
   finished: [],
 };
 

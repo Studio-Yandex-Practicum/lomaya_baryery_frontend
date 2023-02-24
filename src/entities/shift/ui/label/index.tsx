@@ -12,7 +12,7 @@ export function ShiftLabel({ shiftStatus }: ShiftLabelProps) {
 
   interface LabelProps {
     statusText: string;
-    type: 'current' | 'new' | 'past' | 'rejected';
+    type: 'current' | 'new' | 'past' | 'rejected' | 'review';
   }
 
   const labelProps: LabelProps = (() => {
@@ -22,6 +22,8 @@ export function ShiftLabel({ shiftStatus }: ShiftLabelProps) {
         return { statusText: 'Текущая', type: 'current' };
       case 'preparing':
         return { statusText: 'Новая', type: 'new' };
+      case 'ready_for_complete':
+        return { statusText: 'Завершающаяся', type: 'review' };
       case 'finished':
         return { statusText: 'Прошедшая', type: 'past' };
       case 'cancelled':
@@ -31,5 +33,3 @@ export function ShiftLabel({ shiftStatus }: ShiftLabelProps) {
 
   return <StatusLabel {...labelProps} />;
 }
-
-<StatusLabel statusText="Текущая" type="current" />;

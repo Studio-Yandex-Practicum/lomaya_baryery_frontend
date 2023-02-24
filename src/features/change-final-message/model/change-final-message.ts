@@ -25,9 +25,7 @@ const $error = createStore<string | null>(null);
 
 const $openedPopup = createStore(false);
 
-const updateShiftFx = createEffect(async (params: api.UpdateShiftParams) =>
-  api.updateShiftSettings(params)
-);
+const updateShiftFx = createEffect(api.updateShiftSettings);
 
 const changeFinalMessageFx = attach({
   source: shiftModel.$startedShift,

@@ -1,26 +1,14 @@
 import { createStore, createEffect, createEvent, forward } from 'effector';
 import { reportModel } from 'entities/report';
 import { api } from 'shared/api';
-import { findIndexById } from 'shared/utils/common-helpers';
+import { findIndexById } from 'shared/lib/helpers';
 
 const approve = createEvent<string>();
 const decline = createEvent<string>();
 
-const approveReportFx = createEffect((reportId: string) =>
-  api.approveReport(reportId)
-);
+const approveReportFx = createEffect(api.approveReport);
 
-const declineReportFx = createEffect((reportId: string) =>
-  api.declineReport(reportId)
-);
-
-const $isApproveLoadingId = createStore<string | null>(null)
-  .on(approveReportFx, (_, reportId) => reportId)
-  .on(approveReportFx.finally, () => null);
-
-const $isDeclineLoadingId = createStore<string | null>(null)
-  .on(declineReportFx, (_, reportId) => reportId)
-  .on(declineReportFx.finally, () => null);
+const declineReportFx = createEffect(api.declineReport);
 
 const $error = createStore<string | null>(null)
   .on(approveReportFx.failData, (_, error) => error.message)
@@ -57,5 +45,5 @@ forward({
   to: declineReportFx,
 });
 
-export const store = { $isApproveLoadingId, $isDeclineLoadingId, $error };
+export const store = { $error };
 export const events = { approve, decline };

@@ -7,44 +7,50 @@ import {
 } from 'effector';
 import { shiftModel } from 'entities/shift';
 import { api, Report } from 'shared/api';
-import { GetReportsParams } from 'shared/api/typicode';
 
 const clear = createEvent();
 
 const $reports = createStore<Report[]>([]);
 
-const fetchReportsFx = createEffect((params: GetReportsParams) =>
-  api.getReports(params)
+const fetchReportsFx = createEffect(api.getReports);
+
+const $reportingShift = combine(
+  shiftModel.$shifts,
+  (shiftModel) => shiftModel.readyForComplete || shiftModel.started
 );
 
 const getReviewingReportsFx = attach({
-  source: shiftModel.$startedShift,
+  source: $reportingShift,
   effect: fetchReportsFx,
-  mapParams(_, state) {
-    if (state) {
-      return { shiftId: state.id, status: 'reviewing' as const };
+  mapParams(_, reportingShift) {
+    if (reportingShift) {
+      return {
+        shiftId: reportingShift.id,
+        status: 'reviewing' as const,
+      };
     }
+
     throw new Error('Отчёты не принимаются пока нет текущей смены');
   },
 });
 
 const getDeclinedReportsFx = attach({
-  source: shiftModel.$startedShift,
+  source: $reportingShift,
   effect: fetchReportsFx,
-  mapParams(_, state) {
-    if (state) {
-      return { shiftId: state.id, status: 'declined' as const };
+  mapParams(_, reportingShift) {
+    if (reportingShift) {
+      return { shiftId: reportingShift.id, status: 'declined' as const };
     }
     throw new Error('Отчёты не принимаются пока нет текущей смены');
   },
 });
 
 const getRealizedReportsFx = attach({
-  source: shiftModel.$startedShift,
+  source: $reportingShift,
   effect: fetchReportsFx,
-  mapParams(_, state) {
-    if (state) {
-      return { shiftId: state.id, status: undefined };
+  mapParams(_, reportingShift) {
+    if (reportingShift) {
+      return { shiftId: reportingShift.id, status: undefined };
     }
     throw new Error('Отчёты не принимаются пока нет текущей смены');
   },

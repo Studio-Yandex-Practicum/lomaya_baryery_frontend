@@ -1,6 +1,6 @@
 import { useSearchParams } from 'react-router-dom';
 import { ImagePopup } from 'shared/ui-kit/image-popup';
-import { deserializeSearchParams, findIndexById } from 'shared/utils';
+import { deserializeSearchParams, findIndexById } from 'shared/lib';
 
 interface ViewReportPhotoProps {
   data: Array<{

@@ -12,7 +12,7 @@ import {
   ParticipantRowWithStat,
   participantsModel,
 } from 'entities/participant';
-import { findIndexById } from 'shared/utils/common-helpers';
+import { findIndexById } from 'shared/lib/helpers';
 import styles from './styles.module.css';
 import { mount, unmount } from './model';
 

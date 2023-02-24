@@ -7,7 +7,7 @@ import {
 } from 'entities/report';
 import { SideControls } from 'features/report-reviewing';
 import { useSearchParams } from 'react-router-dom';
-import { findIndexById } from 'shared/utils';
+import { findIndexById } from 'shared/lib';
 import styles from './styles.module.css';
 
 interface ReportsSliderProps {

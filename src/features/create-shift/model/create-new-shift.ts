@@ -8,7 +8,6 @@ import {
 } from 'effector';
 import { shiftModel } from 'entities/shift';
 import { api } from 'shared/api';
-
 import { getRecruitmentState } from '../lib';
 
 const closePopup = createEvent();
@@ -55,10 +54,7 @@ const $isLoading = createStore(false);
 
 const $error = createStore<null | string>(null);
 
-const postNewShiftFx = createEffect(
-  (params: { title: string; startedAt: string; finishedAt: string }) =>
-    api.createNewShift(params)
-);
+const postNewShiftFx = createEffect(api.createNewShift);
 
 $isLoading.on(postNewShiftFx.pending, (_, isLoading) => isLoading);
 
@@ -77,14 +73,14 @@ shiftModel.$preparingShift.on(postNewShiftFx.doneData, (_, data) => {
   return data;
 });
 
-export const $dateRange = shiftModel.$startedShift.map((state) => {
+export const $dateRange = shiftModel.$startedShift.map((startedShift) => {
   let startDate = new Date();
 
-  if (state) {
-    startDate = new Date(state.finished_at);
+  if (startedShift) {
+    startDate = new Date(startedShift.finished_at);
   }
 
-  startDate.setHours(24, 0, 0, 0);
+  startDate.setHours(48, 0, 0, 0);
 
   const finishDate = new Date(startDate);
   finishDate.setHours(24);

@@ -16,6 +16,7 @@ export function mapShifts(shifts: Shift[] | undefined | null) {
   const result: ShiftsStore = {
     started: null,
     preparing: null,
+    readyForComplete: null,
     finished: [],
   };
 
@@ -30,6 +31,10 @@ export function mapShifts(shifts: Shift[] | undefined | null) {
 
       if (isStatus(curShift, 'preparing')) {
         result.preparing = curShift;
+      }
+
+      if (isStatus(curShift, 'ready_for_complete')) {
+        result.readyForComplete = curShift;
       }
 
       if (isStatus(curShift, 'finished')) {

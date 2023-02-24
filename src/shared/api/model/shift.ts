@@ -1,4 +1,9 @@
-export type ShiftStatus = 'started' | 'finished' | 'preparing' | 'cancelled';
+export type ShiftStatus =
+  | 'preparing'
+  | 'started'
+  | 'ready_for_complete'
+  | 'finished'
+  | 'cancelled';
 
 export type Shift<T extends ShiftStatus = ShiftStatus> = {
   id: string;
