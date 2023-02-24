@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Login } from './auth-login';
 import { ForgotPassword } from './auth-forgot';
-import { ResetPassword } from './auth-create';
+import { CreatePassword } from './auth-create';
 import { Layout } from './layout/layout';
 import { PageRequestsRealized } from './requests-realized';
 import { PageRequestsPending } from './requests-pending';
@@ -11,16 +11,37 @@ import { PageStartedShift } from './shift-started';
 import { PageShiftsAll } from './shifts';
 import { PageReportsReviewingSlider } from './reports-reviewing-slider';
 import { PageReportsReviewing } from './reports-reviewing';
-import { RequireAuth } from '../features/auth/hoc';
+import { RequireAuth, RequireUnauth } from '../features/auth/hoc';
 import { PageReportsRealized } from './reports-realized';
 import { PageReportsDeclined } from './reports-declined';
 
 export function AppRoutes() {
   return (
     <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/pwd_forgot" element={<ForgotPassword />} />
-      <Route path="/pwd_reset/:token" element={<ResetPassword />} />
+      <Route
+        path="/login"
+        element={
+          <RequireUnauth>
+            <Login />
+          </RequireUnauth>
+        }
+      />
+      <Route
+        path="/pwd_forgot"
+        element={
+          <RequireUnauth>
+            <ForgotPassword />
+          </RequireUnauth>
+        }
+      />
+      <Route
+        path="/pwd_create/:token"
+        element={
+          <RequireUnauth>
+            <CreatePassword />
+          </RequireUnauth>
+        }
+      />
       <Route
         path="/"
         element={
