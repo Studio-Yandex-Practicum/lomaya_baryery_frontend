@@ -98,11 +98,11 @@ export const $dateRange = shiftModel.$preparingShift.map((state) => {
   return { startDate: new Date(), finishDate: new Date() };
 });
 
-export const $startDateFilter = shiftModel.$startedShift.map((state) => {
+export const $startDateFilter = shiftModel.$startedShift.map((startedShift) => {
   let filter = new Date();
-  if (state) {
-    filter = new Date(state.finished_at);
-    filter.setHours(24, 0, 0, 0);
+  if (startedShift) {
+    filter = new Date(startedShift.finished_at);
+    filter.setHours(48, 0, 0, 0);
   }
   return filter;
 });
