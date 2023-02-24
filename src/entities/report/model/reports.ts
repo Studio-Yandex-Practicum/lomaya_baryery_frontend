@@ -14,34 +14,43 @@ const $reports = createStore<Report[]>([]);
 
 const fetchReportsFx = createEffect(api.getReports);
 
+const $reportingShift = combine(
+  shiftModel,
+  (shiftModel) => shiftModel.$readyForCompleteShift || shiftModel.$startedShift
+);
+
 const getReviewingReportsFx = attach({
-  source: shiftModel.$startedShift,
+  source: $reportingShift,
   effect: fetchReportsFx,
-  mapParams(_, state) {
-    if (state) {
-      return { shiftId: state.id, status: 'reviewing' as const };
+  mapParams(_, reportingShift) {
+    if (reportingShift) {
+      return {
+        shiftId: reportingShift.id,
+        status: 'reviewing' as const,
+      };
     }
+
     throw new Error('Отчёты не принимаются пока нет текущей смены');
   },
 });
 
 const getDeclinedReportsFx = attach({
-  source: shiftModel.$startedShift,
+  source: $reportingShift,
   effect: fetchReportsFx,
-  mapParams(_, state) {
-    if (state) {
-      return { shiftId: state.id, status: 'declined' as const };
+  mapParams(_, reportingShift) {
+    if (reportingShift) {
+      return { shiftId: reportingShift.id, status: 'declined' as const };
     }
     throw new Error('Отчёты не принимаются пока нет текущей смены');
   },
 });
 
 const getRealizedReportsFx = attach({
-  source: shiftModel.$startedShift,
+  source: $reportingShift,
   effect: fetchReportsFx,
-  mapParams(_, state) {
-    if (state) {
-      return { shiftId: state.id, status: undefined };
+  mapParams(_, reportingShift) {
+    if (reportingShift) {
+      return { shiftId: reportingShift.id, status: undefined };
     }
     throw new Error('Отчёты не принимаются пока нет текущей смены');
   },

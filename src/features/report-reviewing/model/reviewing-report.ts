@@ -10,14 +10,6 @@ const approveReportFx = createEffect(api.approveReport);
 
 const declineReportFx = createEffect(api.declineReport);
 
-const $isApproveLoadingId = createStore<string | null>(null)
-  .on(approveReportFx, (_, reportId) => reportId)
-  .on(approveReportFx.finally, () => null);
-
-const $isDeclineLoadingId = createStore<string | null>(null)
-  .on(declineReportFx, (_, reportId) => reportId)
-  .on(declineReportFx.finally, () => null);
-
 const $error = createStore<string | null>(null)
   .on(approveReportFx.failData, (_, error) => error.message)
   .on(declineReportFx.failData, (_, error) => error.message)
@@ -53,5 +45,5 @@ forward({
   to: declineReportFx,
 });
 
-export const store = { $isApproveLoadingId, $isDeclineLoadingId, $error };
+export const store = { $error };
 export const events = { approve, decline };
