@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import cn from 'classnames';
 import { Link } from 'react-router-dom';
 import { Form } from 'shared/ui-kit/auth-form';
-import { InputText } from 'shared/ui-kit/input-text';
+import { Input } from 'shared/ui-kit/input';
 import { AuthContainer } from 'shared/ui-kit/auth-container';
 import { useStore } from 'effector-react';
 import { authModel } from 'features/auth';
@@ -36,7 +36,7 @@ export function SignInForm() {
         submitError={error}
         buttonText="Войти"
       >
-        <InputText
+        <Input
           extClassName={styles.form__input}
           ref={emailRef}
           onChange={(e) => {
@@ -49,7 +49,7 @@ export function SignInForm() {
           autoComplete="off"
           required
         />
-        <InputText
+        <Input
           extClassName={styles.form__input}
           onChange={(e) => {
             setValue({ password: e.target.value });

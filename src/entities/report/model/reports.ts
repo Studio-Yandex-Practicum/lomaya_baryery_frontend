@@ -15,8 +15,8 @@ const $reports = createStore<Report[]>([]);
 const fetchReportsFx = createEffect(api.getReports);
 
 const $reportingShift = combine(
-  shiftModel,
-  (shiftModel) => shiftModel.$readyForCompleteShift || shiftModel.$startedShift
+  shiftModel.$shifts,
+  (shiftModel) => shiftModel.readyForComplete || shiftModel.started
 );
 
 const getReviewingReportsFx = attach({

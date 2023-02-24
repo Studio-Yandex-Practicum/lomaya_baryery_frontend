@@ -1,9 +1,8 @@
-import cn from 'classnames';
 import React, { useMemo } from 'react';
+import cn from 'classnames';
 import styles from './styles.module.css';
 
-export interface IInputTextProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   value: string | number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   extClassName?: string;
@@ -11,25 +10,23 @@ export interface IInputTextProps
   errorText?: string;
 }
 
-export const InputText = React.forwardRef<HTMLInputElement, IInputTextProps>(
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ value, onChange, extClassName, error, errorText, ...props }, ref) => {
     const errorToRender = useMemo(
       () =>
         error && errorText ? (
-          <span className={cn(styles.inputText__error, 'text')}>
-            {errorText}
-          </span>
+          <span className={cn(styles.error, 'text')}>{errorText}</span>
         ) : null,
       [error, errorText]
     );
 
     return (
-      <div className={cn(styles.inputTextContainer, extClassName)}>
+      <div className={cn(styles.container, extClassName)}>
         <input
           ref={ref}
           type="text"
           value={value}
-          className={cn(styles.inputText, 'border', 'text')}
+          className={cn(styles.input, 'border', 'text')}
           onChange={onChange}
           {...props}
         />

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Form } from 'shared/ui-kit/auth-form';
 import { useFormAndValidation } from 'shared/hook';
-import { InputText } from 'shared/ui-kit/input-text';
+import { Input } from 'shared/ui-kit/input';
 import { AuthContainer } from 'shared/ui-kit/auth-container';
 import styles from './styles.module.css';
 
@@ -53,7 +53,7 @@ export function PwdCreateForm() {
         submitError={submitError}
         buttonText="Сохранить"
       >
-        <InputText
+        <Input
           extClassName={styles.form__input}
           ref={createRef}
           onChange={handleChange}
@@ -65,7 +65,7 @@ export function PwdCreateForm() {
           autoComplete="off"
           required
         />
-        <InputText
+        <Input
           extClassName={styles.form__input}
           onChange={handleChange}
           name="confirm"

@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import cn from 'classnames';
-import { InputText } from 'shared/ui-kit/input-text';
+import { Input } from 'shared/ui-kit/input';
 import { DateRange } from 'shared/ui-kit/date-range';
 import { Button } from 'shared/ui-kit/button';
 import { getApiDateFormat, getInterval } from './lib';
@@ -93,7 +93,7 @@ export function ShiftSettingsForm({
         >
           Название
         </label>
-        <InputText
+        <Input
           onBlur={handleValidateTitle}
           id="title-id"
           name="title"

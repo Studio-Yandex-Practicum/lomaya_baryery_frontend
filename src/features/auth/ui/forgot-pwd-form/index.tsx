@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Form } from 'shared/ui-kit/auth-form';
 import { useFormAndValidation } from 'shared/hook';
 import { AuthContainer } from 'shared/ui-kit/auth-container';
-import { InputText } from 'shared/ui-kit/input-text';
+import { Input } from 'shared/ui-kit/input';
 import styles from './styles.module.css';
 
 export function ForgotPwdForm() {
@@ -82,7 +82,7 @@ export function ForgotPwdForm() {
           submitError={submitError}
           buttonText="Восстановить"
         >
-          <InputText
+          <Input
             extClassName={styles.form__input}
             ref={emailRef}
             onChange={handleChange}
