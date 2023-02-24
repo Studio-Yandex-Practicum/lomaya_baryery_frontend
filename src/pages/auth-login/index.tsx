@@ -1,7 +1,7 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { useStore } from 'effector-react';
 import { SignInForm } from 'features/auth';
-import { getFromProp } from 'shared/utils';
+import { getFromProp } from 'shared/lib';
 import { viewerModel } from 'entities/viewer';
 
 export function Login() {

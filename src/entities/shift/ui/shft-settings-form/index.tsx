@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import cn from 'classnames';
-import { InputText } from 'shared/ui-kit/inputText';
+import { InputText } from 'shared/ui-kit/input-text';
 import { DateRange } from 'shared/ui-kit/date-range';
 import { Button } from 'shared/ui-kit/button';
 import { getApiDateFormat, getInterval } from './lib';

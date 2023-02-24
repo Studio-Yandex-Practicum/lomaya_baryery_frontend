@@ -1,28 +1,18 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import cn from 'classnames';
 import { Link } from 'react-router-dom';
 import { Form } from 'shared/ui-kit/auth-form';
-import { useFormAndValidation } from 'shared/hook';
-import { InputText } from 'shared/ui-kit/inputText';
+import { InputText } from 'shared/ui-kit/input-text';
 import { AuthContainer } from 'shared/ui-kit/auth-container';
 import { useStore } from 'effector-react';
 import { authModel } from 'features/auth';
 import styles from './styles.module.css';
 
 export function SignInForm() {
-  const {
-    values: inputValues,
-    errors: inputErrors,
-    isValid,
-    handleChange,
-  } = useFormAndValidation({
-    email: '',
-    pwd: '',
-  });
+  const { sendForm, setValue } = authModel;
+  const values = useStore(authModel.$values);
   const isLoading = useStore(authModel.$isLoading);
   const error = useStore(authModel.$error);
-
-  const [submitError, setSubmitError] = useState<null | string>(null);
 
   const emailRef = useRef<HTMLInputElement>(null);
 
@@ -32,26 +22,10 @@ export function SignInForm() {
     }
   }, []);
 
-  useEffect(() => {
-    setSubmitError(null);
-  }, [inputValues]);
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!isValid) {
-      if (Object.values(inputValues).some((value) => !Boolean(value))) {
-        setSubmitError('Все поля обязательные');
-        return;
-      }
-
-      if (inputErrors.email) {
-        setSubmitError(inputErrors.email);
-        return;
-      }
-    }
-
-    authModel.login({ email: inputValues.email, password: inputValues.pwd });
+    sendForm();
   };
 
   return (
@@ -59,26 +33,30 @@ export function SignInForm() {
       <Form
         loading={isLoading}
         onSubmit={handleSubmit}
-        submitError={submitError || error}
+        submitError={error}
         buttonText="Войти"
       >
         <InputText
           extClassName={styles.form__input}
           ref={emailRef}
-          onChange={handleChange}
+          onChange={(e) => {
+            setValue({ email: e.target.value });
+          }}
           name="email"
           placeholder="E-mail"
-          value={inputValues.email}
+          value={values.email}
           type="email"
           autoComplete="off"
           required
         />
         <InputText
           extClassName={styles.form__input}
-          onChange={handleChange}
+          onChange={(e) => {
+            setValue({ password: e.target.value });
+          }}
           name="pwd"
           placeholder="Пароль"
-          value={inputValues.pwd}
+          value={values.password}
           type="password"
           minLength={1}
           autoComplete="off"

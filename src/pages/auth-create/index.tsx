@@ -1,7 +1,7 @@
 import { useStore } from 'effector-react';
 import { Navigate, useLocation, useParams } from 'react-router-dom';
 import { PwdCreateForm } from 'features/auth';
-import { getFromProp } from 'shared/utils';
+import { getFromProp } from 'shared/lib';
 import { viewerModel } from 'entities/viewer';
 
 export function ResetPassword() {

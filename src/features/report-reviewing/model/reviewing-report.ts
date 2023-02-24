@@ -1,7 +1,7 @@
 import { createStore, createEffect, createEvent, forward } from 'effector';
 import { reportModel } from 'entities/report';
 import { api } from 'shared/api';
-import { findIndexById } from 'shared/utils/common-helpers';
+import { findIndexById } from 'shared/lib/helpers';
 
 const approve = createEvent<string>();
 const decline = createEvent<string>();

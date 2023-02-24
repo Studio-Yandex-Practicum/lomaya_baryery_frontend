@@ -1,6 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
-import { getFormattedDate } from 'shared/utils';
+import { getFormattedDate } from 'shared/lib';
 import styles from './styles.module.css';
 
 interface ReportDetailsProps {

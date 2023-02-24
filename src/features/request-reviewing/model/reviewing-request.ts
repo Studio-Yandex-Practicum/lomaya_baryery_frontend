@@ -2,7 +2,7 @@ import { createStore, createEvent, createEffect, forward } from 'effector';
 import { api } from 'shared/api';
 import { DeclineRequestParams } from 'shared/api/typicode';
 import { requestModel } from 'entities/request';
-import { findIndexById } from 'shared/utils/common-helpers';
+import { findIndexById } from 'shared/lib/helpers';
 import { shiftModel } from 'entities/shift';
 
 const openPopup = createEvent();

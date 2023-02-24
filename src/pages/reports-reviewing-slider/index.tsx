@@ -7,7 +7,7 @@ import { Alert } from 'shared/ui-kit/alert';
 import { BackwardLink } from 'shared/ui-kit/backward-link';
 import { ContentContainer } from 'shared/ui-kit/content-container';
 import { Loader } from 'shared/ui-kit/loader';
-import { deserializeSearchParams, findIndexById } from 'shared/utils';
+import { deserializeSearchParams, findIndexById } from 'shared/lib';
 import { ReportsSlider } from 'widgets/reports-slider';
 import { load } from './model';
 import styles from './styles.module.css';

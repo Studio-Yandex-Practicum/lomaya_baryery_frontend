@@ -1,4 +1,4 @@
-import { findIndexById } from './common-helpers';
+import { findIndexById } from './helpers';
 
 describe('find by id in array of objects test', () => {
   const foo = {

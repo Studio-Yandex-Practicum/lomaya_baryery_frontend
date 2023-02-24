@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Form } from 'shared/ui-kit/auth-form';
 import { useFormAndValidation } from 'shared/hook';
-import { InputText } from 'shared/ui-kit/inputText';
+import { InputText } from 'shared/ui-kit/input-text';
 import { AuthContainer } from 'shared/ui-kit/auth-container';
 import styles from './styles.module.css';
 
