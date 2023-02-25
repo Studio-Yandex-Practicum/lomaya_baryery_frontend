@@ -48,8 +48,8 @@ forward({
 sample({
   clock: $isAuth,
   source: $viewer,
-  filter(src, clk) {
-    return src === null && clk;
+  filter(viewer, isAuth) {
+    return viewer === null && isAuth;
   },
   target: getAppUserFx,
 });
