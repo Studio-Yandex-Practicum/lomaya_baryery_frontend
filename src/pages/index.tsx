@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
+import { RequireRole } from 'entities/viewer';
 import { Login } from './auth-login';
 import { ForgotPassword } from './auth-forgot';
 import { CreatePassword } from './auth-create';
@@ -11,7 +12,7 @@ import { PageStartedShift } from './shift-started';
 import { PageShiftsAll } from './shifts';
 import { PageReportsReviewingSlider } from './reports-reviewing-slider';
 import { PageReportsReviewing } from './reports-reviewing';
-import { RequireAuth, RequireUnauth } from '../features/auth/hoc';
+import { RequireAuth, RequireUnauth } from '../features/auth';
 import { PageReportsRealized } from './reports-realized';
 import { PageReportsDeclined } from './reports-declined';
 
@@ -58,8 +59,10 @@ export function AppRoutes() {
           path="shifts/finished/:shiftId"
           element={<PageFinishedShift />}
         />
+
         <Route path="requests/pending/*" element={<PageRequestsPending />} />
         <Route path="requests/realized" element={<PageRequestsRealized />} />
+
         <Route path="reports/reviewing" element={<PageReportsReviewing />} />
         <Route
           path="reports/reviewing/detailed"
@@ -67,10 +70,29 @@ export function AppRoutes() {
         />
         <Route path="reports/realized/*" element={<PageReportsRealized />} />
         <Route path="reports/declined/*" element={<PageReportsDeclined />} />
+
+        <Route
+          path="admins/members"
+          element={
+            <RequireRole viewerRole="administrator">
+              <div>admins_members</div>
+            </RequireRole>
+          }
+        />
+        <Route
+          path="admins/invitations"
+          element={
+            <RequireRole viewerRole="administrator">
+              <div>admins_invitations</div>
+            </RequireRole>
+          }
+        />
+
         <Route
           path="profile"
           element={<h1 className="text text_type_main-extra-large">...</h1>}
         />
+
         <Route
           path="*"
           element={
