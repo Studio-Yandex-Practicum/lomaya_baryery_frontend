@@ -15,6 +15,7 @@ import { PageReportsReviewing } from './reports-reviewing';
 import { RequireAuth, RequireUnauth } from '../features/auth';
 import { PageReportsRealized } from './reports-realized';
 import { PageReportsDeclined } from './reports-declined';
+import { PageAdminList } from './admin-list';
 
 export function AppRoutes() {
   return (
@@ -75,7 +76,7 @@ export function AppRoutes() {
           path="admins/members"
           element={
             <RequireRole viewerRole="administrator">
-              <div>admins_members</div>
+              <PageAdminList />
             </RequireRole>
           }
         />

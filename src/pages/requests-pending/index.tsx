@@ -5,7 +5,7 @@ import { ContentHeading } from 'shared/ui-kit/content-heading';
 import { Loader } from 'shared/ui-kit/loader';
 import { useStore } from 'effector-react';
 import { RefetchRequests, requestModel } from 'entities/request';
-import { RequestsTable } from 'widgets/request-table';
+import { RequestsTable } from 'widgets/requests-table';
 import { mount, refetch, unmount } from './model';
 import styles from './styles.module.css';
 

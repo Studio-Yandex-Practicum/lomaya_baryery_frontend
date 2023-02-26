@@ -1,7 +1,7 @@
-import { createStore, createEffect } from 'effector';
+import { createStore, createEffect, combine } from 'effector';
 import { getAdministratorsList } from 'shared/api/typicode';
 
-interface Administrator {
+export interface TAdmin {
   id: string;
   name: string;
   surname: string;
@@ -11,9 +11,9 @@ interface Administrator {
   last_login_at: string;
 }
 
-const $administrators = createStore<Administrator[]>([]);
+const $admins = createStore<TAdmin[]>([]);
 
-const getAdministratorsListFx = createEffect(getAdministratorsList);
+export const getAdministratorsListFx = createEffect(getAdministratorsList);
 
 const $isLoading = createStore(false);
 
@@ -25,10 +25,13 @@ $error
   .on(getAdministratorsListFx.failData, (_, error) => error.message)
   .reset(getAdministratorsListFx);
 
-$administrators.on(
+$admins.on(
   getAdministratorsListFx.doneData,
   (_, administratorsList) => administratorsList
 );
 
-export const store = { $administrators, $isLoading, $error };
-export const effects = { getAdministratorsListFx };
+export const $adminsState = combine({
+  data: $admins,
+  isLoading: $isLoading,
+  error: $error,
+});
