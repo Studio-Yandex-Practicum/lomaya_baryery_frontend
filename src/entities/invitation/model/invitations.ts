@@ -1,20 +1,20 @@
-import { createStore, createEffect } from 'effector';
+import { createStore, createEffect, combine } from 'effector';
 import { getInvitationsList } from 'shared/api/typicode';
 
-interface Invitation {
+export interface Invitation {
   name: string;
   surname: string;
   email: string;
   expired_datetime: string;
 }
 
-export const $invitations = createStore<Invitation[]>([]);
+const $invitations = createStore<Invitation[]>([]);
 
 export const getInvitationsListFx = createEffect(getInvitationsList);
 
-export const $isLoading = createStore(false);
+const $isLoading = createStore(false);
 
-export const $error = createStore<string | null>(null);
+const $error = createStore<string | null>(null);
 
 $isLoading.on(getInvitationsListFx.pending, (_, isLoading) => isLoading);
 
@@ -26,3 +26,9 @@ $invitations.on(
   getInvitationsListFx.doneData,
   (_, invitationsList) => invitationsList
 );
+
+export const $invitationsState = combine({
+  data: $invitations,
+  isLoading: $isLoading,
+  error: $error,
+});

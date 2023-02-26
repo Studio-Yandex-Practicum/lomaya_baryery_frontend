@@ -3,16 +3,16 @@ import { Alert } from 'shared/ui-kit/alert';
 import { ContentContainer } from 'shared/ui-kit/content-container';
 import { ContentHeading } from 'shared/ui-kit/content-heading';
 import { Loader } from 'shared/ui-kit/loader';
-import { AdminListTable } from 'widgets/admin-list-table';
 import { useStore } from 'effector-react';
-import { adminModel } from 'entities/admin';
 import { InviteAdminButton } from 'features/invite-admin';
+import { invitationModel } from 'entities/invitation';
+import { InvitationsTable } from 'widgets/invitations-table';
 import { mount } from './model';
 import styles from './styles.module.css';
 
 interface GuardProps {
   isLoading: boolean;
-  data: adminModel.TAdmin[];
+  data: invitationModel.Invitation[];
   error: string | null;
 }
 
@@ -25,11 +25,19 @@ function Guard({ data, isLoading, error }: GuardProps) {
     return <Alert extClassName={styles.alert} title={error} />;
   }
 
+  if (data.length === 0) {
+    return (
+      <Alert extClassName={styles.alert} title="Направленных приглашений нет" />
+    );
+  }
+
   return null;
 }
 
-export function PageAdminList() {
-  const { data, isLoading, error } = useStore(adminModel.$adminsState);
+export function PageInvitationList() {
+  const { data, isLoading, error } = useStore(
+    invitationModel.$invitationsState
+  );
 
   useEffect(() => {
     mount();
@@ -37,11 +45,11 @@ export function PageAdminList() {
 
   return (
     <ContentContainer extClassName={styles.container}>
-      <ContentHeading title="Администраторы" extClassName={styles.heading}>
+      <ContentHeading title="Приглашения" extClassName={styles.heading}>
         <InviteAdminButton></InviteAdminButton>
       </ContentHeading>
       <Guard data={data} error={error} isLoading={isLoading} />
-      <AdminListTable extClassName={styles.table} />
+      <InvitationsTable extClassName={styles.table} />
     </ContentContainer>
   );
 }
