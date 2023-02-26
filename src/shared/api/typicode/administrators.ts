@@ -31,7 +31,10 @@ export async function signIn({ email, password }: SignInParams) {
 }
 
 export function getAdministratorsList() {
-  return makeRequest<User[]>(ROUTE, { method: 'get', authorization: false });
+  return makeRequest<User[]>(`${ROUTE}/`, {
+    method: 'get',
+    authorization: false,
+  });
 }
 
 export function getInvitationsList() {
