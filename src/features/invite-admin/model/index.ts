@@ -49,7 +49,9 @@ export const $error = createStore<string | null>(null)
 export const $opened = createStore(false)
   .on(closePopup, () => false)
   .on(openPopup, () => true)
-  .on($isSuccess, () => false);
+  .on($isSuccess, () => {
+    setTimeout(closePopup, 2000);
+  });
 
 sample({
   clock: submit,

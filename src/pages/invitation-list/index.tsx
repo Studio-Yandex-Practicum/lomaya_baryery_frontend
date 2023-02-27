@@ -4,7 +4,7 @@ import { ContentContainer } from 'shared/ui-kit/content-container';
 import { ContentHeading } from 'shared/ui-kit/content-heading';
 import { Loader } from 'shared/ui-kit/loader';
 import { useStore } from 'effector-react';
-import { InviteAdminButton } from 'features/invite-admin';
+import { InviteAdminButton, InviteForm } from 'features/invite-admin';
 import { invitationModel } from 'entities/invitation';
 import { InvitationsTable } from 'widgets/invitations-table';
 import { mount } from './model';
@@ -46,7 +46,9 @@ export function PageInvitationList() {
   return (
     <ContentContainer extClassName={styles.container}>
       <ContentHeading title="Приглашения" extClassName={styles.heading}>
-        <InviteAdminButton></InviteAdminButton>
+        <InviteAdminButton>
+          <InviteForm />
+        </InviteAdminButton>
       </ContentHeading>
       <Guard data={data} error={error} isLoading={isLoading} />
       <InvitationsTable extClassName={styles.table} />

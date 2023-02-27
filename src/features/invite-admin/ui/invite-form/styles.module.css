@@ -14,3 +14,8 @@
 .input:last-of-type {
   margin-bottom: 0;
 }
+
+.alert {
+  height: 303px;
+  padding-bottom: 40px;
+}
