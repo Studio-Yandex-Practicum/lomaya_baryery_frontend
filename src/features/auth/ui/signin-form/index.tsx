@@ -50,7 +50,7 @@ export function SignInForm() {
           value={values.email}
           type="email"
           autoComplete="off"
-          required
+          spellCheck={false}
         />
         <Input
           extClassName={styles.form__input}
@@ -61,11 +61,10 @@ export function SignInForm() {
           placeholder="Пароль"
           value={values.password}
           type="password"
-          minLength={1}
           autoComplete="off"
-          required
+          spellCheck={false}
         />
-        <Link
+        {/* <Link
           to="/pwd_forgot"
           className={cn(
             styles.form__element,
@@ -74,7 +73,7 @@ export function SignInForm() {
           )}
         >
           Не помню пароль
-        </Link>
+        </Link> */}
       </Form>
     </AuthContainer>
   );

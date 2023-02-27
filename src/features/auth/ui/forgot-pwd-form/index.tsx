@@ -91,7 +91,7 @@ export function ForgotPwdForm() {
             value={inputValues.email}
             type="email"
             autoComplete="off"
-            required
+            spellCheck={false}
           />
           <Link
             to="/login"

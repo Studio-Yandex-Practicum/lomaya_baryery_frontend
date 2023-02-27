@@ -17,6 +17,7 @@ import { PageReportsDeclined } from './reports-declined';
 import { PageAdminList } from './admin-list';
 import { PageInvitationList } from './invitation-list';
 import { Registration } from './auth-registration';
+import { PageViewerProfile } from './viewer-profile';
 
 export function AppRoutes() {
   return (
@@ -90,10 +91,7 @@ export function AppRoutes() {
           }
         />
 
-        <Route
-          path="profile"
-          element={<h1 className="text text_type_main-extra-large">...</h1>}
-        />
+        <Route path="profile" element={<PageViewerProfile />} />
 
         <Route
           path="*"
