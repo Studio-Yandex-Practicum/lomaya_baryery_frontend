@@ -6,9 +6,8 @@ import { viewerModel } from 'entities/viewer';
 import styles from './styles.module.css';
 
 export function Header() {
-  function handleSingOut() {
-    viewerModel.clear();
-    localStorage.clear();
+  function handleLogout() {
+    viewerModel.logout();
   }
 
   return (
@@ -31,7 +30,7 @@ export function Header() {
           Аккаунт
         </NavLink>
         <button
-          onClick={handleSingOut}
+          onClick={handleLogout}
           className={cn(
             'text text_type_main-medium link',
             styles.header__link,

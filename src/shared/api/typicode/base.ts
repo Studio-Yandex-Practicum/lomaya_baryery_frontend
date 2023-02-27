@@ -32,45 +32,13 @@ export async function makeRequest<Result>(
       throw ApiError.ServerError('Сервер не доступен');
     }
 
-    if (
-      error instanceof HTTPError &&
-      error.response.status === 401 &&
-      options.authorization &&
-      !options.isRetry
-    ) {
-      try {
-        interface ITokenRes {
-          accessToken: string;
-          refreshToken: string;
-        }
-
-        const { accessToken, refreshToken } = await fetcher(
-          'administrators/token',
-          {
-            method: 'post',
-            json: { token: config.refreshToken },
-          }
-        ).json<ITokenRes>();
-
-        config.setAccessToken(accessToken);
-        config.setRefreshToken(refreshToken);
-
-        options.isRetry = true;
-
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        makeRequest(url, options);
-      } catch (error) {
-        throw ApiError.Unauthorized();
+    if (error instanceof HTTPError) {
+      const errorBody = (await error.response.json()) as { detail?: string };
+      if (errorBody.detail) {
+        throw new Error(errorBody.detail);
       }
-    } else {
-      if (error instanceof HTTPError) {
-        const errorBody = (await error.response.json()) as { detail?: string };
-        if (errorBody.detail) {
-          throw new Error(errorBody.detail);
-        }
-      }
-      throw error;
     }
+
     throw error;
   }
 }
