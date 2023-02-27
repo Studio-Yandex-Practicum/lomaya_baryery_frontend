@@ -6,7 +6,7 @@ import { Loader } from 'shared/ui-kit/loader';
 import { AdminListTable } from 'widgets/admin-list-table';
 import { useStore } from 'effector-react';
 import { adminModel } from 'entities/admin';
-import { InviteAdminButton } from 'features/invite-admin';
+import { InviteAdminButton, InviteForm } from 'features/invite-admin';
 import { mount } from './model';
 import styles from './styles.module.css';
 
@@ -38,7 +38,9 @@ export function PageAdminList() {
   return (
     <ContentContainer extClassName={styles.container}>
       <ContentHeading title="Администраторы" extClassName={styles.heading}>
-        <InviteAdminButton></InviteAdminButton>
+        <InviteAdminButton>
+          <InviteForm />
+        </InviteAdminButton>
       </ContentHeading>
       <Guard data={data} error={error} isLoading={isLoading} />
       <AdminListTable extClassName={styles.table} />

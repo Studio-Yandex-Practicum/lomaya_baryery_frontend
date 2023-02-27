@@ -1,6 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 import { Button } from 'shared/ui-kit/button';
+import { inviteModel } from 'features/invite-admin';
 import styles from './styles.module.css';
 
 interface InviteAdminButtonProps {
@@ -19,6 +20,9 @@ export function InviteAdminButton({
         size="small"
         type="primary"
         extClassName={cn(extClassName, styles.button)}
+        onClick={() => {
+          inviteModel.openPopup();
+        }}
       >
         Пригласить
       </Button>

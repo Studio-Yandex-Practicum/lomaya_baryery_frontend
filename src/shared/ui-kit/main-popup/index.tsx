@@ -1,27 +1,30 @@
+import cn from 'classnames';
 import { CloseIcon } from '../icons';
 import { OverlayingPopup } from '../overlaying-popup';
 import { useMount } from '../hook';
 import styles from './styles.module.css';
 
-type TMainPopupProps = React.PropsWithChildren & {
+type MainPopupProps = React.PropsWithChildren & {
   title: string;
   opened: boolean;
   onClose: () => void;
+  extClassName?: string;
 };
 
 export function MainPopup({
   title,
   opened,
   onClose,
+  extClassName,
   children,
-}: TMainPopupProps) {
+}: MainPopupProps) {
   const { mounted } = useMount(opened);
 
   if (!mounted) return null;
 
   return (
     <OverlayingPopup onClose={onClose} opened={opened}>
-      <div className={styles.container}>
+      <div className={cn(styles.container, extClassName)}>
         <div className={styles.heading}>
           <p
             className={[

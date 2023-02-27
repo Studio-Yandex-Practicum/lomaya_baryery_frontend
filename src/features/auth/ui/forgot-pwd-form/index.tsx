@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 import { Link } from 'react-router-dom';
-import { Form } from 'shared/ui-kit/auth-form';
+import { Form } from 'shared/ui-kit/form';
 import { useFormAndValidation } from 'shared/hook';
 import { AuthContainer } from 'shared/ui-kit/auth-container';
 import { Input } from 'shared/ui-kit/input';
@@ -45,7 +45,7 @@ export function ForgotPwdForm() {
 
   const title = formSuccess ? 'Ссылка отправлена' : 'Восстановление пароля';
 
-  const expanation = formSuccess
+  const explaination = formSuccess
     ? 'Письмо придёт в\u00A0течение 5\u00A0минут.\nЕсли письма нет, проверьте в\u00A0папке спам.'
     : 'Укажите почту, которую вы\u00A0использовали при регистрации. Мы\u00A0вышлем ссылку для смены пароля.';
 
@@ -58,10 +58,10 @@ export function ForgotPwdForm() {
             text_color_secondary: !formSuccess,
             text_color_primary: formSuccess,
           },
-          styles.explanation
+          styles.explaination
         )}
       >
-        {expanation}
+        {explaination}
       </p>
       {formSuccess && (
         <Link

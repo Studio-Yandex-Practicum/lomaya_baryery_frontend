@@ -1,0 +1,16 @@
+.popupContainer {
+  width: 400px;
+}
+
+.text {
+  margin-top: 18px;
+  margin-bottom: 24px;
+}
+
+.input {
+  margin-bottom: 10px;
+}
+
+.input:last-of-type {
+  margin-bottom: 0;
+}

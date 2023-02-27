@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import cn from 'classnames';
 import { Link } from 'react-router-dom';
-import { Form } from 'shared/ui-kit/auth-form';
+import { Form } from 'shared/ui-kit/form';
 import { Input } from 'shared/ui-kit/input';
 import { AuthContainer } from 'shared/ui-kit/auth-container';
 import { useStore } from 'effector-react';

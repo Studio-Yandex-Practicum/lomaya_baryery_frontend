@@ -72,6 +72,5 @@ sample({
   clock: $validity,
   source: $values,
   filter: (_, validity) => validity.verified && !validity.error,
-  fn: (values) => values,
   target: signInFx,
 });
