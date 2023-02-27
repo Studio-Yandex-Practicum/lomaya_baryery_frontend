@@ -9,7 +9,7 @@ import { authModel } from 'features/auth';
 import styles from './styles.module.css';
 
 export function SignInForm() {
-  const { sendForm, setValue } = authModel;
+  const { sendForm, setValue, clear } = authModel;
   const values = useStore(authModel.$values);
   const isLoading = useStore(authModel.$isLoading);
   const error = useStore(authModel.$error);
@@ -20,7 +20,10 @@ export function SignInForm() {
     if (emailRef.current) {
       emailRef.current.focus();
     }
-  }, []);
+    return () => {
+      clear();
+    };
+  }, [clear]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

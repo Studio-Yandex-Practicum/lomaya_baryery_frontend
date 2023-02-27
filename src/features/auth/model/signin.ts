@@ -15,13 +15,14 @@ interface Validity {
 
 export const setValue = createEvent<Partial<Values>>();
 export const sendForm = createEvent();
+export const clear = createEvent();
 
 export const signInFx = createEffect(api.signIn);
 
 const $validity = createStore<Validity>({
   error: null,
   verified: false,
-}).reset(setValue);
+}).reset([setValue, clear]);
 
 export const $isLoading = createStore(false).on(
   signInFx.pending,
@@ -31,14 +32,13 @@ export const $isLoading = createStore(false).on(
 export const $error = createStore<string | null>(null)
   .on($validity, (_, validity) => (validity.verified ? validity.error : null))
   .on(signInFx.failData, (_, error) => error.message)
-  .reset([signInFx, setValue]);
+  .reset([signInFx, setValue, clear]);
 
 viewerModel.$isAuth.on(signInFx.doneData, () => true);
 
-export const $values = createStore<Values>({ email: '', password: '' }).on(
-  setValue,
-  (state, value) => ({ ...state, ...value })
-);
+export const $values = createStore<Values>({ email: '', password: '' })
+  .on(setValue, (state, value) => ({ ...state, ...value }))
+  .reset(clear);
 
 sample({
   clock: sendForm,
