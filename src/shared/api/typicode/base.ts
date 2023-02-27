@@ -4,6 +4,8 @@ import ApiError from './exceptions';
 
 const fetcher = ky.create({ prefixUrl: 'https://lombaryery.tk' });
 
+const FETCH_ERROR = 'Failed to fetch';
+
 export async function makeRequest<Result>(
   url: string,
   options: Options & { authorization?: boolean; isRetry?: boolean }
@@ -26,6 +28,10 @@ export async function makeRequest<Result>(
     const resData = await fetcher(url, options).json<Result>();
     return resData;
   } catch (error) {
+    if (error instanceof Error && error.message === FETCH_ERROR) {
+      throw ApiError.ServerError('Сервер не доступен');
+    }
+
     if (
       error instanceof HTTPError &&
       error.response.status === 401 &&

@@ -2,7 +2,6 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { RequireRole } from 'entities/viewer';
 import { Login } from './auth-login';
 import { ForgotPassword } from './auth-forgot';
-import { CreatePassword } from './auth-create';
 import { Layout } from './layout/layout';
 import { PageRequestsRealized } from './requests-realized';
 import { PageRequestsPending } from './requests-pending';
@@ -17,6 +16,7 @@ import { PageReportsRealized } from './reports-realized';
 import { PageReportsDeclined } from './reports-declined';
 import { PageAdminList } from './admin-list';
 import { PageInvitationList } from './invitation-list';
+import { Registration } from './auth-registration';
 
 export function AppRoutes() {
   return (
@@ -41,7 +41,7 @@ export function AppRoutes() {
         path="/pwd_create/:token"
         element={
           <RequireUnauth>
-            <CreatePassword />
+            <Registration />
           </RequireUnauth>
         }
       />

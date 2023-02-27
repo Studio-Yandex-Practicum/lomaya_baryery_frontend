@@ -23,7 +23,7 @@ interface ValidityType {
 
 export const checkInvite = createEvent<TokenType>();
 
-export const $invitation = createStore<InvitationType>({
+const $invitation = createStore<InvitationType>({
   name: '',
   surname: '',
   token: '',
@@ -31,7 +31,12 @@ export const $invitation = createStore<InvitationType>({
 
 const getInvitationFx = createEffect(getInvitation);
 
-export const $isChecking = createStore(false).on(
+sample({
+  source: checkInvite,
+  target: getInvitationFx,
+});
+
+export const $isChecking = createStore(true).on(
   getInvitationFx.pending,
   (_, isLoading) => isLoading
 );
@@ -49,7 +54,9 @@ export const submit = createEvent();
 export const setValue = createEvent<Partial<ValuesType>>();
 export const clear = createEvent();
 
-export const $values = createStore<ValuesType>({ pwd: '', repeatPwd: '' });
+export const $values = createStore<ValuesType>({ pwd: '', repeatPwd: '' })
+  .on(setValue, (state, fieldValue) => ({ ...state, ...fieldValue }))
+  .reset(clear);
 
 const signUpFx = createEffect(api.signUp);
 
@@ -68,10 +75,9 @@ export const $submitError = createStore<string | null>(null)
   .on(signUpFx.failData, (_, error) => error.message)
   .reset([setValue, signUpFx]);
 
-export const $isSignUpSuccess = createStore(false).on(
-  signUpFx.doneData,
-  () => true
-);
+export const $isSignUpSuccess = createStore(false)
+  .on(signUpFx.doneData, () => true)
+  .reset(clear);
 
 sample({
   clock: submit,
@@ -79,11 +85,7 @@ sample({
   fn(values) {
     const validityState: ValidityType = { error: null, verified: true };
 
-    const trimmedValues = Object.values(values).map((value: string) =>
-      value.trim()
-    );
-
-    if (trimmedValues.some((value) => !value)) {
+    if (Object.values(values).some((value) => !value)) {
       validityState.error = 'Все поля обязательные';
       return validityState;
     }
