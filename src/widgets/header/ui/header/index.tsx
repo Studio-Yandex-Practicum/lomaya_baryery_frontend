@@ -1,14 +1,17 @@
 import cn from 'classnames';
 import { Link, NavLink } from 'react-router-dom';
-import { EnterIcon, UserIcon } from 'shared/ui-kit/icons';
+import { EnterIcon } from 'shared/ui-kit/icons';
 import { Logo } from 'shared/ui-kit/logo';
-import { viewerModel } from 'entities/viewer';
+import { ProfileLink, viewerModel } from 'entities/viewer';
+import { useStore } from 'effector-react';
 import styles from './styles.module.css';
 
 export function Header() {
-  function handleLogout() {
+  const viewer = useStore(viewerModel.$viewer);
+
+  const handleLogout = () => {
     viewerModel.logout();
-  }
+  };
 
   return (
     <header className={styles.header}>
@@ -26,8 +29,7 @@ export function Header() {
             styles.header__link
           )}
         >
-          <UserIcon className={styles.header__linkIcon} type="link" />
-          Аккаунт
+          <ProfileLink viewerName={viewer?.name} />
         </NavLink>
         <button
           onClick={handleLogout}
