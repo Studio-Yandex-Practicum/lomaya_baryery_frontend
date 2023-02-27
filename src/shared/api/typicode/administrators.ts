@@ -57,3 +57,24 @@ export function sendInvitation({ email, name, surname }: SendInvitationParams) {
     json: { email, name, surname },
   });
 }
+
+export function getInvitation(token: string) {
+  return makeRequest<Invitation>(`${ROUTE}/register/${token}`, {
+    method: 'get',
+    authorization: false,
+  });
+}
+
+interface SignUpParams {
+  name: string;
+  surname: string;
+  password: string;
+  token: string;
+}
+
+export function signUp({ name, surname, password, token }: SignUpParams) {
+  return makeRequest<User<'psychologist', 'active'>>(
+    `${ROUTE}/register/${token}`,
+    { method: 'post', authorization: false, json: { name, surname, password } }
+  );
+}

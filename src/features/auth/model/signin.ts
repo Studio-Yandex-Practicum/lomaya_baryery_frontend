@@ -59,7 +59,7 @@ sample({
     }
 
     if (!passwordPattern.test(password)) {
-      validityState.error = 'Проль содержит недопустимые символы';
+      validityState.error = 'Пароль содержит недопустимые символы';
       return validityState;
     }
 

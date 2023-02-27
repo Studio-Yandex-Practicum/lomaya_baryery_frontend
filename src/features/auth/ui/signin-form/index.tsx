@@ -9,10 +9,10 @@ import { authModel } from 'features/auth';
 import styles from './styles.module.css';
 
 export function SignInForm() {
-  const { sendForm, setValue, clear } = authModel;
-  const values = useStore(authModel.$values);
-  const isLoading = useStore(authModel.$isLoading);
-  const error = useStore(authModel.$error);
+  const { sendForm, setValue, clear } = authModel.signin;
+  const values = useStore(authModel.signin.$values);
+  const isLoading = useStore(authModel.signin.$isLoading);
+  const error = useStore(authModel.signin.$error);
 
   const emailRef = useRef<HTMLInputElement>(null);
 
