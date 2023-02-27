@@ -4,7 +4,7 @@ import styles from './styles.module.css';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   value: string | number;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   extClassName?: string;
   error?: boolean;
   errorText?: string;

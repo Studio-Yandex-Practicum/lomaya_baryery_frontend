@@ -6,6 +6,7 @@ import { ChevronRightIcon, TIcons } from 'shared/ui-kit/icons';
 import * as Icons from 'shared/ui-kit/icons';
 import { useStore } from 'effector-react';
 import { shiftModel } from 'entities/shift';
+import { viewerModel } from 'entities/viewer';
 import styles from './styles.module.css';
 
 interface ISideBarAccordion {
@@ -123,6 +124,8 @@ export const SideBar = () => {
 
   const preparingShift = useStore(shiftModel.$preparingShift);
 
+  const viewer = useStore(viewerModel.$viewer);
+
   const shiftsList = useMemo(() => {
     const list: ISideBarAccordion['list'] = [
       { title: 'Все', to: '/shifts/all' },
@@ -170,6 +173,17 @@ export const SideBar = () => {
         ]}
         icon="FileCheckIcon"
       />
+      {viewer?.role === 'administrator' ? (
+        <SideBarAccordion
+          title="Администраторы"
+          expandOnMount={initRoute === 'admins'}
+          list={[
+            { title: 'Список', to: '/admins/members' },
+            { title: 'Приглашения', to: '/admins/invitations' },
+          ]}
+          icon="ShieldIcon"
+        />
+      ) : null}
     </ul>
   );
 };

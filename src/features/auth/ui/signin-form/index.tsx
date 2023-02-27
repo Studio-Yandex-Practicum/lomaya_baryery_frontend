@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
-import cn from 'classnames';
-import { Link } from 'react-router-dom';
-import { Form } from 'shared/ui-kit/auth-form';
+// import cn from 'classnames';
+// import { Link } from 'react-router-dom';
+import { Form } from 'shared/ui-kit/form';
 import { Input } from 'shared/ui-kit/input';
 import { AuthContainer } from 'shared/ui-kit/auth-container';
 import { useStore } from 'effector-react';
@@ -9,10 +9,10 @@ import { authModel } from 'features/auth';
 import styles from './styles.module.css';
 
 export function SignInForm() {
-  const { sendForm, setValue } = authModel;
-  const values = useStore(authModel.$values);
-  const isLoading = useStore(authModel.$isLoading);
-  const error = useStore(authModel.$error);
+  const { sendForm, setValue, clear } = authModel.signin;
+  const values = useStore(authModel.signin.$values);
+  const isLoading = useStore(authModel.signin.$isLoading);
+  const error = useStore(authModel.signin.$error);
 
   const emailRef = useRef<HTMLInputElement>(null);
 
@@ -20,7 +20,10 @@ export function SignInForm() {
     if (emailRef.current) {
       emailRef.current.focus();
     }
-  }, []);
+    return () => {
+      clear();
+    };
+  }, [clear]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -47,7 +50,7 @@ export function SignInForm() {
           value={values.email}
           type="email"
           autoComplete="off"
-          required
+          spellCheck={false}
         />
         <Input
           extClassName={styles.form__input}
@@ -58,11 +61,10 @@ export function SignInForm() {
           placeholder="Пароль"
           value={values.password}
           type="password"
-          minLength={1}
           autoComplete="off"
-          required
+          spellCheck={false}
         />
-        <Link
+        {/* <Link
           to="/pwd_forgot"
           className={cn(
             styles.form__element,
@@ -71,7 +73,7 @@ export function SignInForm() {
           )}
         >
           Не помню пароль
-        </Link>
+        </Link> */}
       </Form>
     </AuthContainer>
   );

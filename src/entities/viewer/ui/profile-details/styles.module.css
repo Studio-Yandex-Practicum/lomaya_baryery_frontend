@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+}
+
+.input {
+  margin-bottom: 20px;
+}
+
+.input:last-of-type {
+  margin-bottom: 0;
+}

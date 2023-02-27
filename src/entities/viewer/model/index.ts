@@ -1,10 +1,4 @@
-import {
-  createEffect,
-  createEvent,
-  createStore,
-  forward,
-  sample,
-} from 'effector';
+import { createEffect, createEvent, createStore, sample } from 'effector';
 import { api } from 'shared/api';
 
 type ViewerState = {
@@ -14,10 +8,11 @@ type ViewerState = {
   email: string;
   role: 'administrator' | 'psychologist';
   status: 'active';
-  last_login_at: Date;
+  last_login_at: string;
 } | null;
 
 export const clear = createEvent();
+export const logout = createEvent();
 
 export const verifyViewer = createEvent();
 
@@ -26,6 +21,11 @@ export const $viewer = createStore<ViewerState>(null);
 export const $isAuth = createStore(false);
 
 const getAppUserFx = createEffect(api.getAppUser);
+
+const logoutFx = createEffect(() => {
+  clear();
+  api.Config.clearToken();
+});
 
 export const $isVerifying = createStore(true).on(
   getAppUserFx.pending,
@@ -40,16 +40,21 @@ $viewer.on(getAppUserFx.doneData, (_, data) => data).reset(clear);
 
 $isAuth.on($viewer, (_, viewerState) => Boolean(viewerState));
 
-forward({
-  from: verifyViewer,
-  to: getAppUserFx,
+sample({
+  source: verifyViewer,
+  target: getAppUserFx,
 });
 
 sample({
   clock: $isAuth,
   source: $viewer,
-  filter(src, clk) {
-    return src === null && clk;
+  filter(viewer, isAuth) {
+    return viewer === null && isAuth;
   },
   target: getAppUserFx,
+});
+
+sample({
+  clock: logout,
+  target: logoutFx,
 });

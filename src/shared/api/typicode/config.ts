@@ -33,6 +33,10 @@ class ApiConfig implements IApiConfig {
   public setRefreshToken(tokenValue: string) {
     localStorage.setItem('refreshToken', tokenValue);
   }
+
+  public clearToken() {
+    localStorage.clear();
+  }
 }
 
 export default new ApiConfig();
