@@ -13,6 +13,8 @@ interface ValuesType {
   email: string;
 }
 
+const CLOSE_DELAY = 2000;
+
 export const clear = createEvent();
 export const setValue = createEvent<Partial<ValuesType>>();
 export const submit = createEvent();
@@ -50,7 +52,7 @@ export const $opened = createStore(false)
   .on(closePopup, () => false)
   .on(openPopup, () => true)
   .on($isSuccess, () => {
-    setTimeout(closePopup, 2000);
+    setTimeout(closePopup, CLOSE_DELAY);
   });
 
 sample({
