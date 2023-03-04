@@ -2,7 +2,7 @@ import ky, { HTTPError, Options } from 'ky';
 import config from './config';
 import ApiError from './exceptions';
 
-const fetcher = ky.create({ prefixUrl: 'https://lombaryery.tk' });
+const fetcher = ky.create({ prefixUrl: 'https://lombaryery.tk/api/' });
 
 const FETCH_ERROR = 'Failed to fetch';
 

@@ -10,8 +10,8 @@ env:
   REGISTRY: ghcr.io
   REP_OWNER: studio-yandex-practicum
   IMAGE_NAME: lomaya_baryery_frontend
-  DEPLOY_PATH: /lombarye/front
-  WORK_DIR: /LOMAYA_BARYERY_FRONTEND
+  DEPLOY_PATH: /lombarye/full
+  WORK_DIR: /LOMAYA_BARYERY_FULL
 
 defaults:
   run:
@@ -22,7 +22,7 @@ jobs:
     name: Push Docker image to GitHub Packages
     runs-on: ubuntu-latest
     environment:
-      name: Stage
+      name: stage_deploy
 
     steps:
       - name: Check out the repo
@@ -48,32 +48,12 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.REP_OWNER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
 
-  deploy:
-    name: Deploy
-    runs-on: ubuntu-latest
-    needs: build_and_push_docker_image
-    environment:
-      name: Stage
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v3
-
-      - name: Copy docker-compose and nginx files
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          source: "docker-compose.yaml"
-          target: ${{ env.DEPLOY_PATH }}
-
-
   start_application:
     name: Start application
     runs-on: ubuntu-latest
     environment:
-      name: Stage
-    needs: deploy
+      name: stage_deploy
+    needs: build_and_push_docker_image
     steps:
       - name: Start application
         uses: appleboy/ssh-action@master
