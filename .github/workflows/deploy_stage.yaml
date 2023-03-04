@@ -22,7 +22,7 @@ jobs:
     name: Push Docker image to GitHub Packages
     runs-on: ubuntu-latest
     environment:
-      name: Stage
+      name: stage_deploy
 
     steps:
       - name: Check out the repo
@@ -52,7 +52,7 @@ jobs:
     name: Start application
     runs-on: ubuntu-latest
     environment:
-      name: Stage
+      name: stage_deploy
     needs: build_and_push_docker_image
     steps:
       - name: Start application
