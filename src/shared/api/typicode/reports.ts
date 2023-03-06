@@ -9,7 +9,7 @@ export interface GetReportsParams {
 }
 
 export function getReports({ shiftId, status }: GetReportsParams) {
-  return makeRequest<Report[]>(ROUTE, {
+  return makeRequest<Report[]>(`${ROUTE}/`, {
     method: 'get',
     authorization: false,
     searchParams: status
