@@ -7,14 +7,14 @@ import { ContentHeading } from 'shared/ui-kit/content-heading';
 import { Table } from 'shared/ui-kit/table';
 import { Loader } from 'shared/ui-kit/loader';
 import { Alert } from 'shared/ui-kit/alert';
-import { ShiftDetailsTable, shiftModel } from 'entities/shift';
+import { ShiftDetailsTable } from 'entities/shift';
 import {
   ParticipantRowWithStat,
   participantsModel,
 } from 'entities/participant';
 import { findIndexById } from 'shared/lib/helpers';
 import styles from './styles.module.css';
-import { mount, unmount } from './model';
+import { $shiftsList, mount, unmount } from './model';
 
 function Participants() {
   const {
@@ -74,7 +74,7 @@ function Participants() {
 
 export function PageFinishedShift() {
   const { shiftId } = useParams();
-  const finishedShifts = useStore(shiftModel.$finishedShifts);
+  const finishedShifts = useStore($shiftsList);
 
   useEffect(() => {
     if (shiftId) {
