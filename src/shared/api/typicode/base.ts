@@ -1,8 +1,9 @@
 import ky, { HTTPError, Options } from 'ky';
+import { API_URL } from 'shared/config';
 import config from './config';
 import ApiError from './exceptions';
 
-const fetcher = ky.create({ prefixUrl: 'https://lombaryery.tk/api/' });
+const fetcher = ky.create({ prefixUrl: API_URL });
 
 const FETCH_ERROR = 'Failed to fetch';
 
