@@ -28,4 +28,5 @@
   margin-top: 20px;
   margin-bottom: 10px;
   height: calc((100vh - 358px));
+  min-height: 542px;
 }

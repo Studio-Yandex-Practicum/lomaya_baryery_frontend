@@ -46,7 +46,7 @@ export function ReportDetails({
         {feature}
       </div>
       <div className={styles.photoContainer}>
-        <img src={data.photo_url} alt="user task" />
+        <img className={styles.photo} src={data.photo_url} alt="user task" />
       </div>
     </section>
   );
