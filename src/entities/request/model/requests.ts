@@ -17,20 +17,12 @@ export const $requests = createStore<Request[]>([]);
 const fetchPendingRequestsFx = createEffect(api.getRequests);
 
 const fetchRealizedRequestsFx = createEffect(async (shiftId: string) => {
-  try {
-    const declined = api.getRequests({ shiftId, status: 'declined' });
-    const approved = api.getRequests({ shiftId, status: 'approved' });
+  const declined = api.getRequests({ shiftId, status: 'declined' });
+  const approved = api.getRequests({ shiftId, status: 'approved' });
 
-    const all = await Promise.all([declined, approved]);
+  const all = await Promise.all([declined, approved]);
 
-    return all.flat();
-  } catch (error) {
-    if (error instanceof Error) {
-      throw error;
-    } else {
-      throw api.ApiError.ServerError();
-    }
-  }
+  return all.flat();
 });
 
 const $recruitmentShiftId = combine(

@@ -1,4 +1,4 @@
-import { Config } from '.';
+import ApiConfig from './config';
 import { Invitation, User, UserToken } from '../model';
 import { makeRequest } from './base';
 
@@ -26,8 +26,8 @@ export async function signIn({ email, password }: SignInParams) {
     json: { email, password },
   });
 
-  Config.setAccessToken(token.access_token);
-  Config.setRefreshToken(token.refresh_token);
+  ApiConfig.setAccessToken(token.access_token);
+  ApiConfig.setRefreshToken(token.refresh_token);
 }
 
 export function getAdministratorsList() {

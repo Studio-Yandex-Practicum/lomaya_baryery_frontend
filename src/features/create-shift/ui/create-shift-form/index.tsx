@@ -2,7 +2,6 @@ import { useEvent, useStore } from 'effector-react';
 import { Dialog } from 'shared/ui-kit/dialog';
 import { MainPopup } from 'shared/ui-kit/main-popup';
 import { Button } from 'shared/ui-kit/button';
-import { PlusIcon } from 'shared/ui-kit/icons';
 import { ShiftSettingsForm } from 'entities/shift/ui/shft-settings-form';
 import { createShiftModel } from '../..';
 
@@ -79,7 +78,6 @@ export function CreateNewShift() {
   return (
     <>
       <Button htmlType="button" type="primary" onClick={handleOpenModal}>
-        <PlusIcon type="interface-white" />
         Создать смену
       </Button>
       {modal()}
