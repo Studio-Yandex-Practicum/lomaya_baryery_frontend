@@ -1,7 +1,6 @@
 import ky, { HTTPError, Options } from 'ky';
 import { API_URL } from 'shared/config';
-import config from './config';
-import ApiError from './exceptions';
+import ApiConfig from './config';
 
 const fetcher = ky.create({ prefixUrl: API_URL });
 
@@ -12,17 +11,15 @@ export async function makeRequest<Result>(
   options: Options & { authorization?: boolean; isRetry?: boolean }
 ) {
   if (options.authorization) {
-    try {
-      const { accessToken } = config;
+    const accessToken = ApiConfig.getAccessToken();
 
-      options.headers = {
-        authorization: `Bearer ${accessToken}`,
-      };
-    } catch (error) {
-      if (error instanceof Error) {
-        throw ApiError.Forbidden(error.message);
-      }
+    if (!accessToken) {
+      throw new Error('accessToken not exist');
     }
+
+    options.headers = {
+      authorization: `Bearer ${accessToken}`,
+    };
   }
 
   try {
@@ -30,13 +27,21 @@ export async function makeRequest<Result>(
     return resData;
   } catch (error) {
     if (error instanceof Error && error.message === FETCH_ERROR) {
-      throw ApiError.ServerError('Сервер не доступен');
+      throw new Error('Сервер не доступен');
     }
 
     if (error instanceof HTTPError) {
-      const errorBody = (await error.response.json()) as { detail?: string };
+      const errorBody = (await error.response.json()) as {
+        detail?: string | [{ msg: string }];
+      };
       if (errorBody.detail) {
-        throw new Error(errorBody.detail);
+        if (typeof errorBody.detail === 'string') {
+          throw new Error(errorBody.detail);
+        }
+
+        if (Array.isArray(errorBody.detail)) {
+          throw new Error(errorBody.detail[0].msg);
+        }
       }
     }
 

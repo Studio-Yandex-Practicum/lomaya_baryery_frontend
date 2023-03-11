@@ -1,29 +1,22 @@
 interface IApiConfig {
-  accessToken: string;
-  refreshToken: string;
+  getAccessToken: () => string | null;
+  getRefreshToken: () => string | null;
   setAccessToken: (tokenValue: string) => void;
   setRefreshToken: (tokenValue: string) => void;
+  clearToken: () => void;
 }
 
 class ApiConfig implements IApiConfig {
-  public get accessToken(): string {
-    const token = localStorage.getItem('accessToken');
+  public getAccessToken(): string | null {
+    const accessToken = localStorage.getItem('accessToken');
 
-    if (!token) {
-      throw new Error('accessToken not exist');
-    }
-
-    return token;
+    return accessToken;
   }
 
-  public get refreshToken(): string {
-    const token = localStorage.getItem('refreshToken');
+  public getRefreshToken(): string | null {
+    const refreshToken = localStorage.getItem('refreshToken');
 
-    if (!token) {
-      throw new Error('refreshToken not exist');
-    }
-
-    return token;
+    return refreshToken;
   }
 
   public setAccessToken(tokenValue: string) {

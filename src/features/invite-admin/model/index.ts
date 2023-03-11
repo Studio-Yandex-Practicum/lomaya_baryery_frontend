@@ -83,6 +83,11 @@ sample({
       return validityState;
     }
 
+    if (trimmedValues.some((value) => value.length < 2)) {
+      validityState.error = 'Имя или фамилия менее 2 символов';
+      return validityState;
+    }
+
     return validityState;
   },
   target: $validity,
