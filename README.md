@@ -1,3 +1,3 @@
-## Build project
+## BUILT WEB APP
 
-[open link](http://lombaryery.tk:8080)
+[Click and open](https://lombaryery.tk)

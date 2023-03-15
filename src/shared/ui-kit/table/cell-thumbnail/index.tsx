@@ -11,7 +11,7 @@ export function CellThumbnail({ img, routeTo }: CellThumbnailProps) {
   return (
     <Link to={routeTo} className={styles.container}>
       <img src={img} className={styles.thumbnail} alt="user task" />
-      <ZoomIcon type="interface-white" className={styles.cellPreview__icon} />
+      <ZoomIcon type="white" className={styles.cellPreview__icon} />
     </Link>
   );
 }

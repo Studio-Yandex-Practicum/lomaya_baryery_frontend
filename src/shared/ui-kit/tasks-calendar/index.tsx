@@ -19,11 +19,11 @@ const StatusCell: React.FC<StatusCellProps> = ({ status, ...props }) => {
   const renderIcon = useMemo(() => {
     switch (status) {
       case 'approved':
-        return <CircleCheckIcon type="success" />;
+        return <CircleCheckIcon type="green" />;
       case 'reviewing':
-        return <CircleWarningIcon type="pending" />;
+        return <CircleWarningIcon type="yellow" />;
       case 'declined':
-        return <CircleStopIcon type="error" />;
+        return <CircleStopIcon type="red" />;
       default:
         return '';
     }

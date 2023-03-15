@@ -39,7 +39,7 @@ export function Header() {
             styles.header__button
           )}
         >
-          <EnterIcon className={styles.header__linkIcon} type="link" />
+          <EnterIcon className={styles.header__linkIcon} type="gray-dark" />
           Выйти
         </button>
       </nav>

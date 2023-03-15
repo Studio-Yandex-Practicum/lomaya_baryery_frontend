@@ -49,7 +49,7 @@ export function ParticipantRowWithStat({
         <div className={styles.row__name}>
           <ChevronRightIcon
             onClick={() => setToggle((toggle) => !toggle)}
-            type="interface-primary"
+            type="gray-dark"
             className={cn(styles.row__nameIcon, {
               [styles.row__nameIcon_rotated]: toggle,
             })}

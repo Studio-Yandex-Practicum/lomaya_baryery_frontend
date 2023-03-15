@@ -36,7 +36,7 @@ export function SideControls({
         extClassName={styles.button}
         onClick={handleDecline}
       >
-        <CloseIcon className={styles.declineIcon} type="link-active" />
+        <CloseIcon className={styles.declineIcon} type="blue-dark" />
         Отклонить
       </Button>
       <Button
@@ -45,7 +45,7 @@ export function SideControls({
         extClassName={styles.button}
         onClick={handleApprove}
       >
-        <CheckIcon type="interface-white" /> Принять
+        <CheckIcon type="white" /> Принять
       </Button>
     </div>
   );

@@ -1,11 +1,12 @@
 :root {
   --colors-interface-white: #fff;
-  --colors-interface-black: #000;
+  --colors-interface-black: #212226;
   --colors-interface-gray-light: #f7f6f9;
   --colors-interface-gray: #929ead;
   --colors-interface-gray-dark: #606c78;
   --colors-interface-blue: #4154a4;
   --colors-interface-yellow: #fdbd02;
+  --colors-interface-orange: #eb8f2d;
   --colors-interface-red: #c53637;
   --colors-interface-green: #3ea745;
   --colors-interface-border: #e2e4e8;

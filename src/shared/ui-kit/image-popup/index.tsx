@@ -26,7 +26,7 @@ export function ImagePopup({ opened, onClose, imgSrc }: TImagePopupProps) {
         <div className={styles.heading}>
           <CloseIcon
             className={styles.heading__closeIcon}
-            type="interface-secondary"
+            type="gray"
             onClick={onClose}
           />
         </div>
