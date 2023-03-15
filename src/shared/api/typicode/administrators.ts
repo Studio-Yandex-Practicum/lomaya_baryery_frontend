@@ -33,14 +33,14 @@ export async function signIn({ email, password }: SignInParams) {
 export function getAdministratorsList() {
   return makeRequest<User[]>(`${ROUTE}/`, {
     method: 'get',
-    authorization: false,
+    authorization: true,
   });
 }
 
 export function getInvitationsList() {
   return makeRequest<Invitation[]>(`${ROUTE}/invitations`, {
     method: 'get',
-    authorization: false,
+    authorization: true,
   });
 }
 
@@ -53,7 +53,7 @@ interface SendInvitationParams {
 export function sendInvitation({ email, name, surname }: SendInvitationParams) {
   return makeRequest<unknown>(`${ROUTE}/invitations`, {
     method: 'post',
-    authorization: false,
+    authorization: true,
     json: { email, name, surname },
   });
 }

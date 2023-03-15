@@ -4,6 +4,7 @@ import { Participant, Shift } from '../model';
 export function getShifts() {
   return makeRequest<Shift[]>('shifts/', {
     method: 'get',
+    authorization: true,
   });
 }
 
@@ -25,7 +26,7 @@ export function createNewShift({
   };
 
   return makeRequest<Shift<'preparing'>>('shifts/', {
-    authorization: false,
+    authorization: true,
     method: 'post',
     json: reqBody,
   });
@@ -39,7 +40,7 @@ interface GetShiftParticipants {
 export function getShiftParticipants(shiftId: string) {
   return makeRequest<GetShiftParticipants>(`shifts/${shiftId}/users`, {
     method: 'get',
-    authorization: false,
+    authorization: true,
   });
 }
 
@@ -68,13 +69,13 @@ export function updateShiftSettings({
   return makeRequest<Shift<'started' | 'preparing'>>(`shifts/${shiftId}`, {
     method: 'patch',
     json: reqBody,
-    authorization: false,
+    authorization: true,
   });
 }
 
 export function finishShift(shiftId: string) {
   return makeRequest<Shift<'finished'>>(`shifts/${shiftId}/finish`, {
     method: 'patch',
-    authorization: false,
+    authorization: true,
   });
 }

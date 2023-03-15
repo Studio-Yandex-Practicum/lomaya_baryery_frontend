@@ -9,7 +9,7 @@ export interface GetRequestsParams {
 export function getRequests({ shiftId, status }: GetRequestsParams) {
   return makeRequest<Request[]>(`shifts/${shiftId}/requests`, {
     method: 'get',
-    authorization: false,
+    authorization: true,
     searchParams: status ? { status } : undefined,
   });
 }
@@ -17,7 +17,7 @@ export function getRequests({ shiftId, status }: GetRequestsParams) {
 export function approveRequest(requestId: string) {
   return makeRequest<Request<'approved'>>(`requests/${requestId}/approve`, {
     method: 'patch',
-    authorization: false,
+    authorization: true,
   });
 }
 
@@ -30,6 +30,6 @@ export function declineRequest({ requestId, message }: DeclineRequestParams) {
   return makeRequest<Request<'declined'>>(`requests/${requestId}/decline`, {
     method: 'patch',
     json: { message },
-    authorization: false,
+    authorization: true,
   });
 }
