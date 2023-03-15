@@ -39,6 +39,7 @@
   --common-border-style: solid;
   --common-element-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1),
     0 10px 20px -5px rgba(0, 0, 0, 0.4);
+  scrollbar-width: none;
 }
 
 .custom-scroll::-webkit-scrollbar {
