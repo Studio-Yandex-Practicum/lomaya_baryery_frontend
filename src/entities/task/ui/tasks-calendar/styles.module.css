@@ -1,0 +1,22 @@
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(32, 1fr);
+  grid-auto-rows: 30px;
+  column-gap: 1px;
+  row-gap: 1px;
+  border-top: 1px solid var(--colors-interface-border);
+  background-color: var(--background);
+}
+
+.cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 1px 0px 0px var(--colors-interface-border),
+    1px 0 0 0 var(--colors-interface-border);
+  background-color: var(--background);
+}
+
+.cell__type_empty {
+  background-color: var(--colors-interface-white);
+}
