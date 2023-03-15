@@ -11,7 +11,7 @@ interface BackwardLinkProps {
 export function BackwardLink({ to, extClassName }: BackwardLinkProps) {
   return (
     <Link to={to} className={cn(styles.link, 'link', extClassName)}>
-      <ChevronLeftIcon type="gray" />
+      <ChevronLeftIcon color="gray" />
       <p
         className={cn(
           styles.text,

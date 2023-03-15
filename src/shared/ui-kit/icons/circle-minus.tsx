@@ -1,11 +1,11 @@
 import { getColor, IIconProps } from './utils';
 
-export const CircleMinusIcon = ({ type, size, ...props }: IIconProps) => (
+export const CircleMinusIcon = ({ color, size, ...props }: IIconProps) => (
   <svg
     width={size || '24'}
     height={size || '24'}
     viewBox="0 0 24 24"
-    fill={getColor(type)}
+    fill={getColor(color)}
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >

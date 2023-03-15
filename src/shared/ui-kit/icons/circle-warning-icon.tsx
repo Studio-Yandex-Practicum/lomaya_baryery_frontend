@@ -1,11 +1,11 @@
 import { getColor, IIconProps } from './utils';
 
-export const CircleWarningIcon = ({ type, size, ...props }: IIconProps) => (
+export const CircleWarningIcon = ({ color, size, ...props }: IIconProps) => (
   <svg
     width={size || '24'}
     height={size || '24'}
     viewBox="0 0 24 24"
-    fill={getColor(type)}
+    fill={getColor(color)}
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >

@@ -10,8 +10,8 @@ type TIconColor =
   | 'orange'
   | 'red';
 
-export const getColor = (type: TIconColor) => {
-  switch (type) {
+export const getColor = (color: TIconColor) => {
+  switch (color) {
     case 'black':
       return '#212226';
     case 'white':
@@ -34,13 +34,13 @@ export const getColor = (type: TIconColor) => {
       return '#c53637';
     default:
       // eslint-disable-next-line no-case-declarations, @typescript-eslint/no-unused-vars
-      const exhaustiveCheck: never = type;
+      const exhaustiveCheck: never = color;
       return '#212226';
   }
 };
 
 export interface IIconProps {
-  type: TIconColor;
+  color: TIconColor;
   size?: '24' | '18';
   className?: string;
   onClick?:

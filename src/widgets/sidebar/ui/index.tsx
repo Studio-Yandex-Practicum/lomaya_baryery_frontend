@@ -46,7 +46,7 @@ const SideBarAccordion: React.FC<ISideBarAccordion> = ({
       <ul className={cn(styles.accordion, 'list', 'p-0')}>
         <button onClick={handleToggle} className={styles.accordion__button}>
           <RenderIcon
-            type={isCurrentBranch ? 'blue-dark' : 'gray-dark'}
+            color={isCurrentBranch ? 'blue-dark' : 'gray-dark'}
             className={styles.accordion__buttonIcon}
           />
           <span
@@ -65,7 +65,7 @@ const SideBarAccordion: React.FC<ISideBarAccordion> = ({
             className={cn(styles.accoridon__buttonChevron, {
               [styles.accordion__buttonChevron_rotated]: disclosed,
             })}
-            type={isCurrentBranch ? 'blue-dark' : 'gray-dark'}
+            color={isCurrentBranch ? 'blue-dark' : 'gray-dark'}
           />
         </button>
         {disclosed
@@ -99,7 +99,7 @@ const SideBarAccordion: React.FC<ISideBarAccordion> = ({
     <li>
       <NavLink to={to as To} className={styles.accordion__button}>
         <RenderIcon
-          type={isCurrentBranch ? 'blue-dark' : 'gray-dark'}
+          color={isCurrentBranch ? 'blue-dark' : 'gray-dark'}
           className={styles.accordion__buttonIcon}
         />
         <span

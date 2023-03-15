@@ -48,7 +48,7 @@ export const StatusLabel = ({
 
     return (
       <span className={styles.status__icon}>
-        <Icon size="18" type={getIconType(type)} />
+        <Icon size="18" color={getIconType(type)} />
       </span>
     );
   }, [icon, type]);

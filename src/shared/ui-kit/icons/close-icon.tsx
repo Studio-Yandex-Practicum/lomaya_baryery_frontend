@@ -1,11 +1,11 @@
 import { getColor, IIconProps } from './utils';
 
-export const CloseIcon = ({ type, onClick, ...props }: IIconProps) => (
+export const CloseIcon = ({ color, onClick, ...props }: IIconProps) => (
   <svg
     width="24"
     height="24"
     viewBox="0 0 24 24"
-    fill={getColor(type)}
+    fill={getColor(color)}
     onClick={onClick}
     xmlns="http://www.w3.org/2000/svg"
     {...props}

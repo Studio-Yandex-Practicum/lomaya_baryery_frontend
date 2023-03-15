@@ -27,7 +27,7 @@ export function RefetchRequests({
       extClassName={extClassName}
       onClick={handleGetRequests}
     >
-      <RefreshIcon type="blue-dark" />
+      <RefreshIcon color="blue-dark" />
     </ButtonWithTooltip>
   );
 }

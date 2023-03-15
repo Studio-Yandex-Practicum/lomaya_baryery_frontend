@@ -2,12 +2,25 @@ import React, { useMemo } from 'react';
 import cn from 'classnames';
 import { nanoid } from 'nanoid';
 import { withTooltip } from '../tooltip';
-import { CircleCheckIcon, CircleStopIcon, CircleWarningIcon } from '../icons';
+import {
+  CircleCancelIcon,
+  CircleCheckIcon,
+  CircleForwardIcon,
+  CircleMinusIcon,
+  CircleWaitingIcon,
+  CircleWarningIcon,
+} from '../icons';
 import styles from './styles.module.css';
 
 interface IUserTask {
   task_id: string;
-  status: 'reviewing' | 'approved' | 'declined';
+  status:
+    | 'not_participate'
+    | 'waiting'
+    | 'skipped'
+    | 'reviewing'
+    | 'approved'
+    | 'declined';
   task_date: string;
 }
 
@@ -19,13 +32,21 @@ const StatusCell: React.FC<StatusCellProps> = ({ status, ...props }) => {
   const renderIcon = useMemo(() => {
     switch (status) {
       case 'approved':
-        return <CircleCheckIcon type="green" />;
+        return <CircleCheckIcon color="green" />;
       case 'reviewing':
-        return <CircleWarningIcon type="yellow" />;
+        return <CircleWarningIcon color="yellow" />;
       case 'declined':
-        return <CircleStopIcon type="red" />;
+        return <CircleCancelIcon color="red" />;
+      case 'not_participate':
+        return <CircleMinusIcon color="gray" />;
+      case 'skipped':
+        return <CircleForwardIcon color="orange" />;
+      case 'waiting':
+        return <CircleWaitingIcon color="blue-dark" />;
       default:
-        return '';
+        // eslint-disable-next-line no-case-declarations, @typescript-eslint/no-unused-vars
+        const exhaustiveCheck: never = status;
+        return null;
     }
   }, [status]);
 

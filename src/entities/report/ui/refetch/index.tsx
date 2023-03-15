@@ -27,7 +27,7 @@ export function RefetchReports({
       extClassName={extClassName}
       onClick={handleGetReports}
     >
-      <RefreshIcon type="blue-dark" />
+      <RefreshIcon color="blue-dark" />
     </ButtonWithTooltip>
   );
 }

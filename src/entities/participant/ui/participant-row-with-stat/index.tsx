@@ -17,7 +17,13 @@ interface IParticipantRowWithStatProps {
   };
   tasksData: Array<{
     task_id: string;
-    status: 'reviewing' | 'approved' | 'declined';
+    status:
+      | 'not_participate'
+      | 'waiting'
+      | 'skipped'
+      | 'reviewing'
+      | 'approved'
+      | 'declined';
     task_date: string;
   }>;
 }
@@ -38,7 +44,14 @@ export function ParticipantRowWithStat({
           acc[curr.status] += 1;
           return acc;
         },
-        { reviewing: 0, approved: 0, declined: 0 }
+        {
+          reviewing: 0,
+          approved: 0,
+          declined: 0,
+          waiting: 0,
+          skipped: 0,
+          not_participate: 0,
+        }
       ),
     [tasksData]
   );
@@ -49,7 +62,7 @@ export function ParticipantRowWithStat({
         <div className={styles.row__name}>
           <ChevronRightIcon
             onClick={() => setToggle((toggle) => !toggle)}
-            type="gray-dark"
+            color="gray-dark"
             className={cn(styles.row__nameIcon, {
               [styles.row__nameIcon_rotated]: toggle,
             })}

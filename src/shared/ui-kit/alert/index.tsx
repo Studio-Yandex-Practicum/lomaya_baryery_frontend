@@ -15,7 +15,7 @@ export function Alert({ icon = 'AlertIcon', title, extClassName }: AlertProps) {
   return (
     <div className={cn(extClassName, styles.alert)}>
       <div className={styles.alert__icon}>
-        <Icon type="blue-dark" />
+        <Icon color="blue-dark" />
       </div>
       <p
         className={cn(

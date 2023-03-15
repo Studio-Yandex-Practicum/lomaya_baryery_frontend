@@ -1,12 +1,12 @@
 import React from 'react';
 import { getColor, IIconProps } from './utils';
 
-export const ZoomIcon = ({ type, ...props }: IIconProps) => (
+export const ZoomIcon = ({ color, ...props }: IIconProps) => (
   <svg
     width="24"
     height="24"
     viewBox="0 0 24 24"
-    fill={getColor(type)}
+    fill={getColor(color)}
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >

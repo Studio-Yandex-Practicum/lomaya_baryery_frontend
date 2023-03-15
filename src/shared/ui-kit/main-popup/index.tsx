@@ -38,7 +38,7 @@ export function MainPopup({
           </p>
           <CloseIcon
             className={styles.heading__closeIcon}
-            type="gray"
+            color="gray"
             onClick={onClose}
           />
         </div>
