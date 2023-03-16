@@ -39,6 +39,7 @@ export function withTooltip<WP>(
     const [posY, setPosY] = useState(0);
 
     const [renderX, setRenderX] = useState(0);
+    const [renderY, setRenderY] = useState(0);
 
     const tooltipRef = useRef<HTMLParagraphElement>(null);
 
@@ -55,16 +56,25 @@ export function withTooltip<WP>(
     useEffect(() => {
       if (tooltipRef.current) {
         const tooltipWidth = tooltipRef.current.offsetWidth;
+        const tooltipHeight = tooltipRef.current.offsetHeight;
         const renderWidthX = window.innerWidth - tooltipWidth;
+        const renderHeightY = window.innerHeight - tooltipHeight;
         const offScreenWidthX = posX + tooltipWidth - window.innerWidth;
+        const offScreenHeightY = posY + tooltipHeight - window.innerHeight;
 
         if (posX > renderWidthX) {
           setRenderX(posX - offScreenWidthX);
+          setRenderY(posY);
+        }
+        if (posY > renderHeightY) {
+          setRenderY(posY - offScreenHeightY);
+          setRenderX(posX);
         } else {
           setRenderX(posX);
+          setRenderY(posY);
         }
       }
-    }, [posX]);
+    }, [posX, posY]);
 
     return (
       <>
@@ -78,7 +88,7 @@ export function withTooltip<WP>(
             ref={tooltipRef}
             text={tooltipText}
             posX={renderX}
-            posY={posY}
+            posY={renderY}
           />
         ) : null}
       </>
