@@ -6,7 +6,7 @@ import { updatePreparingShiftModel } from '../..';
 import styles from './styles.module.css';
 
 export function UpdatePreparingShift() {
-  const { isLoading } = useStore(
+  const { isLoading, error } = useStore(
     updatePreparingShiftModel.store.$updatePreparingShiftState
   );
 
@@ -73,6 +73,7 @@ export function UpdatePreparingShift() {
           filterStart={filterStart}
           disabled={isLoading}
           loading={isLoading}
+          submitError={error}
           onSubmit={handleUpdateShift}
         />
       </MainPopup>

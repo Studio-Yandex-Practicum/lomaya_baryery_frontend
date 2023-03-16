@@ -29,26 +29,26 @@ export const StatusLabel = ({
     const getIconType = (type: IStatusLabelProps['type']) => {
       switch (type) {
         case 'approved' || 'current': {
-          return 'success';
+          return 'green';
         }
         case 'review': {
-          return 'pending';
+          return 'yellow';
         }
         case 'rejected': {
-          return 'error';
+          return 'red';
         }
         case 'new': {
-          return 'interface-black';
+          return 'black';
         }
         default: {
-          return 'interface-secondary';
+          return 'black';
         }
       }
     };
 
     return (
       <span className={styles.status__icon}>
-        <Icon size="18" type={getIconType(type)} />
+        <Icon size="18" color={getIconType(type)} />
       </span>
     );
   }, [icon, type]);

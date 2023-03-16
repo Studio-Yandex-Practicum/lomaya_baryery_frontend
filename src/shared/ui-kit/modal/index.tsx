@@ -62,7 +62,7 @@ export const Modal: React.FC<IModalProps> = ({ title, children, close }) => {
           </p>
           <CloseIcon
             className={styles.modal__closeIcon}
-            type="interface-secondary"
+            color="gray"
             onClick={handleCloseModal}
           />
         </div>

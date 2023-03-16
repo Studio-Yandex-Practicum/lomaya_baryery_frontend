@@ -3,7 +3,13 @@ export interface Participant {
   status: string;
   reports: Array<{
     task_id: string;
-    status: 'reviewing' | 'approved' | 'declined';
+    status:
+      | 'not_participate'
+      | 'waiting'
+      | 'skipped'
+      | 'reviewing'
+      | 'approved'
+      | 'declined';
     task_date: string;
   }>;
   user: {

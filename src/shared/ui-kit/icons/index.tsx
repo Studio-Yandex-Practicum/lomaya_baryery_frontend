@@ -1,28 +1,32 @@
 import type { IIconProps } from './utils';
 
-export { AlertIcon } from './alert-icon';
-export { ArrowLeftIcon } from './arrow-left-icon';
-export { ArrowRightIcon } from './arrow-right-icon';
-export { AwardIcon } from './award-icon';
-export { CalendarIcon } from './calendar-icon';
-export { CheckIcon } from './check-icon';
-export { ChevronDownIcon } from './chevron-down-icon';
-export { ChevronLeftIcon } from './chevron-left-icon';
-export { ChevronRightIcon } from './chevron-right-icon';
-export { CircleCheckIcon } from './circle-check-icon';
-export { CircleStopIcon } from './circle-stop-icon';
-export { CircleWarningIcon } from './circle-warning-icon';
-export { CloseIcon } from './close-icon';
-export { EnterIcon } from './enter-icon';
-export { FileCheckIcon } from './file-check-icon';
-export { NoteEditIcon } from './note-edit-icon';
-export { PlusIcon } from './plus-icon';
-export { RefreshIcon } from './refresh-icon';
-export { SearchIcon } from './search-icon';
-export { ShieldIcon } from './shield-icon';
-export { UserIcon } from './user-icon';
-export { UsersIcon } from './users-icon';
-export { ZoomIcon } from './zoom-icon';
+export * from './alert-icon';
+export * from './arrow-left-icon';
+export * from './arrow-right-icon';
+export * from './award-icon';
+export * from './calendar-icon';
+export * from './check-icon';
+export * from './chevron-down-icon';
+export * from './chevron-left-icon';
+export * from './chevron-right-icon';
+export * from './circle-check-icon';
+export * from './circle-stop-icon'; // delete after refactor
+export * from './circle-warning-icon';
+export * from './circle-cancel';
+export * from './circle-forward';
+export * from './circle-minus';
+export * from './circle-waiting';
+export * from './close-icon';
+export * from './enter-icon';
+export * from './file-check-icon';
+export * from './note-edit-icon';
+export * from './plus-icon';
+export * from './refresh-icon';
+export * from './search-icon';
+export * from './shield-icon';
+export * from './user-icon';
+export * from './users-icon';
+export * from './zoom-icon';
 
 export type TIcons = {
   AlertIcon: React.FC<IIconProps>;
@@ -49,6 +53,10 @@ export type TIcons = {
 
 export type TStatusIcons = {
   CircleCheckIcon: React.FC<IIconProps>;
-  CircleStopIcon: React.FC<IIconProps>;
+  CircleStopIcon: React.FC<IIconProps>; // delete after refactor
   CircleWarningIcon: React.FC<IIconProps>;
+  CircleCancelIcon: React.FC<IIconProps>;
+  CircleForwardIcon: React.FC<IIconProps>;
+  CircleMinusIcon: React.FC<IIconProps>;
+  CircleWaitingIcon: React.FC<IIconProps>;
 };

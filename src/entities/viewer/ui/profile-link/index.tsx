@@ -8,7 +8,7 @@ interface ProfileLinkProps {
 export function ProfileLink({ viewerName = 'Аккаунт' }: ProfileLinkProps) {
   return (
     <>
-      <UserIcon className={styles.icon} type="link" />
+      <UserIcon className={styles.icon} color="gray-dark" />
       {viewerName}
     </>
   );

@@ -1,44 +1,46 @@
-type IconType =
-  | 'link'
-  | 'link-active'
-  | 'interface-primary'
-  | 'interface-secondary'
-  | 'interface-black'
-  | 'interface-white'
-  | 'success'
-  | 'pending'
-  | 'error'
-  | 'interface-grey';
+type TIconColor =
+  | 'black'
+  | 'white'
+  | 'gray-light'
+  | 'gray'
+  | 'gray-dark'
+  | 'blue-dark'
+  | 'green'
+  | 'yellow'
+  | 'orange'
+  | 'red';
 
-export const getColor = (type: IconType) => {
-  switch (type) {
-    case 'link':
-      return '#606C78';
-    case 'link-active':
-      return '#4154A4';
-    case 'interface-primary':
-      return '#606C78';
-    case 'interface-secondary':
-      return '#929EAD';
-    case 'interface-black':
-      return '#000000';
-    case 'interface-white':
-      return '#FFFFFF';
-    case 'success':
-      return '#3EA745';
-    case 'pending':
-      return '#FDBD02';
-    case 'error':
-      return '#C53637';
-    case 'interface-grey':
+export const getColor = (color: TIconColor) => {
+  switch (color) {
+    case 'black':
+      return '#212226';
+    case 'white':
+      return '#ffffff';
+    case 'gray-light':
       return '#c8ced6';
+    case 'gray':
+      return '#929ead';
+    case 'gray-dark':
+      return '#606c78';
+    case 'blue-dark':
+      return '#4154a4';
+    case 'green':
+      return '#3ea745';
+    case 'yellow':
+      return '#fdbd02';
+    case 'orange':
+      return '#eb8f2d';
+    case 'red':
+      return '#c53637';
     default:
-      return undefined;
+      // eslint-disable-next-line no-case-declarations, @typescript-eslint/no-unused-vars
+      const exhaustiveCheck: never = color;
+      return '#212226';
   }
 };
 
 export interface IIconProps {
-  type: IconType;
+  color: TIconColor;
   size?: '24' | '18';
   className?: string;
   onClick?:

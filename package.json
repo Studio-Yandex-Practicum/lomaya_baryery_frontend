@@ -15,7 +15,7 @@
     "classnames": "^2.3.2",
     "compose-function": "^3.0.3",
     "date-fns": "^2.29.3",
-    "effector": "^22.5.0",
+    "effector": "^22.7.0",
     "effector-react": "^22.5.0",
     "ky": "^0.33.2",
     "nanoid": "^4.0.1",

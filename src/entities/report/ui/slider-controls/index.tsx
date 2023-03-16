@@ -31,7 +31,7 @@ export function SliderControls({
         onClick={onPrev}
         disabled={disablePrev}
       >
-        <ArrowLeftIcon type="link-active" />
+        <ArrowLeftIcon color="blue-dark" />
         Предыдущий отчёт
       </Button>
       <p className="text text_type_main-default text_color_secondary m-0">{`${currentSlide} из ${totalSlides}`}</p>
@@ -43,7 +43,7 @@ export function SliderControls({
         disabled={disableNext}
       >
         Следующий отчёт
-        <ArrowRightIcon type="link-active" />
+        <ArrowRightIcon color="blue-dark" />
       </Button>
     </nav>
   );

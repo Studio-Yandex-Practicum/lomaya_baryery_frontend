@@ -11,7 +11,7 @@ export interface GetReportsParams {
 export function getReports({ shiftId, status }: GetReportsParams) {
   return makeRequest<Report[]>(`${ROUTE}/`, {
     method: 'get',
-    authorization: false,
+    authorization: true,
     searchParams: status
       ? { shift_id: shiftId, status }
       : { shift_id: shiftId },
@@ -21,13 +21,13 @@ export function getReports({ shiftId, status }: GetReportsParams) {
 export function approveReport(reportId: string) {
   return makeRequest<Report<'approved'>>(`${ROUTE}/${reportId}/approve`, {
     method: 'patch',
-    authorization: false,
+    authorization: true,
   });
 }
 
 export function declineReport(reportId: string) {
   return makeRequest<Report<'declined'>>(`${ROUTE}/${reportId}/decline`, {
     method: 'patch',
-    authorization: false,
+    authorization: true,
   });
 }

@@ -4,30 +4,33 @@ import { useStore } from 'effector-react';
 import { Navigate } from 'react-router-dom';
 import { ContentContainer } from 'shared/ui-kit/content-container';
 import { ContentHeading } from 'shared/ui-kit/content-heading';
-import { Table } from 'shared/ui-kit/table';
 import { Loader } from 'shared/ui-kit/loader';
 import { Alert } from 'shared/ui-kit/alert';
 import { ShiftDetailsTable, shiftModel } from 'entities/shift';
-import {
-  ParticipantRowWithStat,
-  participantsModel,
-} from 'entities/participant';
+import { participantsModel } from 'entities/participant';
+import { tasksModel } from 'entities/task';
 import { FinalMessageForm } from 'features/change-final-message';
 import { UpdateStartedShift } from 'features/update-started-shift';
 import { FinishShiftDialog } from 'features/finish-shift';
+import { ParticipantsTableWithCalendar } from 'widgets/participants-table-with-calendar';
 import { mount, unmount } from './model';
 import styles from './styles.module.css';
 
-function Participants() {
+interface ParticipantsProps {
+  shift: {
+    started_at: string;
+    finished_at: string;
+  };
+}
+
+function Participants({ shift }: ParticipantsProps) {
   const {
-    data: { shift, members },
+    data: { members },
     isLoading,
     error,
   } = useStore(participantsModel.$participantsState);
 
-  if (!shift) {
-    return null;
-  }
+  const tasksDetailProvider = useStore(tasksModel.$tasks);
 
   if (isLoading) {
     return <Loader extClassName={styles.participants__notice} />;
@@ -54,21 +57,11 @@ function Participants() {
   return (
     <>
       <h2 className={cn(styles.title, 'text')}>Участники</h2>
-      <Table
+      <ParticipantsTableWithCalendar
         gridClassName={styles.participantsTable}
-        header={['Имя и фамилия', 'Город', 'Дата рождения', 'Статусы заданий']}
-        renderRows={(commonGridClassName) =>
-          members.map(({ id, reports, user }) => (
-            <ParticipantRowWithStat
-              gridClassName={commonGridClassName}
-              key={id}
-              tasksData={reports}
-              userData={user}
-              shiftStart={shift.started_at}
-              shiftFinish={shift.finished_at}
-            />
-          ))
-        }
+        participants={members}
+        shift={shift}
+        tasksDetailProvider={tasksDetailProvider}
       />
     </>
   );
@@ -79,6 +72,7 @@ export function PageStartedShift() {
 
   useEffect(() => {
     mount();
+    tasksModel.fetchTasks();
     return () => {
       unmount();
     };
@@ -105,7 +99,7 @@ export function PageStartedShift() {
         />
       </ContentContainer>
       <ContentContainer extClassName={styles.participantsContainer}>
-        <Participants />
+        <Participants shift={shiftData} />
       </ContentContainer>
     </>
   );
