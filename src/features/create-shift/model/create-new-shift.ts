@@ -69,7 +69,6 @@ $opened
 
 shiftModel.$preparingShift.on(postNewShiftFx.doneData, (_, data) => {
   data.total_users = 0;
-  data.sequence_number = 0;
   return data;
 });
 
