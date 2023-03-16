@@ -16,14 +16,10 @@ import { mount, unmount } from './model';
 
 function Participants() {
   const {
-    data: { shift, members },
+    data: { members },
     isLoading,
     error,
   } = useStore(participantsModel.$participantsState);
-
-  if (!shift) {
-    return null;
-  }
 
   if (isLoading) {
     return <Loader extClassName={styles.participants__notice} />;
