@@ -1,31 +1,31 @@
-.shiftForm {
+.form {
   padding-top: 30px;
   display: flex;
   flex-direction: column;
 }
 
-.shiftForm__field {
+.field {
   margin-bottom: 4px;
   display: flex;
   align-items: flex-start;
   height: 54px;
 }
 
-.shiftForm__field:last-child {
+.field:last-child {
   margin-bottom: 0;
 }
 
-.shiftForm__label {
+.label {
   align-self: center;
   flex-basis: 150px;
   height: 40px;
 }
 
-.shiftForm__inputText {
+.inputText {
   flex-grow: 1;
 }
 
-.shiftForm__counter {
+.counter {
   align-self: center;
   height: 40px;
   font-size: 16px;
@@ -33,6 +33,22 @@
   font-weight: 600;
 }
 
-.shiftForm__button {
-  margin-left: auto;
+.submitContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.button {
+  margin-left: 16px;
+  flex-basis: 120px;
+}
+
+.submitError {
+  flex-basis: 316px;
+  overflow: hidden;
+  text-align: center;
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 400;
+  color: var(--colors-interface-red);
 }

@@ -10,7 +10,7 @@ type TaskStoreType = null | {
 export const $tasks = createStore<TaskStoreType>(null);
 export const fetchTasks = createEvent();
 
-const getTasksEffect = createEffect(async () => {
+const getTasksFx = createEffect(async () => {
   const tasks = await api.getTasks();
 
   const normalizedTasks = tasks.reduce<Record<string, { description: string }>>(
@@ -23,7 +23,7 @@ const getTasksEffect = createEffect(async () => {
   return normalizedTasks;
 });
 
-$tasks.on(getTasksEffect.doneData, (_, tasks) => tasks);
+$tasks.on(getTasksFx.doneData, (_, tasks) => tasks);
 
 sample({
   clock: fetchTasks,
@@ -31,5 +31,5 @@ sample({
   filter(tasks) {
     return tasks === null;
   },
-  target: getTasksEffect,
+  target: getTasksFx,
 });

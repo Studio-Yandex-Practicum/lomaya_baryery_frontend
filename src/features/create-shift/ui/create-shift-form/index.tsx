@@ -6,7 +6,9 @@ import { ShiftSettingsForm } from 'entities/shift/ui/shft-settings-form';
 import { createShiftModel } from '../..';
 
 export function CreateNewShift() {
-  const { isLoading } = useStore(createShiftModel.store.$createShiftState);
+  const { isLoading, error } = useStore(
+    createShiftModel.store.$createShiftState
+  );
 
   const opened = useStore(createShiftModel.store.$opened);
 
@@ -68,6 +70,7 @@ export function CreateNewShift() {
           filterStart={filterStartDate}
           disabled={isLoading}
           loading={isLoading}
+          submitError={error}
           onSubmit={handleCreateShift}
           buttonContent="Создать"
         />

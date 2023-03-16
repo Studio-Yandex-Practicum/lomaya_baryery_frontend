@@ -6,7 +6,7 @@ import { updateStartedShiftModel } from '../..';
 import styles from './styles.module.css';
 
 export function UpdateStartedShift() {
-  const { isLoading } = useStore(
+  const { isLoading, error } = useStore(
     updateStartedShiftModel.store.$updateStartedShiftState
   );
 
@@ -71,6 +71,7 @@ export function UpdateStartedShift() {
           disabledStart
           disabled={isLoading}
           loading={isLoading}
+          submitError={error}
           onSubmit={handleUpdateShift}
         />
       </MainPopup>

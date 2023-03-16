@@ -6,7 +6,7 @@ import { Button } from 'shared/ui-kit/button';
 import { getApiDateFormat, getInterval } from './lib';
 import styles from './styles.module.css';
 
-export interface IShiftFormData {
+interface IShiftFormData {
   title: string;
   start: string;
   finish: string;
@@ -22,6 +22,7 @@ export interface IShiftSettingsFormProps {
   disabledFinish?: boolean;
   disabled?: boolean;
   loading?: boolean;
+  submitError?: string | null;
   buttonContent?: React.ReactNode;
   onSubmit: (form: IShiftFormData) => void;
   extClassName?: string;
@@ -37,6 +38,7 @@ export function ShiftSettingsForm({
   disabledFinish,
   disabled,
   loading,
+  submitError = 'Нельзя установить дату начала/окончания смены сегодняшним или прошедшим числом',
   buttonContent = 'Сохранить',
   onSubmit,
   extClassName,
@@ -78,14 +80,14 @@ export function ShiftSettingsForm({
   return (
     <form
       noValidate
-      className={cn(styles.shiftForm, extClassName)}
+      className={cn(styles.form, extClassName)}
       onSubmit={handleSubmit}
     >
-      <div className={styles.shiftForm__field}>
+      <div className={styles.field}>
         <label
           htmlFor="title-id"
           className={cn(
-            styles.shiftForm__label,
+            styles.label,
             'text',
             'text_type_main-default',
             'text_color_secondary'
@@ -97,7 +99,7 @@ export function ShiftSettingsForm({
           onBlur={handleValidateTitle}
           id="title-id"
           name="title"
-          extClassName={styles.shiftForm__inputText}
+          extClassName={styles.inputText}
           value={titleValue}
           onChange={handleChangeTitle}
           error={Boolean(error)}
@@ -108,10 +110,10 @@ export function ShiftSettingsForm({
           spellCheck={false}
         />
       </div>
-      <div className={styles.shiftForm__field}>
+      <div className={styles.field}>
         <label
           className={cn(
-            styles.shiftForm__label,
+            styles.label,
             'text',
             'text_type_main-default',
             'text_color_secondary'
@@ -130,10 +132,10 @@ export function ShiftSettingsForm({
           disabledFinish={disabledFinish}
         />
       </div>
-      <div className={styles.shiftForm__field}>
+      <div className={styles.field}>
         <label
           className={cn(
-            styles.shiftForm__label,
+            styles.label,
             'text',
             'text_type_main-default',
             'text_color_secondary'
@@ -141,17 +143,22 @@ export function ShiftSettingsForm({
         >
           Выбрано дней
         </label>
-        <div className={cn(styles.shiftForm__counter, 'text')}>{dayCount}</div>
+        <div className={cn(styles.counter, 'text')}>{dayCount}</div>
       </div>
-      <Button
-        htmlType="submit"
-        size="small"
-        disabled={disabled}
-        loading={loading}
-        extClassName={styles.shiftForm__button}
-      >
-        {buttonContent}
-      </Button>
+      <div className={styles.submitContainer}>
+        {submitError ? (
+          <span className={cn(styles.submitError, 'text')}>{submitError}</span>
+        ) : null}
+        <Button
+          htmlType="submit"
+          size="small"
+          disabled={disabled}
+          loading={loading}
+          extClassName={styles.button}
+        >
+          {buttonContent}
+        </Button>
+      </div>
     </form>
   );
 }
