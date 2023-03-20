@@ -9,6 +9,7 @@ import { Loader } from 'shared/ui-kit/loader';
 import { Alert } from 'shared/ui-kit/alert';
 import { ShiftDetailsTable, shiftModel } from 'entities/shift';
 import { participantsModel } from 'entities/participant';
+import { FinalMessageForm } from 'features/change-final-message';
 import { ParticipantRow } from 'entities/participant/ui/participant-row';
 import { UpdatePreparingShift } from 'features/update-preparing-shift';
 import styles from './styles.module.css';
@@ -80,7 +81,9 @@ export function PagePreparingShift() {
   return (
     <>
       <ContentContainer extClassName={styles.headingContainer}>
-        <ContentHeading title="Новая" extClassName={styles.heading} />
+        <ContentHeading title="Новая" extClassName={styles.heading}>
+          <FinalMessageForm extClassName={styles.heading__msgButton} />
+        </ContentHeading>
         <ShiftDetailsTable
           title={shiftData.title}
           start={shiftData.started_at}
