@@ -32,8 +32,8 @@
 
 .picture {
   margin-bottom: 30px;
-  width: 122px;
-  height: 122px;
+  width: 200px;
+  height: 200px;
   object-fit: contain;
   border: var(--common-border-width) var(--common-border-style)
     var(--colors-interface-border);
