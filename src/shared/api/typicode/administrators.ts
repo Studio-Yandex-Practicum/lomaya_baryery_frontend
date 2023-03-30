@@ -5,7 +5,7 @@ import { makeRequest } from './base';
 const ROUTE = 'administrators';
 
 export function getAppUser() {
-  return makeRequest<User<'administrator' | 'psychologist', 'active'>>(
+  return makeRequest<User<'administrator' | 'expert', 'active'>>(
     `${ROUTE}/me`,
     {
       method: 'get',
@@ -73,8 +73,9 @@ interface SignUpParams {
 }
 
 export function signUp({ name, surname, password, token }: SignUpParams) {
-  return makeRequest<User<'psychologist', 'active'>>(
-    `${ROUTE}/register/${token}`,
-    { method: 'post', authorization: false, json: { name, surname, password } }
-  );
+  return makeRequest<User<'expert', 'active'>>(`${ROUTE}/register/${token}`, {
+    method: 'post',
+    authorization: false,
+    json: { name, surname, password },
+  });
 }
