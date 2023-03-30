@@ -9,7 +9,7 @@ interface AdminRowProps {
     name: string;
     surname: string;
     email: string;
-    role: 'administrator' | 'psychologist';
+    role: 'administrator' | 'expert';
     status: 'active' | 'blocked';
   };
   feature?: React.ReactNode;
@@ -26,7 +26,7 @@ export function AdminRow({
       <CellText type="accent" text={`${data.surname} ${data.name}`} />
       <CellText text={data.email} />
       <CellText
-        text={data.role === 'administrator' ? 'Администратор' : 'Педагог'}
+        text={data.role === 'administrator' ? 'Администратор' : 'Эксперт'}
       />
       <AdminLabel adminStatus={data.status} />
       {feature}
