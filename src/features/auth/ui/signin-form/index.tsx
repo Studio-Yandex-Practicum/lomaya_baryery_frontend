@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 // import { Link } from 'react-router-dom';
 import { Form } from 'shared/ui-kit/form';
 import { Input } from 'shared/ui-kit/input';
+import { InputPassword } from 'shared/ui-kit/input-password';
 import { AuthContainer } from 'shared/ui-kit/auth-container';
 import { useStore } from 'effector-react';
 import { authModel } from 'features/auth';
@@ -52,7 +53,7 @@ export function SignInForm() {
           autoComplete="off"
           spellCheck={false}
         />
-        <Input
+        <InputPassword
           extClassName={styles.form__input}
           onChange={(e) => {
             setValue({ password: e.target.value });

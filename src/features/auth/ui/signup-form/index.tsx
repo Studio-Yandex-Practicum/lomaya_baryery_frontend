@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { Form } from 'shared/ui-kit/form';
-import { Input } from 'shared/ui-kit/input';
+import { InputPassword } from 'shared/ui-kit/input-password';
 import { AuthContainer } from 'shared/ui-kit/auth-container';
 import { authModel } from 'features/auth';
 import { useStore } from 'effector-react';
@@ -36,7 +36,7 @@ export function SignUpForm() {
         buttonText="Сохранить"
         loading={isLoading}
       >
-        <Input
+        <InputPassword
           extClassName={styles.form__input}
           ref={createRef}
           onChange={(e) => {
@@ -48,7 +48,7 @@ export function SignUpForm() {
           type="password"
           autoComplete="off"
         />
-        <Input
+        <InputPassword
           extClassName={styles.form__input}
           onChange={(e) => {
             setValue({ repeatPwd: e.target.value });
