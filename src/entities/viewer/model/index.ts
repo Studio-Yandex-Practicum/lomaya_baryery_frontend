@@ -6,7 +6,7 @@ type ViewerState = {
   name: string;
   surname: string;
   email: string;
-  role: 'administrator' | 'psychologist';
+  role: 'administrator' | 'expert';
   status: 'active';
   last_login_at: string;
 } | null;

@@ -1,4 +1,4 @@
-export type UserRole = 'administrator' | 'psychologist';
+export type UserRole = 'administrator' | 'expert';
 export type UserStatus = 'active' | 'blocked';
 
 export interface User<
