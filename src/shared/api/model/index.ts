@@ -3,4 +3,4 @@ export * from './participants';
 export * from './request';
 export * from './report';
 export * from './administrators';
-export * from './tasks';
+export * from './members';

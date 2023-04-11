@@ -1,0 +1,22 @@
+.headingContainer {
+  margin-bottom: 10px;
+}
+
+.heading {
+  min-height: 58px;
+}
+
+.membersTable {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.title {
+  font-size: 24px;
+  line-height: 28px;
+  font-weight: 700;
+}
+
+.container {
+  height: calc(100vh - 140px);
+}

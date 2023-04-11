@@ -1,5 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import cn from 'classnames';
+import { EyeIcon } from '../icons/eye-icon';
 import styles from './styles.module.css';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -10,8 +11,10 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   errorText?: string;
 }
 
-export const Input = React.forwardRef<HTMLInputElement, InputProps>(
+export const InputPassword = React.forwardRef<HTMLInputElement, InputProps>(
   ({ value, onChange, extClassName, error, errorText, ...props }, ref) => {
+    const [inputType, setInputType] = useState(false);
+
     const errorToRender = useMemo(
       () =>
         error && errorText ? (
@@ -19,17 +22,23 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         ) : null,
       [error, errorText]
     );
-
     return (
       <div className={cn(styles.container, extClassName)}>
         <input
           ref={ref}
-          type="text"
+          type={inputType ? 'text' : 'password'}
           value={value}
           className={cn(styles.input, 'border', 'text')}
           onChange={onChange}
           {...props}
         />
+
+        <div
+          className={styles.absolute}
+          onClick={() => setInputType((prevState) => !prevState)}
+        >
+          <EyeIcon color="blue-dark" />
+        </div>
         {errorToRender}
       </div>
     );
