@@ -52,7 +52,7 @@ export function MemberRowWithStat({
         <CellTasksStat data={statistics} />
       </div>
       {toggle ? (
-        <h1>Календарь</h1>
+        <h1>Календарь!</h1>
       ) : // <TasksCalendar
       //   start={shiftStart}
       //   finish={shiftFinish}
