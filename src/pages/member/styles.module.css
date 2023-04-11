@@ -19,3 +19,13 @@
   font-size: 16px;
   line-height: 19px;
 }
+
+.shiftsContainer {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  min-height: calc(100vh - 382px);
+}
+
+.shiftsTable {
+  grid-template-columns: 1fr 0.8fr 0.8fr 0.8fr;
+}

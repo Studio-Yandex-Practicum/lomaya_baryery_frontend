@@ -5,52 +5,71 @@ import { Navigate, useParams } from 'react-router-dom';
 import { ContentContainer } from 'shared/ui-kit/content-container';
 import { ContentHeading } from 'shared/ui-kit/content-heading';
 import { CellDate, CellText } from 'shared/ui-kit/table';
+import { MemberRowWithStat } from 'entities/member';
+import { Table } from 'shared/ui-kit/table';
 import { Loader } from 'shared/ui-kit/loader';
 import { Alert } from 'shared/ui-kit/alert';
-import { MemberById } from 'shared/api';
+import { ShiftsByMember } from 'shared/api';
 import { memberModel } from 'entities/member';
 import { mount, unmount } from './model';
 import styles from './styles.module.css';
 
-interface MemberProps {
-  shifts: {
-    birth_date: string;
-    phone_number: string;
-    city: string;
-  };
+interface GuardProps {
+  shifts: ShiftsByMember[];
 }
 
-const Shifts = ({ shifts }: MemberProps) => {
+const Shifts = ({ shifts }: GuardProps) => {
+  if (shifts.length === 0) {
+    return (
+      <Alert
+        extClassName={styles.participants__notice}
+        title={'Пользователь не принял участие ни в одной смене'}
+      />
+    );
+  }
+  console.log(shifts);
+
   return (
     <>
       <h2 className={cn(styles.title, 'text')}>Смены</h2>
+      <Table
+        gridClassName={styles.shiftsTable}
+        header={[
+          'Название смены',
+          'Даты проведения',
+          'Кол-во ломбарьеров',
+          'Статусы заданий',
+        ]}
+        renderRows={(commonGridClassName) =>
+          shifts.map(
+            ({
+              id,
+              title,
+              numbers_lombaryers,
+              started_at,
+              finished_at,
+              total_approved,
+              total_declined,
+              total_skipped,
+            }) => (
+              <MemberRowWithStat
+                gridClassName={commonGridClassName}
+                key={id}
+                title={title}
+                numbersLombaryers={numbers_lombaryers}
+                shiftStart={started_at}
+                shiftFinish={finished_at}
+                totalApproved={total_approved}
+                totalDeclined={total_declined}
+                totalSkipped={total_skipped}
+              />
+            )
+          )
+        }
+      />
     </>
   );
 };
-
-interface GuardProps {
-  isLoading: boolean;
-  data: MemberById | null;
-  error: string | null;
-}
-
-function Guard({ data, isLoading, error }: GuardProps) {
-  if (isLoading && !data) {
-    return <Loader extClassName={styles.loader} />;
-  }
-
-  if (error) {
-    return <Alert extClassName={styles.alert} title={error} />;
-  }
-
-  if (data) {
-    return (
-      <Alert extClassName={styles.alert} title="Пока нет ни одного участника" />
-    );
-  }
-
-  return null;
-}
 
 export function PageMember() {
   const { memberId } = useParams();
@@ -65,10 +84,17 @@ export function PageMember() {
   }, [memberId]);
 
   const { data, isLoading, error } = useStore(memberModel.store.$memberState);
-  console.log(data);
 
-  if (!data) {
+  if (isLoading) {
+    return <Loader extClassName={styles.participants__notice} />;
+  }
+
+  if (data === null) {
     return <Navigate to="/members/all" replace />;
+  }
+
+  if (error) {
+    return <Alert extClassName={styles.alert} title={error} />;
   }
 
   return (
@@ -93,8 +119,7 @@ export function PageMember() {
           </div>
         </div>
       </ContentContainer>
-      <Guard data={data} error={error} isLoading={isLoading} />
-      <ContentContainer extClassName={styles.participantsContainer}>
+      <ContentContainer extClassName={styles.shiftsContainer}>
         <Shifts shifts={data.shifts} />
       </ContentContainer>
     </>

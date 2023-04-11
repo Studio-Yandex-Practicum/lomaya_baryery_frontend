@@ -15,7 +15,7 @@ const $error = createStore<string | null>(null)
   .reset([clear, getMemberByIdFx]);
 
 $member.on(getMemberByIdFx.doneData, (_, data) => data);
-$isLoadingSuccess.on(getMemberByIdFx.doneData, () => true);
+$isLoadingSuccess.on(getMemberByIdFx.doneData, () => false);
 
 const $memberState = combine({
   data: $member,

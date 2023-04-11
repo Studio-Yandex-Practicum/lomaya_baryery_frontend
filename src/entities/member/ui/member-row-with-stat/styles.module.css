@@ -1,0 +1,26 @@
+.row__data {
+  grid-template-rows: 80px;
+}
+
+.row__name {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  overflow: hidden;
+}
+
+.row__nameIcon {
+  margin-right: 12px;
+  padding: 8px;
+  cursor: pointer;
+  transition: var(--transition-common);
+  flex-shrink: 0;
+}
+
+.row__nameIcon:hover {
+  opacity: var(--hover-opacity);
+}
+
+.row__nameIcon_rotated {
+  transform: rotate(90deg);
+}
