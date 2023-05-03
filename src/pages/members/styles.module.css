@@ -1,0 +1,51 @@
+.headingContainer {
+  margin-bottom: 10px;
+}
+
+.heading {
+  min-height: 58px;
+}
+
+.membersTable {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.title {
+  font-size: 24px;
+  line-height: 28px;
+  font-weight: 700;
+}
+
+.container {
+  height: calc(100vh - 140px);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.search {
+  height: 40px;
+  width: 246px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #e2e4e8;
+  background-color: var(--colors-button-secondary-default);
+  border-radius: 10px;
+}
+
+.text {
+  border: none;
+  background-color: var(--colors-button-secondary-default);
+  font-size: 16px;
+  line-height: 19px;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.text:focus {
+  outline: none;
+}
