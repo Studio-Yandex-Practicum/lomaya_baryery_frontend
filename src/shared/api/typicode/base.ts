@@ -48,3 +48,47 @@ export async function makeRequest<Result>(
     throw error;
   }
 }
+
+export async function makeBlobRequest(
+  url: string,
+  options: Options & { authorization?: boolean; isRetry?: boolean }
+) {
+  if (options.authorization) {
+    const accessToken = ApiConfig.getAccessToken();
+
+    if (!accessToken) {
+      throw new Error('accessToken not exist');
+    }
+
+    options.headers = {
+      authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'text/plain',
+    };
+  }
+
+  try {
+    const resData = await fetcher(url, options).blob();
+    return resData;
+  } catch (error) {
+    if (error instanceof Error && error.message === FETCH_ERROR) {
+      throw new Error('Сервер не доступен');
+    }
+
+    if (error instanceof HTTPError) {
+      const errorBody = (await error.response.json()) as {
+        detail?: string | [{ msg: string }];
+      };
+      if (errorBody.detail) {
+        if (typeof errorBody.detail === 'string') {
+          throw new Error(errorBody.detail);
+        }
+
+        if (Array.isArray(errorBody.detail)) {
+          throw new Error(errorBody.detail[0].msg);
+        }
+      }
+    }
+
+    throw error;
+  }
+}

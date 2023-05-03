@@ -16,3 +16,7 @@
   margin-top: 20px;
   height: calc(100vh - 222px);
 }
+
+.downloadButton {
+  margin-right: 10px;
+}
