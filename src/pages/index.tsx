@@ -18,6 +18,7 @@ import { PageAdminList } from './admin-list';
 import { PageInvitationList } from './invitation-list';
 import { Registration } from './auth-registration';
 import { PageViewerProfile } from './viewer-profile';
+import { PageMembersAll } from './members';
 
 export function AppRoutes() {
   return (
@@ -62,7 +63,7 @@ export function AppRoutes() {
           path="shifts/finished/:shiftId"
           element={<PageFinishedShift />}
         />
-
+        <Route path="members/all/" element={<PageMembersAll />} />
         <Route path="requests/pending/*" element={<PageRequestsPending />} />
         <Route path="requests/realized" element={<PageRequestsRealized />} />
 

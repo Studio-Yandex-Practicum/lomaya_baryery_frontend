@@ -1,4 +1,4 @@
-import { makeRequest } from './base';
+import { makeRequest, makeBlobRequest } from './base';
 import { Participant, Shift } from '../model';
 
 export function getShifts() {
@@ -79,3 +79,26 @@ export function finishShift(shiftId: string) {
     authorization: true,
   });
 }
+
+function getFullReport() {
+  return makeBlobRequest(`analytics/total`, {
+    method: 'get',
+    authorization: true,
+  });
+}
+
+export const downloadFullReport = async (): Promise<void> => {
+  try {
+    const response: Blob = await getFullReport();
+    const date: Date = new Date();
+    const outputFilename = `Отчет от ${date.getDate()}_${date.getMonth()}_${date.getFullYear()}.xls`;
+    const url = URL.createObjectURL(new Blob([response]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', outputFilename);
+    document.body.appendChild(link);
+    link.click();
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
