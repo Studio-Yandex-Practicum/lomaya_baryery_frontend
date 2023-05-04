@@ -10,6 +10,7 @@ interface MemberRowProps {
     city: string;
     shifts_count: number;
     phone_number: string;
+    is_in_active_shift: boolean;
     status: string;
   } | null;
 }
@@ -22,7 +23,6 @@ export function MemberRow({
   if (memberParams === null || !memberParams) {
     return null;
   }
-
   return (
     <RowLow extClassName={styles.row} gridClassName={gridClassName}>
       <CellLink
@@ -31,7 +31,12 @@ export function MemberRow({
       />
       <CellText text={memberParams.city} />
       <CellText text={memberParams.phone_number} />
-      <CellText text={memberParams.shifts_count} />
+      <div className={styles.shiftsNumber}>
+        <CellText text={memberParams.shifts_count} />
+        {memberParams.is_in_active_shift && (
+          <p className={styles.shiftCurrent}>В текущей</p>
+        )}
+      </div>
     </RowLow>
   );
 }
