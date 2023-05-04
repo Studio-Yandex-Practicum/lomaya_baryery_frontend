@@ -8,6 +8,7 @@ export type Member<T extends MemberStatus = MemberStatus> = {
   city: string;
   phone_number: string;
   shifts_count: number;
+  is_in_active_shift: boolean;
   status: T;
 };
 
