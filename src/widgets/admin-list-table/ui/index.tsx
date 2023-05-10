@@ -27,6 +27,7 @@ export function AdminListTable({ extClassName }: AdminsTableProps) {
               gridClassName={gridClassName}
               extClassName={styles.row}
               data={member}
+              routePath={`/admins/members/${member.id}`}
             />
           ))}
           {isLoading && <Loader extClassName={styles.loader} />}
