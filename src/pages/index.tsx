@@ -15,6 +15,7 @@ import { RequireAuth, RequireUnauth } from '../features/auth';
 import { PageReportsRealized } from './reports-realized';
 import { PageReportsDeclined } from './reports-declined';
 import { PageAdminList } from './admin-list';
+import { PageAdminInfo } from './admin-info';
 import { PageInvitationList } from './invitation-list';
 import { Registration } from './auth-registration';
 import { PageViewerProfile } from './viewer-profile';
@@ -80,6 +81,14 @@ export function AppRoutes() {
           element={
             <RequireRole viewerRole="administrator">
               <PageAdminList />
+            </RequireRole>
+          }
+        />
+        <Route
+          path="admins/members/:adminId"
+          element={
+            <RequireRole viewerRole="administrator">
+              <PageAdminInfo />
             </RequireRole>
           }
         />

@@ -1,8 +1,9 @@
 import React from 'react';
-import { CellText, RowHigh } from 'shared/ui-kit/table';
+import { CellText, RowHigh, CellLink } from 'shared/ui-kit/table';
 import { AdminLabel } from '../label';
 
 interface AdminRowProps {
+  routePath: string;
   gridClassName: string;
   extClassName?: string;
   data: {
@@ -20,10 +21,11 @@ export function AdminRow({
   extClassName,
   data,
   feature,
+  routePath,
 }: AdminRowProps) {
   return (
     <RowHigh gridClassName={gridClassName} extClassName={extClassName}>
-      <CellText type="accent" text={`${data.surname} ${data.name}`} />
+      <CellLink routeTo={routePath} text={`${data.surname} ${data.name}`} />
       <CellText text={data.email} />
       <CellText
         text={data.role === 'administrator' ? 'Администратор' : 'Эксперт'}

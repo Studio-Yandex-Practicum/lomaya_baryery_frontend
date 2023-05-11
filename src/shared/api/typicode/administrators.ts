@@ -19,6 +19,12 @@ interface SignInParams {
   password: string;
 }
 
+interface EditParams {
+  adminId: string;
+  name: string;
+  surname: string;
+}
+
 export async function signIn({ email, password }: SignInParams) {
   const token = await makeRequest<UserToken>(`${ROUTE}/login`, {
     method: 'post',
@@ -34,6 +40,35 @@ export function getAdministratorsList() {
   return makeRequest<User[]>(`${ROUTE}/`, {
     method: 'get',
     authorization: true,
+  });
+}
+
+export function getAdministratorById(adminId: string) {
+  return makeRequest<User>(`${ROUTE}/${adminId}/`, {
+    method: 'get',
+    authorization: true,
+  });
+}
+
+export function changeRoleById(adminId: string) {
+  return makeRequest<User>(`${ROUTE}/${adminId}/change_role`, {
+    method: 'patch',
+    authorization: true,
+  });
+}
+
+export function blockAdminById(adminId: string) {
+  return makeRequest<User>(`${ROUTE}/${adminId}/block`, {
+    method: 'patch',
+    authorization: true,
+  });
+}
+
+export function editAdminDataById({ adminId, name, surname }: EditParams) {
+  return makeRequest<User>(`${ROUTE}/${adminId}/`, {
+    method: 'patch',
+    authorization: true,
+    json: { name, surname },
   });
 }
 

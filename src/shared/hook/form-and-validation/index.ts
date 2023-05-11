@@ -33,7 +33,6 @@ export function useFormAndValidation<T extends string>(
       default:
         break;
     }
-
     setValues({ ...values, [name]: value });
     setErrors({ ...errors, [name]: validationMessage });
 
