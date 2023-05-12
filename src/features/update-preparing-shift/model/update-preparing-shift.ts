@@ -66,6 +66,7 @@ shiftModel.$preparingShift.on(
         ...state,
         title: data.title,
         finished_at: data.finished_at,
+        started_at: data.started_at,
       };
     }
   }
