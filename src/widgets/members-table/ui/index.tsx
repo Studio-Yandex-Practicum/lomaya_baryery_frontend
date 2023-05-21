@@ -3,8 +3,6 @@ import { membersModel } from 'entities/members';
 import { MemberRow } from 'entities/members';
 import { Table } from 'shared/ui-kit/table';
 import styles from './styles.module.css';
-import { useEffect, useMemo } from 'react';
-
 interface MembersTableProps {
   extClassName?: string;
   counterMembers: number[];
