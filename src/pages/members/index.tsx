@@ -53,9 +53,8 @@ export function PageMembersAll() {
   const quantityPages = useMemo(() => {
     if (!filteredMembers) {
       return 1
-    } else {
-      return Math.ceil(filteredMembers.length / quantityRows)
     }
+    return Math.ceil(filteredMembers.length / quantityRows)
   }, [filteredMembers]);
   const [tableElements, setTableElements] = useState([0, quantityRows, 1]);
 
