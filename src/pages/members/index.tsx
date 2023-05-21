@@ -1,4 +1,4 @@
-import { useEffect, ChangeEvent } from 'react';
+import { useEffect, ChangeEvent, useState, useMemo } from 'react';
 import { Alert } from 'shared/ui-kit/alert';
 import { MembersTable } from 'widgets/members-table';
 import { membersModel, searchChanged } from 'entities/members';
@@ -9,6 +9,7 @@ import { ContentHeading } from 'shared/ui-kit/content-heading';
 import { ContentContainer } from 'shared/ui-kit/content-container';
 import { mount } from './model';
 import styles from './styles.module.css';
+import { Pagination } from 'shared/ui-kit/pagination';
 
 interface GuardProps {
   isLoading: boolean;
@@ -42,6 +43,21 @@ export function PageMembersAll() {
   const onSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     handleSearch(event.target.value);
   };
+  const filteredMembers = useStore(membersModel.store.$membersStore);
+  // quantityPages количество страниц зависят от высоты экрана
+  // quantityRows количество строк которые поместятся на экране
+  // tableElements[первый_элемент_тыблицы, последний_элемент_тыблицы, №_страницы]
+  const quantityRows = useMemo(() =>
+    Math.trunc((window.innerHeight - 175 - 100) / 60),
+    [window.innerHeight]);
+  const quantityPages = useMemo(() => {
+    if (!filteredMembers) {
+      return 1
+    } else {
+      return Math.ceil(filteredMembers.length / quantityRows)
+    }
+  }, [filteredMembers]);
+  const [tableElements, setTableElements] = useState([0, quantityRows, 1]);
 
   useEffect(() => {
     mount();
@@ -49,6 +65,15 @@ export function PageMembersAll() {
 
   return (
     <>
+      {filteredMembers && filteredMembers.length > 7 && <Pagination
+        extClassName={styles.pangination}
+        page={tableElements[2]} total={quantityPages}
+        next={function (): void {
+          setTableElements([tableElements[1], tableElements[1] + quantityRows, tableElements[2] + 1]);
+        }}
+        prev={function (): void {
+          setTableElements([tableElements[0] - quantityRows, tableElements[0], tableElements[2] - 1]);
+        }} />}
       <ContentContainer extClassName={styles.container}>
         <div className={styles.header}>
           <ContentHeading title="Участники проекта" />
@@ -64,7 +89,7 @@ export function PageMembersAll() {
           </div>
         </div>
         <Guard data={data} error={error} isLoading={isLoading} />
-        <MembersTable extClassName={styles.membersTable} />
+        <MembersTable extClassName={styles.membersTable} counterMembers={tableElements} />
       </ContentContainer>
     </>
   );

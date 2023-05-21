@@ -17,8 +17,12 @@
   font-weight: 700;
 }
 
+.pangination {
+  margin-bottom: 10px;
+}
+
 .container {
-  height: calc(100vh - 140px);
+  height: calc(100vh - 175px);
 }
 
 .header {
