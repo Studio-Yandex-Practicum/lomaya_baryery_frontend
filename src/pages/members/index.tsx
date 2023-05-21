@@ -7,9 +7,9 @@ import { Loader } from 'shared/ui-kit/loader';
 import { SearchIcon } from 'shared/ui-kit/icons';
 import { ContentHeading } from 'shared/ui-kit/content-heading';
 import { ContentContainer } from 'shared/ui-kit/content-container';
+import { Pagination } from 'shared/ui-kit/pagination';
 import { mount } from './model';
 import styles from './styles.module.css';
-import { Pagination } from 'shared/ui-kit/pagination';
 
 interface GuardProps {
   isLoading: boolean;
@@ -55,7 +55,7 @@ export function PageMembersAll() {
       return 1
     }
     return Math.ceil(filteredMembers.length / quantityRows)
-  }, [filteredMembers]);
+  }, [filteredMembers, quantityRows]);
   const [tableElements, setTableElements] = useState([0, quantityRows, 1]);
 
   useEffect(() => {
