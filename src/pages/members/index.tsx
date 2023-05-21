@@ -67,10 +67,10 @@ export function PageMembersAll() {
       {filteredMembers && filteredMembers.length > 7 && <Pagination
         extClassName={styles.pangination}
         page={tableElements[2]} total={quantityPages}
-        next={function (): void {
+        next={() => {
           setTableElements([tableElements[1], tableElements[1] + quantityRows, tableElements[2] + 1]);
         }}
-        prev={function (): void {
+        prev={() => {
           setTableElements([tableElements[0] - quantityRows, tableElements[0], tableElements[2] - 1]);
         }} />}
       <ContentContainer extClassName={styles.container}>
