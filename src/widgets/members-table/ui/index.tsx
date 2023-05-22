@@ -8,19 +8,28 @@ import styles from './styles.module.css';
 interface MembersTableProps {
   extClassName?: string;
   counterMembers: {
-    firstTableMember: number,
-    lastTableMember: number,
-    pageNumber: number
+    firstTableMember: number;
+    lastTableMember: number;
+    pageNumber: number;
   };
 }
 
-export function MembersTable({ extClassName, counterMembers }: MembersTableProps) {
+export function MembersTable({
+  extClassName,
+  counterMembers,
+}: MembersTableProps) {
   const members = useStore(membersModel.store.$members);
   const filteredMembers = useStore(membersModel.store.$membersStore);
   const header = ['Имя и Фамилия', 'Город', 'Телефон', 'Пройденных смен'];
-  const displayedMembers = useMemo(() => filteredMembers &&
-    filteredMembers.slice(counterMembers.firstTableMember, counterMembers.lastTableMember)
-    , [filteredMembers, counterMembers]);
+  const displayedMembers = useMemo(
+    () =>
+      filteredMembers &&
+      filteredMembers.slice(
+        counterMembers.firstTableMember,
+        counterMembers.lastTableMember
+      ),
+    [filteredMembers, counterMembers]
+  );
 
   return (
     <Table
@@ -29,7 +38,8 @@ export function MembersTable({ extClassName, counterMembers }: MembersTableProps
       gridClassName={styles.columnsTemplate}
       renderRows={(gridClassName) => (
         <div className={[styles.rows, 'custom-scroll'].join(' ')}>
-          {members.length > 0 && displayedMembers &&
+          {members.length > 0 &&
+            displayedMembers &&
             displayedMembers.map((member) => (
               <MemberRow
                 key={member.id}

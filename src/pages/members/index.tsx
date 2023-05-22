@@ -37,28 +37,36 @@ function Guard({ data, isLoading, error }: GuardProps) {
 
 export function PageMembersAll() {
   const quantityRows = useMemo(() => {
-    const containerHeight = (window.innerHeight - 175);
+    const containerHeight = window.innerHeight - 175;
     const containerHeaderHeight = 100;
     const rowHeight = 60;
-    return Math.trunc((containerHeight - containerHeaderHeight) / rowHeight)
+    return Math.trunc((containerHeight - containerHeaderHeight) / rowHeight);
   }, []);
 
-  const [tableElements, setTableElements] = useState({ firstTableMember: 0, lastTableMember: quantityRows, pageNumber: 1 });
+  const [tableElements, setTableElements] = useState({
+    firstTableMember: 0,
+    lastTableMember: quantityRows,
+    pageNumber: 1,
+  });
   const { data, isLoading, error, search } = useStore(
     membersModel.store.$membersState
   );
   const handleSearch = useEvent(searchChanged);
   const onSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     handleSearch(event.target.value);
-    setTableElements({ firstTableMember: 0, lastTableMember: quantityRows, pageNumber: 1 })
+    setTableElements({
+      firstTableMember: 0,
+      lastTableMember: quantityRows,
+      pageNumber: 1,
+    });
   };
   const filteredMembers = useStore(membersModel.store.$membersStore);
 
   const quantityPages = useMemo(() => {
     if (!filteredMembers || filteredMembers.length === 0) {
-      return 1
+      return 1;
     }
-    return Math.ceil(filteredMembers.length / quantityRows)
+    return Math.ceil(filteredMembers.length / quantityRows);
   }, [filteredMembers, quantityRows]);
 
   useEffect(() => {
@@ -69,21 +77,23 @@ export function PageMembersAll() {
     <>
       <Pagination
         extClassName={styles.pangination}
-        page={tableElements.pageNumber} total={quantityPages}
+        page={tableElements.pageNumber}
+        total={quantityPages}
         next={() => {
           setTableElements({
             firstTableMember: tableElements.lastTableMember,
             lastTableMember: tableElements.lastTableMember + quantityRows,
-            pageNumber: tableElements.pageNumber + 1
-          })
+            pageNumber: tableElements.pageNumber + 1,
+          });
         }}
         prev={() => {
           setTableElements({
             firstTableMember: tableElements.firstTableMember - quantityRows,
             lastTableMember: tableElements.firstTableMember,
-            pageNumber: tableElements.pageNumber - 1
-          })
-        }} />
+            pageNumber: tableElements.pageNumber - 1,
+          });
+        }}
+      />
       <ContentContainer extClassName={styles.container}>
         <div className={styles.header}>
           <ContentHeading title="Участники проекта" />
@@ -99,7 +109,10 @@ export function PageMembersAll() {
           </div>
         </div>
         <Guard data={data} error={error} isLoading={isLoading} />
-        <MembersTable extClassName={styles.membersTable} counterMembers={tableElements} />
+        <MembersTable
+          extClassName={styles.membersTable}
+          counterMembers={tableElements}
+        />
       </ContentContainer>
     </>
   );
