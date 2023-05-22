@@ -35,26 +35,27 @@ function Guard({ data, isLoading, error }: GuardProps) {
   return null;
 }
 
-// quantityPages количество страниц зависят от высоты экрана
-// quantityRows количество строк которые поместятся на экране
-// tableElements[первый_элемент_тыблицы, последний_элемент_тыблицы, №_страницы]
 export function PageMembersAll() {
-  const quantityRows = useMemo(() =>
-    Math.trunc((window.innerHeight - 175 - 100) / 60),
-    [window.innerHeight]);
-  const [tableElements, setTableElements] = useState([0, quantityRows, 1]);
+  const quantityRows = useMemo(() => {
+    const containerHeight = (window.innerHeight - 175);
+    const containerHeaderHeight = 100;
+    const rowHeight = 60;
+    return Math.trunc((containerHeight - containerHeaderHeight) / rowHeight)
+  }, []);
+
+  const [tableElements, setTableElements] = useState({ firstTableMember: 0, lastTableMember: quantityRows, pageNumber: 1 });
   const { data, isLoading, error, search } = useStore(
     membersModel.store.$membersState
   );
   const handleSearch = useEvent(searchChanged);
   const onSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     handleSearch(event.target.value);
-    setTableElements([0, quantityRows, 1])
+    setTableElements({ firstTableMember: 0, lastTableMember: quantityRows, pageNumber: 1 })
   };
   const filteredMembers = useStore(membersModel.store.$membersStore);
 
   const quantityPages = useMemo(() => {
-    if (!filteredMembers) {
+    if (!filteredMembers || filteredMembers.length === 0) {
       return 1
     }
     return Math.ceil(filteredMembers.length / quantityRows)
@@ -68,12 +69,20 @@ export function PageMembersAll() {
     <>
       <Pagination
         extClassName={styles.pangination}
-        page={tableElements[2]} total={quantityPages}
+        page={tableElements.pageNumber} total={quantityPages}
         next={() => {
-          setTableElements([tableElements[1], tableElements[1] + quantityRows, tableElements[2] + 1]);
+          setTableElements({
+            firstTableMember: tableElements.lastTableMember,
+            lastTableMember: tableElements.lastTableMember + quantityRows,
+            pageNumber: tableElements.pageNumber + 1
+          })
         }}
         prev={() => {
-          setTableElements([tableElements[0] - quantityRows, tableElements[0], tableElements[2] - 1]);
+          setTableElements({
+            firstTableMember: tableElements.firstTableMember - quantityRows,
+            lastTableMember: tableElements.firstTableMember,
+            pageNumber: tableElements.pageNumber - 1
+          })
         }} />
       <ContentContainer extClassName={styles.container}>
         <div className={styles.header}>

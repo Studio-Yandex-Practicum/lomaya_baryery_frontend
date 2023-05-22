@@ -3,16 +3,25 @@ import { membersModel } from 'entities/members';
 import { MemberRow } from 'entities/members';
 import { Table } from 'shared/ui-kit/table';
 import styles from './styles.module.css';
+import { useMemo } from 'react';
 
 interface MembersTableProps {
   extClassName?: string;
-  counterMembers: number[];
+  counterMembers: {
+    firstTableMember: number,
+    lastTableMember: number,
+    pageNumber: number
+  };
 }
 
 export function MembersTable({ extClassName, counterMembers }: MembersTableProps) {
   const members = useStore(membersModel.store.$members);
   const filteredMembers = useStore(membersModel.store.$membersStore);
   const header = ['Имя и Фамилия', 'Город', 'Телефон', 'Пройденных смен'];
+  const displayedMembers = useMemo(() => {
+    return filteredMembers &&
+      filteredMembers.slice(counterMembers.firstTableMember, counterMembers.lastTableMember)
+  }, [filteredMembers, counterMembers]);
 
   return (
     <Table
@@ -21,8 +30,8 @@ export function MembersTable({ extClassName, counterMembers }: MembersTableProps
       gridClassName={styles.columnsTemplate}
       renderRows={(gridClassName) => (
         <div className={[styles.rows, 'custom-scroll'].join(' ')}>
-          {members.length > 0 &&
-            filteredMembers?.slice(counterMembers[0], counterMembers[1]).map((member) => (
+          {members.length > 0 && displayedMembers &&
+            displayedMembers.map((member) => (
               <MemberRow
                 key={member.id}
                 gridClassName={gridClassName}
