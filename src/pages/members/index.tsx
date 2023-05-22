@@ -35,28 +35,30 @@ function Guard({ data, isLoading, error }: GuardProps) {
   return null;
 }
 
+// quantityPages количество страниц зависят от высоты экрана
+// quantityRows количество строк которые поместятся на экране
+// tableElements[первый_элемент_тыблицы, последний_элемент_тыблицы, №_страницы]
 export function PageMembersAll() {
+  const quantityRows = useMemo(() =>
+    Math.trunc((window.innerHeight - 175 - 100) / 60),
+    [window.innerHeight]);
+  const [tableElements, setTableElements] = useState([0, quantityRows, 1]);
   const { data, isLoading, error, search } = useStore(
     membersModel.store.$membersState
   );
   const handleSearch = useEvent(searchChanged);
   const onSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     handleSearch(event.target.value);
+    setTableElements([0, quantityRows, 1])
   };
   const filteredMembers = useStore(membersModel.store.$membersStore);
-  // quantityPages количество страниц зависят от высоты экрана
-  // quantityRows количество строк которые поместятся на экране
-  // tableElements[первый_элемент_тыблицы, последний_элемент_тыблицы, №_страницы]
-  const quantityRows = useMemo(() =>
-    Math.trunc((window.innerHeight - 175 - 100) / 60),
-    [window.innerHeight]);
+
   const quantityPages = useMemo(() => {
     if (!filteredMembers) {
       return 1
     }
     return Math.ceil(filteredMembers.length / quantityRows)
   }, [filteredMembers, quantityRows]);
-  const [tableElements, setTableElements] = useState([0, quantityRows, 1]);
 
   useEffect(() => {
     mount();
@@ -64,7 +66,7 @@ export function PageMembersAll() {
 
   return (
     <>
-      {filteredMembers && filteredMembers.length > 7 && <Pagination
+      <Pagination
         extClassName={styles.pangination}
         page={tableElements[2]} total={quantityPages}
         next={() => {
@@ -72,7 +74,7 @@ export function PageMembersAll() {
         }}
         prev={() => {
           setTableElements([tableElements[0] - quantityRows, tableElements[0], tableElements[2] - 1]);
-        }} />}
+        }} />
       <ContentContainer extClassName={styles.container}>
         <div className={styles.header}>
           <ContentHeading title="Участники проекта" />
