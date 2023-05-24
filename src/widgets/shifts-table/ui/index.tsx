@@ -22,7 +22,7 @@ export function ShiftsTable({ extClassName }: ShiftsTableProps) {
     'Дата окончания',
     'Кол-во участников',
     'Статус',
-    'Отчет'
+    'Отчет',
   ];
 
   return (

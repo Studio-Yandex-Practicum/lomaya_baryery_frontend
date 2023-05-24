@@ -27,7 +27,7 @@ const Shifts = ({ shifts }: GuardProps) => {
     return (
       <Alert
         extClassName={styles.participants__notice}
-        title='Пользователь не принял участие ни в одной смене'
+        title="Пользователь не принял участие ни в одной смене"
       />
     );
   }
@@ -101,7 +101,7 @@ export function PageMember() {
     return (
       <Alert
         extClassName={styles.participants__notice}
-        title='Информация по данному участнику недоступна!'
+        title="Информация по данному участнику недоступна!"
       />
     );
   }

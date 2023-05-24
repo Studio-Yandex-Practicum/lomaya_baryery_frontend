@@ -4,7 +4,7 @@
 }
 
 .columns {
-  grid-template-columns: 1.3fr 0.6fr 1fr 0.6fr 1.10fr;
+  grid-template-columns: 1.3fr 0.6fr 1fr 0.6fr 1.1fr;
 }
 
 .loader {
