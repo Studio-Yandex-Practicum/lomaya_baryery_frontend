@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  padding: 30px 0;
+}
+
+.items {
+  max-width: 250px;
+  width: 100%;
+}
+
+.text {
+  font-family: 'Lato';
+  padding-bottom: 10px;
+  margin: 0;
+  color: var(--colors-interface-gray);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.shiftsContainer {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  min-height: calc(100vh - 382px);
+}
+
+.shiftsTable {
+  grid-template-columns: 1fr 0.8fr 0.8fr 0.8fr;
+}

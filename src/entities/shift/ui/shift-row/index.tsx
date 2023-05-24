@@ -1,5 +1,7 @@
 import React from 'react';
 import { CellDate, CellLink, CellText, RowLow } from 'shared/ui-kit/table';
+import { Button } from 'shared/ui-kit/button';
+import { api } from 'shared/api';
 import styles from './styles.module.css';
 
 interface ShiftRowProps {
@@ -7,6 +9,7 @@ interface ShiftRowProps {
   label: React.ReactNode;
   gridClassName: string;
   shiftParams?: {
+    id: string;
     sequence_number: number;
     title: string;
     started_at: string;
@@ -25,6 +28,10 @@ export function ShiftRow({
     return null;
   }
 
+  const handleDownloadFile = () =>
+    // eslint-disable-next-line no-void
+    void api.downloadReportByShiftId(shiftParams.id, shiftParams.title);
+
   return (
     <RowLow extClassName={styles.row} gridClassName={gridClassName}>
       <CellText text={shiftParams.sequence_number} />
@@ -33,6 +40,15 @@ export function ShiftRow({
       <CellDate date={shiftParams.finished_at} />
       <CellText text={shiftParams.total_users} />
       {label}
+      <Button
+        extClassName={styles.report}
+        htmlType="button"
+        type="secondary"
+        size="small"
+        onClick={handleDownloadFile}
+      >
+        Отчет
+      </Button>
     </RowLow>
   );
 }
