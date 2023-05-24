@@ -1,3 +1,4 @@
+import { formElementForBlobFile } from 'shared/lib';
 import { makeRequest, makeBlobRequest } from './base';
 import { Participant, Shift } from '../model';
 
@@ -87,17 +88,37 @@ function getFullReport() {
   });
 }
 
+function getReportById(shiftId: string) {
+  return makeBlobRequest(`analytics/${shiftId}/shift_report`, {
+    method: 'get',
+    authorization: true,
+  });
+}
+
 export const downloadFullReport = async (): Promise<void> => {
+  const date: Date = new Date();
+  const outputFilename = `Отчет от ${date.getDate()}_${
+    date.getMonth() + 1
+  }_${date.getFullYear()}.xls`;
   try {
     const response: Blob = await getFullReport();
-    const date: Date = new Date();
-    const outputFilename = `Отчет от ${date.getDate()}_${date.getMonth()}_${date.getFullYear()}.xls`;
-    const url = URL.createObjectURL(new Blob([response]));
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', outputFilename);
-    document.body.appendChild(link);
-    link.click();
+    formElementForBlobFile(response, outputFilename);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+export const downloadReportByShiftId = async (
+  shiftId: string,
+  shiftName: string
+): Promise<void> => {
+  const date: Date = new Date();
+  const outputFilename = `${shiftName}_${date.getDate()}_${
+    date.getMonth() + 1
+  }_${date.getFullYear()}.xls`;
+  try {
+    const response: Blob = await getReportById(shiftId);
+    formElementForBlobFile(response, outputFilename);
   } catch (error) {
     return Promise.reject(error);
   }

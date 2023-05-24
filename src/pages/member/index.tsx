@@ -21,7 +21,7 @@ interface GuardProps {
 }
 
 const Shifts = ({ shifts }: GuardProps) => {
-  const tasksDetailProvider = useStore(tasksModel.$tasks);
+  // const tasksDetailProvider = useStore(tasksModel.$tasks);
 
   if (shifts.length === 0) {
     return (
@@ -65,7 +65,7 @@ const Shifts = ({ shifts }: GuardProps) => {
                 totalApproved={total_approved}
                 totalDeclined={total_declined}
                 totalSkipped={total_skipped}
-                tasksDetailProvider={tasksDetailProvider}
+                // tasksDetailProvider={tasksDetailProvider}
               />
             )
           )

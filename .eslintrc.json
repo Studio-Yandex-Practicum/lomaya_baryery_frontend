@@ -29,7 +29,8 @@
       "jsx": true
     },
     "ecmaVersion": "latest",
-    "sourceType": "module"
+    "sourceType": "module",
+    "parser": "@typescript-eslint/parser"
   },
   "plugins": ["react", "@typescript-eslint", "import", "react-hooks"],
   "rules": {
