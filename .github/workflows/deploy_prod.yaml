@@ -2,7 +2,7 @@ name: Prod frontend deploy
 
 on:
   workflow_run:
-    workflows: ["Prod frontend build and deploy"]
+    workflows: ["Stage frontend build and deploy"]
     types:
       - completed
 
