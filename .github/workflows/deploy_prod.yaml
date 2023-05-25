@@ -1,6 +1,6 @@
 name: Prod frontend deploy
 
-needs: Stage-frontend-build-and-deploy
+#needs: Stage-frontend-build-and-deploy
 #on:
 #  workflow_run:
 #    workflows: ["Stage-frontend-build-and-deploy"]
