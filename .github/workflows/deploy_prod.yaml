@@ -1,15 +1,15 @@
 name: Prod frontend deploy
 
-on:
-  workflow_run:
-    workflows: [Stage-frontend-build-and-deploy]
-    types:
-      - completed
-
 #on:
-#  pull_request:
-#    branches:
-#      - develop
+#  workflow_run:
+#    workflows: ["Stage-frontend-build-and-deploy"]
+#    types:
+#      - completed
+
+on:
+  pull_request:
+    branches:
+      - develop
 #    types: [ closed ]
 
 
@@ -26,8 +26,8 @@ defaults:
 
 jobs:
   deploy_and_start_application:
-    needs: Stage-frontend-build-and-deploy
     name: Deploy and start application on prod
+    needs: ["Stage-frontend-build-and-deploy"]
     runs-on: ubuntu-latest
     environment:
       name: prod_deploy
