@@ -1,16 +1,16 @@
 name: Prod frontend deploy
 
-#needs: Stage frontend build and deploy
-on:
-  workflow_run:
-    workflows: ["Stage-frontend-build-and-deploy"]
-    types:
-      - completed
-
+needs: Stage-frontend-build-and-deploy
 #on:
-#  pull_request:
-#    branches:
-#      - develop
+#  workflow_run:
+#    workflows: ["Stage-frontend-build-and-deploy"]
+#    types:
+#      - completed
+
+on:
+  pull_request:
+    branches:
+      - develop
 #    types: [ closed ]
 
 
