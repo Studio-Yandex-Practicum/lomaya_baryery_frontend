@@ -18,14 +18,13 @@ defaults:
     working-directory: .
 
 jobs:
-  
   deploy_and_start_application:
-    name: Deploy and start application
+    name: Deploy and start application on prod
     runs-on: ubuntu-latest
     environment:
       name: prod_deploy
     steps:
-      - name: Deploy and start application
+      - name: Deploy and start application on prod
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
