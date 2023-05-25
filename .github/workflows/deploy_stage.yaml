@@ -1,4 +1,4 @@
-name: Stage frontend build and deploy
+name: Stage-frontend-build-and-deploy
 
 on:
   pull_request:
