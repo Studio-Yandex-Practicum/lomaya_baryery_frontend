@@ -1,6 +1,5 @@
 import { useEffect, ChangeEvent } from 'react';
 import { useStore, useEvent } from 'effector-react';
-import { mount, unmount } from './model';
 import { tasksModel } from 'entities/task';
 import { ITask } from 'shared/api';
 import { ContentHeading } from 'shared/ui-kit/content-heading';
@@ -10,6 +9,7 @@ import { CreateNewTask } from 'features/create-task/ui/create-task-form';
 import { Loader } from 'shared/ui-kit/loader';
 import { Alert } from 'shared/ui-kit/alert';
 import { SearchIcon } from 'shared/ui-kit/icons';
+import { mount, unmount } from './model';
 import styles from './styles.module.css';
 
 interface GuardProps {

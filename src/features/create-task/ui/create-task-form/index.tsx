@@ -1,9 +1,9 @@
 import { useEvent, useStore } from 'effector-react';
 import { MainPopup } from 'shared/ui-kit/main-popup';
 import { Button } from 'shared/ui-kit/button';
-import { createTaskModel } from '../..';
 import { TaskCreateForm } from 'entities/task/ui/task-create-form';
 import styles from './styles.module.css';
+import { createTaskModel } from '../..';
 
 export function CreateNewTask() {
   const { isLoading, error } = useStore(createTaskModel.store.$createTaskState);

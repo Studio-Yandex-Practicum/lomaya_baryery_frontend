@@ -31,7 +31,7 @@ export const InputFile = React.forwardRef<HTMLInputElement, InputFileProps>(
           ref={ref}
           id={id}
           type="file"
-          accept="image/*"
+          accept={accept}
           onChange={onChange}
           required
           hidden

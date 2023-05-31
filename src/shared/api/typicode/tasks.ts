@@ -1,6 +1,6 @@
-import { ITask } from '../model';
 import { makeRequest, makeBlobRequest } from './base';
 import { URL } from 'shared/config';
+import { ITask } from '../model';
 
 interface CreateTaskParams {
   title: string;
@@ -18,6 +18,25 @@ interface ChangeStatusParams {
 }
 
 const ROUTE = 'tasks/';
+
+async function getImage(path: string): Promise<File> {
+  let url;
+  if (path.charAt(0) === '/') {
+    url = path.substring(1);
+  } else {
+    url = path;
+  }
+
+  const respBlob = await makeBlobRequest(url, {
+    method: 'get',
+    authorization: false,
+    prefixUrl: URL,
+  });
+
+  const name = url.split('/').pop() || '';
+
+  return new File([respBlob], name, { type: respBlob.type });
+}
 
 export function getTasks() {
   return makeRequest<ITask[]>(ROUTE, { authorization: true });
@@ -71,23 +90,4 @@ export async function changeStatus({ id }: ChangeStatusParams) {
   });
 
   return ret;
-}
-
-async function getImage(path: string): Promise<File> {
-  let url;
-  if (path.charAt(0) === '/') {
-    url = path.substring(1);
-  } else {
-    url = path;
-  }
-
-  const respBlob = await makeBlobRequest(url, {
-    method: 'get',
-    authorization: false,
-    prefixUrl: URL,
-  });
-
-  const name = url.split('/').pop() || '';
-
-  return new File([respBlob], name, { type: respBlob.type });
 }

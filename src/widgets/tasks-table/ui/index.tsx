@@ -21,29 +21,27 @@ export function TasksTable({ extClassName }: TasksTableProps) {
 
   const header = ['Номер задания', 'Название задания', 'Превью'];
 
-  const tableContent = (gridClassName: string) => {
-    return (
-      <div className={[styles.rows, 'custom-scroll'].join(' ')}>
-        {filteredTasks.map((task) => (
-          <div
-            key={task.id}
-            className={cn(styles.row, gridClassName, 'tableContentRow')}
-          >
-            <CellText text={task.sequence_number} />
-            <CellLink
-              extClassName={styles.taskTitle}
-              text={task.title}
-              routeTo={`/tasks/${task.id}`}
-            />
-            <CellThumbnail
-              img={`${URL}${task.url}`}
-              routeTo={`/tasks/${task.id}`}
-            />
-          </div>
-        ))}
-      </div>
-    );
-  };
+  const tableContent = (gridClassName: string) => (
+    <div className={[styles.rows, 'custom-scroll'].join(' ')}>
+      {filteredTasks.map((task) => (
+        <div
+          key={task.id}
+          className={cn(styles.row, gridClassName, 'tableContentRow')}
+        >
+          <CellText text={task.sequence_number} />
+          <CellLink
+            extClassName={styles.taskTitle}
+            text={task.title}
+            routeTo={`/tasks/${task.id}`}
+          />
+          <CellThumbnail
+            img={`${URL}${task.url}`}
+            routeTo={`/tasks/${task.id}`}
+          />
+        </div>
+      ))}
+    </div>
+  );
 
   return (
     <Table

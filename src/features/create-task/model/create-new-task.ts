@@ -31,7 +31,6 @@ $isLoading.on(postNewTaskFx.pending, (_, isLoading) => isLoading);
 
 $error
   .on(postNewTaskFx.failData, (_, error) => {
-    debugger;
     if (error.message.search(/^Объект <.*> уже существует$/) !== -1) {
       return 'Задание или изображение с таким именем уже существует';
     }
@@ -44,9 +43,10 @@ $opened
   .on(closePopup, () => false)
   .on(postNewTaskFx.doneData, () => false);
 
-$tasksRaw.on(postNewTaskFx.doneData, (store, data) => {
-  return [...store, data as ITask];
-});
+$tasksRaw.on(postNewTaskFx.doneData, (store, data) => [
+  ...store,
+  data as ITask,
+]);
 
 const $createTaskState = combine({
   isLoading: $isLoading,

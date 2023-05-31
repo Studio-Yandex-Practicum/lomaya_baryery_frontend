@@ -114,9 +114,11 @@ $errorTaskById
   .reset([getTaskByIdFx]);
 
 $errorEditTaskById
-  .on(editTaskByIdFx.failData, (_, error) => {
-    return 'Ошибка. Возможно задание или изображение с таким именем уже существует';
-  })
+  .on(
+    editTaskByIdFx.failData,
+    () =>
+      'Ошибка. Возможно задание или изображение с таким именем уже существует'
+  )
   .reset([editTaskByIdFx, getTaskByIdFx]);
 
 $search.on(performSearch, (_, $search) => $search);
@@ -145,9 +147,8 @@ const $tasksStore = combine($tasksRaw, $search, ($tasksRaw, $search) => {
       task.title.toLocaleLowerCase().includes($search.toLocaleLowerCase())
     );
     return filteredValues;
-  } else {
-    return $tasksRaw;
   }
+  return $tasksRaw;
 });
 
 export const $tasksState = combine({

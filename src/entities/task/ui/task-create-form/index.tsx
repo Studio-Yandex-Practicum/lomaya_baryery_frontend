@@ -49,9 +49,8 @@ export function TaskCreateForm({
       const img = new Image();
 
       img.onload = () => {
-        const format = file.type.split('/').pop();
-        const width = img.width;
-        const height = img.height;
+        const format = file.type.split('/').pop() || '';
+        const { width, height } = img;
         setDescriptionImage(`формат: ${format}, ${width}x${height}`);
       };
       const url = URL.createObjectURL(file);

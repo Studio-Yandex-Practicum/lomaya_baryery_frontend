@@ -13,8 +13,8 @@ import { Loader } from 'shared/ui-kit/loader';
 import { Alert } from 'shared/ui-kit/alert';
 import { Button } from 'shared/ui-kit/button';
 import { PencilEditIcon } from 'shared/ui-kit/icons';
-import { mount, unmount, edit, archive } from './model';
 import { ITask } from 'shared/api';
+import { mount, unmount, edit, archive } from './model';
 import styles from './styles.module.css';
 
 interface GuardProps {
@@ -46,7 +46,7 @@ function Guard({ data, isLoading, error }: GuardProps) {
 }
 
 export function PageTaskInfo() {
-  let { taskId } = useParams();
+  const { taskId } = useParams();
 
   const [form, setForm] = useState<IForm>({
     id: '',
@@ -59,12 +59,25 @@ export function PageTaskInfo() {
   const [titleError, setTitleError] = useState('');
   const [imageError, setImageError] = useState('');
 
+  const handleImageChange = (file: File) => {
+    const img = new Image();
+
+    img.onload = () => {
+      const format = file.type.split('/').pop() || '';
+      const { width, height } = img;
+      setDescriptionImage(`Формат: ${format}, ${width}x${height}`);
+    };
+
+    img.src = URL.createObjectURL(file);
+    setUrlImage(img.src);
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name } = e.target;
     let value;
     if (e.target.files && e.target.files[0]) {
       handleImageChange(e.target.files[0]);
-      value = e.target.files[0];
+      [value] = e.target.files;
     } else {
       value = e.target.value;
     }
@@ -79,20 +92,6 @@ export function PageTaskInfo() {
     evt: React.FocusEvent<HTMLInputElement, Element>
   ) => {
     setTitleError(evt.target.validationMessage);
-  };
-
-  const handleImageChange = (file: File) => {
-    const img = new Image();
-
-    img.onload = () => {
-      const format = file.type.split('/').pop();
-      const width = img.width;
-      const height = img.height;
-      setDescriptionImage(`Формат: ${format}, ${width}x${height}`);
-    };
-
-    img.src = URL.createObjectURL(file);
-    setUrlImage(img.src);
   };
 
   const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
@@ -123,7 +122,7 @@ export function PageTaskInfo() {
     return () => {
       unmount();
     };
-  }, []);
+  }, [taskId]);
 
   useEffect(() => {
     if (data) {

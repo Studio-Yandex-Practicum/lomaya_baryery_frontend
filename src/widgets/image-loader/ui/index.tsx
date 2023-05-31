@@ -27,7 +27,9 @@ export const ImageLoader = ({
     <div className={cn(extClassName, styles.container)}>
       <label htmlFor={inputId}>
         <div className={cn(styles.image_container, sizeStyle)}>
-          {bgURL ? <img className={styles.image} src={bgURL} /> : undefined}
+          {bgURL ? (
+            <img className={styles.image} src={bgURL} alt="task" />
+          ) : undefined}
           <FileUploadIcon color="blue-dark" />
         </div>
       </label>
