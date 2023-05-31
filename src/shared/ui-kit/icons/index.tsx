@@ -27,6 +27,9 @@ export * from './shield-icon';
 export * from './user-icon';
 export * from './users-icon';
 export * from './zoom-icon';
+export * from './notebook-icon';
+export * from './file-upload-icon';
+export * from './pencil-edit-icon';
 
 export type TIcons = {
   AlertIcon: React.FC<IIconProps>;
@@ -49,6 +52,9 @@ export type TIcons = {
   ZoomIcon: React.FC<IIconProps>;
   ShieldIcon: React.FC<IIconProps>;
   RefreshIcon: React.FC<IIconProps>;
+  NotebookIcon: React.FC<IIconProps>;
+  FileUploadIcon: React.FC<IIconProps>;
+  PencilEditIcon: React.FC<IIconProps>;
 } & TStatusIcons;
 
 export type TStatusIcons = {

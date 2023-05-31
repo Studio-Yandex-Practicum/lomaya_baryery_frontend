@@ -1,0 +1,45 @@
+.form {
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.field {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+}
+
+.field:last-child {
+  margin-bottom: 0;
+}
+
+.label {
+  margin: 0 0 9px;
+}
+
+.inputText {
+  flex-grow: 1;
+}
+
+.title {
+  gap: 0.5rem;
+}
+
+.button {
+  margin-bottom: 9px;
+}
+
+.submitError {
+  margin-bottom: 10px;
+  overflow: hidden;
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 400;
+  color: var(--colors-interface-red);
+}
+
+.image_loader {
+  align-self: flex-start;
+}

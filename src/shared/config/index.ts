@@ -10,3 +10,5 @@ function getEnv(key: string): string | null {
 
 export const API_URL =
   getEnv('VITE_API_URL') || `${window.location.origin}/api/`;
+
+export const URL = getEnv('VITE_URL') || window.location.origin;

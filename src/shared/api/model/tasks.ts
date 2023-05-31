@@ -1,6 +1,7 @@
 export interface ITask {
   id: string;
   url: string;
-  description: string;
-  description_for_message: string;
+  title: string;
+  is_archived: boolean;
+  sequence_number: number;
 }

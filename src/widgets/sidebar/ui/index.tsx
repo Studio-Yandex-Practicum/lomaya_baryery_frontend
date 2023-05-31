@@ -190,6 +190,8 @@ export const SideBar = () => {
           icon="ShieldIcon"
         />
       ) : null}
+
+      <SideBarAccordion title="Задания" to="/tasks/all" icon="NotebookIcon" />
     </ul>
   );
 };

@@ -8,11 +8,16 @@ export interface ICellLinkProps {
   extClassName?: string;
 }
 
-export const CellLink: React.FC<ICellLinkProps> = ({ text, routeTo }) => (
+export const CellLink: React.FC<ICellLinkProps> = ({
+  text,
+  routeTo,
+  extClassName,
+}) => (
   <Link
     to={routeTo}
     className={cn(
       styles.cellText,
+      extClassName,
       'text',
       'text_type_main-default',
       'spreadsheetLink'

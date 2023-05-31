@@ -21,6 +21,8 @@ import { Registration } from './auth-registration';
 import { PageViewerProfile } from './viewer-profile';
 import { PageMembersAll } from './members';
 import { PageMember } from './member';
+import { PageTasksList } from './task-list';
+import { PageTaskInfo } from './task-info';
 
 export function AppRoutes() {
   return (
@@ -104,6 +106,9 @@ export function AppRoutes() {
         />
 
         <Route path="profile" element={<PageViewerProfile />} />
+
+        <Route path="tasks/all/" element={<PageTasksList />} />
+        <Route path="tasks/:taskId" element={<PageTaskInfo />} />
 
         <Route
           path="*"
