@@ -1,5 +1,5 @@
-import { makeRequest, makeBlobRequest } from './base';
 import { URL } from 'shared/config';
+import { makeRequest, makeBlobRequest } from './base';
 import { ITask } from '../model';
 
 interface CreateTaskParams {
