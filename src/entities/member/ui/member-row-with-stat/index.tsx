@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { TasksCalendar } from 'entities/task';
 import cn from 'classnames';
 import { ChevronRightIcon } from 'shared/ui-kit/icons';
 import { CellDate, CellTasksStat, CellText } from 'shared/ui-kit/table';
@@ -13,7 +14,18 @@ interface IMemberRowWithStatProps {
   totalApproved: number;
   totalDeclined: number;
   totalSkipped: number;
-  // tasksDetailProvider: Record<string, { description: string }> | null;
+  tasksDetailProvider: Record<string, { description: string }> | null;
+  reports: Array<{
+    task_id: string;
+    status:
+      | 'not_participate'
+      | 'waiting'
+      | 'skipped'
+      | 'reviewing'
+      | 'approved'
+      | 'declined';
+    task_date: string;
+  }>;
 }
 
 export function MemberRowWithStat({
@@ -25,6 +37,8 @@ export function MemberRowWithStat({
   shiftStart,
   shiftFinish,
   gridClassName,
+  tasksDetailProvider,
+  reports,
 }: IMemberRowWithStatProps) {
   const [toggle, setToggle] = useState(false);
 
@@ -55,15 +69,14 @@ export function MemberRowWithStat({
         <CellText text={numbersLombaryers} />
         <CellTasksStat data={statistics} />
       </div>
-      {toggle
-        ? // <TasksCalendar
-          //   start={shiftStart}
-          //   finish={shiftFinish}
-          //   userTasks={'tasksData'}
-          //   tasksDetailProvider={tasksDetailProvider}
-          // />
-          'Календарь'
-        : null}
+      {toggle ? (
+        <TasksCalendar
+          start={shiftStart}
+          finish={shiftFinish}
+          userTasks={reports}
+          tasksDetailProvider={tasksDetailProvider}
+        />
+      ) : null}
     </div>
   );
 }

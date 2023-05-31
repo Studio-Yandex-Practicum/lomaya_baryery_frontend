@@ -21,6 +21,17 @@ export type ShiftsByMember = {
   total_approved: number;
   total_declined: number;
   total_skipped: number;
+  reports: Array<{
+    task_id: string;
+    status:
+      | 'not_participate'
+      | 'waiting'
+      | 'skipped'
+      | 'reviewing'
+      | 'approved'
+      | 'declined';
+    task_date: string;
+  }>;
 };
 
 export type MemberById = {

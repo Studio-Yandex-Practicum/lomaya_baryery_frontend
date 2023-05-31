@@ -21,7 +21,7 @@ interface GuardProps {
 }
 
 const Shifts = ({ shifts }: GuardProps) => {
-  // const tasksDetailProvider = useStore(tasksModel.$tasks);
+  const tasksDetailProvider = useStore(tasksModel.$tasks);
 
   if (shifts.length === 0) {
     return (
@@ -54,6 +54,7 @@ const Shifts = ({ shifts }: GuardProps) => {
               total_approved,
               total_declined,
               total_skipped,
+              reports,
             }) => (
               <MemberRowWithStat
                 gridClassName={commonGridClassName}
@@ -65,7 +66,8 @@ const Shifts = ({ shifts }: GuardProps) => {
                 totalApproved={total_approved}
                 totalDeclined={total_declined}
                 totalSkipped={total_skipped}
-                // tasksDetailProvider={tasksDetailProvider}
+                tasksDetailProvider={tasksDetailProvider}
+                reports={reports}
               />
             )
           )
@@ -90,7 +92,7 @@ export function PageMember() {
   }, [memberId]);
 
   if (!isLoading || !data) {
-    return <Loader extClassName={styles.participants__notice} />;
+    return <Loader extClassName={styles.member__notice} />;
   }
 
   if (error) {
@@ -100,7 +102,7 @@ export function PageMember() {
   if (Object.keys(data).length === 0) {
     return (
       <Alert
-        extClassName={styles.participants__notice}
+        extClassName={styles.member__notice}
         title="Информация по данному участнику недоступна!"
       />
     );
