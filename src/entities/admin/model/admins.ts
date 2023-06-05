@@ -5,6 +5,7 @@ import {
   editAdminDataById,
   changeRoleById,
   blockAdminById,
+  resetPassword,
 } from 'shared/api/typicode';
 
 export interface TAdmin {
@@ -25,6 +26,7 @@ export const getAdministratorByIdFx = createEffect(getAdministratorById);
 export const editAdministratorByIdFx = createEffect(editAdminDataById);
 export const changeRoleByIdFx = createEffect(changeRoleById);
 export const blockAdminByIdFx = createEffect(blockAdminById);
+export const resetPasswordFx = createEffect(resetPassword);
 
 const $isLoading = createStore(false);
 const $isLoadingAdminById = createStore(false);
@@ -64,6 +66,7 @@ $admin
   )
   .on(changeRoleByIdFx.doneData, (_, changeRoleByIdFx) => changeRoleByIdFx)
   .on(blockAdminByIdFx.doneData, (_, blockAdminByIdFx) => blockAdminByIdFx)
+  .on(resetPasswordFx.doneData, (_, resetPasswordFx) => resetPasswordFx)
   .reset(clear);
 
 export const $adminsState = combine({

@@ -12,6 +12,7 @@ export const unmount = createEvent();
 export const edit = createEvent<EditParams>();
 export const changeRole = createEvent<string>();
 export const block = createEvent<string>();
+export const resetPassword = createEvent<string>();
 
 sample({
   clock: mount,
@@ -36,4 +37,9 @@ sample({
 sample({
   clock: block,
   target: adminModel.blockAdminByIdFx,
+});
+
+sample({
+  clock: resetPassword,
+  target: adminModel.resetPasswordFx,
 });

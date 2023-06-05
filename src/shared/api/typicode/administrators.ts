@@ -64,6 +64,14 @@ export function blockAdminById(adminId: string) {
   });
 }
 
+export function resetPassword(email: string) {
+  return makeRequest<User>(`${ROUTE}/reset_password`, {
+    method: 'patch',
+    authorization: true,
+    json: { email },
+  });
+}
+
 export function editAdminDataById({ adminId, name, surname }: EditParams) {
   return makeRequest<User>(`${ROUTE}/${adminId}/`, {
     method: 'patch',
