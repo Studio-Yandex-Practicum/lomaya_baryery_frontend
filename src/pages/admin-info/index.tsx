@@ -9,7 +9,7 @@ import { Form } from 'shared/ui-kit/form';
 import { Input } from 'shared/ui-kit/input';
 import { useStore } from 'effector-react';
 import { adminModel } from 'entities/admin';
-import { mount, unmount, edit, changeRole, block } from './model';
+import { mount, unmount, edit, changeRole, block, resetPassword } from './model';
 import styles from './styles.module.css';
 
 interface IForm {
@@ -78,6 +78,12 @@ export function PageAdminInfo() {
       block(adminId);
     }
   };
+
+  const handleResetPassword = () => {
+    if (form.email) {
+      resetPassword(form.email);
+    }
+  }
 
   if (isLoading || !data) {
     return <Loader extClassName={styles.admin__notice} />;
@@ -167,14 +173,15 @@ export function PageAdminInfo() {
             spellCheck={false}
             disabled
           />
-          {/* <Button
+          <Button
             extClassName={styles.form__change}
             htmlType="button"
             type="secondary"
             size="small"
+            onClick={handleResetPassword}
           >
             Сменить пароль
-          </Button> */}
+          </Button>
         </Form>
       </div>
     </ContentContainer>
