@@ -68,8 +68,8 @@ export function resetPassword(email: string) {
   return makeRequest<User>(`${ROUTE}/reset_password`, {
     method: 'patch',
     authorization: true,
-    json: { email }
-  })
+    json: { email },
+  });
 }
 
 export function editAdminDataById({ adminId, name, surname }: EditParams) {

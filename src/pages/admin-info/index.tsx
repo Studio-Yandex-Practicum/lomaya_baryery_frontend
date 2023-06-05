@@ -9,7 +9,14 @@ import { Form } from 'shared/ui-kit/form';
 import { Input } from 'shared/ui-kit/input';
 import { useStore } from 'effector-react';
 import { adminModel } from 'entities/admin';
-import { mount, unmount, edit, changeRole, block, resetPassword } from './model';
+import {
+  mount,
+  unmount,
+  edit,
+  changeRole,
+  block,
+  resetPassword,
+} from './model';
 import styles from './styles.module.css';
 
 interface IForm {
@@ -83,7 +90,7 @@ export function PageAdminInfo() {
     if (form.email) {
       resetPassword(form.email);
     }
-  }
+  };
 
   if (isLoading || !data) {
     return <Loader extClassName={styles.admin__notice} />;
