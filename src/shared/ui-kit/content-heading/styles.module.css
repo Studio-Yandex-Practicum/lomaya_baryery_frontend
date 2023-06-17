@@ -8,3 +8,7 @@
   display: flex;
   justify-content: flex-end;
 }
+
+.contentHeading__title {
+  overflow: hidden;
+}

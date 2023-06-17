@@ -15,7 +15,7 @@ const getTasksFx = createEffect(async () => {
 
   const normalizedTasks = tasks.reduce<Record<string, { description: string }>>(
     (acc, cur) => {
-      acc[cur.id] = { description: cur.description };
+      acc[cur.id] = { description: cur.title };
       return acc;
     },
     {}
