@@ -13,8 +13,6 @@ interface ReportsTableProps {
 export function ReviewingReportsTable({ extClassName }: ReportsTableProps) {
   const { data, isLoading } = useStore(reportModel.store.$reportsState);
 
-  console.log(data);
-
   if (data.length === 0) {
     return null;
   }
