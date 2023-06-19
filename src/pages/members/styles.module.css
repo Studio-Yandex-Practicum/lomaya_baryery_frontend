@@ -17,8 +17,8 @@
   font-weight: 700;
 }
 
-.container {
-  height: calc(100vh - 140px);
+.pangination {
+  margin-bottom: 10px;
 }
 
 .header {

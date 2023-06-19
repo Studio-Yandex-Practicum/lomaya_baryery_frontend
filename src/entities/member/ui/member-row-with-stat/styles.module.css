@@ -1,5 +1,5 @@
 .row__data {
-  grid-template-rows: min-content;
+  grid-template-rows: 80px;
 }
 
 .row__name {

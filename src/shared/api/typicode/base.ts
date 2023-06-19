@@ -36,6 +36,13 @@ export async function makeRequest<Result>(
       };
       if (errorBody.detail) {
         if (typeof errorBody.detail === 'string') {
+          if (
+            errorBody.detail.includes(
+              "Возникла ошибка (554, '5.7.1 Message rejected under suspicion of SPAM"
+            )
+          ) {
+            throw new Error('Проверьте корректность введенных данных');
+          }
           throw new Error(errorBody.detail);
         }
 

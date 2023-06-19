@@ -1,4 +1,4 @@
-name: Stage-frontend-build-and-deploy
+name: Prod frontend build and deploy
 
 on:
   pull_request:
@@ -22,7 +22,7 @@ jobs:
     name: Push Docker image to GitHub Packages
     runs-on: ubuntu-latest
     environment:
-      name: stage_deploy
+      name: prod_deploy
 
     steps:
       - name: Check out the repo
@@ -43,7 +43,7 @@ jobs:
           labels: runnumber=${GITHUB_RUN_ID}
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ env.REP_OWNER }}/${{ env.IMAGE_NAME }}:stage,
+            ${{ env.REGISTRY }}/${{ env.REP_OWNER }}/${{ env.IMAGE_NAME }}:prod,
             ${{ env.REGISTRY }}/${{ env.REP_OWNER }}/${{ env.IMAGE_NAME }}:latest,
             ${{ env.REGISTRY }}/${{ env.REP_OWNER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
@@ -52,7 +52,7 @@ jobs:
     name: Start application
     runs-on: ubuntu-latest
     environment:
-      name: stage_deploy
+      name: prod_deploy
     needs: build_and_push_docker_image
     steps:
       - name: Start application
@@ -60,11 +60,11 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
+          key: ${{ secrets.SSH_KEY }}
           script: |
             cd ${{ env.DEPLOY_PATH }}
             docker image prune -f
-            docker pull  ${{ env.REGISTRY }}/${{ env.REP_OWNER }}/${{ env.IMAGE_NAME }}:latest
+            docker pull  ${{ env.REGISTRY }}/${{ env.REP_OWNER }}/${{ env.IMAGE_NAME }}:prod
             docker-compose --file docker-compose.yaml stop
             docker-compose --file docker-compose.yaml rm frontend
             docker-compose --file docker-compose.yaml up -d

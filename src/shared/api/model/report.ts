@@ -10,7 +10,7 @@ export type Report<T extends ReportStatus = ReportStatus> = {
   user_name: string;
   user_surname: string;
   task_id: string;
-  task_description: string;
+  task_title: string;
   task_url: string;
   photo_url: string;
 };
