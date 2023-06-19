@@ -21,10 +21,6 @@
   margin-bottom: 10px;
 }
 
-.container {
-  height: calc(100vh - 175px);
-}
-
 .header {
   display: flex;
   justify-content: space-between;
