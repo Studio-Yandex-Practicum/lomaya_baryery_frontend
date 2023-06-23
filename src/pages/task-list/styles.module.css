@@ -1,29 +1,33 @@
-.headingContainer {
-  margin-bottom: 10px;
+.loader {
+  height: calc(100% - 40px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.heading {
-  min-height: 58px;
+.alert {
+  height: calc(100% - 40px);
 }
 
-.membersTable {
-  margin-top: 20px;
-  margin-bottom: 10px;
+.content {
+  margin-bottom: 20px;
+  height: calc(100vh - 140px);
 }
 
-.title {
-  font-size: 24px;
-  line-height: 28px;
-  font-weight: 700;
-}
-
-.pangination {
-  margin-bottom: 10px;
+.table {
+  margin-top: 30px;
+  min-height: 102px;
+  max-height: calc(100vh - 218px);
 }
 
 .header {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.header > button {
+  margin-left: auto;
 }
 
 .search {
@@ -32,7 +36,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  border: 1px solid #e2e4e8;
+  border: 1px solid var(--colors-interface-border);
   background-color: var(--colors-button-secondary-default);
   border-radius: 10px;
 }

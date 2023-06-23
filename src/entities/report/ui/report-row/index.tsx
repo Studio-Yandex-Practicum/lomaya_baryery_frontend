@@ -10,7 +10,7 @@ import {
 
 interface ReportRowProps {
   reportData: {
-    task_description: string;
+    task_title: string;
     user_name: string;
     user_surname: string;
     report_created_at: string;
@@ -32,7 +32,7 @@ export function ReportRow({
 }: ReportRowProps) {
   return (
     <RowHigh gridClassName={gridClassName} extClassName={extClassName}>
-      <CellLink routeTo={routeTo} text={reportData.task_description} />
+      <CellLink routeTo={routeTo} text={reportData.task_title} />
       <CellText
         type="accent"
         text={`${reportData.user_name} ${reportData.user_surname}`}

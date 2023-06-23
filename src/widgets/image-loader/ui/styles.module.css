@@ -1,0 +1,35 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.image_container {
+  cursor: pointer;
+  background-color: var(--colors-interface-white);
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--colors-interface-border);
+  border-radius: 10px;
+}
+
+.image_size_small {
+  width: 160px;
+  height: 160px;
+}
+
+.image_size_large {
+  width: 221px;
+  height: 223px;
+}
+
+.image_container > svg {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.image {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
