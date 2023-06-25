@@ -104,6 +104,12 @@ export function PageAdminInfo() {
     <ContentContainer extClassName={styles.container}>
       <ContentHeading
         title={`${data.name} ${data.surname}`}
+        crumbs={[
+          {
+            title: 'Администраторы',
+            url: '/admins/members',
+          },
+        ]}
         extClassName={styles.heading}
       />
       <div className={styles.header}>

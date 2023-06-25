@@ -141,7 +141,16 @@ export function PageTaskInfo() {
       <Guard data={data} isLoading={isLoading} error={error} />
       {data === null ? undefined : (
         <ContentContainer extClassName={styles.content}>
-          <ContentHeading title={`${data?.title}`} extClassName={styles.title}>
+          <ContentHeading
+            title={`${data?.title}`}
+            crumbs={[
+              {
+                title: 'Задания',
+                url: '/tasks/all',
+              },
+            ]}
+            extClassName={styles.title}
+          >
             <Button
               htmlType="button"
               loading={isLoadingArchiveTask}

@@ -90,7 +90,16 @@ export function PageFinishedShift() {
   return (
     <>
       <ContentContainer extClassName={styles.headingContainer}>
-        <ContentHeading title="Прошедшая" extClassName={styles.heading} />
+        <ContentHeading
+          title="Прошедшая"
+          crumbs={[
+            {
+              title: 'Смены',
+              url: '/shifts/all',
+            },
+          ]}
+          extClassName={styles.heading}
+        />
         <ShiftDetailsTable
           title={shiftData.title}
           start={shiftData.started_at}
