@@ -71,7 +71,11 @@ export function RowControls({
         opened={opened}
         onClose={handleClosePopup}
       >
-        <MessageForm btnText="Отклонить заявку" onSubmit={handleSubmit} onClose={handleClosePopup} />
+        <MessageForm
+          btnText="Отклонить заявку"
+          onSubmit={handleSubmit}
+          onClose={handleClosePopup}
+        />
       </MainPopup>
     </>
   );
