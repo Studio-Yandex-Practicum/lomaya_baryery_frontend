@@ -32,7 +32,7 @@ export const ContentHeading: React.FC<IContentHeadingProps> = ({
           {title}
         </h1>
       </div>
-      <div className={styles.contentHeadig__controls}>{children}</div>
+      <div className={styles.contentHeading__controls}>{children}</div>
     </div>
   );
 };
