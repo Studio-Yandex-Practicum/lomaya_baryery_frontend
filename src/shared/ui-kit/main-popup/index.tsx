@@ -36,11 +36,11 @@ export function MainPopup({
           >
             {title}
           </p>
-          <CloseIcon
+          {!(title === "Отклонить заявку") && <CloseIcon
             className={styles.heading__closeIcon}
             color="gray"
             onClick={onClose}
-          />
+          />}
         </div>
         {children}
       </div>
