@@ -50,15 +50,17 @@ export const MessageForm: React.FC<IMessageFormProps> = ({
         >
           {btnText}
         </Button>
-        {onClose && <Button
-          size="small"
-          htmlType="button"
-          type="secondary"
-          extClassName={cn(styles.messageForm__button)}
-          onClick={onClose}
-        >
-          {'Отменить'}
-        </Button>}
+        {onClose && (
+          <Button
+            size="small"
+            htmlType="button"
+            type="secondary"
+            extClassName={cn(styles.messageForm__button)}
+            onClick={onClose}
+          >
+            Отменить
+          </Button>
+        )}
       </div>
     </form>
   );
