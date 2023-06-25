@@ -4,11 +4,12 @@
   align-items: center;
 }
 
-.contentHeadig__controls {
+.contentHeading__controls {
   display: flex;
   justify-content: flex-end;
 }
 
 .contentHeading__title {
+  display: flex;
   overflow: hidden;
 }

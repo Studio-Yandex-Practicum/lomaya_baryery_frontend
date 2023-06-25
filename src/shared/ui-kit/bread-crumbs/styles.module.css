@@ -1,0 +1,9 @@
+.crumb:active {
+  color: var(--text-color-secondary);
+}
+
+.crumb::after {
+  content: '/';
+  color: var(--text-color-primary);
+  margin-inline: 0.25rem;
+}

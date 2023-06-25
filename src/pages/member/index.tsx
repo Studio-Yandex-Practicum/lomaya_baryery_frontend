@@ -113,6 +113,12 @@ export function PageMember() {
       <ContentContainer extClassName={styles.headingContainer}>
         <ContentHeading
           title={`${data?.name} ${data?.surname}`}
+          crumbs={[
+            {
+              title: 'Участники проекта',
+              url: '/members/all',
+            },
+          ]}
           extClassName={styles.heading}
         />
         <div className={styles.container}>
