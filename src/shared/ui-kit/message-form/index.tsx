@@ -6,6 +6,7 @@ import styles from './styles.module.css';
 interface IMessageFormProps {
   btnText: string;
   onSubmit: (inputValue: string) => void;
+  onClose?: () => void;
   initValue?: string;
   placeholder?: string;
   isLoading?: boolean;
@@ -15,6 +16,7 @@ interface IMessageFormProps {
 export const MessageForm: React.FC<IMessageFormProps> = ({
   btnText = 'Сохранить',
   onSubmit,
+  onClose,
   initValue,
   placeholder = 'Введите сообщение',
   isLoading,
@@ -38,15 +40,28 @@ export const MessageForm: React.FC<IMessageFormProps> = ({
         onChange={(evt) => changeInputValue(evt.currentTarget.value)}
         spellCheck="false"
       />
-      <Button
-        size="small"
-        htmlType="submit"
-        extClassName={cn(styles.messageForm__button)}
-        loading={isLoading}
-        disabled={inputValue === '' || isDisabled || isLoading}
-      >
-        {btnText}
-      </Button>
+      <div className={styles.messageForm__button_area}>
+        <Button
+          size="small"
+          htmlType="submit"
+          extClassName={cn(styles.messageForm__button)}
+          loading={isLoading}
+          disabled={inputValue === '' || isDisabled || isLoading}
+        >
+          {btnText}
+        </Button>
+        {onClose && (
+          <Button
+            size="small"
+            htmlType="button"
+            type="secondary"
+            extClassName={cn(styles.messageForm__button)}
+            onClick={onClose}
+          >
+            Отменить
+          </Button>
+        )}
+      </div>
     </form>
   );
 };

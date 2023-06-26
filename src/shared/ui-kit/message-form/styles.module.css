@@ -32,5 +32,10 @@
 
 .messageForm__button {
   margin-top: 10px;
-  align-self: flex-end;
+}
+
+.messageForm__button_area {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
 }

@@ -12,10 +12,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const InputPassword = React.forwardRef<HTMLInputElement, InputProps>(
-  (
-    { value, onChange, extClassName, error, errorText, name, type, ...props },
-    ref
-  ) => {
+  ({ value, onChange, extClassName, error, errorText, ...props }, ref) => {
     const [inputType, setInputType] = useState(false);
 
     const errorToRender = useMemo(
