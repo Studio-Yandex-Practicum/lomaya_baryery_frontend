@@ -61,7 +61,6 @@ export function SignInForm() {
           name="pwd"
           placeholder="Пароль"
           value={values.password}
-          type="password"
           autoComplete="off"
           spellCheck={false}
         />

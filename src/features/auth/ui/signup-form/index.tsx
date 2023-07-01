@@ -45,7 +45,6 @@ export function SignUpForm() {
           name="pwd"
           placeholder="Придумайте пароль"
           value={values.pwd}
-          type="password"
           autoComplete="off"
         />
         <InputPassword
@@ -56,7 +55,6 @@ export function SignUpForm() {
           name="repeatPwd"
           placeholder="Повторите пароль"
           value={values.repeatPwd}
-          type="password"
           autoComplete="off"
         />
       </Form>
