@@ -7,11 +7,21 @@ interface EditParams {
   surname: string;
 }
 
+interface RoleParams {
+  adminId: string;
+  role: string;
+}
+
+interface StatusParams {
+  adminId: string;
+  status: string;
+}
+
 export const mount = createEvent<string>();
 export const unmount = createEvent();
 export const edit = createEvent<EditParams>();
-export const changeRole = createEvent<string>();
-export const block = createEvent<string>();
+export const changeRole = createEvent<RoleParams>();
+export const block = createEvent<StatusParams>();
 export const resetPassword = createEvent<string>();
 
 sample({
