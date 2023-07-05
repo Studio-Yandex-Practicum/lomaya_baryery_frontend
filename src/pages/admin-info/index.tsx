@@ -75,16 +75,16 @@ export function PageAdminInfo() {
   };
 
   const handleChangeRole = () => {
-    const role = data?.role === 'administrator' ? 'expert' : 'administrator'
+    const role = data?.role === 'administrator' ? 'expert' : 'administrator';
     if (adminId) {
-      changeRole({adminId, role});
+      changeRole({ adminId, role });
     }
   };
 
   const handleBlockAdmin = () => {
-    const status = data?.status === 'active' ? 'blocked' : 'active'
+    const status = data?.status === 'active' ? 'blocked' : 'active';
     if (adminId) {
-      block({adminId, status});
+      block({ adminId, status });
     }
   };
 
@@ -118,23 +118,24 @@ export function PageAdminInfo() {
         <p className={styles.header__role}>
           {data.role === 'administrator' ? 'Администратор' : 'Эксперт'}
         </p>
-          <Button
-            extClassName={styles.header__button}
-            htmlType="button"
-            type="primary"
-            size="small"
-            onClick={handleChangeRole}
-          >
-            Сделать {data.role === 'administrator' ? 'экспертом' : 'администратором'}
-          </Button>
-          <Button
-            htmlType="button"
-            type="primary"
-            size="small"
-            onClick={handleBlockAdmin}
-          >
-            {data.status === 'active' ? 'Заблокировать' : 'Разблокировать'}
-          </Button>
+        <Button
+          extClassName={styles.header__button}
+          htmlType="button"
+          type="primary"
+          size="small"
+          onClick={handleChangeRole}
+        >
+          Сделать{' '}
+          {data.role === 'administrator' ? 'экспертом' : 'администратором'}
+        </Button>
+        <Button
+          htmlType="button"
+          type="primary"
+          size="small"
+          onClick={handleBlockAdmin}
+        >
+          {data.status === 'active' ? 'Заблокировать' : 'Разблокировать'}
+        </Button>
       </div>
       <div className={styles.main}>
         <p className={styles.main__title}>Данные пользователя</p>

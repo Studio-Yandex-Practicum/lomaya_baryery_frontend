@@ -60,7 +60,7 @@ export function getAdministratorById(adminId: string) {
   });
 }
 
-export function changeRoleById({adminId, role}: RoleParams) {
+export function changeRoleById({ adminId, role }: RoleParams) {
   return makeRequest<User>(`${ROUTE}/${adminId}/role/`, {
     method: 'patch',
     authorization: true,
@@ -68,7 +68,7 @@ export function changeRoleById({adminId, role}: RoleParams) {
   });
 }
 
-export function blockAdminById({adminId, status}: StatusParams) {
+export function blockAdminById({ adminId, status }: StatusParams) {
   return makeRequest<User>(`${ROUTE}/${adminId}/status/`, {
     method: 'patch',
     authorization: true,
