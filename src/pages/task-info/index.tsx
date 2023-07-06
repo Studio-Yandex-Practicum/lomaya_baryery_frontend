@@ -175,7 +175,7 @@ export function PageTaskInfo() {
                 )}
               >
                 Название с глаголом совершенного вида (напр. Сегодня твоим
-                заданием будет помыть посуду)
+                заданием будет<i> помыть посуду</i>)
               </label>
               <div className={styles.title_field}>
                 <Input
