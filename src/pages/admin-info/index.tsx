@@ -75,14 +75,16 @@ export function PageAdminInfo() {
   };
 
   const handleChangeRole = () => {
+    const role = data?.role === 'administrator' ? 'expert' : 'administrator';
     if (adminId) {
-      changeRole(adminId);
+      changeRole({ adminId, role });
     }
   };
 
   const handleBlockAdmin = () => {
+    const status = data?.status === 'active' ? 'blocked' : 'active';
     if (adminId) {
-      block(adminId);
+      block({ adminId, status });
     }
   };
 
@@ -116,37 +118,24 @@ export function PageAdminInfo() {
         <p className={styles.header__role}>
           {data.role === 'administrator' ? 'Администратор' : 'Эксперт'}
         </p>
-        {data.role === 'expert' && (
-          <Button
-            extClassName={styles.header__button}
-            htmlType="button"
-            type="primary"
-            size="small"
-            onClick={handleChangeRole}
-          >
-            Сделать администратором
-          </Button>
-        )}
-        {data.status === 'blocked' ? (
-          <Button
-            htmlType="button"
-            type="negative"
-            size="small"
-            onClick={handleBlockAdmin}
-            disabled
-          >
-            Заблокирован
-          </Button>
-        ) : (
-          <Button
-            htmlType="button"
-            type="secondary"
-            size="small"
-            onClick={handleBlockAdmin}
-          >
-            Заблокировать
-          </Button>
-        )}
+        <Button
+          extClassName={styles.header__button}
+          htmlType="button"
+          type="primary"
+          size="small"
+          onClick={handleChangeRole}
+        >
+          Сделать{' '}
+          {data.role === 'administrator' ? 'экспертом' : 'администратором'}
+        </Button>
+        <Button
+          htmlType="button"
+          type="primary"
+          size="small"
+          onClick={handleBlockAdmin}
+        >
+          {data.status === 'active' ? 'Заблокировать' : 'Разблокировать'}
+        </Button>
       </div>
       <div className={styles.main}>
         <p className={styles.main__title}>Данные пользователя</p>

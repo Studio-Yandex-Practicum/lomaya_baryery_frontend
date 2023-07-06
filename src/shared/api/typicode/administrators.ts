@@ -25,6 +25,16 @@ interface EditParams {
   surname: string;
 }
 
+interface RoleParams {
+  adminId: string;
+  role: string;
+}
+
+interface StatusParams {
+  adminId: string;
+  status: string;
+}
+
 export async function signIn({ email, password }: SignInParams) {
   const token = await makeRequest<UserToken>(`${ROUTE}/login`, {
     method: 'post',
@@ -50,17 +60,19 @@ export function getAdministratorById(adminId: string) {
   });
 }
 
-export function changeRoleById(adminId: string) {
-  return makeRequest<User>(`${ROUTE}/${adminId}/change_role`, {
+export function changeRoleById({ adminId, role }: RoleParams) {
+  return makeRequest<User>(`${ROUTE}/${adminId}/role/`, {
     method: 'patch',
     authorization: true,
+    json: { role },
   });
 }
 
-export function blockAdminById(adminId: string) {
-  return makeRequest<User>(`${ROUTE}/${adminId}/block`, {
+export function blockAdminById({ adminId, status }: StatusParams) {
+  return makeRequest<User>(`${ROUTE}/${adminId}/status/`, {
     method: 'patch',
     authorization: true,
+    json: { status },
   });
 }
 
