@@ -22,6 +22,8 @@ export function SliderControls({
   totalSlides,
   extClassName,
 }: SliderControlsProps) {
+  const prevIconColor = disablePrev ? 'gray' : 'blue-dark';
+  const nextIconColor = disableNext ? 'gray' : 'blue-dark';
   return (
     <nav className={cn(styles.container, extClassName)}>
       <Button
@@ -31,7 +33,7 @@ export function SliderControls({
         onClick={onPrev}
         disabled={disablePrev}
       >
-        <ArrowLeftIcon color="blue-dark" />
+        <ArrowLeftIcon color={prevIconColor} />
         Предыдущий отчёт
       </Button>
       <p className="text text_type_main-default text_color_secondary m-0">{`${currentSlide} из ${totalSlides}`}</p>
@@ -43,7 +45,7 @@ export function SliderControls({
         disabled={disableNext}
       >
         Следующий отчёт
-        <ArrowRightIcon color="blue-dark" />
+        <ArrowRightIcon color={nextIconColor} />
       </Button>
     </nav>
   );
