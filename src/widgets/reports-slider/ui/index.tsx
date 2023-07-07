@@ -70,6 +70,8 @@ export function ReportsSlider({ reportId, extClassName }: ReportsSliderProps) {
         currentSlide={cur + 1}
         onPrev={handlePrev}
         onNext={handleNext}
+        disablePrev={cur === 0}
+        disableNext={cur === list.length - 1}
       />
     </>
   );
