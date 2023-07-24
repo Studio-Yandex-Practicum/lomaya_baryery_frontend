@@ -9,6 +9,7 @@ import { Form } from 'shared/ui-kit/form';
 import { Input } from 'shared/ui-kit/input';
 import { useStore } from 'effector-react';
 import { adminModel } from 'entities/admin';
+import { $viewer } from 'entities/viewer/model';
 import {
   mount,
   unmount,
@@ -29,6 +30,7 @@ interface IForm {
 
 export function PageAdminInfo() {
   const { data, isLoading, error } = useStore(adminModel.$adminState);
+  const viewer = useStore($viewer);
   const { adminId } = useParams();
   const [form, setForm] = useState<IForm>({
     name: '',
@@ -94,6 +96,8 @@ export function PageAdminInfo() {
     }
   };
 
+  const isCurrentUser = Boolean(adminId === viewer?.id);
+
   if (isLoading || !data) {
     return <Loader extClassName={styles.admin__notice} />;
   }
@@ -112,30 +116,34 @@ export function PageAdminInfo() {
             url: '/admins/members',
           },
         ]}
-        extClassName={styles.heading}
+        extClassName={styles.crumbs}
       />
       <div className={styles.header}>
         <p className={styles.header__role}>
           {data.role === 'administrator' ? 'Администратор' : 'Эксперт'}
         </p>
-        <Button
-          extClassName={styles.header__button}
-          htmlType="button"
-          type="primary"
-          size="small"
-          onClick={handleChangeRole}
-        >
-          Сделать{' '}
-          {data.role === 'administrator' ? 'экспертом' : 'администратором'}
-        </Button>
-        <Button
-          htmlType="button"
-          type="primary"
-          size="small"
-          onClick={handleBlockAdmin}
-        >
-          {data.status === 'active' ? 'Заблокировать' : 'Разблокировать'}
-        </Button>
+        {!isCurrentUser && (
+          <>
+            <Button
+              extClassName={styles.header__button}
+              htmlType="button"
+              type="primary"
+              size="small"
+              onClick={handleChangeRole}
+            >
+              Сделать{' '}
+              {data.role === 'administrator' ? 'экспертом' : 'администратором'}
+            </Button>
+            <Button
+              htmlType="button"
+              type="primary"
+              size="small"
+              onClick={handleBlockAdmin}
+            >
+              {data.status === 'active' ? 'Заблокировать' : 'Разблокировать'}
+            </Button>
+          </>
+        )}
       </div>
       <div className={styles.main}>
         <p className={styles.main__title}>Данные пользователя</p>

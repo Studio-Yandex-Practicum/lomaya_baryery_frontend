@@ -13,3 +13,13 @@
   display: flex;
   overflow: hidden;
 }
+
+.contentHeading__text {
+  word-break: break-all;
+}
+
+@media screen and (max-width: 800px) {
+  .contentHeading__title {
+    display: block;
+  }
+}

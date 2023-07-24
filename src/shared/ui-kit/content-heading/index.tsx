@@ -28,7 +28,14 @@ export const ContentHeading: React.FC<IContentHeadingProps> = ({
         )}
       >
         {MAKE_CRUMBS ? <BreadCrumbs crumbs={crumbs} /> : undefined}
-        <h1 className={cn('p-0', 'm-0', 'text_type_main-extra-large')}>
+        <h1
+          className={cn(
+            styles.contentHeading__text,
+            'p-0',
+            'm-0',
+            'text_type_main-extra-large'
+          )}
+        >
           {title}
         </h1>
       </div>
