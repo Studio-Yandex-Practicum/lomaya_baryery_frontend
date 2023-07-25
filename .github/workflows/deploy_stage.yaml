@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:
       - develop
-#    types: [ closed ]
+    types: [ closed ]
 
 env:
   REGISTRY: ghcr.io
@@ -20,7 +20,7 @@ defaults:
 jobs:
   build_and_push_docker_image:
     name: Push Docker image to GitHub Packages
-#    if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     environment:
       name: stage_deploy
@@ -51,7 +51,7 @@ jobs:
 
   start_application:
     name: Start application
-#    if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     environment:
       name: stage_deploy
