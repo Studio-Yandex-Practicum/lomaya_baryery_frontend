@@ -5,6 +5,7 @@ import { URL } from 'shared/config';
 import { CellLink, CellThumbnail } from 'shared/ui-kit/table';
 import { CellText } from 'shared/ui-kit/table';
 import { Table } from 'shared/ui-kit/table';
+import { TaskLabel } from 'entities/task/ui/label';
 import styles from './styles.module.css';
 
 interface TasksTableProps {
@@ -19,7 +20,12 @@ export function TasksTable({ extClassName }: TasksTableProps) {
     return null;
   }
 
-  const header = ['Номер задания', 'Название задания', 'Превью'];
+  const header = [
+    'Номер задания',
+    'Название задания',
+    'Статус задания',
+    'Превью',
+  ];
 
   const tableContent = (gridClassName: string) => (
     <div className={[styles.rows, 'custom-scroll'].join(' ')}>
@@ -34,6 +40,7 @@ export function TasksTable({ extClassName }: TasksTableProps) {
             text={task.title}
             routeTo={`/tasks/${task.id}`}
           />
+          <TaskLabel taskStatus={task.is_archived} />
           <CellThumbnail
             img={`${URL}${task.url}`}
             routeTo={`/tasks/${task.id}`}
