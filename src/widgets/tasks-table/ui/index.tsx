@@ -20,7 +20,12 @@ export function TasksTable({ extClassName }: TasksTableProps) {
     return null;
   }
 
-  const header = ['Номер задания', 'Название задания', 'Статус задания', 'Превью'];
+  const header = [
+    'Номер задания',
+    'Название задания',
+    'Статус задания',
+    'Превью',
+  ];
 
   const tableContent = (gridClassName: string) => (
     <div className={[styles.rows, 'custom-scroll'].join(' ')}>
