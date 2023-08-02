@@ -1,5 +1,5 @@
 .columnsTemplate {
-  grid-template-columns: 120px auto 78px;
+  grid-template-columns: 120px auto 150px 78px;
 }
 
 .rows {
