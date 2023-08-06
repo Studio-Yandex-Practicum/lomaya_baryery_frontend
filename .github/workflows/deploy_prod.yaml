@@ -64,7 +64,7 @@ jobs:
           script: |
             cd ${{ env.DEPLOY_PATH }}
             docker image prune -f
-            docker pull  ${{ env.REGISTRY }}/${{ env.REP_OWNER }}/${{ env.IMAGE_NAME }}:prod
+            docker pull  ${{ env.REGISTRY }}/${{ env.REP_OWNER }}/${{ env.IMAGE_NAME }}:latest
             docker-compose --file docker-compose.yaml stop
             docker-compose --file docker-compose.yaml rm frontend
             docker-compose --file docker-compose.yaml up -d
