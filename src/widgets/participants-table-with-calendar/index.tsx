@@ -40,7 +40,7 @@ export function ParticipantRowWithStat({
   tasksDetailProvider,
 }: IParticipantRowWithStatProps) {
   const [toggle, setToggle] = useState(false);
-  console.log('func', status);
+
   const statistics = useMemo(
     () =>
       tasksData.reduce(
