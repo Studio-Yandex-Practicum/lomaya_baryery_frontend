@@ -26,12 +26,14 @@ interface IParticipantRowWithStatProps {
       | 'declined';
     task_date: string;
   }>;
+  status: string;
   tasksDetailProvider: { [key: string]: { description: string } } | null;
 }
 
 export function ParticipantRowWithStat({
   userData,
   tasksData,
+  status,
   shiftStart,
   shiftFinish,
   gridClassName,
@@ -69,15 +71,31 @@ export function ParticipantRowWithStat({
               [styles.row__nameIcon_rotated]: toggle,
             })}
           />
-          <CellText
-            type="accent"
-            text={`${userData.name} ${userData.surname}`}
-          />
+          <div>
+            <CellText
+              type="accent"
+              text={`${userData.name} ${userData.surname}`}
+            />
+            {status === 'excluded' && (
+              <span
+                className={cn(
+                  styles.cellText,
+                  'text',
+                  'text_type_main-default',
+                  `text_color_secondary`,
+                  'm-0'
+                )}
+              >
+                Исключен
+              </span>
+            )}
+          </div>
         </div>
         <CellText text={userData.city} />
         <CellDate date={userData.date_of_birth} />
         <CellTasksStat data={statistics} />
       </div>
+
       {toggle ? (
         <TasksCalendar
           start={shiftStart}
@@ -114,6 +132,7 @@ interface ParticipantsTableProps {
       city: string;
       phone_number: string;
     };
+    status: string;
   }>;
   tasksDetailProvider: Record<string, { description: string }> | null;
 }
@@ -129,10 +148,11 @@ export function ParticipantsTableWithCalendar({
       gridClassName={gridClassName}
       header={['Имя и фамилия', 'Город', 'Дата рождения', 'Статусы заданий']}
       renderRows={(commonGridClassName) =>
-        participants.map(({ id, reports, user }) => (
+        participants.map(({ id, reports, user, status }) => (
           <ParticipantRowWithStat
             gridClassName={commonGridClassName}
             key={id}
+            status={status}
             tasksData={reports}
             userData={user}
             shiftStart={shift.started_at}
