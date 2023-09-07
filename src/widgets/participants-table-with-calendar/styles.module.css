@@ -24,3 +24,11 @@
 .row__nameIcon_rotated {
   transform: rotate(90deg);
 }
+
+.row__excluded {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  overflow: hidden;
+  padding: 10px 0 10px 13px;
+}

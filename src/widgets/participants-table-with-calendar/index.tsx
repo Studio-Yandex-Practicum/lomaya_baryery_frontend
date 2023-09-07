@@ -143,24 +143,67 @@ export function ParticipantsTableWithCalendar({
   gridClassName,
   tasksDetailProvider,
 }: ParticipantsTableProps) {
+  const [toggle, setToggle] = useState(false);
+
   return (
-    <Table
-      gridClassName={gridClassName}
-      header={['Имя и фамилия', 'Город', 'Дата рождения', 'Статусы заданий']}
-      renderRows={(commonGridClassName) =>
-        participants.map(({ id, reports, user, status }) => (
-          <ParticipantRowWithStat
-            gridClassName={commonGridClassName}
-            key={id}
-            status={status}
-            tasksData={reports}
-            userData={user}
-            shiftStart={shift.started_at}
-            shiftFinish={shift.finished_at}
-            tasksDetailProvider={tasksDetailProvider}
-          />
-        ))
-      }
-    />
+    <>
+      <Table
+        gridClassName={gridClassName}
+        header={['Имя и фамилия', 'Город', 'Дата рождения', 'Статусы заданий']}
+        renderRows={(commonGridClassName) =>
+          participants.map(
+            ({ id, reports, user, status }) =>
+              status !== 'excluded' && (
+                <ParticipantRowWithStat
+                  gridClassName={commonGridClassName}
+                  key={id}
+                  status={status}
+                  tasksData={reports}
+                  userData={user}
+                  shiftStart={shift.started_at}
+                  shiftFinish={shift.finished_at}
+                  tasksDetailProvider={tasksDetailProvider}
+                />
+              )
+          )
+        }
+      />
+      {participants.some(({ status }) => status === 'excluded') && (
+        <div>
+          <div className={cn(styles.row__excluded)}>
+            <ChevronRightIcon
+              onClick={() => setToggle((toggle) => !toggle)}
+              color="gray-dark"
+              className={cn(styles.row__nameIcon, {
+                [styles.row__nameIcon_rotated]: toggle,
+              })}
+            />
+            <CellText type="accent" text={`Исключены`} />
+          </div>
+          {toggle ? (
+            <Table
+              gridClassName={gridClassName}
+              renderRows={(commonGridClassName) =>
+                participants.map(
+                  ({ id, reports, user, status }) =>
+                    status === 'excluded' && (
+                      <ParticipantRowWithStat
+                        gridClassName={commonGridClassName}
+                        key={id}
+                        status={status}
+                        tasksData={reports}
+                        userData={user}
+                        shiftStart={shift.started_at}
+                        shiftFinish={shift.finished_at}
+                        tasksDetailProvider={tasksDetailProvider}
+                      />
+                    )
+                )
+              }
+            />
+          ) : null}
+        </div>
+      )}
+    </>
   );
 }
