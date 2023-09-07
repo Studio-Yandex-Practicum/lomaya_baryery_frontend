@@ -39,7 +39,7 @@ export function PageMembersAll() {
   const quantityRows = useMemo(() => {
     const containerHeight = window.innerHeight - 175;
     const containerHeaderHeight = 100;
-    const rowHeight = 60;
+    const rowHeight = 62;
     return Math.trunc((containerHeight - containerHeaderHeight) / rowHeight);
   }, []);
 

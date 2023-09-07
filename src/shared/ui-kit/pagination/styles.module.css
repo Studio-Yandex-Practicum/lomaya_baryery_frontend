@@ -9,6 +9,8 @@
 }
 
 .pagination__button {
+  width: 38px;
+  border: 1px solid #606c78;
   margin-right: 10px;
   background-color: var(--colors-button-secondary-default);
 }
