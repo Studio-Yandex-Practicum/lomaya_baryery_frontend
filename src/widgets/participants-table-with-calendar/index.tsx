@@ -178,7 +178,7 @@ export function ParticipantsTableWithCalendar({
                 [styles.row__nameIcon_rotated]: toggle,
               })}
             />
-            <CellText type="accent" text={`Исключены`} />
+            <CellText type="accent" text="Исключены" />
           </div>
           {toggle ? (
             <Table

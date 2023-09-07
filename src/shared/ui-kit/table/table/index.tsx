@@ -28,17 +28,19 @@ export const Table: React.FC<ITable> = ({
 
   return (
     <section className={cn(styles.table, extClassName)}>
-      {header && <div
-        className={cn(
-          styles.table__row,
-          styles.table__headingRow,
-          gridClassName
-        )}
-      >
-        {header.map((title) => (
-          <CellText key={title} text={title} type="secondary" />
-        ))}
-      </div>}
+      {header && (
+        <div
+          className={cn(
+            styles.table__row,
+            styles.table__headingRow,
+            gridClassName
+          )}
+        >
+          {header.map((title) => (
+            <CellText key={title} text={title} type="secondary" />
+          ))}
+        </div>
+      )}
       {getRows()}
       {children}
     </section>
