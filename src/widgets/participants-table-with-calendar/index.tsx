@@ -1,6 +1,12 @@
 import { TasksCalendar } from 'entities/task';
 import { useMemo, useState } from 'react';
-import { CellDate, CellTasksStat, CellText, Table } from 'shared/ui-kit/table';
+import {
+  CellDate,
+  CellLink,
+  CellTasksStat,
+  CellText,
+  Table,
+} from 'shared/ui-kit/table';
 import cn from 'classnames';
 import { ChevronRightIcon } from 'shared/ui-kit/icons';
 import styles from './styles.module.css';
@@ -10,6 +16,7 @@ interface IParticipantRowWithStatProps {
   shiftStart: string;
   shiftFinish: string;
   userData: {
+    id: string;
     name: string;
     surname: string;
     city: string;
@@ -72,9 +79,9 @@ export function ParticipantRowWithStat({
             })}
           />
           <div>
-            <CellText
-              type="accent"
+            <CellLink
               text={`${userData.name} ${userData.surname}`}
+              routeTo={`/members/${userData.id}`}
             />
             {status === 'excluded' && (
               <span
