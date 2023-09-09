@@ -30,6 +30,7 @@ const SideBarAccordion: React.FC<ISideBarAccordion> = ({
   const [disclosed, setToggleDisclose] = useState(expandOnMount);
 
   const paths = list ? list.map((item) => item.to) : [to];
+  const pathTo = paths && paths.length > 1 ? null : paths[0];
   const branch = useLocation().pathname.split('/')[1];
   const isCurrentBranch = paths.some((path) =>
     path?.toString().includes(branch)
@@ -41,7 +42,7 @@ const SideBarAccordion: React.FC<ISideBarAccordion> = ({
 
   const RenderIcon = icon && Icons[icon];
 
-  if (list) {
+  if (list && list.length > 1) {
     return (
       <ul className={cn(styles.accordion, 'list', 'p-0')}>
         <button onClick={handleToggle} className={styles.accordion__button}>
@@ -97,7 +98,7 @@ const SideBarAccordion: React.FC<ISideBarAccordion> = ({
   }
   return (
     <li>
-      <NavLink to={to as To} className={styles.accordion__button}>
+      <NavLink to={pathTo as To} className={styles.accordion__button}>
         <RenderIcon
           color={isCurrentBranch ? 'blue-dark' : 'gray-dark'}
           className={styles.accordion__buttonIcon}
