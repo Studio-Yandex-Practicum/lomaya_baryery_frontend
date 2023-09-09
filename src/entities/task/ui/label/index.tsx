@@ -11,7 +11,7 @@ export function TaskLabel({ taskStatus }: TaskLabelProps) {
       case false:
         return {
           icon: 'CircleCheckIcon',
-          statusText: 'не архивное',
+          statusText: 'активное',
           type: 'approved',
         } satisfies IStatusLabelProps;
       case true:
