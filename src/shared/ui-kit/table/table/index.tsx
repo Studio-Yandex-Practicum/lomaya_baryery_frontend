@@ -4,7 +4,7 @@ import styles from './styles.module.css';
 
 interface ITable extends React.PropsWithChildren {
   gridClassName: string;
-  header: string[];
+  header?: string[];
   extClassName?: string;
   /**
    * @param commonGridClassName refer on grid column template,
@@ -28,17 +28,19 @@ export const Table: React.FC<ITable> = ({
 
   return (
     <section className={cn(styles.table, extClassName)}>
-      <div
-        className={cn(
-          styles.table__row,
-          styles.table__headingRow,
-          gridClassName
-        )}
-      >
-        {header.map((title) => (
-          <CellText key={title} text={title} type="secondary" />
-        ))}
-      </div>
+      {header && (
+        <div
+          className={cn(
+            styles.table__row,
+            styles.table__headingRow,
+            gridClassName
+          )}
+        >
+          {header.map((title) => (
+            <CellText key={title} text={title} type="secondary" />
+          ))}
+        </div>
+      )}
       {getRows()}
       {children}
     </section>
