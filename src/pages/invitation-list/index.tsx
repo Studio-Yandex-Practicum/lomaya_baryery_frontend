@@ -7,7 +7,7 @@ import { useStore } from 'effector-react';
 import { InviteAdminButton, InviteForm } from 'features/invite-admin';
 import { invitationModel } from 'entities/invitation';
 import { InvitationsTable } from 'widgets/invitations-table';
-import { mount } from './model';
+import { mount, mountAdmins } from './model';
 import styles from './styles.module.css';
 
 interface GuardProps {
@@ -41,6 +41,7 @@ export function PageInvitationList() {
 
   useEffect(() => {
     mount();
+    mountAdmins();
   }, []);
 
   return (

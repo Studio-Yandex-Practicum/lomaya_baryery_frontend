@@ -113,6 +113,26 @@ export function sendInvitation({ email, name, surname }: SendInvitationParams) {
   });
 }
 
+export function deactivateInvitation(invitationId: string) {
+  return makeRequest<unknown>(
+    `${ROUTE}/invitations/${invitationId}/deactivate`,
+    {
+      method: 'patch',
+      authorization: true,
+    }
+  );
+}
+
+export function reactivateInvitation(invitationId: string) {
+  return makeRequest<unknown>(
+    `${ROUTE}/invitations/${invitationId}/reactivate`,
+    {
+      method: 'patch',
+      authorization: true,
+    }
+  );
+}
+
 export function getInvitation(token: string) {
   return makeRequest<Invitation>(`${ROUTE}/register/${token}`, {
     method: 'get',
