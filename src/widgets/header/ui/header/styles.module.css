@@ -30,3 +30,23 @@
   border: none;
   background-color: transparent;
 }
+
+@media screen and (max-width: 450px) {
+  .header {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .header__nav {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .header__link {
+    margin-left: 0;
+  }
+}

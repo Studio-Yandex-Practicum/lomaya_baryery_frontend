@@ -9,3 +9,11 @@
 .button_type_approve {
   margin-right: 10px;
 }
+
+@media screen and (max-width: 450px) {
+  .container {
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+}

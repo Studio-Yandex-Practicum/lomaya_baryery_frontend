@@ -8,10 +8,40 @@
   flex-basis: 264px;
 }
 
+.aside {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 10px;
+  margin-top: -50px;
+}
+
 .content {
   margin-left: 20px;
   flex-basis: 1128px;
   height: calc(100vh - 80px);
   overflow-y: scroll;
   scrollbar-gutter: stable;
+}
+
+.navigation_open {
+  position: fixed;
+  display: block;
+  top: 0;
+  left: 40px;
+  height: 100vh;
+  width: 86vw;
+  background-color: var(--colors-interface-gray-light);
+  padding-top: 50px;
+  z-index: 1;
+}
+
+@media screen and (max-width: 450px) {
+  .navigation {
+    display: none;
+  }
+
+  .aside {
+    display: block;
+  }
 }
